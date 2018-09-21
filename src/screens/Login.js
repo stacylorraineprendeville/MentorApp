@@ -3,18 +3,22 @@ import {
   ScrollView,
   Text,
   TextInput,
-  View,
   Button,
   StyleSheet,
   Picker
 } from 'react-native'
 
-export default class Login extends Component {
+import { connect } from 'react-redux'
+import { getSession } from '../redux/reducer'
+
+class Login extends Component {
   state = {
     username: '',
     password: ''
   }
+
   render() {
+    console.log(this.props)
     return (
       <ScrollView style={styles.container}>
         <Text style={styles.text}>Login</Text>
@@ -22,9 +26,7 @@ export default class Login extends Component {
           placeholder="username"
           autoCapitalize="none"
           style={styles.input}
-          onChangeText={username =>
-            this.setState({ username: username.toLowerCase() })
-          }
+          onChangeText={username => this.setState({ username })}
         />
         <TextInput
           secureTextEntry
@@ -35,7 +37,7 @@ export default class Login extends Component {
         />
         <Button
           onPress={() =>
-            this.props.onLoginPress(this.state.username, this.state.password)
+            this.props.getSession(this.state.username, this.state.password)
           }
           title="Submit"
         />
@@ -65,3 +67,17 @@ const styles = StyleSheet.create({
   },
   input: { fontSize: 20, textAlign: 'center' }
 })
+
+const mapStateToProps = state => {
+  const { session } = state
+  return { session }
+}
+
+const mapDispatchToProps = {
+  getSession
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login)

@@ -1,8 +1,8 @@
 {
   "authEndpoint": {
-    "production": "https://platform.backend.povertystoplight.org/oauth/token",
-    "demo": "https://demo.backend.povertystoplight.org/oauth/token",
-    "testing": "https://testing.backend.povertystoplight.org/oauth/token",
-    "development": "http://localhost:8080/oauth/token"
+    "production": "https://platform.backend.povertystoplight.org",
+    "demo": "https://demo.backend.povertystoplight.org",
+    "testing": "https://testing.backend.povertystoplight.org",
+    "development": "http://localhost:8080"
   }
 }
