@@ -1,8 +1,9 @@
 export const GET_SESSION = 'user/LOAD'
 export const GET_SESSION_SUCCESS = 'user/LOAD_SUCCESS'
 export const GET_SESSION_FAIL = 'user/LOAD_FAIL'
+export const SET_ENV = 'setEnv'
 
-export default function reducer(state = { session: {} }, action) {
+export const login = (state = { session: {} }, action) => {
   switch (action.type) {
     case GET_SESSION:
       return { ...state, loading: true }
@@ -20,10 +21,25 @@ export default function reducer(state = { session: {} }, action) {
   }
 }
 
-export function getSession(username, password) {
+export const env = (state = 'development', action) => {
+  switch (action.type) {
+    case SET_ENV:
+      return action.env
+    default:
+      return state
+  }
+}
+
+export const setEnv = env => ({
+  type: SET_ENV,
+  env
+})
+
+export function getSession(username, password, env) {
   return {
     type: GET_SESSION,
     payload: {
+      client: env,
       request: {
         url: `/oauth/token?username=${username}&password=${password}&grant_type=password`,
         method: 'POST',

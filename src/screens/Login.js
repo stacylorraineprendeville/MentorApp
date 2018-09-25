@@ -9,12 +9,16 @@ import {
 } from 'react-native'
 
 import { connect } from 'react-redux'
-import { getSession } from '../redux/reducer'
+import { getSession, setEnv } from '../redux/reducer'
 
 class Login extends Component {
   state = {
     username: '',
     password: ''
+  }
+
+  onEnvChange = env => {
+    this.props.setEnv(env)
   }
 
   render() {
@@ -37,13 +41,17 @@ class Login extends Component {
         />
         <Button
           onPress={() =>
-            this.props.getSession(this.state.username, this.state.password)
+            this.props.getSession(
+              this.state.username,
+              this.state.password,
+              this.props.env
+            )
           }
           title="Submit"
         />
         <Picker
           selectedValue={this.props.env}
-          onValueChange={itemValue => this.props.onEnvChange(itemValue)}
+          onValueChange={itemValue => this.onEnvChange(itemValue)}
         >
           <Picker.Item label="Production" value="production" />
           <Picker.Item label="Demo" value="demo" />
@@ -68,13 +76,14 @@ const styles = StyleSheet.create({
   input: { fontSize: 20, textAlign: 'center' }
 })
 
-const mapStateToProps = state => {
-  const { session } = state
-  return { session }
-}
+const mapStateToProps = ({ env, login }) => ({
+  env,
+  login
+})
 
 const mapDispatchToProps = {
-  getSession
+  getSession,
+  setEnv
 }
 
 export default connect(

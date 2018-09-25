@@ -1,42 +1,52 @@
 import React, { Component } from 'react'
 import Login from './src/screens/Login'
-import Secure from './src/screens/Secure'
-import { authEndpoint } from './config.json'
 
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { Provider, connect } from 'react-redux'
 import axios from 'axios'
-import axiosMiddleware from 'redux-axios-middleware'
+import { multiClientMiddleware } from 'redux-axios-middleware'
 
-import reducer from './src/redux/reducer'
+import { login, env } from './src/redux/reducer'
 
-const client = axios.create({
-  baseURL: authEndpoint['development'],
-  responseType: 'json'
+const clients = multiClientMiddleware({
+  development: {
+    client: axios.create({
+      baseURL: 'http://localhost:8080',
+      responseType: 'json'
+    })
+  },
+  testing: {
+    client: axios.create({
+      baseURL: 'https://testing.backend.povertystoplight.org',
+      responseType: 'json'
+    })
+  },
+  demo: {
+    client: axios.create({
+      baseURL: 'https://demo.backend.povertystoplight.org',
+      responseType: 'json'
+    })
+  },
+  production: {
+    client: axios.create({
+      baseURL: 'https://platform.backend.povertystoplight.org',
+      responseType: 'json'
+    })
+  }
 })
 
-const store = createStore(reducer, applyMiddleware(axiosMiddleware(client)))
+const store = createStore(
+  combineReducers({ login, env }),
+  applyMiddleware(clients)
+)
 
 type Props = {}
 
 export default class App extends Component<Props> {
-  state = {
-    isLoggedIn: false,
-    env: 'development'
-  }
-
   render() {
     return (
       <Provider store={store}>
-        {this.state.isLoggedIn ? (
-          <Secure onLogoutPress={() => this.setState({ isLoggedIn: false })} />
-        ) : (
-          <Login
-            env={this.state.env}
-            onEnvChange={env => this.setState({ env })}
-            onLoginPress={this.login}
-          />
-        )}
+        <Login />
       </Provider>
     )
   }
