@@ -2,7 +2,10 @@ This is the moblie app for the Poverty Stoplight platform. It is a native, not a
 
 ## Prerequisites
 
+### For OSX
 - Install **xcode** from the App Store
+- Install **brew** from [here](https://brew.sh)
+- Install **node** via Brew (this will also install **npm** which you need to install required packages for the app) - `brew install node`
 - Install **react-native command line interface** globally via npm - `npm install -g react-native-cli`
 - Get **Watchman** via Brew - `brew install watchman`
 
