@@ -1,7 +1,7 @@
-export const GET_SESSION = 'user/LOAD'
-export const GET_SESSION_SUCCESS = 'user/LOAD_SUCCESS'
-export const GET_SESSION_FAIL = 'user/LOAD_FAIL'
-export const SET_ENV = 'setEnv'
+export const GET_SESSION = 'GET_SESSION'
+export const GET_SESSION_SUCCESS = 'GET_SESSION_SUCCESS'
+export const GET_SESSION_FAIL = 'GET_SESSION_FAIL'
+export const SET_ENV = 'SET_ENV'
 
 export const login = (state = { session: {} }, action) => {
   switch (action.type) {

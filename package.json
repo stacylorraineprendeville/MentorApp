@@ -9,6 +9,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@redux-offline/redux-offline": "^2.4.0",
     "axios": "^0.18.0",
     "react": "16.5.0",
     "react-native": "^0.57.1",

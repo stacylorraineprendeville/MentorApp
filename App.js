@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
-import Login from './src/screens/Login'
-
-import { createStore, applyMiddleware, combineReducers } from 'redux'
-import { Provider, connect } from 'react-redux'
 import axios from 'axios'
+
+import { Provider, connect } from 'react-redux'
+import { applyMiddleware, createStore, combineReducers, compose } from 'redux'
+import { offline } from '@redux-offline/redux-offline'
+import offlineConfig from '@redux-offline/redux-offline/lib/defaults'
 import { multiClientMiddleware } from 'redux-axios-middleware'
 
+import Login from './src/screens/Login'
 import { login, env } from './src/redux/reducer'
 
 const clients = multiClientMiddleware({
@@ -37,7 +39,10 @@ const clients = multiClientMiddleware({
 
 const store = createStore(
   combineReducers({ login, env }),
-  applyMiddleware(clients)
+  compose(
+    applyMiddleware(clients),
+    offline(offlineConfig)
+  )
 )
 
 type Props = {}
