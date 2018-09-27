@@ -10,6 +10,10 @@ import {
 import { connect } from 'react-redux'
 import { getSession, setEnv } from '../redux/reducer'
 
+import { url } from '../config'
+
+import { getItem, setItem } from '../utils'
+
 class Login extends Component {
   state = {
     username: '',
@@ -20,7 +24,24 @@ class Login extends Component {
     this.props.setEnv(env)
   }
 
+  login = (username, password, env) =>
+    fetch(
+      `${
+        url[env]
+      }/oauth/token?username=${username}&password=${password}&grant_type=password`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: 'Basic YmFyQ2xpZW50SWRQYXNzd29yZDpzZWNyZXQ='
+        }
+      }
+    )
+      .then(data => data.json())
+      .then(data => setItem('token', data.access_token))
+      .catch(err => console.log(err))
+
   render() {
+    getItem('token').then(data => console.log(data))
     return (
       <ScrollView style={styles.container}>
         <Text style={styles.text}>Login</Text>
@@ -40,13 +61,13 @@ class Login extends Component {
         />
         <Button
           onPress={() =>
-            this.props.getSession(
-              this.state.username,
-              this.state.password,
-              this.props.env
-            )
+            this.login(this.state.username, this.state.password, this.props.env)
           }
-          title="Submit"
+          title="Login"
+        />
+        <Button
+          title="Surveys"
+          onPress={() => this.props.navigation.navigate('Surveys')}
         />
         <Picker selectedValue={this.props.env} onValueChange={this.onEnvChange}>
           <Picker.Item label="Production" value="production" />
@@ -72,13 +93,11 @@ const styles = StyleSheet.create({
   input: { fontSize: 20, textAlign: 'center' }
 })
 
-const mapStateToProps = ({ env, login }) => ({
-  env,
-  login
+const mapStateToProps = ({ env }) => ({
+  env
 })
 
 const mapDispatchToProps = {
-  getSession,
   setEnv
 }
 
