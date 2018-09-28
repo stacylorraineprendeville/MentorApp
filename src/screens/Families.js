@@ -2,15 +2,12 @@ import React, { Component } from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import { connect } from 'react-redux'
 
-import { getItem } from '../utils'
 import { loadFamilies } from '../redux/reducer'
 import { url } from '../config'
 
 class Families extends Component {
   componentDidMount() {
-    getItem('token').then(item =>
-      this.props.loadFamilies(url[this.props.env], item)
-    )
+    this.props.loadFamilies(url[this.props.env], this.props.token.token)
   }
   render() {
     return (
@@ -30,9 +27,10 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = ({ env, families }) => ({
+const mapStateToProps = ({ env, families, token }) => ({
   env,
-  families
+  families,
+  token
 })
 
 const mapDispatchToProps = {

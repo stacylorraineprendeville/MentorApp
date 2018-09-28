@@ -11,7 +11,6 @@ import { connect } from 'react-redux'
 import { setEnv } from '../redux/reducer'
 import i18n from '../i18n'
 import { url } from '../config'
-import { setItem } from '../utils'
 
 class Login extends Component {
   state = {
@@ -22,20 +21,6 @@ class Login extends Component {
   onEnvChange = env => {
     this.props.setEnv(env)
   }
-
-  login = (username, password, env) =>
-    fetch(
-      `${env}/oauth/token?username=${username}&password=${password}&grant_type=password`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: 'Basic YmFyQ2xpZW50SWRQYXNzd29yZDpzZWNyZXQ='
-        }
-      }
-    )
-      .then(data => data.json())
-      .then(data => setItem('token', data.access_token))
-      .catch(err => console.log(err))
 
   render() {
     return (
@@ -57,7 +42,7 @@ class Login extends Component {
         />
         <Button
           onPress={() =>
-            this.login(
+            this.props.login(
               this.state.username,
               this.state.password,
               url[this.props.env]
@@ -97,12 +82,14 @@ const styles = StyleSheet.create({
   input: { fontSize: 20, textAlign: 'center' }
 })
 
-const mapStateToProps = ({ env }) => ({
-  env
+const mapStateToProps = ({ env, token }) => ({
+  env,
+  token
 })
 
 const mapDispatchToProps = {
-  setEnv
+  setEnv,
+  login
 }
 
 export default connect(
