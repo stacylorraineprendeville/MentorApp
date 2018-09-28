@@ -8,7 +8,7 @@ import {
   Picker
 } from 'react-native'
 import { connect } from 'react-redux'
-import { getSession, setEnv } from '../redux/reducer'
+import { setEnv } from '../redux/reducer'
 
 import { url } from '../config'
 
@@ -26,9 +26,7 @@ class Login extends Component {
 
   login = (username, password, env) =>
     fetch(
-      `${
-        url[env]
-      }/oauth/token?username=${username}&password=${password}&grant_type=password`,
+      `${env}/oauth/token?username=${username}&password=${password}&grant_type=password`,
       {
         method: 'POST',
         headers: {
@@ -41,7 +39,6 @@ class Login extends Component {
       .catch(err => console.log(err))
 
   render() {
-    getItem('token').then(data => console.log(data))
     return (
       <ScrollView style={styles.container}>
         <Text style={styles.text}>Login</Text>
@@ -61,7 +58,11 @@ class Login extends Component {
         />
         <Button
           onPress={() =>
-            this.login(this.state.username, this.state.password, this.props.env)
+            this.login(
+              this.state.username,
+              this.state.password,
+              url[this.props.env]
+            )
           }
           title="Login"
         />
