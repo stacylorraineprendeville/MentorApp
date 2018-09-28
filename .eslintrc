@@ -18,8 +18,9 @@
   ],
   "rules": {
     "react/prop-types": 0,
-    "no-console": 1,
+    "no-console": 0,
     "quotes": ["error", "single"],
-    "semi": ["error", "never"]
+    "semi": ["error", "never"],
+    "react-native/no-color-literals": 0
   }
 }

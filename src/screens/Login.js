@@ -9,10 +9,9 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux'
 import { setEnv } from '../redux/reducer'
-
+import i18n from '../i18n'
 import { url } from '../config'
-
-import { getItem, setItem } from '../utils'
+import { setItem } from '../utils'
 
 class Login extends Component {
   state = {
@@ -41,7 +40,7 @@ class Login extends Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <Text style={styles.text}>Login</Text>
+        <Text style={styles.text}>{i18n.t('login.login')}</Text>
 
         <TextInput
           placeholder="username"
