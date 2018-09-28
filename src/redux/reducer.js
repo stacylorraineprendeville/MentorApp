@@ -1,10 +1,9 @@
 import { combineReducers } from 'redux'
 
-//surveys
+//Surveys
 
 export const LOAD_SURVEYS = 'LOAD_SURVEYS'
 export const LOAD_SURVEYS_COMMIT = 'LOAD_SURVEYS_COMMIT'
-export const LOAD_SURVEYS_ROLLBACK = 'LOAD_SURVEYS_ROLLBACK'
 
 export const surveys = (state = [], action) => {
   switch (action.type) {
@@ -33,6 +32,38 @@ export const loadSurveys = (env, token) => ({
   }
 })
 
+//Families
+
+export const LOAD_FAMILIES = 'LOAD_FAMILIES'
+export const LOAD_FAMILIES_COMMIT = 'LOAD_FAMILIES_COMMIT'
+
+export const families = (state = [], action) => {
+  switch (action.type) {
+    case LOAD_FAMILIES:
+      return action.payload
+        ? state.slice(state.length).concat(action.payload)
+        : state
+    default:
+      return state
+  }
+}
+
+export const loadFamilies = (env, token) => ({
+  type: LOAD_FAMILIES,
+  env,
+  token,
+  meta: {
+    offline: {
+      effect: {
+        url: `${env}/api/v1/families`,
+        method: 'GET',
+        headers: { Authorization: `Bearer ${token}` }
+      },
+      commit: { type: LOAD_FAMILIES, meta: { env, token } }
+    }
+  }
+})
+
 //Environment
 
 export const SET_ENV = 'SET_ENV'
@@ -51,4 +82,4 @@ export const setEnv = env => ({
   env
 })
 
-export const rootReducer = combineReducers({ env, surveys })
+export const rootReducer = combineReducers({ env, surveys, families })

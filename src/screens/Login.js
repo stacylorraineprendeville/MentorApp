@@ -70,6 +70,10 @@ class Login extends Component {
           title="Surveys"
           onPress={() => this.props.navigation.navigate('Surveys')}
         />
+        <Button
+          title="Families"
+          onPress={() => this.props.navigation.navigate('Families')}
+        />
         <Picker selectedValue={this.props.env} onValueChange={this.onEnvChange}>
           <Picker.Item label="Production" value="production" />
           <Picker.Item label="Demo" value="demo" />

@@ -3,19 +3,19 @@ import { View, StyleSheet, Text } from 'react-native'
 import { connect } from 'react-redux'
 
 import { getItem } from '../utils'
-import { loadSurveys } from '../redux/reducer'
+import { loadFamilies } from '../redux/reducer'
 import { url } from '../config'
 
-class Surveys extends Component {
+class Families extends Component {
   componentDidMount() {
     getItem('token').then(item =>
-      this.props.loadSurveys(url[this.props.env], item)
+      this.props.loadFamilies(url[this.props.env], item)
     )
   }
   render() {
     return (
       <View style={styles.container}>
-        <Text>Surveys go here!</Text>
+        <Text>Families go here!</Text>
       </View>
     )
   }
@@ -30,16 +30,16 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = ({ env, surveys }) => ({
+const mapStateToProps = ({ env, families }) => ({
   env,
-  surveys
+  families
 })
 
 const mapDispatchToProps = {
-  loadSurveys
+  loadFamilies
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Surveys)
+)(Families)
