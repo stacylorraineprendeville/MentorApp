@@ -8,7 +8,7 @@ import {
   Picker
 } from 'react-native'
 import { connect } from 'react-redux'
-import { setEnv } from '../redux/reducer'
+import { setEnv, login } from '../redux/reducer'
 import i18n from '../i18n'
 import { url } from '../config'
 

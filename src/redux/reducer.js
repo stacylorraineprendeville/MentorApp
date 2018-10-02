@@ -46,7 +46,6 @@ export const login = (username, password, env) => dispatch => {
 //Surveys
 
 export const LOAD_SURVEYS = 'LOAD_SURVEYS'
-export const LOAD_SURVEYS_COMMIT = 'LOAD_SURVEYS_COMMIT'
 
 export const surveys = (state = [], action) => {
   switch (action.type) {
@@ -76,7 +75,6 @@ export const loadSurveys = (env, token) => ({
 //Families
 
 export const LOAD_FAMILIES = 'LOAD_FAMILIES'
-export const LOAD_FAMILIES_COMMIT = 'LOAD_FAMILIES_COMMIT'
 
 export const families = (state = [], action) => {
   switch (action.type) {
