@@ -20,7 +20,7 @@ The core team will try to keep issues independent and self contained so that the
 
 This may however not be always possible as some things are just too interdependent. If this is the case, we will inform you about it in the issue itself.
 
-1. The core team will create issues issues labeled with `help needed` to identify things where the community can contribute. An issue labeled with `good first issue` is where we thing a new contributor can assist us in (an issue that is not too complex and would provide an on boarding into our system).
+1. We welcome contributions for issues with the `up for grabs` labels. Isses labeld as `good first issue` are those that have minimal context and are well suited for new contributors to get started on the project.
 
 An example of such an issue is Issue #1
 
