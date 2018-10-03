@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import {
   ScrollView,
   Text,
@@ -23,6 +24,7 @@ class Login extends Component {
   }
 
   render() {
+    const { navigation, env } = this.props
     return (
       <ScrollView style={styles.container}>
         <Text style={styles.text}>{i18n.t('login.login')}</Text>
@@ -42,23 +44,19 @@ class Login extends Component {
         />
         <Button
           onPress={() =>
-            this.props.login(
-              this.state.username,
-              this.state.password,
-              url[this.props.env]
-            )
+            this.props.login(this.state.username, this.state.password, url[env])
           }
           title="Login"
         />
         <Button
           title="Surveys"
-          onPress={() => this.props.navigation.navigate('Surveys')}
+          onPress={() => navigation.navigate('Surveys')}
         />
         <Button
           title="Families"
-          onPress={() => this.props.navigation.navigate('Families')}
+          onPress={() => navigation.navigate('Families')}
         />
-        <Picker selectedValue={this.props.env} onValueChange={this.onEnvChange}>
+        <Picker selectedValue={env} onValueChange={this.onEnvChange}>
           <Picker.Item label="Production" value="production" />
           <Picker.Item label="Demo" value="demo" />
           <Picker.Item label="Testing" value="testing" />
@@ -67,6 +65,13 @@ class Login extends Component {
       </ScrollView>
     )
   }
+}
+
+Login.propTypes = {
+  setEnv: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
+  env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
+  navigation: PropTypes.object
 }
 
 const styles = StyleSheet.create({

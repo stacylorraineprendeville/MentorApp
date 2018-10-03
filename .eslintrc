@@ -17,7 +17,6 @@
     "plugin:react-native/all"
   ],
   "rules": {
-    "react/prop-types": 0,
     "no-console": 0,
     "quotes": ["error", "single"],
     "semi": ["error", "never"],
