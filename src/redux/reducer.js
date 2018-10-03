@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux'
-
 //Login
 export const SET_TOKEN_SUCCESS = 'SET_TOKEN_SUCCESS'
 export const SET_TOKEN_ERROR = 'SET_TOKEN_ERROR'
@@ -119,4 +118,87 @@ export const setEnv = env => ({
   env
 })
 
-export const rootReducer = combineReducers({ env, surveys, families, token })
+//Drafts
+
+export const CREATE_DRAFT = 'CREATE_DRAFT'
+export const ADD_PERSONAL_SURVEY_DATA = 'ADD_PERSONAL_SURVEY_DATA'
+export const ADD_ECONOMIC_SURVEY_DATA = 'ADD_ECONOMIC_SURVEY_DATA'
+export const ADD_INDICATOR_SURVEY_DATA = 'ADD_INDICATOR_SURVEY_DATA'
+
+export const createDraft = payload => ({
+  type: CREATE_DRAFT,
+  payload
+})
+
+export const addPersonalSurveyData = (id, payload) => ({
+  type: ADD_PERSONAL_SURVEY_DATA,
+  id,
+  payload
+})
+
+export const addEconomicSurveyData = (id, payload) => ({
+  type: ADD_ECONOMIC_SURVEY_DATA,
+  id,
+  payload
+})
+
+export const addIndicatorSurveyData = (id, payload) => ({
+  type: ADD_INDICATOR_SURVEY_DATA,
+  id,
+  payload
+})
+
+export const drafts = (state = [], action) => {
+  switch (action.type) {
+    case CREATE_DRAFT:
+      return [...state, action.payload]
+    case ADD_PERSONAL_SURVEY_DATA:
+      return state.map(
+        draft =>
+          draft.draft_id === action.id
+            ? {
+                ...draft,
+                personal_survey_data: {
+                  ...draft.personal_survey_data,
+                  ...action.payload
+                }
+              }
+            : draft
+      )
+    case ADD_ECONOMIC_SURVEY_DATA:
+      return state.map(
+        draft =>
+          draft.draft_id === action.id
+            ? {
+                ...draft,
+                economic_survey_data: {
+                  ...draft.economic_survey_data,
+                  ...action.payload
+                }
+              }
+            : draft
+      )
+    case ADD_INDICATOR_SURVEY_DATA:
+      return state.map(
+        draft =>
+          draft.draft_id === action.id
+            ? {
+                ...draft,
+                indicator_survey_data: {
+                  ...draft.indicator_survey_data,
+                  ...action.payload
+                }
+              }
+            : draft
+      )
+    default:
+      return state
+  }
+}
+export const rootReducer = combineReducers({
+  env,
+  surveys,
+  families,
+  token,
+  drafts
+})

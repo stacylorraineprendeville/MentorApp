@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text, Button } from 'react-native'
 import { connect } from 'react-redux'
 
 import { loadSurveys } from '../redux/reducer'
@@ -12,7 +12,19 @@ class Surveys extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Surveys go here!</Text>
+        {this.props.surveys.map(survey => (
+          <Button
+            key={survey.id}
+            title={survey.title}
+            onPress={e =>
+              this.props.navigation.navigate('Survey', {
+                survey: this.props.surveys.filter(
+                  item => survey.title === item.title
+                )[0].id
+              })
+            }
+          />
+        ))}
       </View>
     )
   }
