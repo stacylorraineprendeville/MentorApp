@@ -16,7 +16,7 @@ import {
   addPersonalSurveyData,
   addEconomicSurveyData,
   addIndicatorSurveyData
-} from '../redux/reducer'
+} from '../redux/actions'
 
 class Survey extends Component {
   draft_id = uuid()

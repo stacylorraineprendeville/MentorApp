@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, StyleSheet, Text } from 'react-native'
 import { connect } from 'react-redux'
 
-import { loadFamilies } from '../redux/reducer'
+import { loadFamilies } from '../redux/actions'
 import { url } from '../config'
 
 class Families extends Component {

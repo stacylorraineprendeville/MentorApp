@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, StyleSheet, Text, Button } from 'react-native'
 import { connect } from 'react-redux'
 
-import { loadSurveys } from '../redux/reducer'
+import { loadSurveys } from '../redux/actions'
 import { url } from '../config'
 
 class Surveys extends Component {

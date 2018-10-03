@@ -9,10 +9,11 @@ import {
   Picker
 } from 'react-native'
 import { connect } from 'react-redux'
-import { setEnv, login } from '../redux/reducer'
+import { setEnv, login } from '../redux/actions'
 import i18n from '../i18n'
 import { url } from '../config'
-
+import { AsyncStorage } from 'react-native'
+AsyncStorage.clear()
 class Login extends Component {
   state = {
     username: '',
