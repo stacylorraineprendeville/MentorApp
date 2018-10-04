@@ -9,7 +9,7 @@ This is the moblie app for the Poverty Stoplight platform. It is a native, not a
 - Install **react-native command line interface** globally via npm - `npm install -g react-native-cli`
 - Get **Watchman** via Brew - `brew install watchman`
 - Install [Android Studio](https://developer.android.com/distribute/) (with default settings), which also needs [Java SE Development Kit 8](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-
+  - [Here](https://stackoverflow.com/a/47699905) is how to install Java with Brew (and manage multiple Java versions)
 ## To install
 
 1.  `git clone git@github.com:penguin-digital/povertystoplightapp.git` to clone the repo
