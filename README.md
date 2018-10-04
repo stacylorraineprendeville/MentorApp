@@ -29,6 +29,23 @@ Simulating an iPhone on OSX, **if you have done the prerequisites above**, is as
 
 This will open the xcode simulator automatically. It takes some time, first time it runs. It will finish with opening the app itself in the simulator window. It will also open a browser *debugger* window, where you can use the console for errors and log outputs.
 
+#### Some Installation Notes
+
+**XCode Issues**
+```
+`xcrun: error: unable to find utility "instruments", not a developer tool or in PATH``xcrun: error: unable to find utility "instruments", not a developer tool or in PATH`
+```
+Then you need to set the Command Line Tools in your XCode Settings like [here](https://drive.google.com/file/d/19ZXdU7TAkDaiFua327ZkiKYV-wYYOotu/view?usp=sharing)
+
+Stackoverflow solution [here](https://stackoverflow.com/questions/39778607/error-running-react-native-app-from-terminal-ios)
+
+**CFBundleIdentifier Does not exist**
+`":CFBundleIdentifier", Does Not Exist #7308`
+
+Make sure port 8081 not in use (Metro Bundler is not Running) when compiling/bundling for the first time.
+
+Stackoverflow solution [here](https://github.com/facebook/react-native/issues/7308#issuecomment-216317248)
+
 ### Android
 
 Simulating an Android, is more of a hustle than iOs. Make sure **you have done the prerequisites above** and have Android Studio and Watchman. Make sure everyrthing is up to date with:
