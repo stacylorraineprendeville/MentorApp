@@ -8,8 +8,9 @@ import { createStackNavigator } from 'react-navigation'
 import { rootReducer } from './src/redux/reducer'
 import Login from './src/screens/Login'
 import Surveys from './src/screens/Surveys'
-import Survey from './src/screens/Survey'
+import Draft from './src/screens/Draft'
 import Families from './src/screens/Families'
+import Drafts from './src/screens/Drafts'
 
 const store = createStore(
   rootReducer,
@@ -20,8 +21,9 @@ const store = createStore(
 const AppNavigator = createStackNavigator({
   Login: { screen: Login },
   Surveys: { screen: Surveys },
-  Survey: { screen: Survey },
-  Families: { screen: Families }
+  Draft: { screen: Draft },
+  Families: { screen: Families },
+  Drafts: { screen: Drafts }
 })
 
 export default class App extends Component {

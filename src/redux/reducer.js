@@ -6,9 +6,8 @@ import {
   LOAD_SURVEYS,
   LOAD_FAMILIES,
   CREATE_DRAFT,
-  ADD_PERSONAL_SURVEY_DATA,
-  ADD_ECONOMIC_SURVEY_DATA,
-  ADD_INDICATOR_SURVEY_DATA
+  ADD_SURVEY_DATA,
+  DELETE_DRAFT
 } from './actions'
 
 //Login
@@ -63,45 +62,21 @@ export const drafts = (state = [], action) => {
   switch (action.type) {
     case CREATE_DRAFT:
       return [...state, action.payload]
-    case ADD_PERSONAL_SURVEY_DATA:
+    case ADD_SURVEY_DATA:
       return state.map(
         draft =>
           draft.draft_id === action.id
             ? {
                 ...draft,
-                personal_survey_data: {
-                  ...draft.personal_survey_data,
+                [action.category]: {
+                  ...draft[action.category],
                   ...action.payload
                 }
               }
             : draft
       )
-    case ADD_ECONOMIC_SURVEY_DATA:
-      return state.map(
-        draft =>
-          draft.draft_id === action.id
-            ? {
-                ...draft,
-                economic_survey_data: {
-                  ...draft.economic_survey_data,
-                  ...action.payload
-                }
-              }
-            : draft
-      )
-    case ADD_INDICATOR_SURVEY_DATA:
-      return state.map(
-        draft =>
-          draft.draft_id === action.id
-            ? {
-                ...draft,
-                indicator_survey_data: {
-                  ...draft.indicator_survey_data,
-                  ...action.payload
-                }
-              }
-            : draft
-      )
+    case DELETE_DRAFT:
+      return state.filter(draft => draft.draft_id !== action.id)
     default:
       return state
   }

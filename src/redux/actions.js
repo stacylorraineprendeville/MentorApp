@@ -83,29 +83,22 @@ export const loadFamilies = (env, token) => ({
 // Drafts
 
 export const CREATE_DRAFT = 'CREATE_DRAFT'
-export const ADD_PERSONAL_SURVEY_DATA = 'ADD_PERSONAL_SURVEY_DATA'
-export const ADD_ECONOMIC_SURVEY_DATA = 'ADD_ECONOMIC_SURVEY_DATA'
-export const ADD_INDICATOR_SURVEY_DATA = 'ADD_INDICATOR_SURVEY_DATA'
+export const DELETE_DRAFT = 'DELETE_DRAFT'
+export const ADD_SURVEY_DATA = 'ADD_SURVEY_DATA'
 
 export const createDraft = payload => ({
   type: CREATE_DRAFT,
   payload
 })
 
-export const addPersonalSurveyData = (id, payload) => ({
-  type: ADD_PERSONAL_SURVEY_DATA,
-  id,
-  payload
+export const deleteDraft = id => ({
+  type: DELETE_DRAFT,
+  id
 })
 
-export const addEconomicSurveyData = (id, payload) => ({
-  type: ADD_ECONOMIC_SURVEY_DATA,
-  id,
-  payload
-})
-
-export const addIndicatorSurveyData = (id, payload) => ({
-  type: ADD_INDICATOR_SURVEY_DATA,
+export const addSurveyData = (id, category, payload) => ({
+  type: ADD_SURVEY_DATA,
+  category,
   id,
   payload
 })

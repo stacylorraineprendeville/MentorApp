@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = ({ env, families, token }) => ({
+const mapStateToProps = ({ env, families, token, drafts }) => ({
   env,
   families,
   token

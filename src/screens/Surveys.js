@@ -17,7 +17,7 @@ class Surveys extends Component {
             key={survey.id}
             title={survey.title}
             onPress={e =>
-              this.props.navigation.navigate('Survey', {
+              this.props.navigation.navigate('Draft', {
                 survey: this.props.surveys.filter(
                   item => survey.title === item.title
                 )[0].id

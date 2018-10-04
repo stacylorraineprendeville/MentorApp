@@ -8,21 +8,28 @@ import {
   Picker,
   Button
 } from 'react-native'
+
 import { connect } from 'react-redux'
 import uuid from 'uuid/v1'
 
-import {
-  createDraft,
-  addPersonalSurveyData,
-  addEconomicSurveyData,
-  addIndicatorSurveyData
-} from '../redux/actions'
+import { createDraft, addSurveyData } from '../redux/actions'
 
-class Survey extends Component {
-  draft_id = uuid()
-  survey = this.props.surveys.filter(
-    survey => survey.id === this.props.navigation.getParam('survey')
-  )[0]
+class Draft extends Component {
+  //Get draft id from Redux store if it exists else create new draft id
+
+  draft_id = this.props.navigation.getParam('draft') || uuid()
+
+  //Get survey if from draft if it exists else from navigation route
+  survey_id =
+    (
+      this.props.drafts.filter(draft => draft.draft_id === this.draft_id)[0] ||
+      {}
+    ).survey_id || this.props.navigation.getParam('survey')
+
+  //Get survey by id
+  survey = this.props.surveys.filter(survey => survey.id === this.survey_id)[0]
+
+  //Parse survey schema to different question categories
   orderedQuestions = this.survey['survey_ui_schema']['ui:order']
   questionProperties = this.survey['survey_schema']['properties']
   personalData = this.survey['survey_ui_schema']['ui:group:personal']
@@ -30,21 +37,23 @@ class Survey extends Component {
   indicatorsData = this.survey['survey_ui_schema']['ui:group:indicators']
 
   componentDidMount() {
-    this.props.createDraft({
-      survey_id: this.survey.id,
-      survey_version_id: this.survey['survey_version_id'],
-      draft_id: this.draft_id,
-      personal_survey_data: {},
-      economic_survey_data: {},
-      indicator_survey_data: {}
-    })
+    //Get draft  from Redux store if it exists else create new draft
+    if (!this.props.navigation.getParam('draft')) {
+      this.props.createDraft({
+        survey_id: this.survey.id,
+        survey_version_id: this.survey['survey_version_id'],
+        draft_id: this.draft_id,
+        personal_survey_data: {},
+        economic_survey_data: {},
+        indicator_survey_data: {}
+      })
+    }
   }
 
   getDraftItem = key => {
     const draft = this.props.drafts.filter(
       draft => draft.draft_id === this.draft_id
     )[0]
-
     if (draft) {
       if (this.personalData.includes(key)) {
         return draft.personal_survey_data[key]
@@ -57,19 +66,18 @@ class Survey extends Component {
   }
 
   storeDraftItem = (key, value) => {
+    let category
     if (this.personalData.includes(key)) {
-      this.props.addPersonalSurveyData(this.draft_id, {
-        [key]: value
-      })
+      category = 'personal_survey_data'
     } else if (this.economicsData.includes(key)) {
-      this.props.addEconomicSurveyData(this.draft_id, {
-        [key]: value
-      })
+      category = 'economic_survey_data'
     } else if (this.indicatorsData.includes(key)) {
-      this.props.addIndicatorSurveyData(this.draft_id, {
-        [key]: value
-      })
+      category = 'indicator_survey_data'
     }
+
+    this.props.addSurveyData(this.draft_id, category, {
+      [key]: value
+    })
   }
 
   render() {
@@ -131,12 +139,10 @@ const mapStateToProps = ({ env, surveys, token, drafts }) => ({
 
 const mapDispatchToProps = {
   createDraft,
-  addPersonalSurveyData,
-  addEconomicSurveyData,
-  addIndicatorSurveyData
+  addSurveyData
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Survey)
+)(Draft)
