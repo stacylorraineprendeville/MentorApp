@@ -16,7 +16,5 @@ describe('Redux synchronous actions', () => {
 
     // Test if your store dispatched the expected actions
     expect(store.getActions()).toEqual([{ type: SET_ENV, env: 'production' }])
-
-    expect(store.getActions()).toMatchSnapshot()
   })
 })
