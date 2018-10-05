@@ -58,3 +58,15 @@ merge the contribution.
 **DO MAKE SURE ALL THE TESTS PASS BEFORE YOU MAKE A PR**
 
 *Also, please do not create pull requests that are unreasonably large (huge amount of commits) as we will not merge them (due to the risk of it breaking something).*
+
+# Resources
+
+Here are some resources to get started with Developemnt
+
+## React Native
+* [Facebooks Official React Native Tutorial](https://facebook.github.io/react-native/docs/tutorial.html)
+* [Companion Guide to the Official Tutorial](http://www.reactnativeexpress.com/)
+
+## Jest - for testing
+* [Jest for React Native](https://jestjs.io/docs/en/tutorial-react-native)
+
