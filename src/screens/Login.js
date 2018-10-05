@@ -13,7 +13,7 @@ import { setEnv, login } from '../redux/actions'
 import i18n from '../i18n'
 import { url } from '../config'
 
-class Login extends Component {
+export class Login extends Component {
   state = {
     username: '',
     password: ''

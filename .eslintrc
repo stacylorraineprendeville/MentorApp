@@ -6,15 +6,17 @@
     }
   },
   "env": {
-    "browser": true
+    "browser": true,
+    "jest/globals": true
   },
-  "plugins": ["react", "import", "react-native"],
+  "plugins": ["react", "import", "react-native", "jest"],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:react-native/all"
+    "plugin:react-native/all",
+    "plugin:jest/recommended"
   ],
   "rules": {
     "no-console": 0,
