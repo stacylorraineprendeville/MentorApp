@@ -10,6 +10,7 @@ import Login from './src/screens/Login'
 import Surveys from './src/screens/Surveys'
 import Draft from './src/screens/Draft'
 import Families from './src/screens/Families'
+import Family from './src/screens/Family'
 import Drafts from './src/screens/Drafts'
 
 const store = createStore(
@@ -23,6 +24,7 @@ const AppNavigator = createStackNavigator({
   Surveys: { screen: Surveys },
   Draft: { screen: Draft },
   Families: { screen: Families },
+  Family: { screen: Family },
   Drafts: { screen: Drafts }
 })
 

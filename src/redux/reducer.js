@@ -7,7 +7,11 @@ import {
   LOAD_FAMILIES,
   CREATE_DRAFT,
   ADD_SURVEY_DATA,
-  DELETE_DRAFT
+  DELETE_DRAFT,
+  LOAD_SNAPSHOTS,
+  ADD_SNAPSHOT,
+  ADD_SNAPSHOT_COMMIT,
+  ADD_SNAPSHOT_ROLLBACK
 } from './actions'
 
 //Login
@@ -82,10 +86,36 @@ export const drafts = (state = [], action) => {
   }
 }
 
+// Snapshots
+
+export const snapshots = (state = [], action) => {
+  switch (action.type) {
+    case LOAD_SNAPSHOTS:
+      return action.payload ? action.payload : state
+    default:
+      return state
+  }
+}
+
+export const test = (state = [], action) => {
+  switch (action.type) {
+    case ADD_SNAPSHOT:
+      return action.payload ? { ...action.payload, status: 'pending' } : state
+    case ADD_SNAPSHOT_COMMIT:
+      return action.payload ? { ...action.payload, status: 'success' } : state
+    case ADD_SNAPSHOT_ROLLBACK:
+      return action.payload ? { ...action.payload, status: 'error' } : state
+    default:
+      return state
+  }
+}
+
 export const rootReducer = combineReducers({
   env,
+  token,
   surveys,
   families,
-  token,
-  drafts
+  drafts,
+  snapshots,
+  test
 })

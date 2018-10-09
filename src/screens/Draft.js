@@ -12,7 +12,8 @@ import {
 import { connect } from 'react-redux'
 import uuid from 'uuid/v1'
 
-import { createDraft, addSurveyData } from '../redux/actions'
+import { createDraft, addSurveyData, postSnapshot } from '../redux/actions'
+import { url } from '../config'
 
 class Draft extends Component {
   //Get draft id from Redux store if it exists else create new draft id
@@ -82,8 +83,21 @@ class Draft extends Component {
 
   render() {
     const { orderedQuestions, questionProperties, survey } = this
+    const draft = this.props.drafts.filter(
+      draft => draft.draft_id === this.draft_id
+    )[0]
     return (
       <ScrollView style={styles.container}>
+        <Button
+          title="Submit"
+          onPress={() =>
+            this.props.postSnapshot(
+              url[this.props.env],
+              this.props.token.token,
+              draft
+            )
+          }
+        />
         {orderedQuestions.map((question, i) => (
           <View key={question}>
             <Text>{questionProperties[question]['title']['es']}</Text>
@@ -118,7 +132,6 @@ class Draft extends Component {
             )}
           </View>
         ))}
-        <Button title="Submit" onPress={() => {}} />
       </ScrollView>
     )
   }
@@ -130,16 +143,18 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = ({ env, surveys, token, drafts }) => ({
+const mapStateToProps = ({ env, surveys, token, drafts, test }) => ({
   env,
   token,
   surveys,
-  drafts
+  drafts,
+  test
 })
 
 const mapDispatchToProps = {
   createDraft,
-  addSurveyData
+  addSurveyData,
+  postSnapshot
 }
 
 export default connect(

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text, Button, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
 
 import { loadFamilies } from '../redux/actions'
@@ -11,9 +11,20 @@ class Families extends Component {
   }
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Families go here!</Text>
-      </View>
+      <ScrollView style={styles.container}>
+        {this.props.families.map(family => (
+          <View key={family.familyId}>
+            <Button
+              title={family.name}
+              onPress={e =>
+                this.props.navigation.navigate('Family', {
+                  family: family.familyId
+                })
+              }
+            />
+          </View>
+        ))}
+      </ScrollView>
     )
   }
 }
@@ -21,13 +32,11 @@ class Families extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
+    backgroundColor: '#fff'
   }
 })
 
-const mapStateToProps = ({ env, families, token, drafts }) => ({
+const mapStateToProps = ({ env, families, token }) => ({
   env,
   families,
   token
