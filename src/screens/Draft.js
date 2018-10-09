@@ -12,7 +12,7 @@ import {
 import { connect } from 'react-redux'
 import uuid from 'uuid/v1'
 
-import { createDraft, addSurveyData, postSnapshot } from '../redux/actions'
+import { createDraft, addSurveyData, submitDraft } from '../redux/actions'
 import { url } from '../config'
 
 class Draft extends Component {
@@ -91,9 +91,10 @@ class Draft extends Component {
         <Button
           title="Submit"
           onPress={() =>
-            this.props.postSnapshot(
+            this.props.submitDraft(
               url[this.props.env],
               this.props.token.token,
+              this.draft_id,
               draft
             )
           }
@@ -143,18 +144,18 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = ({ env, surveys, token, drafts, test }) => ({
+const mapStateToProps = ({ env, surveys, token, drafts, snapshots }) => ({
   env,
   token,
   surveys,
   drafts,
-  test
+  snapshots
 })
 
 const mapDispatchToProps = {
   createDraft,
   addSurveyData,
-  postSnapshot
+  submitDraft
 }
 
 export default connect(

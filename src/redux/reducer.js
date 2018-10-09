@@ -9,9 +9,9 @@ import {
   ADD_SURVEY_DATA,
   DELETE_DRAFT,
   LOAD_SNAPSHOTS,
-  ADD_SNAPSHOT,
-  ADD_SNAPSHOT_COMMIT,
-  ADD_SNAPSHOT_ROLLBACK
+  SUBMIT_DRAFT,
+  SUBMIT_DRAFT_COMMIT,
+  SUBMIT_DRAFT_ROLLBACK
 } from './actions'
 
 //Login
@@ -65,7 +65,7 @@ export const families = (state = [], action) => {
 export const drafts = (state = [], action) => {
   switch (action.type) {
     case CREATE_DRAFT:
-      return [...state, action.payload]
+      return [...state, { ...action.payload, status: 'In progress' }]
     case ADD_SURVEY_DATA:
       return state.map(
         draft =>
@@ -76,6 +76,36 @@ export const drafts = (state = [], action) => {
                   ...draft[action.category],
                   ...action.payload
                 }
+              }
+            : draft
+      )
+    case SUBMIT_DRAFT:
+      return state.map(
+        draft =>
+          draft.draft_id === action.id
+            ? {
+                ...draft,
+                status: 'Pending'
+              }
+            : draft
+      )
+    case SUBMIT_DRAFT_COMMIT:
+      return state.map(
+        draft =>
+          draft.draft_id === action.meta.id
+            ? {
+                ...draft,
+                status: 'Success'
+              }
+            : draft
+      )
+    case SUBMIT_DRAFT_ROLLBACK:
+      return state.map(
+        draft =>
+          draft.draft_id === action.meta.id
+            ? {
+                ...draft,
+                status: 'Error'
               }
             : draft
       )
@@ -97,25 +127,11 @@ export const snapshots = (state = [], action) => {
   }
 }
 
-export const test = (state = [], action) => {
-  switch (action.type) {
-    case ADD_SNAPSHOT:
-      return action.payload ? { ...action.payload, status: 'pending' } : state
-    case ADD_SNAPSHOT_COMMIT:
-      return action.payload ? { ...action.payload, status: 'success' } : state
-    case ADD_SNAPSHOT_ROLLBACK:
-      return action.payload ? { ...action.payload, status: 'error' } : state
-    default:
-      return state
-  }
-}
-
 export const rootReducer = combineReducers({
   env,
   token,
   surveys,
   families,
   drafts,
-  snapshots,
-  test
+  snapshots
 })

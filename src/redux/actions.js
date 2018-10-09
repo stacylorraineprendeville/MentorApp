@@ -85,6 +85,9 @@ export const loadFamilies = (env, token) => ({
 export const CREATE_DRAFT = 'CREATE_DRAFT'
 export const DELETE_DRAFT = 'DELETE_DRAFT'
 export const ADD_SURVEY_DATA = 'ADD_SURVEY_DATA'
+export const SUBMIT_DRAFT = 'SUBMIT_DRAFT'
+export const SUBMIT_DRAFT_COMMIT = 'SUBMIT_DRAFT_COMMIT'
+export const SUBMIT_DRAFT_ROLLBACK = 'SUBMIT_DRAFT_ROLLBACK'
 
 export const createDraft = payload => ({
   type: CREATE_DRAFT,
@@ -96,6 +99,12 @@ export const deleteDraft = id => ({
   id
 })
 
+export const addSnapshot = (id, payload) => ({
+  type: SUBMIT_DRAFT,
+  id,
+  payload
+})
+
 export const addSurveyData = (id, category, payload) => ({
   type: ADD_SURVEY_DATA,
   category,
@@ -103,21 +112,44 @@ export const addSurveyData = (id, category, payload) => ({
   payload
 })
 
+export const submitDraft = (env, token, id, payload) => ({
+  type: SUBMIT_DRAFT,
+  env,
+  token,
+  payload,
+  id,
+  meta: {
+    offline: {
+      effect: {
+        url: `${env}/api/v1/snapshots`,
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { Authorization: `Bearer ${token}` }
+      },
+      commit: {
+        type: SUBMIT_DRAFT_COMMIT,
+        meta: {
+          env,
+          token,
+          id,
+          payload
+        }
+      },
+      rollback: {
+        type: SUBMIT_DRAFT_ROLLBACK,
+        meta: {
+          env,
+          token,
+          id,
+          payload
+        }
+      }
+    }
+  }
+})
+
 // Snapshots
 export const LOAD_SNAPSHOTS = 'LOAD_SNAPSHOTS'
-export const ADD_SNAPSHOT = 'ADD_SNAPSHOT'
-export const ADD_SNAPSHOT_COMMIT = 'ADD_SNAPSHOT_COMMIT'
-export const ADD_SNAPSHOT_ROLLBACK = 'ADD_SNAPSHOT_ROLLBACK'
-
-export const addSnapshot = payload => ({
-  type: ADD_SNAPSHOT,
-  payload
-})
-
-export const deleteSnapshot = id => ({
-  type: DELETE_SNAPSHOT,
-  id
-})
 
 export const loadSnapshots = (env, token) => ({
   type: LOAD_SNAPSHOTS,
@@ -131,39 +163,6 @@ export const loadSnapshots = (env, token) => ({
         headers: { Authorization: `Bearer ${token}` }
       },
       commit: { type: LOAD_SNAPSHOTS, meta: { env, token } }
-    }
-  }
-})
-
-export const postSnapshot = (env, token, payload) => ({
-  type: ADD_SNAPSHOT,
-  env,
-  token,
-  payload,
-  meta: {
-    offline: {
-      effect: {
-        url: `${env}/api/v1/snapshots`,
-        method: 'POST',
-        body: JSON.stringify(payload),
-        headers: { Authorization: `Bearer ${token}` }
-      },
-      commit: {
-        type: ADD_SNAPSHOT_COMMIT,
-        meta: {
-          env,
-          token,
-          payload
-        }
-      },
-      rollback: {
-        type: ADD_SNAPSHOT_ROLLBACK,
-        meta: {
-          env,
-          token,
-          payload
-        }
-      }
     }
   }
 })
