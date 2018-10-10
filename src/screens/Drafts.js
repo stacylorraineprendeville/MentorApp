@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { ScrollView, View, StyleSheet, Text, Button } from 'react-native'
+import { ScrollView, View, StyleSheet, Button } from 'react-native'
 import { connect } from 'react-redux'
-
+import PropTypes from 'prop-types'
 import { deleteDraft } from '../redux/actions'
-import { url } from '../config'
 
-class Drafts extends Component {
+export class Drafts extends Component {
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -13,7 +12,7 @@ class Drafts extends Component {
           <View key={draft.draft_id}>
             <Button
               title={draft.draft_id}
-              onPress={e =>
+              onPress={() =>
                 this.props.navigation.navigate('Draft', {
                   draft: draft.draft_id
                 })
@@ -28,6 +27,12 @@ class Drafts extends Component {
       </ScrollView>
     )
   }
+}
+
+Drafts.propTypes = {
+  deleteDraft: PropTypes.func.isRequired,
+  drafts: PropTypes.array,
+  navigation: PropTypes.object.isRequired
 }
 
 const styles = StyleSheet.create({

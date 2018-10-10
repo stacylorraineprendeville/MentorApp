@@ -30,12 +30,14 @@ export class Login extends Component {
         <Text style={styles.text}>{i18n.t('login.login')}</Text>
 
         <TextInput
+          id="username"
           placeholder="username"
           autoCapitalize="none"
           style={styles.input}
           onChangeText={username => this.setState({ username })}
         />
         <TextInput
+          id="password"
           secureTextEntry
           autoCapitalize="none"
           placeholder="password"
@@ -43,6 +45,7 @@ export class Login extends Component {
           onChangeText={password => this.setState({ password })}
         />
         <Button
+          id="login-button"
           onPress={() =>
             this.props.login(this.state.username, this.state.password, url[env])
           }
@@ -57,7 +60,11 @@ export class Login extends Component {
           title="Families"
           onPress={() => navigation.navigate('Families')}
         />
-        <Picker selectedValue={env} onValueChange={this.onEnvChange}>
+        <Picker
+          id="env-picker"
+          selectedValue={env}
+          onValueChange={this.onEnvChange}
+        >
           <Picker.Item label="Production" value="production" />
           <Picker.Item label="Demo" value="demo" />
           <Picker.Item label="Testing" value="testing" />
@@ -72,7 +79,7 @@ Login.propTypes = {
   setEnv: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
   env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
-  navigation: PropTypes.object
+  navigation: PropTypes.object.isRequired
 }
 
 const styles = StyleSheet.create({

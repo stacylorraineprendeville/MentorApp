@@ -7,6 +7,9 @@ const createTestProps = props => ({
   setEnv: jest.fn(),
   login: jest.fn(),
   env: 'development',
+  navigation: {
+    navigate: arg => arg
+  },
   ...props
 })
 
@@ -35,9 +38,32 @@ describe('Login', () => {
     })
   })
   describe('functionality', () => {
-    it('user can change env', () => {
+    it('can change env', () => {
+      const spy = jest.spyOn(wrapper.instance(), 'onEnvChange')
       wrapper.instance().onEnvChange('production')
+      expect(spy).toHaveBeenCalledTimes(1)
       expect(wrapper.instance().props.setEnv).toHaveBeenCalledTimes(1)
+    })
+    it('typing in credentials changes state', () => {
+      wrapper
+        .find('#username')
+        .props()
+        .onChangeText('Joe')
+
+      wrapper
+        .find('#password')
+        .props()
+        .onChangeText('Foo')
+
+      expect(wrapper.state().username).toBe('Joe')
+      expect(wrapper.state().password).toBe('Foo')
+    })
+    it('clicking login calls login action', () => {
+      wrapper
+        .find('#login-button')
+        .props()
+        .onPress()
+      expect(wrapper.instance().props.login).toHaveBeenCalledTimes(1)
     })
   })
 })
