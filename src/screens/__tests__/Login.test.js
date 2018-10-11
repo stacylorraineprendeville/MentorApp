@@ -23,16 +23,19 @@ describe('Login', () => {
     it('renders <ScrollView />', () => {
       expect(wrapper.find(ScrollView)).toHaveLength(1)
     })
+
     it('renders minimal login UI: <TextInput /> and <Button />', () => {
       expect(wrapper.find(TextInput)).toHaveLength(2)
       expect(wrapper.find(Button)).toExist()
     })
+
     it('has proper initial state', () => {
       expect(wrapper).toHaveState({
         username: '',
         password: ''
       })
     })
+
     it('has proper default selectedValue for Picker', () => {
       expect(wrapper.find(Picker)).toHaveProp('selectedValue', 'development')
     })
@@ -44,6 +47,7 @@ describe('Login', () => {
       expect(spy).toHaveBeenCalledTimes(1)
       expect(wrapper.instance().props.setEnv).toHaveBeenCalledTimes(1)
     })
+
     it('typing in credentials changes state', () => {
       wrapper
         .find('#username')
@@ -58,6 +62,7 @@ describe('Login', () => {
       expect(wrapper.state().username).toBe('Joe')
       expect(wrapper.state().password).toBe('Foo')
     })
+
     it('clicking login calls login action', () => {
       wrapper
         .find('#login-button')

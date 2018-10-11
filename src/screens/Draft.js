@@ -8,14 +8,14 @@ import {
   Picker,
   Button
 } from 'react-native'
-
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import uuid from 'uuid/v1'
 
 import { createDraft, addSurveyData, submitDraft } from '../redux/actions'
 import { url } from '../config'
 
-class Draft extends Component {
+export class Draft extends Component {
   //Get draft id from Redux store if it exists else create new draft id
 
   draft_id = this.props.navigation.getParam('draft') || uuid()
@@ -82,7 +82,7 @@ class Draft extends Component {
   }
 
   render() {
-    const { orderedQuestions, questionProperties, survey } = this
+    const { orderedQuestions, questionProperties } = this
     const draft = this.props.drafts.filter(
       draft => draft.draft_id === this.draft_id
     )[0]
@@ -99,7 +99,7 @@ class Draft extends Component {
             )
           }
         />
-        {orderedQuestions.map((question, i) => (
+        {orderedQuestions.map(question => (
           <View key={question}>
             <Text>{questionProperties[question]['title']['es']}</Text>
             {questionProperties[question]['type'] === 'string' && (
@@ -136,6 +136,17 @@ class Draft extends Component {
       </ScrollView>
     )
   }
+}
+
+Draft.propTypes = {
+  createDraft: PropTypes.func.isRequired,
+  addSurveyData: PropTypes.func.isRequired,
+  submitDraft: PropTypes.func.isRequired,
+  drafts: PropTypes.array,
+  surveys: PropTypes.array,
+  navigation: PropTypes.object.isRequired,
+  env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
+  token: PropTypes.object.isRequired
 }
 
 const styles = StyleSheet.create({

@@ -31,12 +31,15 @@ describe('Drafts', () => {
     it('renders base ScrollView', () => {
       expect(wrapper.find(ScrollView)).toHaveLength(1)
     })
+
     it('renders a View for each draft', () => {
       expect(wrapper.find(View)).toHaveLength(2)
     })
+
     it('renders a navigate and a delete button for each draft', () => {
       expect(wrapper.find(Button)).toHaveLength(4)
     })
+
     it('draft navigate buttons have proper titles', () => {
       expect(
         wrapper
@@ -72,6 +75,7 @@ describe('Drafts', () => {
         { draft: 1 }
       )
     })
+
     it('can delete given draft', () => {
       wrapper
         .find(View)
