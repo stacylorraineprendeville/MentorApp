@@ -7,7 +7,8 @@
     "start-ios": "react-native run-ios",
     "start-android": "react-native run-android",
     "test": "jest -o",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:watch": "npm test -- --watch"
   },
   "dependencies": {
     "@redux-offline/redux-offline": "^2.4.0",
@@ -34,6 +35,7 @@
     "eslint-plugin-jest": "^21.24.1",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-react-native": "^3.3.0",
+    "fetch-mock": "^7.0.7",
     "husky": "^1.1.1",
     "jest": "^23.6.0",
     "jest-enzyme": "^6.1.2",

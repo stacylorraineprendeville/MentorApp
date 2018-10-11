@@ -12,7 +12,7 @@ const setTokenError = () => ({
   type: SET_TOKEN_ERROR
 })
 
-export const login = (username, password, env) => dispatch => {
+export const login = (username, password, env) => dispatch =>
   fetch(
     `${env}/oauth/token?username=${username}&password=${password}&grant_type=password`,
     {
@@ -29,7 +29,6 @@ export const login = (username, password, env) => dispatch => {
     })
     .then(token => dispatch(setTokenSuccess(token.access_token)))
     .catch(() => dispatch(setTokenError()))
-}
 
 // Environment
 
@@ -55,7 +54,7 @@ export const loadSurveys = (env, token) => ({
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` }
       },
-      commit: { type: LOAD_SURVEYS, meta: { env, token } }
+      commit: { type: LOAD_SURVEYS }
     }
   }
 })
@@ -75,7 +74,7 @@ export const loadFamilies = (env, token) => ({
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` }
       },
-      commit: { type: LOAD_FAMILIES, meta: { env, token } }
+      commit: { type: LOAD_FAMILIES }
     }
   }
 })
@@ -97,12 +96,6 @@ export const createDraft = payload => ({
 export const deleteDraft = id => ({
   type: DELETE_DRAFT,
   id
-})
-
-export const addSnapshot = (id, payload) => ({
-  type: SUBMIT_DRAFT,
-  id,
-  payload
 })
 
 export const addSurveyData = (id, category, payload) => ({
@@ -129,19 +122,13 @@ export const submitDraft = (env, token, id, payload) => ({
       commit: {
         type: SUBMIT_DRAFT_COMMIT,
         meta: {
-          env,
-          token,
-          id,
-          payload
+          id
         }
       },
       rollback: {
         type: SUBMIT_DRAFT_ROLLBACK,
         meta: {
-          env,
-          token,
-          id,
-          payload
+          id
         }
       }
     }
