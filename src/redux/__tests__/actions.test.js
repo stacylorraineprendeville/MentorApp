@@ -7,7 +7,7 @@ import * as action from '../actions'
 const middlewares = [thunk]
 const mockStore = configureStore(middlewares)
 
-describe('environment', () => {
+describe('environment actions', () => {
   it('should create an action to set env', () => {
     const env = 'production'
     const expectedAction = {
@@ -18,7 +18,7 @@ describe('environment', () => {
   })
 })
 
-describe('login', () => {
+describe('login actions', () => {
   afterEach(() => {
     fetchMock.reset()
     fetchMock.restore()
@@ -68,7 +68,7 @@ describe('login', () => {
   })
 })
 
-describe('families', () => {
+describe('families actions', () => {
   it('should create an action to load the list of families', () => {
     const env = 'https://mock/env'
     const token = 'token'
@@ -91,7 +91,7 @@ describe('families', () => {
   })
 })
 
-describe('surveys', () => {
+describe('surveys actions', () => {
   it('should create an action to load the list of surveys', () => {
     const env = 'https://mock/env'
     const token = 'token'
@@ -114,7 +114,7 @@ describe('surveys', () => {
   })
 })
 
-describe('snapshots', () => {
+describe('snapshots actions', () => {
   it('should create an action to load the list of snapshots', () => {
     const env = 'https://mock/env'
     const token = 'token'
@@ -137,7 +137,7 @@ describe('snapshots', () => {
   })
 })
 
-describe('drafts', () => {
+describe('drafts actions', () => {
   it('should create an action to create a draft', () => {
     const payload = { draftId: 1, draftContent: 'content' }
     const expectedAction = {
