@@ -89,6 +89,7 @@ export class Draft extends Component {
     return (
       <ScrollView style={styles.container}>
         <Button
+          id="submit"
           title="Submit"
           onPress={() =>
             this.props.submitDraft(

@@ -18,6 +18,9 @@ const createTestProps = props => ({
       personal_survey_data: {
         gender: 'F'
       },
+      economic_survey_data: {
+        familyCar: 'Yes'
+      },
       indicator_survey_data: {
         income: 'GREEN'
       }
@@ -47,6 +50,14 @@ const createTestProps = props => ({
               'Male',
               'Another gender identity or Prefer not to disclose'
             ]
+          },
+          familyCar: {
+            type: 'string',
+            title: {
+              es: 'Does your family have a car or truck?'
+            },
+            enum: ['Yes', 'No'],
+            enumNames: ['Yes', 'No']
           },
           income: {
             type: 'array',
@@ -103,9 +114,9 @@ const createTestProps = props => ({
       },
       survey_ui_schema: {
         properties: {},
-        'ui:order': ['gender', 'income'],
+        'ui:order': ['gender', 'income', 'familyCar'],
         'ui:group:personal': ['gender'],
-        'ui:group:economics': [],
+        'ui:group:economics': ['familyCar'],
         'ui:group:indicators': ['income'],
         'ui:custom:fields': {}
       }
@@ -130,6 +141,14 @@ const createTestProps = props => ({
               'Male',
               'Another gender identity or Prefer not to disclose'
             ]
+          },
+          familyCar: {
+            type: 'string',
+            title: {
+              es: 'Does your family have a car or truck?'
+            },
+            enum: ['Yes', 'No'],
+            enumNames: ['Yes', 'No']
           },
           income: {
             type: 'array',
@@ -201,7 +220,7 @@ const createTestProps = props => ({
   ...props
 })
 
-describe('Single Draft', () => {
+describe('Single Draft View', () => {
   let wrapper
   beforeEach(() => {
     const props = createTestProps()
@@ -260,6 +279,7 @@ describe('Single Draft', () => {
       })
     })
   })
+
   describe('rendering', () => {
     it('renders base ScrollView', () => {
       expect(wrapper.find(ScrollView)).toHaveLength(1)
@@ -271,11 +291,11 @@ describe('Single Draft', () => {
     })
 
     it('display a list of Views with proper titles for each survey question', () => {
-      expect(wrapper.find(View)).toHaveLength(2)
+      expect(wrapper.find(View)).toHaveLength(3)
     })
 
     it('renders a TextInput for a string question', () => {
-      expect(wrapper.find(TextInput)).toHaveLength(1)
+      expect(wrapper.find(TextInput)).toHaveLength(2)
     })
 
     it('sets proper TextInput value from draft', () => {
@@ -296,23 +316,40 @@ describe('Single Draft', () => {
       expect(wrapper.find(Picker.Item)).toHaveLength(4)
     })
   })
+
   describe('functionality', () => {
     it('calls storeDraftItem onChange', () => {
       const spy = jest.spyOn(wrapper.instance(), 'storeDraftItem')
 
       wrapper
         .find(TextInput)
+        .first()
         .props()
         .onChangeText('M')
 
       expect(spy).toHaveBeenCalledTimes(1)
 
       wrapper
+        .find(TextInput)
+        .last()
+        .props()
+        .onChangeText('No')
+
+      expect(spy).toHaveBeenCalledTimes(2)
+
+      wrapper
         .find(Picker)
         .props()
         .onValueChange()
 
-      expect(spy).toHaveBeenCalledTimes(2)
+      expect(spy).toHaveBeenCalledTimes(3)
+    })
+    it('calls submitDraft on pressing Submit button', () => {
+      wrapper
+        .find('#submit')
+        .props()
+        .onPress()
+      expect(wrapper.instance().props.submitDraft).toHaveBeenCalledTimes(1)
     })
   })
 })

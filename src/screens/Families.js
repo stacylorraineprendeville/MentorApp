@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, Button, ScrollView } from 'react-native'
+import { View, StyleSheet, Button, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
-
+import PropTypes from 'prop-types'
 import { loadFamilies } from '../redux/actions'
 import { url } from '../config'
 
-class Families extends Component {
+export class Families extends Component {
   componentDidMount() {
     this.props.loadFamilies(url[this.props.env], this.props.token.token)
   }
@@ -16,7 +16,7 @@ class Families extends Component {
           <View key={family.familyId}>
             <Button
               title={family.name}
-              onPress={e =>
+              onPress={() =>
                 this.props.navigation.navigate('Family', {
                   family: family.familyId
                 })
@@ -27,6 +27,14 @@ class Families extends Component {
       </ScrollView>
     )
   }
+}
+
+Families.propTypes = {
+  loadFamilies: PropTypes.func.isRequired,
+  env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
+  navigation: PropTypes.object.isRequired,
+  token: PropTypes.object.isRequired,
+  families: PropTypes.array
 }
 
 const styles = StyleSheet.create({

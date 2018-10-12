@@ -12,7 +12,7 @@ const createTestProps = props => ({
   ...props
 })
 
-describe('Drafts', () => {
+describe('Draft View', () => {
   let wrapper
   beforeEach(() => {
     const props = createTestProps({

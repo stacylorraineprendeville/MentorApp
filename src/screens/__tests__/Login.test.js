@@ -13,7 +13,7 @@ const createTestProps = props => ({
   ...props
 })
 
-describe('Login', () => {
+describe('Logi View', () => {
   let wrapper
   beforeEach(() => {
     const props = createTestProps()

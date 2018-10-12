@@ -16,7 +16,7 @@ const createTestProps = props => ({
   ...props
 })
 
-describe('Surveys', () => {
+describe('Surveys View', () => {
   let wrapper
   beforeEach(() => {
     const props = createTestProps({

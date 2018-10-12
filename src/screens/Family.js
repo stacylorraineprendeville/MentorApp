@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Text, Button, ScrollView } from 'react-native'
+import { View, StyleSheet, Text, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import { loadSnapshots } from '../redux/actions'
 import { url } from '../config'
 
-class Family extends Component {
+export class Family extends Component {
   componentDidMount() {
     this.props.loadSnapshots(url[this.props.env], this.props.token.token)
   }
@@ -26,6 +27,14 @@ class Family extends Component {
       </ScrollView>
     )
   }
+}
+
+Family.propTypes = {
+  env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
+  loadSnapshots: PropTypes.func.isRequired,
+  navigation: PropTypes.object.isRequired,
+  token: PropTypes.object.isRequired,
+  snapshots: PropTypes.array
 }
 
 const styles = StyleSheet.create({
