@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Button } from 'react-native'
 import { connect } from 'react-redux'
+import { OfflineImageStore } from 'react-native-image-offline'
 import PropTypes from 'prop-types'
 
 import { loadSurveys } from '../redux/actions'
@@ -9,6 +10,33 @@ import { url } from '../config'
 export class Surveys extends Component {
   componentDidMount() {
     this.props.loadSurveys(url[this.props.env], this.props.token.token)
+    this.storeSurveyImagesOffline()
+  }
+  storeSurveyImagesOffline() {
+    OfflineImageStore.restore(
+      {
+        name: 'Survey Images'
+      },
+      () => {
+        let arr = []
+        this.props.surveys.forEach(survey => {
+          Object.values(survey.survey_schema.properties)
+            .filter(
+              prop =>
+                prop.type === 'array' &&
+                prop.hasOwnProperty('items') &&
+                prop.items.hasOwnProperty('enum')
+            )
+            .forEach(prop =>
+              prop.items.enum
+                .filter(item => item.url)
+                .forEach(item => arr.push(item.url))
+            )
+        })
+
+        OfflineImageStore.preLoad(arr)
+      }
+    )
   }
   render() {
     return (

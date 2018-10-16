@@ -6,10 +6,9 @@ import {
   Text,
   TextInput,
   Picker,
-  Button,
-  ActivityIndicator
+  Button
 } from 'react-native'
-import { OfflineImage, OfflineImageStore } from 'react-native-image-offline'
+import { OfflineImage } from 'react-native-image-offline'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import uuid from 'uuid/v1'
@@ -39,27 +38,6 @@ export class Draft extends Component {
   economicsData = this.survey['survey_ui_schema']['ui:group:economics']
   indicatorsData = this.survey['survey_ui_schema']['ui:group:indicators']
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      reStoreCompleted: false,
-      loadImages: false
-    }
-  }
-
-  storeOfflineImages() {
-    OfflineImageStore.restore(
-      {
-        name: 'Survey Images',
-        debugMode: true
-      },
-      () => {
-        this.setState({ reStoreCompleted: true })
-      }
-    )
-  }
-
   getDraftFromRedux() {
     //Get draft  from Redux store if it exists else create new draft
     if (!this.props.navigation.getParam('draft')) {
@@ -76,7 +54,6 @@ export class Draft extends Component {
 
   componentDidMount() {
     this.getDraftFromRedux()
-    this.storeOfflineImages()
   }
 
   getDraftItem = key => {
@@ -115,9 +92,7 @@ export class Draft extends Component {
       draft => draft.draft_id === this.draft_id
     )[0]
 
-    return !this.state.reStoreCompleted ? (
-      <ActivityIndicator animating={true} size="large" color={'#A7A7A7'} />
-    ) : (
+    return (
       <ScrollView style={styles.container}>
         <Button
           id="submit"
@@ -151,13 +126,15 @@ export class Draft extends Component {
             )}
             {questionProperties[question]['type'] === 'array' && (
               <View>
-                {questionProperties[question]['items']['enum'].map(item => (
-                  <OfflineImage
-                    key={item.url}
-                    style={styles.surveyImage}
-                    source={{ uri: item.url }}
-                  />
-                ))}
+                {questionProperties[question]['items']['enum']
+                  .filter(item => item.url !== 'NONE')
+                  .map(item => (
+                    <OfflineImage
+                      key={item.url}
+                      style={styles.surveyImage}
+                      source={{ uri: item.url }}
+                    />
+                  ))}
                 <Picker
                   onValueChange={value => this.storeDraftItem(question, value)}
                   selectedValue={this.getDraftItem(question)}
