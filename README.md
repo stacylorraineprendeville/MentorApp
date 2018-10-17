@@ -128,4 +128,14 @@ To see the console log you need to enable Remote Debugging. You can use the `⌘
 
 When running the app on an android device you can use the adb shell on your dev machine terminal to give it commands.
 
+To open the dev tools on a device: `adb shell input keyevent 82`
 To refresh an android device used for testing run: `adb shell input text "RR"`
+
+In case you get an `failed to connect to dev server` error, most probably your dev machine is either on a different network, or has switched it's IP since your last session. To fix that:
+
+1. Open dev tools on the device, shaking it or using the command above.
+2. Open Dev Settings
+3. In there tap Debug server host & port for device
+4. Enter your IP, including the `:8081` port otherwise it's likely not to work.
+
+To find your IP address on a Mac, open Settings > Network > Advanced (while your active connection is selected) > TCP/IP tab. Your local IP should be next to IPv4 Address.
