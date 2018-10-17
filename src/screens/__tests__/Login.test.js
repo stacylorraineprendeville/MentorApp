@@ -1,53 +1,46 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { ScrollView, TextInput, Button, Picker } from 'react-native'
+import { ScrollView, TextInput, Text, TouchableOpacity } from 'react-native'
 import { Login } from '../Login'
 
 const createTestProps = props => ({
   setEnv: jest.fn(),
-  login: jest.fn(),
-  env: 'development',
+  login: jest.fn(() => new Promise(resolve => resolve(true))),
+  env: 'production',
   navigation: {
     navigate: arg => arg
   },
   ...props
 })
 
-describe('Logi View', () => {
+describe('Login View', () => {
   let wrapper
+
   beforeEach(() => {
     const props = createTestProps()
     wrapper = shallow(<Login {...props} />)
   })
+
   describe('rendering', () => {
     it('renders <ScrollView />', () => {
       expect(wrapper.find(ScrollView)).toHaveLength(1)
     })
 
-    it('renders minimal login UI: <TextInput /> and <Button />', () => {
+    it('renders minimal login UI: <TextInput /> and <TouchableOpacity />', () => {
       expect(wrapper.find(TextInput)).toHaveLength(2)
-      expect(wrapper.find(Button)).toExist()
+      expect(wrapper.find(Text)).toHaveLength(5)
+      expect(wrapper.find(TouchableOpacity)).toExist()
     })
 
     it('has proper initial state', () => {
       expect(wrapper).toHaveState({
         username: '',
-        password: ''
+        password: '',
+        error: false
       })
-    })
-
-    it('has proper default selectedValue for Picker', () => {
-      expect(wrapper.find(Picker)).toHaveProp('selectedValue', 'development')
     })
   })
   describe('functionality', () => {
-    it('can change env', () => {
-      const spy = jest.spyOn(wrapper.instance(), 'onEnvChange')
-      wrapper.instance().onEnvChange('production')
-      expect(spy).toHaveBeenCalledTimes(1)
-      expect(wrapper.instance().props.setEnv).toHaveBeenCalledTimes(1)
-    })
-
     it('typing in credentials changes state', () => {
       wrapper
         .find('#username')
@@ -61,6 +54,15 @@ describe('Logi View', () => {
 
       expect(wrapper.state().username).toBe('Joe')
       expect(wrapper.state().password).toBe('Foo')
+    })
+
+    it('sets the env to demo when username is demo', () => {
+      wrapper
+        .find('#username')
+        .props()
+        .onChangeText('demo')
+      expect(wrapper.instance().props.setEnv).toHaveBeenCalledTimes(1)
+      expect(wrapper.instance().props.setEnv).toHaveBeenCalledWith('demo')
     })
 
     it('clicking login calls login action', () => {

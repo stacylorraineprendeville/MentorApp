@@ -29,7 +29,7 @@ export const token = (state = { token: '', status: '' }, action) => {
 
 //Environment
 
-export const env = (state = 'development', action) => {
+export const env = (state = 'production', action) => {
   switch (action.type) {
     case SET_ENV:
       return action.env

@@ -4,74 +4,76 @@ import {
   ScrollView,
   Text,
   TextInput,
-  Button,
+  Image,
   StyleSheet,
-  Picker
+  TouchableOpacity
 } from 'react-native'
 import { connect } from 'react-redux'
 import { setEnv, login } from '../redux/actions'
-import i18n from '../i18n'
+import logo from '../../assets/images/logo.png'
 import { url } from '../config'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import globalStyles from '../globalStyles'
 
 export class Login extends Component {
   state = {
     username: '',
-    password: ''
+    password: '',
+    error: false
   }
 
-  onEnvChange = env => {
-    this.props.setEnv(env)
+  componentDidUpdate() {
+    if (this.state.username === 'demo') {
+      this.props.setEnv('demo')
+    } else this.props.setEnv('production')
+  }
+
+  onLogin = () => {
+    this.props
+      .login(this.state.username, this.state.password, url[this.props.env])
+      .then(() => {
+        if (this.props.token.status === 'success') {
+          this.setState({ error: false })
+          this.props.navigation.navigate('Surveys')
+        } else this.setState({ error: true })
+      })
   }
 
   render() {
     const { navigation, env } = this.props
     return (
-      <ScrollView style={styles.container}>
-        <Text style={styles.text}>{i18n.t('login.login')}</Text>
-
+      <ScrollView style={globalStyles.container}>
+        <Image style={styles.logo} source={logo} />
+        <Text style={globalStyles.heading1}>Welcome back!</Text>
+        <Text style={{ ...globalStyles.heading2, marginBottom: 64 }}>
+          Let's get started...
+        </Text>
+        <Text style={globalStyles.heading5}>USERNAME</Text>
         <TextInput
           id="username"
-          placeholder="username"
           autoCapitalize="none"
           style={styles.input}
           onChangeText={username => this.setState({ username })}
         />
+        <Text style={globalStyles.heading5}>PASSWORD</Text>
         <TextInput
           id="password"
           secureTextEntry
           autoCapitalize="none"
-          placeholder="password"
           style={styles.input}
           onChangeText={password => this.setState({ password })}
         />
-        <Button
+        <TouchableOpacity
           id="login-button"
-          onPress={() =>
-            this.props.login(this.state.username, this.state.password, url[env])
-          }
-          title="Login"
-        />
-        <Button
-          title="Surveys"
-          onPress={() => navigation.navigate('Surveys')}
-        />
-        <Button title="Drafts" onPress={() => navigation.navigate('Drafts')} />
-        <Button
-          title="Families"
-          onPress={() => navigation.navigate('Families')}
-        />
-        <Picker
-          id="env-picker"
-          selectedValue={env}
-          onValueChange={this.onEnvChange}
+          onPress={() => this.onLogin()}
+          style={globalStyles.buttonGreen}
         >
-          <Picker.Item label="Production" value="production" />
-          <Picker.Item label="Demo" value="demo" />
-          <Picker.Item label="Testing" value="testing" />
-          <Picker.Item label="Development" value="development" selectedValue />
-        </Picker>
-        <Icon name="cached" size={30} color="#900" />
+          <Text style={globalStyles.buttonText}>Login</Text>
+        </TouchableOpacity>
+        {this.state.error && (
+          <Text style={{ ...globalStyles.heading4, color: 'red' }}>
+            Login error
+          </Text>
+        )}
       </ScrollView>
     )
   }
@@ -85,18 +87,17 @@ Login.propTypes = {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20
-  },
-  text: {
-    margin: 30,
-    fontSize: 40,
+  input: {
+    fontSize: 16,
+    fontFamily: 'Roboto',
     textAlign: 'center',
-    padding: 5,
-    fontFamily: 'Poppins',
-    fontWeight: '400'
+    borderColor: '#50AA47',
+    borderWidth: 1,
+    borderRadius: 2,
+    height: 48,
+    marginBottom: 18
   },
-  input: { fontSize: 20, textAlign: 'center' }
+  logo: { width: 42, height: 42, marginBottom: 8 }
 })
 
 const mapStateToProps = ({ env, token }) => ({
