@@ -148,6 +148,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-vector-icons')
     compile project(':react-native-languages')
     compile project(':rn-fetch-blob')
     implementation fileTree(dir: "libs", include: ["*.jar"])

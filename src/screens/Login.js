@@ -12,6 +12,7 @@ import { connect } from 'react-redux'
 import { setEnv, login } from '../redux/actions'
 import i18n from '../i18n'
 import { url } from '../config'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
 export class Login extends Component {
   state = {
@@ -70,6 +71,7 @@ export class Login extends Component {
           <Picker.Item label="Testing" value="testing" />
           <Picker.Item label="Development" value="development" selectedValue />
         </Picker>
+        <Icon name="cached" size={30} color="#900" />
       </ScrollView>
     )
   }
@@ -88,9 +90,11 @@ const styles = StyleSheet.create({
   },
   text: {
     margin: 30,
-    fontSize: 30,
+    fontSize: 40,
     textAlign: 'center',
-    padding: 5
+    padding: 5,
+    fontFamily: 'Poppins',
+    fontWeight: '400'
   },
   input: { fontSize: 20, textAlign: 'center' }
 })
