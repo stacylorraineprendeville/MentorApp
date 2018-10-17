@@ -1,5 +1,15 @@
 This is the moblie app for the Poverty Stoplight platform. It is a native, not a web, app which requires you to setup your machine for native development.
 
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Instalation](#to-install)
+- [Running](#to-run)
+- [Simulation on OSX](#running-the-simulation-on-osx)
+- [Running on actual device](#running-the-app-on-a-real-device)
+- [Debugging](#debugging)
+
+
 ## Prerequisites
 
 ### For OSX
@@ -111,3 +121,11 @@ In case you see a red screen with `unable to load script from assets index.andro
 1. (in project directory) run `mkdir android/app/src/main/assets`
 2. run `react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res`
 3. Try starting the app again `npm run android-start`
+
+## Debugging
+
+To see the console log you need to enable Remote Debugging. You can use the `⌘D` keyboard shortcut when your app is running in the iOS Simulator, or `⌘M` when running in an Android emulator on Mac OS. That opens the dev menu where you can select Enable Remote Debugging. You can also enable Hot Reload from there.
+
+When running the app on an android device you can use the adb shell on your dev machine terminal to give it commands.
+
+To refresh an android device used for testing run: `adb shell input text "RR"`
