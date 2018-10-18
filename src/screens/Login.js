@@ -43,7 +43,13 @@ export class Login extends Component {
       <ScrollView style={globalStyles.container}>
         <Image style={styles.logo} source={logo} />
         <Text style={globalStyles.heading1}>Welcome back!</Text>
-        <Text style={{ ...globalStyles.heading2, marginBottom: 64 }}>
+        <Text
+          style={{
+            ...globalStyles.heading4,
+            marginBottom: 64,
+            color: '#7A756F'
+          }}
+        >
           Let's get started...
         </Text>
         <Text style={globalStyles.heading5}>USERNAME</Text>
