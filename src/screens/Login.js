@@ -27,7 +27,7 @@ export class Login extends Component {
     } else this.props.setEnv('production')
   }
 
-  onLogin = () => {
+  onLogin = () =>
     this.props
       .login(this.state.username, this.state.password, url[this.props.env])
       .then(() => {
@@ -36,7 +36,6 @@ export class Login extends Component {
           this.props.navigation.navigate('Surveys')
         } else this.setState({ error: true })
       })
-  }
 
   render() {
     const { navigation, env } = this.props
@@ -90,12 +89,13 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 16,
     fontFamily: 'Roboto',
-    textAlign: 'center',
     borderColor: '#50AA47',
     borderWidth: 1,
     borderRadius: 2,
     height: 48,
-    marginBottom: 18
+    marginBottom: 18,
+    padding: 15,
+    color: '#7A756F'
   },
   logo: { width: 42, height: 42, marginBottom: 8 }
 })
