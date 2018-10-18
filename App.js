@@ -12,6 +12,7 @@ import Draft from './src/screens/Draft'
 import Families from './src/screens/Families'
 import Family from './src/screens/Family'
 import Drafts from './src/screens/Drafts'
+import Dashboard from './src/screens/Dashboard'
 
 const store = createStore(
   rootReducer,
@@ -25,7 +26,8 @@ const AppNavigator = createStackNavigator({
   Draft: { screen: Draft },
   Families: { screen: Families },
   Family: { screen: Family },
-  Drafts: { screen: Drafts }
+  Drafts: { screen: Drafts },
+  Dashboard: { screen: Dashboard }
 })
 
 export default class App extends Component {

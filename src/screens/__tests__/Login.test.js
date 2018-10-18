@@ -7,6 +7,7 @@ const createTestProps = props => ({
   setEnv: jest.fn(),
   login: jest.fn(() => new Promise(resolve => resolve(true))),
   env: 'production',
+  token: { status: '' },
   navigation: {
     navigate: arg => arg
   },
@@ -43,6 +44,7 @@ describe('Login View', () => {
       props = { ...props, token: { status: 'error' } }
       wrapper = shallow(<Login {...props} />)
       await wrapper.instance().onLogin()
+      expect(wrapper.find(Text)).toHaveLength(6)
       expect(wrapper.find('#error-message')).toExist()
     })
   })

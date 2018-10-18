@@ -1,9 +1,12 @@
 import { Platform, StyleSheet } from 'react-native'
+import colors from './theme.json'
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FAEFE1',
+    backgroundColor: colors.palebeige
+  },
+  content: {
     padding: 25,
     paddingTop: 48
   },
@@ -69,7 +72,7 @@ export default StyleSheet.create({
       }
     }),
     fontSize: 12,
-    color: '#7A756F'
+    color: colors.lightdark
   },
   paragraph: {
     fontFamily: 'Roboto',
@@ -96,10 +99,10 @@ export default StyleSheet.create({
       }
     }),
     fontSize: 18,
-    color: '#ffffff'
+    color: colors.white
   },
   buttonGreen: {
-    backgroundColor: '#50AA47',
+    backgroundColor: colors.green,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 2,
