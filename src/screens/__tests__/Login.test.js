@@ -15,9 +15,9 @@ const createTestProps = props => ({
 
 describe('Login View', () => {
   let wrapper
-
+  let props
   beforeEach(() => {
-    const props = createTestProps()
+    props = createTestProps()
     wrapper = shallow(<Login {...props} />)
   })
 
@@ -36,8 +36,14 @@ describe('Login View', () => {
       expect(wrapper).toHaveState({
         username: '',
         password: '',
-        error: false
+        error: null
       })
+    })
+    it('renders error message when token status is error', async () => {
+      props = { ...props, token: { status: 'error' } }
+      wrapper = shallow(<Login {...props} />)
+      await wrapper.instance().onLogin()
+      expect(wrapper.find('#error-message')).toExist()
     })
   })
   describe('functionality', () => {
@@ -71,6 +77,20 @@ describe('Login View', () => {
         .props()
         .onPress()
       expect(wrapper.instance().props.login).toHaveBeenCalledTimes(1)
+    })
+
+    it('changes error state to true when token status is error', async () => {
+      props = { ...props, token: { status: 'error' } }
+      wrapper = shallow(<Login {...props} />)
+      await wrapper.instance().onLogin()
+      expect(wrapper.instance().state.error).toBe(true)
+    })
+
+    it('changes error state to false when token status is success', async () => {
+      props = { ...props, token: { status: 'success' } }
+      wrapper = shallow(<Login {...props} />)
+      await wrapper.instance().onLogin()
+      expect(wrapper.instance().state.error).toBe(false)
     })
   })
 })
