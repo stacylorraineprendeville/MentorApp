@@ -38,7 +38,6 @@ export class Login extends Component {
       })
 
   render() {
-    const { navigation, env } = this.props
     return (
       <ScrollView style={globalStyles.container}>
         <Image style={styles.logo} source={logo} />
@@ -50,7 +49,7 @@ export class Login extends Component {
             color: '#7A756F'
           }}
         >
-          Let's get started...
+          {'Let\'s get started...'}
         </Text>
         <Text style={globalStyles.heading5}>USERNAME</Text>
         <TextInput
@@ -88,7 +87,8 @@ Login.propTypes = {
   setEnv: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
   env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  token: PropTypes.object.isRequired
 }
 
 const styles = StyleSheet.create({
