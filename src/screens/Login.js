@@ -18,7 +18,7 @@ export class Login extends Component {
   state = {
     username: '',
     password: '',
-    error: false
+    error: null
   }
 
   componentDidUpdate() {
@@ -75,7 +75,10 @@ export class Login extends Component {
           <Text style={globalStyles.buttonText}>Login</Text>
         </TouchableOpacity>
         {this.state.error && (
-          <Text style={{ ...globalStyles.heading4, color: 'red' }}>
+          <Text
+            id="error-message"
+            style={{ ...globalStyles.heading4, color: 'red' }}
+          >
             Login error
           </Text>
         )}
