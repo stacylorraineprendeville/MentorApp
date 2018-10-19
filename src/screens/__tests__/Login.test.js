@@ -78,7 +78,7 @@ describe('Login View', () => {
       wrapper
         .find('#login-button')
         .props()
-        .onPress()
+        .handleClick()
       expect(wrapper.instance().props.login).toHaveBeenCalledTimes(1)
     })
 
