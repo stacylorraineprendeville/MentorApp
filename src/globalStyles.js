@@ -86,25 +86,5 @@ export default StyleSheet.create({
   tag: {
     fontFamily: 'Roboto',
     fontSize: 12
-  },
-  buttonText: {
-    ...Platform.select({
-      ios: {
-        fontFamily: 'Poppins',
-        fontWeight: '600'
-      },
-      android: {
-        fontFamily: 'Poppins SemiBold'
-      }
-    }),
-    fontSize: 18,
-    color: colors.white
-  },
-  buttonGreen: {
-    backgroundColor: colors.green,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 2,
-    height: 48
   }
 })

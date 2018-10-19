@@ -11,7 +11,9 @@ export class Dashboard extends Component {
         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
           <Text style={globalStyles.h3}>Welcome!</Text>
         </View>
-        <Button text="Create a lifemap" handleClick={() => {}} />
+        <Button text="Create a lifemap" colored handleClick={() => {}} />
+        <Button text="Find a family" icon="search" handleClick={() => {}} />
+        <Button text="Add a family" icon="add" handleClick={() => {}} />
       </ScrollView>
     )
   }

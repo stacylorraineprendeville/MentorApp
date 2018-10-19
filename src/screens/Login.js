@@ -74,6 +74,7 @@ export class Login extends Component {
             id="login-button"
             handleClick={() => this.onLogin()}
             text="Login"
+            colored
           />
           {this.state.error && (
             <Text

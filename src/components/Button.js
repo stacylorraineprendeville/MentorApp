@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import { Text, TouchableOpacity, StyleSheet, Platform } from 'react-native'
 import colors from '../theme.json'
 
@@ -7,10 +8,30 @@ class Button extends Component {
   render() {
     return (
       <TouchableOpacity
-        style={styles.buttonGreen}
+        style={
+          this.props.colored
+            ? { ...styles.buttonStyle, ...styles.colored }
+            : styles.buttonStyle
+        }
         onPress={this.props.handleClick}
       >
-        <Text style={styles.buttonText}>{this.props.text}</Text>
+        {this.props.icon && (
+          <Icon
+            name={this.props.icon}
+            size={21}
+            color={colors.green}
+            style={styles.icon}
+          />
+        )}
+        <Text
+          style={
+            this.props.colored
+              ? { ...styles.buttonText, ...styles.whiteText }
+              : { ...styles.buttonText, ...styles.greenText }
+          }
+        >
+          {this.props.text}
+        </Text>
       </TouchableOpacity>
     )
   }
@@ -18,7 +39,9 @@ class Button extends Component {
 
 Button.propTypes = {
   text: PropTypes.string.isRequired,
-  handleClick: PropTypes.func.isRequired
+  handleClick: PropTypes.func.isRequired,
+  colored: PropTypes.bool,
+  text: PropTypes.string
 }
 
 const styles = StyleSheet.create({
@@ -31,16 +54,32 @@ const styles = StyleSheet.create({
       android: {
         fontFamily: 'Poppins SemiBold'
       }
-    }),
-    fontSize: 18,
-    color: colors.white
+    })
   },
-  buttonGreen: {
-    backgroundColor: colors.green,
+  buttonStyle: {
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 2,
-    height: 48
+    height: 48,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  colored: {
+    backgroundColor: colors.green
+  },
+  greenText: {
+    color: colors.green,
+    fontSize: 14
+  },
+  whiteText: {
+    color: colors.white,
+    fontSize: 18
+  },
+  icon: {
+    marginBottom: 4
   }
 })
+
 export default Button

@@ -2,6 +2,7 @@ import React from 'react'
 
 import { shallow } from 'enzyme'
 import { TouchableOpacity, Text } from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import Button from '../Button'
 
 const createTestProps = props => ({
@@ -21,10 +22,17 @@ describe('Button Component', () => {
     it('renders <TouchableOpacity />', () => {
       expect(wrapper.find(TouchableOpacity)).toHaveLength(1)
     })
-  })
-  describe('rendering', () => {
-    it('renders Text />', () => {
+
+    it('renders <Text />', () => {
       expect(wrapper.find(Text)).toHaveLength(1)
+    })
+    it('renders <Icon /> when icon property is defined', () => {
+      props = { ...props, icon: 'add' }
+      wrapper = shallow(<Button {...props} />)
+      expect(wrapper.find(Icon)).toHaveLength(1)
+    })
+    it('does not render <Icon /> when icon property is not defined', () => {
+      expect(wrapper.find(Icon)).toHaveLength(0)
     })
   })
   describe('functionality', () => {
