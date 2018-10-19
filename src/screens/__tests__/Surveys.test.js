@@ -61,9 +61,4 @@ describe('Surveys View', () => {
       )
     })
   })
-  describe('lifecycle', () => {
-    it('gets surveys on mount', () => {
-      expect(wrapper.instance().props.loadSurveys).toHaveBeenCalledTimes(1)
-    })
-  })
 })

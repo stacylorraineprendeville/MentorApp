@@ -2,13 +2,8 @@ import React, { Component } from 'react'
 import { View, StyleSheet, Button, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { loadFamilies } from '../redux/actions'
-import { url } from '../config'
 
 export class Families extends Component {
-  componentDidMount() {
-    this.props.loadFamilies(url[this.props.env], this.props.token.token)
-  }
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -44,17 +39,8 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = ({ env, families, token }) => ({
-  env,
-  families,
-  token
+const mapStateToProps = ({ families }) => ({
+  families
 })
 
-const mapDispatchToProps = {
-  loadFamilies
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Families)
+export default connect(mapStateToProps)(Families)
