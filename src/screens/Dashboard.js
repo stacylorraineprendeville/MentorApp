@@ -1,14 +1,17 @@
 import React, { Component } from 'react'
-import { ScrollView, Text } from 'react-native'
+import { ScrollView, Text, View } from 'react-native'
 import PropTypes from 'prop-types'
-
+import Button from '../components/Button'
 import globalStyles from '../globalStyles'
 
 export class Dashboard extends Component {
   render() {
     return (
       <ScrollView style={globalStyles.container}>
-        <Text> Dashboard</Text>
+        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={globalStyles.h3}>Welcome!</Text>
+        </View>
+        <Button text="Create a lifemap" handleClick={() => {}} />
       </ScrollView>
     )
   }

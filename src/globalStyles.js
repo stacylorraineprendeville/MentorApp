@@ -4,13 +4,12 @@ import colors from './theme.json'
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.palebeige
-  },
-  content: {
+    backgroundColor: colors.palebeige,
     padding: 25,
     paddingTop: 48
   },
-  heading1: {
+
+  h1: {
     ...Platform.select({
       ios: {
         fontFamily: 'Poppins',
@@ -23,7 +22,7 @@ export default StyleSheet.create({
 
     fontSize: 24
   },
-  heading2: {
+  h2: {
     ...Platform.select({
       ios: {
         fontFamily: 'Poppins',
@@ -36,7 +35,7 @@ export default StyleSheet.create({
     fontSize: 18,
     lineHeight: 26
   },
-  heading3: {
+  h3: {
     ...Platform.select({
       ios: {
         fontFamily: 'Poppins',
@@ -49,7 +48,7 @@ export default StyleSheet.create({
     fontSize: 16,
     lineHeight: 20
   },
-  heading4: {
+  h4: {
     ...Platform.select({
       ios: {
         fontFamily: 'Poppins',
@@ -61,7 +60,7 @@ export default StyleSheet.create({
     }),
     fontSize: 12
   },
-  heading5: {
+  h5: {
     ...Platform.select({
       ios: {
         fontFamily: 'Poppins',
@@ -74,7 +73,7 @@ export default StyleSheet.create({
     fontSize: 12,
     color: colors.lightdark
   },
-  paragraph: {
+  p: {
     fontFamily: 'Roboto',
     fontSize: 16,
     lineHeight: 21

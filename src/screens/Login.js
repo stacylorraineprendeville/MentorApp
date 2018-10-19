@@ -15,6 +15,7 @@ import logo from '../../assets/images/logo.png'
 import { url } from '../config'
 import globalStyles from '../globalStyles'
 import colors from '../theme.json'
+import Button from '../components/Button'
 
 export class Login extends Component {
   state = {
@@ -44,24 +45,24 @@ export class Login extends Component {
       <View style={globalStyles.container}>
         <ScrollView style={globalStyles.content}>
           <Image style={styles.logo} source={logo} />
-          <Text style={globalStyles.heading1}>Welcome back!</Text>
+          <Text style={globalStyles.h1}>Welcome back!</Text>
           <Text
             style={{
-              ...globalStyles.heading4,
+              ...globalStyles.h4,
               marginBottom: 64,
               color: colors.lightdark
             }}
           >
             {"Let's get started..."}
           </Text>
-          <Text style={globalStyles.heading5}>USERNAME</Text>
+          <Text style={globalStyles.h5}>USERNAME</Text>
           <TextInput
             id="username"
             autoCapitalize="none"
             style={styles.input}
             onChangeText={username => this.setState({ username })}
           />
-          <Text style={globalStyles.heading5}>PASSWORD</Text>
+          <Text style={globalStyles.h5}>PASSWORD</Text>
           <TextInput
             id="password"
             secureTextEntry
@@ -69,17 +70,15 @@ export class Login extends Component {
             style={styles.input}
             onChangeText={password => this.setState({ password })}
           />
-          <TouchableOpacity
+          <Button
             id="login-button"
-            onPress={() => this.onLogin()}
-            style={globalStyles.buttonGreen}
-          >
-            <Text style={globalStyles.buttonText}>Login</Text>
-          </TouchableOpacity>
+            handleClick={() => this.onLogin()}
+            text="Login"
+          />
           {this.state.error && (
             <Text
               id="error-message"
-              style={{ ...globalStyles.heading4, color: colors.red }}
+              style={{ ...globalStyles.h4, color: colors.red }}
             >
               Login error
             </Text>

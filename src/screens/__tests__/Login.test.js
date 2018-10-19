@@ -1,6 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import { ScrollView, TextInput, Text, TouchableOpacity } from 'react-native'
+import Button from '../../components/Button'
 import { Login } from '../Login'
 
 const createTestProps = props => ({
@@ -27,10 +28,10 @@ describe('Login View', () => {
       expect(wrapper.find(ScrollView)).toHaveLength(1)
     })
 
-    it('renders minimal login UI: <TextInput /> and <TouchableOpacity />', () => {
+    it('renders minimal login UI: <TextInput /> and <Button />', () => {
       expect(wrapper.find(TextInput)).toHaveLength(2)
-      expect(wrapper.find(Text)).toHaveLength(5)
-      expect(wrapper.find(TouchableOpacity)).toExist()
+      expect(wrapper.find(Text)).toHaveLength(4)
+      expect(wrapper.find(Button)).toExist()
     })
 
     it('has proper initial state', () => {
@@ -44,7 +45,7 @@ describe('Login View', () => {
       props = { ...props, token: { status: 'error' } }
       wrapper = shallow(<Login {...props} />)
       await wrapper.instance().onLogin()
-      expect(wrapper.find(Text)).toHaveLength(6)
+      expect(wrapper.find(Text)).toHaveLength(5)
       expect(wrapper.find('#error-message')).toExist()
     })
   })
