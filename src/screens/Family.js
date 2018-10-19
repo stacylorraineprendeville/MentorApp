@@ -24,10 +24,7 @@ export class Family extends Component {
 }
 
 Family.propTypes = {
-  env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
-  loadSnapshots: PropTypes.func.isRequired,
   navigation: PropTypes.object.isRequired,
-  token: PropTypes.object.isRequired,
   snapshots: PropTypes.array
 }
 

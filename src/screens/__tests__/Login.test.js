@@ -42,7 +42,7 @@ describe('Login View', () => {
       })
     })
     it('renders error message when token status is error', async () => {
-      props = { ...props, token: { status: 'error' } }
+      props = createTestProps({ token: { status: 'error' } })
       wrapper = shallow(<Login {...props} />)
       await wrapper.instance().onLogin()
       expect(wrapper.find(Text)).toHaveLength(5)
@@ -83,14 +83,15 @@ describe('Login View', () => {
     })
 
     it('changes error state to true when token status is error', async () => {
-      props = { ...props, token: { status: 'error' } }
+      props = createTestProps({ token: { status: 'error' } })
+
       wrapper = shallow(<Login {...props} />)
       await wrapper.instance().onLogin()
       expect(wrapper.instance().state.error).toBe(true)
     })
 
     it('changes error state to false when token status is success', async () => {
-      props = { ...props, token: { status: 'success' } }
+      props = createTestProps({ token: { status: 'success' } })
       wrapper = shallow(<Login {...props} />)
       await wrapper.instance().onLogin()
       expect(wrapper.instance().state.error).toBe(false)

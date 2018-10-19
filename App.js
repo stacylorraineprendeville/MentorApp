@@ -21,13 +21,13 @@ const store = createStore(
 )
 
 const AppNavigator = createStackNavigator({
+  Dashboard: { screen: Dashboard },
   Login: { screen: Login },
   Surveys: { screen: Surveys },
   Draft: { screen: Draft },
   Families: { screen: Families },
   Family: { screen: Family },
-  Drafts: { screen: Drafts },
-  Dashboard: { screen: Dashboard }
+  Drafts: { screen: Drafts }
 })
 
 export default class App extends Component {

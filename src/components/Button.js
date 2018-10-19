@@ -41,7 +41,7 @@ Button.propTypes = {
   text: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired,
   colored: PropTypes.bool,
-  text: PropTypes.string
+  icon: PropTypes.string
 }
 
 const styles = StyleSheet.create({

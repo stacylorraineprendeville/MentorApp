@@ -26,11 +26,8 @@ export class Surveys extends Component {
 }
 
 Surveys.propTypes = {
-  loadSurveys: PropTypes.func.isRequired,
   surveys: PropTypes.array,
-  env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
-  navigation: PropTypes.object.isRequired,
-  token: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired
 }
 
 const styles = StyleSheet.create({

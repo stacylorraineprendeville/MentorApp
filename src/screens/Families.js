@@ -25,11 +25,8 @@ export class Families extends Component {
 }
 
 Families.propTypes = {
-  loadFamilies: PropTypes.func.isRequired,
-  env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
-  navigation: PropTypes.object.isRequired,
-  token: PropTypes.object.isRequired,
-  families: PropTypes.array
+  families: PropTypes.array,
+  navigation: PropTypes.object.isRequired
 }
 
 const styles = StyleSheet.create({

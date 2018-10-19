@@ -76,12 +76,14 @@ export default StyleSheet.create({
   p: {
     fontFamily: 'Roboto',
     fontSize: 16,
-    lineHeight: 21
+    lineHeight: 21,
+    color: colors.lightdark
   },
   subline: {
     fontFamily: 'Roboto',
     fontSize: 14,
-    lineHeight: 20
+    lineHeight: 20,
+    color: colors.lightdark
   },
   tag: {
     fontFamily: 'Roboto',
