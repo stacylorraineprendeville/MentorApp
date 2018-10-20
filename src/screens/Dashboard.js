@@ -6,8 +6,9 @@ import {
   Image,
   StyleSheet,
   FlatList,
-  TouchableOpacity
+  AsyncStorage
 } from 'react-native'
+
 import PropTypes from 'prop-types'
 
 import Button from '../components/Button'
@@ -20,14 +21,17 @@ import { url } from '../config'
 import colors from '../theme.json'
 
 export class Dashboard extends Component {
-  componentDidMount() {
-    this.loadData()
+  componentWillMount() {
+    AsyncStorage.getItem('userVisitedDashboard').then(
+      value => (value === 'false' ? this.loadData() : null)
+    )
+    AsyncStorage.setItem('userVisitedDashboard', 'true')
   }
 
   loadData() {
-    this.props.loadFamilies(url[this.props.env], this.props.token.token)
     this.props.loadSnapshots(url[this.props.env], this.props.token.token)
     this.props.loadSurveys(url[this.props.env], this.props.token.token)
+    this.props.loadFamilies(url[this.props.env], this.props.token.token)
   }
 
   render() {
@@ -47,7 +51,6 @@ export class Dashboard extends Component {
           </View>
           <Image style={{ ...styles.img, ...styles.center }} source={family} />
           <Button
-            style={{ padding: 80 }}
             text="Create a lifemap"
             colored
             handleClick={() => this.props.navigation.navigate('Surveys')}
@@ -96,7 +99,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
-    marginTop: 13
+    marginTop: 13,
+    marginBottom: -13
   },
   listTitle: {
     backgroundColor: colors.white,

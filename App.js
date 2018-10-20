@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
+import { AsyncStorage } from 'react-native'
 import offlineConfig from '@redux-offline/redux-offline/lib/defaults'
 import { offline } from '@redux-offline/redux-offline'
 import { createStackNavigator } from 'react-navigation'
+
 import { rootReducer } from './src/redux/reducer'
 import Login from './src/screens/Login'
 import Surveys from './src/screens/Surveys'
@@ -21,8 +23,8 @@ const store = createStore(
 )
 
 const AppNavigator = createStackNavigator({
-  Dashboard: { screen: Dashboard },
   Login: { screen: Login },
+  Dashboard: { screen: Dashboard },
   Surveys: { screen: Surveys },
   Draft: { screen: Draft },
   Families: { screen: Families },
@@ -31,6 +33,9 @@ const AppNavigator = createStackNavigator({
 })
 
 export default class App extends Component {
+  componentDidMount() {
+    AsyncStorage.setItem('userVisitedDashboard', 'false')
+  }
   render() {
     return (
       <Provider store={store}>

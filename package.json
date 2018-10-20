@@ -42,6 +42,7 @@
     "jest": "^23.6.0",
     "jest-enzyme": "^6.1.2",
     "metro-react-native-babel-preset": "0.45.3",
+    "mock-async-storage": "^2.0.3",
     "react-dom": "^16.5.2",
     "react-native-mock-render": "^0.1.2",
     "react-test-renderer": "16.5.0",

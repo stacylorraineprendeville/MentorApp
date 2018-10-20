@@ -67,10 +67,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   colored: {
-    backgroundColor: colors.green
+    backgroundColor: colors.palegreen
   },
   greenText: {
-    color: colors.green,
+    color: colors.palegreen,
     fontSize: 14
   },
   whiteText: {
