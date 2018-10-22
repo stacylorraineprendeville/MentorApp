@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { View, StyleSheet, Button } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-
 import { loadSurveys } from '../redux/actions'
 import { url } from '../config'
 
