@@ -8,6 +8,8 @@ import { offline } from '@redux-offline/redux-offline'
 import { createStackNavigator } from 'react-navigation'
 
 import { rootReducer } from './src/redux/reducer'
+import SplashScreen from 'react-native-splash-screen'
+
 import Login from './src/screens/Login'
 import Surveys from './src/screens/Surveys'
 import Draft from './src/screens/Draft'
@@ -35,6 +37,7 @@ const AppNavigator = createStackNavigator({
 export default class App extends Component {
   componentDidMount() {
     AsyncStorage.setItem('userVisitedDashboard', 'false')
+    SplashScreen.hide()
   }
   render() {
     return (
