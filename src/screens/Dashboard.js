@@ -12,6 +12,7 @@ import {
 import PropTypes from 'prop-types'
 
 import Button from '../components/Button'
+import RoundImage from '../components/RoundImage'
 import DraftListItem from '../components/DraftListItem'
 import globalStyles from '../globalStyles'
 import family from '../../assets/images/family.png'
@@ -49,7 +50,7 @@ export class Dashboard extends Component {
               Welcome!
             </Text>
           </View>
-          <Image style={{ ...styles.img, ...styles.center }} source={family} />
+          <RoundImage source={family} />
           <Button
             text="Create a lifemap"
             colored
@@ -93,7 +94,6 @@ export class Dashboard extends Component {
   }
 }
 const styles = StyleSheet.create({
-  img: { width: 166, height: 166, alignSelf: 'center', marginBottom: 43 },
   columns: {
     justifyContent: 'center',
     alignItems: 'center',
