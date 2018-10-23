@@ -1,13 +1,15 @@
 import { Platform, StyleSheet } from 'react-native'
+import colors from './theme.json'
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FAEFE1',
+    backgroundColor: colors.palebeige,
     padding: 25,
     paddingTop: 48
   },
-  heading1: {
+
+  h1: {
     ...Platform.select({
       ios: {
         fontFamily: 'Poppins',
@@ -20,7 +22,7 @@ export default StyleSheet.create({
 
     fontSize: 24
   },
-  heading2: {
+  h2: {
     ...Platform.select({
       ios: {
         fontFamily: 'Poppins',
@@ -33,7 +35,7 @@ export default StyleSheet.create({
     fontSize: 18,
     lineHeight: 26
   },
-  heading3: {
+  h3: {
     ...Platform.select({
       ios: {
         fontFamily: 'Poppins',
@@ -46,7 +48,7 @@ export default StyleSheet.create({
     fontSize: 16,
     lineHeight: 20
   },
-  heading4: {
+  h4: {
     ...Platform.select({
       ios: {
         fontFamily: 'Poppins',
@@ -58,7 +60,7 @@ export default StyleSheet.create({
     }),
     fontSize: 12
   },
-  heading5: {
+  h5: {
     ...Platform.select({
       ios: {
         fontFamily: 'Poppins',
@@ -69,40 +71,22 @@ export default StyleSheet.create({
       }
     }),
     fontSize: 12,
-    color: '#7A756F'
+    color: colors.lightdark
   },
-  paragraph: {
+  p: {
     fontFamily: 'Roboto',
     fontSize: 16,
-    lineHeight: 21
+    lineHeight: 21,
+    color: colors.lightdark
   },
   subline: {
     fontFamily: 'Roboto',
     fontSize: 14,
-    lineHeight: 20
+    lineHeight: 20,
+    color: colors.lightdark
   },
   tag: {
     fontFamily: 'Roboto',
     fontSize: 12
-  },
-  buttonText: {
-    ...Platform.select({
-      ios: {
-        fontFamily: 'Poppins',
-        fontWeight: '600'
-      },
-      android: {
-        fontFamily: 'Poppins SemiBold'
-      }
-    }),
-    fontSize: 18,
-    color: '#ffffff'
-  },
-  buttonGreen: {
-    backgroundColor: '#50AA47',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 2,
-    height: 48
   }
 })

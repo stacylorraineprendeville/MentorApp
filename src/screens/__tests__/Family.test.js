@@ -31,11 +31,6 @@ describe('Single Family View', () => {
     ]
   })
   wrapper = shallow(<Family {...props} />)
-  describe('lifecycle', () => {
-    it('calls loadSnapshots on componentDidMount', () => {
-      expect(wrapper.instance().props.loadSnapshots).toHaveBeenCalledTimes(1)
-    })
-  })
   describe('rendering', () => {
     it('renders base ScrollView element', () => {
       expect(wrapper.find(ScrollView)).toHaveLength(1)

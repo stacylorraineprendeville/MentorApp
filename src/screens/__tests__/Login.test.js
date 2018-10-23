@@ -1,12 +1,14 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import { ScrollView, TextInput, Text, TouchableOpacity } from 'react-native'
+import Button from '../../components/Button'
 import { Login } from '../Login'
 
 const createTestProps = props => ({
   setEnv: jest.fn(),
   login: jest.fn(() => new Promise(resolve => resolve(true))),
   env: 'production',
+  token: { status: '' },
   navigation: {
     navigate: arg => arg
   },
@@ -26,10 +28,10 @@ describe('Login View', () => {
       expect(wrapper.find(ScrollView)).toHaveLength(1)
     })
 
-    it('renders minimal login UI: <TextInput /> and <TouchableOpacity />', () => {
+    it('renders minimal login UI: <TextInput /> and <Button />', () => {
       expect(wrapper.find(TextInput)).toHaveLength(2)
-      expect(wrapper.find(Text)).toHaveLength(5)
-      expect(wrapper.find(TouchableOpacity)).toExist()
+      expect(wrapper.find(Text)).toHaveLength(4)
+      expect(wrapper.find(Button)).toExist()
     })
 
     it('has proper initial state', () => {
@@ -40,9 +42,10 @@ describe('Login View', () => {
       })
     })
     it('renders error message when token status is error', async () => {
-      props = { ...props, token: { status: 'error' } }
+      props = createTestProps({ token: { status: 'error' } })
       wrapper = shallow(<Login {...props} />)
       await wrapper.instance().onLogin()
+      expect(wrapper.find(Text)).toHaveLength(5)
       expect(wrapper.find('#error-message')).toExist()
     })
   })
@@ -75,19 +78,20 @@ describe('Login View', () => {
       wrapper
         .find('#login-button')
         .props()
-        .onPress()
+        .handleClick()
       expect(wrapper.instance().props.login).toHaveBeenCalledTimes(1)
     })
 
     it('changes error state to true when token status is error', async () => {
-      props = { ...props, token: { status: 'error' } }
+      props = createTestProps({ token: { status: 'error' } })
+
       wrapper = shallow(<Login {...props} />)
       await wrapper.instance().onLogin()
       expect(wrapper.instance().state.error).toBe(true)
     })
 
     it('changes error state to false when token status is success', async () => {
-      props = { ...props, token: { status: 'success' } }
+      props = createTestProps({ token: { status: 'success' } })
       wrapper = shallow(<Login {...props} />)
       await wrapper.instance().onLogin()
       expect(wrapper.instance().state.error).toBe(false)
