@@ -2,13 +2,8 @@ import React, { Component } from 'react'
 import { View, StyleSheet, Button } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { loadSurveys } from '../redux/actions'
-import { url } from '../config'
 
 export class Surveys extends Component {
-  componentDidMount() {
-    this.props.loadSurveys(url[this.props.env], this.props.token.token)
-  }
   render() {
     return (
       <View style={styles.container}>
@@ -31,11 +26,8 @@ export class Surveys extends Component {
 }
 
 Surveys.propTypes = {
-  loadSurveys: PropTypes.func.isRequired,
   surveys: PropTypes.array,
-  env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
-  navigation: PropTypes.object.isRequired,
-  token: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired
 }
 
 const styles = StyleSheet.create({
@@ -47,17 +39,8 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = ({ env, surveys, token }) => ({
-  env,
-  token,
+const mapStateToProps = ({ surveys }) => ({
   surveys
 })
 
-const mapDispatchToProps = {
-  loadSurveys
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Surveys)
+export default connect(mapStateToProps)(Surveys)

@@ -43,6 +43,7 @@ export class Draft extends Component {
       this.props.createDraft({
         survey_id: this.survey.id,
         survey_version_id: this.survey['survey_version_id'],
+        created: Date.now(),
         draft_id: this.draft_id,
         personal_survey_data: {},
         economic_survey_data: {},

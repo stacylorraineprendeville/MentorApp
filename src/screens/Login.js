@@ -6,13 +6,16 @@ import {
   TextInput,
   Image,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  View
 } from 'react-native'
 import { connect } from 'react-redux'
 import { setEnv, login } from '../redux/actions'
 import logo from '../../assets/images/logo.png'
 import { url } from '../config'
 import globalStyles from '../globalStyles'
+import colors from '../theme.json'
+import Button from '../components/Button'
 
 export class Login extends Component {
   state = {
@@ -33,55 +36,56 @@ export class Login extends Component {
       .then(() => {
         if (this.props.token.status === 'success') {
           this.setState({ error: false })
-          this.props.navigation.navigate('Surveys')
+          this.props.navigation.navigate('Dashboard')
         } else this.setState({ error: true })
       })
 
   render() {
     return (
-      <ScrollView style={globalStyles.container}>
-        <Image style={styles.logo} source={logo} />
-        <Text style={globalStyles.heading1}>Welcome back!</Text>
-        <Text
-          style={{
-            ...globalStyles.heading4,
-            marginBottom: 64,
-            color: '#7A756F'
-          }}
-        >
-          {'Let\'s get started...'}
-        </Text>
-        <Text style={globalStyles.heading5}>USERNAME</Text>
-        <TextInput
-          id="username"
-          autoCapitalize="none"
-          style={styles.input}
-          onChangeText={username => this.setState({ username })}
-        />
-        <Text style={globalStyles.heading5}>PASSWORD</Text>
-        <TextInput
-          id="password"
-          secureTextEntry
-          autoCapitalize="none"
-          style={styles.input}
-          onChangeText={password => this.setState({ password })}
-        />
-        <TouchableOpacity
-          id="login-button"
-          onPress={() => this.onLogin()}
-          style={globalStyles.buttonGreen}
-        >
-          <Text style={globalStyles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        {this.state.error && (
+      <View style={globalStyles.container}>
+        <ScrollView style={globalStyles.content}>
+          <Image style={styles.logo} source={logo} />
+          <Text style={globalStyles.h1}>Welcome back!</Text>
           <Text
-            id="error-message"
-            style={{ ...globalStyles.heading4, color: 'red' }}
+            style={{
+              ...globalStyles.h4,
+              marginBottom: 64,
+              color: colors.lightdark
+            }}
           >
-            Login error
+            {"Let's get started..."}
           </Text>
-        )}
-      </ScrollView>
+          <Text style={globalStyles.h5}>USERNAME</Text>
+          <TextInput
+            id="username"
+            autoCapitalize="none"
+            style={styles.input}
+            onChangeText={username => this.setState({ username })}
+          />
+          <Text style={globalStyles.h5}>PASSWORD</Text>
+          <TextInput
+            id="password"
+            secureTextEntry
+            autoCapitalize="none"
+            style={styles.input}
+            onChangeText={password => this.setState({ password })}
+          />
+          <Button
+            id="login-button"
+            handleClick={() => this.onLogin()}
+            text="Login"
+            colored
+          />
+          {this.state.error && (
+            <Text
+              id="error-message"
+              style={{ ...globalStyles.h4, color: colors.red }}
+            >
+              Login error
+            </Text>
+          )}
+        </ScrollView>
+      </View>
     )
   }
 }
@@ -98,13 +102,14 @@ const styles = StyleSheet.create({
   input: {
     fontSize: 16,
     fontFamily: 'Roboto',
-    borderColor: '#50AA47',
+    borderColor: colors.green,
     borderWidth: 1,
     borderRadius: 2,
     height: 48,
     marginBottom: 18,
     padding: 15,
-    color: '#7A756F'
+    color: colors.lightdark,
+    backgroundColor: colors.white
   },
   logo: { width: 42, height: 42, marginBottom: 8 }
 })
