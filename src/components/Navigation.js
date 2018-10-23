@@ -25,10 +25,20 @@ const DrawerContent = props => (
   </ScrollView>
 )
 
+const DrawerIcon = ({ name }) => <Icon name={name} />
+
+DrawerIcon.propTypes = {
+  tintColor: PropTypes.string,
+  name: PropTypes.string
+}
+
 const Drawer = createDrawerNavigator(
   {
     Dashboard: {
-      screen: DashboardView
+      screen: DashboardView,
+      navigationOptions: {
+        drawerIcon: <DrawerIcon name="dashboard" />
+      }
     },
     Surveys: {
       screen: SurveysView,
@@ -69,15 +79,6 @@ const Drawer = createDrawerNavigator(
     drawerWidth: 304
   }
 )
-
-const DrawerIcon = ({ tintColor, name }) => (
-  <Icon name={name} color={tintColor} />
-)
-
-DrawerIcon.propTypes = {
-  tintColor: PropTypes.string,
-  name: PropTypes.string
-}
 
 export default createStackNavigator(
   {
