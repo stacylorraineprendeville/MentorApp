@@ -3,13 +3,7 @@ import { View, StyleSheet, Text, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { loadSnapshots } from '../redux/actions'
-import { url } from '../config'
-
 export class Family extends Component {
-  componentDidMount() {
-    this.props.loadSnapshots(url[this.props.env], this.props.token.token)
-  }
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -30,10 +24,7 @@ export class Family extends Component {
 }
 
 Family.propTypes = {
-  env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
-  loadSnapshots: PropTypes.func.isRequired,
   navigation: PropTypes.object.isRequired,
-  token: PropTypes.object.isRequired,
   snapshots: PropTypes.array
 }
 
@@ -44,17 +35,8 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = ({ env, snapshots, token }) => ({
-  env,
-  snapshots,
-  token
+const mapStateToProps = ({ snapshots }) => ({
+  snapshots
 })
 
-const mapDispatchToProps = {
-  loadSnapshots
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Family)
+export default connect(mapStateToProps)(Family)
