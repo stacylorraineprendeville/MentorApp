@@ -21,7 +21,7 @@ import { url } from '../config'
 import colors from '../theme.json'
 
 export class Dashboard extends Component {
-  componentWillMount() {
+  componentDidMount() {
     AsyncStorage.getItem('userVisitedDashboard').then(
       value => (value === 'false' ? this.loadData() : null)
     )
@@ -112,15 +112,6 @@ const styles = StyleSheet.create({
   list: {
     backgroundColor: colors.white
   },
-  listItem: {
-    height: 95,
-    padding: 25,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    flex: 1,
-    justifyContent: 'space-between'
-  },
   borderBottom: {
     borderBottomColor: colors.lightgrey,
     borderBottomWidth: 1
@@ -132,6 +123,7 @@ Dashboard.propTypes = {
   loadFamilies: PropTypes.func.isRequired,
   loadSurveys: PropTypes.func.isRequired,
   loadSnapshots: PropTypes.func.isRequired,
+  drafts: PropTypes.array.isRequired,
   env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
   token: PropTypes.object.isRequired
 }

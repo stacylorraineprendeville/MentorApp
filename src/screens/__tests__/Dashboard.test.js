@@ -1,7 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import { ScrollView, Text, FlatList, TouchableOpacity } from 'react-native'
-import { AsyncStorage } from 'react-native'
 import MockAsyncStorage from 'mock-async-storage'
 import { Dashboard } from '../Dashboard'
 import Button from '../../components/Button'

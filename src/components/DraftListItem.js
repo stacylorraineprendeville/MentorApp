@@ -29,13 +29,15 @@ class DraftListItem extends Component {
   }
 }
 
-DraftListItem.propTypes = {}
+DraftListItem.propTypes = {
+  item: PropTypes.object.isRequired,
+  handleClick: PropTypes.func.isRequired,
+}
 
 const styles = StyleSheet.create({
   listItem: {
     height: 95,
     padding: 25,
-    justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
