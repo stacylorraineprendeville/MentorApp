@@ -1,15 +1,20 @@
 // Login
 
-export const SET_TOKEN_SUCCESS = 'SET_TOKEN_SUCCESS'
-export const SET_TOKEN_ERROR = 'SET_TOKEN_ERROR'
+export const SET_LOGIN_SUCCESS = 'SET_LOGIN_SUCCESS'
+export const SET_LOGIN_ERROR = 'SET_LOGIN_ERROR'
 
-const setTokenSuccess = token => ({
-  type: SET_TOKEN_SUCCESS,
-  token
+const setLoginSuccess = (token, status, username) => ({
+  type: SET_LOGIN_SUCCESS,
+  token,
+  status,
+  username
 })
 
-const setTokenError = () => ({
-  type: SET_TOKEN_ERROR
+const setLoginError = (token, status, username) => ({
+  type: SET_LOGIN_ERROR,
+  token,
+  status,
+  username
 })
 
 export const login = (username, password, env) => dispatch =>
@@ -24,11 +29,14 @@ export const login = (username, password, env) => dispatch =>
   )
     .then(data => {
       if (data.status !== 200) {
-        throw new Error()
+        dispatch(setLoginError(null, data.status, null))
+        throw new Error(e)
       } else return data.json()
     })
-    .then(token => dispatch(setTokenSuccess(token.access_token)))
-    .catch(() => dispatch(setTokenError()))
+    .then(data =>
+      dispatch(setLoginSuccess(data.access_token, 200, data.user.username))
+    )
+    .catch(e => e)
 
 // Environment
 

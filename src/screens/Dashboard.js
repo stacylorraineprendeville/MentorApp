@@ -29,9 +29,9 @@ export class Dashboard extends Component {
   }
 
   loadData() {
-    this.props.loadSnapshots(url[this.props.env], this.props.token.token)
-    this.props.loadSurveys(url[this.props.env], this.props.token.token)
-    this.props.loadFamilies(url[this.props.env], this.props.token.token)
+    this.props.loadSnapshots(url[this.props.env], this.props.user.token)
+    this.props.loadSurveys(url[this.props.env], this.props.user.token)
+    this.props.loadFamilies(url[this.props.env], this.props.user.token)
   }
 
   render() {
@@ -125,12 +125,12 @@ Dashboard.propTypes = {
   loadSnapshots: PropTypes.func.isRequired,
   drafts: PropTypes.array.isRequired,
   env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
-  token: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired
 }
 
-const mapStateToProps = ({ env, token, drafts }) => ({
+const mapStateToProps = ({ env, user, drafts }) => ({
   env,
-  token,
+  user,
   drafts
 })
 

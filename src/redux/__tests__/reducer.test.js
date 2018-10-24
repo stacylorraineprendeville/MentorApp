@@ -13,28 +13,32 @@ describe('environment reducer', () => {
 })
 
 describe('login reducer', () => {
-  it('should handle SET_TOKEN_SUCCESS', () => {
+  it('should handle SET_LOGIN_SUCCESS', () => {
     expect(
-      reducer.token(
-        { token: '', status: '' },
+      reducer.user(
+        { token: null, status: null, username: null },
         {
-          type: action.SET_TOKEN_SUCCESS,
-          token: 'token'
+          type: action.SET_LOGIN_SUCCESS,
+          token: 'token',
+          username: 'user',
+          status: 200
         }
       )
-    ).toEqual({ token: 'token', status: 'success' })
+    ).toEqual({ token: 'token', status: 200, username: 'user' })
   })
 
-  it('should handle SET_TOKEN_ERROR', () => {
+  it('should handle SET_LOGIN_ERROR', () => {
     expect(
-      reducer.token(
-        { token: '', status: '' },
+      reducer.user(
+        { token: null, status: null, username: null },
         {
-          type: action.SET_TOKEN_ERROR,
-          env: 'production'
+          type: action.SET_LOGIN_ERROR,
+          token: null,
+          status: 401,
+          username: null
         }
       )
-    ).toEqual({ token: '', status: 'error' })
+    ).toEqual({ token: null, status: 401, username: null })
   })
 })
 

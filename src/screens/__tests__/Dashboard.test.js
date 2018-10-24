@@ -10,7 +10,7 @@ const createTestProps = props => ({
     navigate: arg => arg
   },
   env: 'production',
-  token: { status: '' },
+  user: { status: '' },
 
   loadSurveys: jest.fn(),
   loadSnapshots: jest.fn(),
