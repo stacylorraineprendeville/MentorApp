@@ -18,7 +18,7 @@ export const login = (username, password, env) => dispatch =>
     {
       method: 'POST',
       headers: {
-        Authorization: 'Basic YmFyQ2xpZW50SWRQYXNzd29yZDpzZWNyZXQ='
+        Authorization: 'Basic bW9iaWxlQ2xpZW50SWQ6bW9iaWxlQ2xpZW50U2VjcmV0'
       }
     }
   )
