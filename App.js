@@ -25,8 +25,8 @@ const store = createStore(
 )
 
 const AppNavigator = createStackNavigator({
-  Surveys: { screen: Surveys },
   Login: { screen: Login },
+  Surveys: { screen: Surveys },
   Dashboard: { screen: Dashboard },
   Draft: { screen: Draft },
   Families: { screen: Families },

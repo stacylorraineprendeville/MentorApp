@@ -34,7 +34,8 @@ export class Surveys extends Component {
 const styles = StyleSheet.create({
   list: {
     borderTopColor: colors.lightgrey,
-    borderTopWidth: 1
+    borderTopWidth: 1,
+    paddingBottom: 60
   }
 })
 
