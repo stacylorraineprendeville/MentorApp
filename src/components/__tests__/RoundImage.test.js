@@ -6,8 +6,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import RoundImage from '../RoundImage'
 
 const createTestProps = props => ({
-  ...props,
-  source: 'source.jpeg'
+  source: 'family',
+  ...props
 })
 
 describe('RoundImage Component', () => {
@@ -20,9 +20,6 @@ describe('RoundImage Component', () => {
   describe('rendering', () => {
     it('renders <Image />', () => {
       expect(wrapper.find(Image)).toHaveLength(1)
-    })
-    it('renders with the correct source', () => {
-      expect(wrapper.find(Image).props().source).toEqual(wrapper.props().source)
     })
   })
 })

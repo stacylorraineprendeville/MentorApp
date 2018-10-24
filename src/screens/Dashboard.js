@@ -15,7 +15,6 @@ import Button from '../components/Button'
 import RoundImage from '../components/RoundImage'
 import DraftListItem from '../components/DraftListItem'
 import globalStyles from '../globalStyles'
-import family from '../../assets/images/family.png'
 import { connect } from 'react-redux'
 import { loadFamilies, loadSnapshots, loadSurveys } from '../redux/actions'
 import { url } from '../config'
@@ -50,7 +49,7 @@ export class Dashboard extends Component {
               Welcome!
             </Text>
           </View>
-          <RoundImage source={family} />
+          <RoundImage source="family" />
           <Button
             text="Create a lifemap"
             colored

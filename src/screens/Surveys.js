@@ -6,14 +6,13 @@ import PropTypes from 'prop-types'
 import globalStyles from '../globalStyles'
 import RoundImage from '../components/RoundImage'
 import LifemapListItem from '../components/LifemapListItem'
-import surveys from '../../assets/images/surveys.png'
 import colors from '../theme.json'
 
 export class Surveys extends Component {
   render() {
     return (
       <ScrollView style={{ ...globalStyles.container, padding: 0 }}>
-        <RoundImage source={surveys} />
+        <RoundImage source="surveys" />
         <FlatList
           style={styles.list}
           data={this.props.surveys}
