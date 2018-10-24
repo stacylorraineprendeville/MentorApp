@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   ScrollView,
   Image,
   Text,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  View
 } from 'react-native'
 import {
   createStackNavigator,
@@ -22,25 +24,42 @@ import DraftsView from '../screens/Drafts'
 import DashboardView from '../screens/Dashboard'
 import SyncView from '../screens/Sync'
 import colors from '../theme.json'
+import i18n from '../i18n'
+
+const mapStateToProps = ({ language }) => ({
+  language
+})
 
 // Component that renders the drawer menu content. DrawerItems are the links to
 // the given views.
-class DrawerContent extends Component {
-  switchLanguage() {}
-  render() {
-    return (
-      <ScrollView>
-        <Image
-          style={{ height: 172, width: 304 }}
-          source={require('../../assets/images/navigation_image.png')}
-        />
-
-        <Text style={styles.navTitleText}>Username</Text>
-        <DrawerItems {...this.props} />
-      </ScrollView>
-    )
+const DrawerContent = connect(mapStateToProps)(
+  class DrawerContent extends Component {
+    switchLanguage(language) {
+      i18n.locale = language
+    }
+    render() {
+      return (
+        <ScrollView>
+          <Image
+            style={{ height: 172, width: 304 }}
+            source={require('../../assets/images/navigation_image.png')}
+          />
+          <View style={styles.languageSwitch}>
+            <TouchableOpacity onPress={() => this.switchLanguage('en')}>
+              <Text style={styles.whiteText}>EN</Text>
+            </TouchableOpacity>
+            <Text style={styles.whiteText}> | </Text>
+            <TouchableOpacity onPress={() => this.switchLanguage('es')}>
+              <Text style={styles.whiteText}>ESP</Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={[styles.username, styles.whiteText]}>Username</Text>
+          <DrawerItems {...this.props} />
+        </ScrollView>
+      )
+    }
   }
-}
+)
 
 // Separate component for the icon next to each nav link as color and size are
 // the same for each.
@@ -84,7 +103,7 @@ const DashboardStack = createStackNavigator(
     Dashboard: {
       screen: DashboardView,
       navigationOptions: {
-        title: 'Dashboard'
+        title: i18n.t('navigation.dashboard')
       }
     }
   },
@@ -141,6 +160,7 @@ const DrawerNavigator = createDrawerNavigator(
     Dashboard: {
       screen: DashboardStack,
       navigationOptions: {
+        drawerLabel: i18n.t('navigation.dashboard'),
         drawerIcon: <DrawerIcon name="dashboard" />
       }
     },
@@ -205,14 +225,22 @@ export default createStackNavigator(
 )
 
 const styles = StyleSheet.create({
-  navTitleText: {
-    position: 'absolute',
+  whiteText: {
     color: colors.white,
     fontFamily: 'Poppins',
     fontSize: 16,
     fontWeight: '500',
     letterSpacing: 0.2,
-    lineHeight: 20,
+    lineHeight: 20
+  },
+  languageSwitch: {
+    flexDirection: 'row',
+    position: 'absolute',
+    top: 40,
+    left: 16
+  },
+  username: {
+    position: 'absolute',
     top: 139,
     left: 16
   }

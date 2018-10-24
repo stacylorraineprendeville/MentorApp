@@ -11,7 +11,8 @@ import {
   LOAD_SNAPSHOTS,
   SUBMIT_DRAFT,
   SUBMIT_DRAFT_COMMIT,
-  SUBMIT_DRAFT_ROLLBACK
+  SUBMIT_DRAFT_ROLLBACK,
+  SWITCH_LANGUAGE
 } from './actions'
 
 //Login
@@ -127,11 +128,22 @@ export const snapshots = (state = [], action) => {
   }
 }
 
+// Language
+export const language = (state = 'en', action) => {
+  switch (action.type) {
+    case SWITCH_LANGUAGE:
+      return action.languagede
+    default:
+      return state
+  }
+}
+
 export const rootReducer = combineReducers({
   env,
   token,
   surveys,
   families,
   drafts,
-  snapshots
+  snapshots,
+  language
 })
