@@ -8,9 +8,14 @@ let rehydrated = false
 
 export const getHydrationState = () => rehydrated
 
+// __REDUX_DEVTOOLS_EXTENSION_COMPOSE__ enables seeing the redux store in the
+// debugger. atob !== 'undefined' checks if remote debugging is enabled on the
+// device
 export default createStore(
   rootReducer,
-  applyMiddleware(thunk),
+  typeof atob !== 'undefined'
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(applyMiddleware(thunk))
+    : applyMiddleware(thunk),
   offline({
     ...offlineConfig,
     persistCallback: () => {
