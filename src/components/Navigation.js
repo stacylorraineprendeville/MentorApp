@@ -17,10 +17,8 @@ import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import LoginView from '../screens/Login'
 import SurveysView from '../screens/Surveys'
-import DraftView from '../screens/Draft'
 import FamiliesView from '../screens/Families'
 import FamilyView from '../screens/Family'
-import DraftsView from '../screens/Drafts'
 import DashboardView from '../screens/Dashboard'
 import SyncView from '../screens/Sync'
 import colors from '../theme.json'
@@ -32,34 +30,35 @@ const mapStateToProps = ({ language }) => ({
 
 // Component that renders the drawer menu content. DrawerItems are the links to
 // the given views.
-const DrawerContent = connect(mapStateToProps)(
-  class DrawerContent extends Component {
-    switchLanguage(language) {
-      i18n.locale = language
-    }
-    render() {
-      return (
-        <ScrollView>
-          <Image
-            style={{ height: 172, width: 304 }}
-            source={require('../../assets/images/navigation_image.png')}
-          />
-          <View style={styles.languageSwitch}>
-            <TouchableOpacity onPress={() => this.switchLanguage('en')}>
-              <Text style={styles.whiteText}>EN</Text>
-            </TouchableOpacity>
-            <Text style={styles.whiteText}> | </Text>
-            <TouchableOpacity onPress={() => this.switchLanguage('es')}>
-              <Text style={styles.whiteText}>ESP</Text>
-            </TouchableOpacity>
-          </View>
-          <Text style={[styles.username, styles.whiteText]}>Username</Text>
-          <DrawerItems {...this.props} />
-        </ScrollView>
-      )
-    }
+
+export class DrawerContent extends Component {
+  switchLanguage(language) {
+    i18n.locale = language
   }
-)
+  render() {
+    return (
+      <ScrollView>
+        <Image
+          style={{ height: 172, width: 304 }}
+          source={require('../../assets/images/navigation_image.png')}
+        />
+        <View style={styles.languageSwitch}>
+          <TouchableOpacity id="en" onPress={() => this.switchLanguage('en')}>
+            <Text style={styles.whiteText}>EN</Text>
+          </TouchableOpacity>
+          <Text style={styles.whiteText}> | </Text>
+          <TouchableOpacity id="es" onPress={() => this.switchLanguage('es')}>
+            <Text style={styles.whiteText}>ESP</Text>
+          </TouchableOpacity>
+        </View>
+        <Text style={[styles.username, styles.whiteText]}>Username</Text>
+        <DrawerItems {...this.props} />
+      </ScrollView>
+    )
+  }
+}
+
+const ConnectedDrawerContent = connect(mapStateToProps)(DrawerContent)
 
 // Separate component for the icon next to each nav link as color and size are
 // the same for each.
@@ -73,7 +72,7 @@ DrawerIcon.propTypes = {
 
 // Each of the major views has a stack that needs the same nav options.
 // These options handle the header styles and menu icon.
-const generateNavOptions = navigation => ({
+export const generateNavOptions = navigation => ({
   headerTitleStyle: {
     fontFamily: 'Poppins',
     fontSize: 18,
@@ -133,6 +132,12 @@ const FamiliesStack = createStackNavigator(
       navigationOptions: {
         title: 'Families'
       }
+    },
+    Family: {
+      screen: FamilyView,
+      navigationOptions: ({ navigation }) => {
+        return { title: `Family ${navigation.state.params.family}` }
+      }
     }
   },
   {
@@ -185,7 +190,7 @@ const DrawerNavigator = createDrawerNavigator(
     }
   },
   {
-    contentComponent: DrawerContent,
+    contentComponent: ConnectedDrawerContent,
     contentOptions: {
       labelStyle: {
         fontFamily: 'Poppins',
@@ -208,7 +213,7 @@ const DrawerNavigator = createDrawerNavigator(
   }
 )
 
-export const LoggedOutNavigator = createStackNavigator(
+export const LoginStack = createStackNavigator(
   {
     Login: { screen: LoginView }
   },
@@ -221,7 +226,7 @@ export const LoggedOutNavigator = createStackNavigator(
 // The drawer nav doesn't have it's own way of showing a menu toggle icon,
 // so we put it as a part of the App stack. This is also where we control which
 // stack has a header bar, which stack to show if the user us not authenticated.
-export const LoggedinNavigator = createStackNavigator(
+export const AppStack = createStackNavigator(
   {
     Drawer: {
       screen: DrawerNavigator

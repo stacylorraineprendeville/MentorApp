@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, ActivityIndicator } from 'react-native'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getHydrationState } from '../redux/store'
-import { LoggedinNavigator, LoggedOutNavigator } from './Navigation'
+import { LoginStack, AppStack } from './Navigation'
 
 export class NavWrapper extends Component {
   constructor(props) {
@@ -28,16 +28,12 @@ export class NavWrapper extends Component {
     this.checkHydration()
   }
   render() {
-    return (
-      this.state.rehydrated && (
-        <View style={styles.container}>
-          {this.props.token.token ? (
-            <LoggedinNavigator />
-          ) : (
-            <LoggedOutNavigator />
-          )}
-        </View>
-      )
+    return this.state.rehydrated ? (
+      <View style={styles.container}>
+        {this.props.token.token ? <AppStack /> : <LoginStack />}
+      </View>
+    ) : (
+      <ActivityIndicator size="large" style={styles.activityIndicator} />
     )
   }
 }
@@ -45,6 +41,12 @@ export class NavWrapper extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  activityIndicator: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 80
   }
 })
 
