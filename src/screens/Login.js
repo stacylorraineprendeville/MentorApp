@@ -22,25 +22,32 @@ export class Login extends Component {
   state = {
     username: '',
     password: '',
-    error: null,
+    error: false,
     connection: null
   }
   componentDidMount() {
-    NetInfo.isConnected
-      .fetch()
-      .then(
-        isConnected =>
-          isConnected
-            ? this.setState({ connection: true })
-            : this.setState({ connection: false, error: 'No connection' })
-      )
+    this.checkConnectivity().then(isConnected =>
+      setConnectivityState(isConnected)
+    )
+    this.onConnectivityChange()
+  }
+
+  checkConnectivity = () => NetInfo.isConnected.fetch()
+
+  setConnectivityState = isConnected =>
+    isConnected
+      ? this.setState({ connection: true })
+      : this.setState({ connection: false, error: 'No connection' })
+
+  onConnectivityChange = () => {
     NetInfo.addEventListener('connectionChange', () =>
       this.setState({
         connection: !this.state.connection,
-        error: this.state.connection ? 'No connection' : null
+        error: this.state.connection ? 'No connection' : false
       })
     )
   }
+
   componentDidUpdate() {
     if (this.state.username === 'demo') {
       this.props.setEnv('demo')
