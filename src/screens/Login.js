@@ -27,7 +27,7 @@ export class Login extends Component {
   }
   componentDidMount() {
     this.checkConnectivity().then(isConnected =>
-      setConnectivityState(isConnected)
+      this.setConnectivityState(isConnected)
     )
     this.onConnectivityChange()
   }
