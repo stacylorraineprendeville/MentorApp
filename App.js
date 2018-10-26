@@ -5,7 +5,7 @@ import SplashScreen from 'react-native-splash-screen'
 import NavigationWrapper from './src/components/NavWrapper'
 import store from './src/redux/store'
 
-export default class App extends Component {
+class App extends Component {
   componentDidMount() {
     AsyncStorage.setItem('userVisitedDashboard', 'false')
     SplashScreen.hide()
@@ -18,3 +18,5 @@ export default class App extends Component {
     )
   }
 }
+
+export default App

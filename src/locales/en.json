@@ -1,5 +1,8 @@
 {
-  "navigation": {
+  "general": {
+    "welcome": "Welcome"
+  },
+  "views": {
     "dashboard": "Dashboard"
   }
 }

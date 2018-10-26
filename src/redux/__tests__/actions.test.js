@@ -204,4 +204,14 @@ describe('drafts actions', () => {
     }
     expect(action.submitDraft(env, token, id, payload)).toEqual(expectedAction)
   })
+  describe('language actions', () => {
+    it('should create an action to switch the app language', () => {
+      const language = 'es'
+      const expectedAction = {
+        type: action.SWITCH_LANGUAGE,
+        language
+      }
+      expect(action.switchLanguage(language)).toEqual(expectedAction)
+    })
+  })
 })

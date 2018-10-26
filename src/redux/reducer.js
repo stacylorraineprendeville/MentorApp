@@ -129,10 +129,10 @@ export const snapshots = (state = [], action) => {
 }
 
 // Language
-export const language = (state = 'en', action) => {
+export const language = (state = false, action) => {
   switch (action.type) {
     case SWITCH_LANGUAGE:
-      return action.languagede
+      return action.language
     default:
       return state
   }

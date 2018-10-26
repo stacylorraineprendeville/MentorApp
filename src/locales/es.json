@@ -1,5 +1,8 @@
 {
-  "navigation": {
+  "general": {
+    "welcome": "Bienvenido"
+  },
+  "views": {
     "dashboard": "Tablero"
   }
 }

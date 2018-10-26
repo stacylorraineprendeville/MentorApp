@@ -10,20 +10,32 @@ describe('Navigation', () => {
       expect(wrapper.instance().state.nav.routes[0].routes).toHaveLength(4)
     })
     it('renders burger menu icon', () => {
-      expect(generateNavOptions()).toEqual(
+      expect(
+        generateNavOptions({
+          navigation: {
+            toggleDrawer: jest.fn()
+          }
+        })
+      ).toEqual(
         expect.objectContaining({
           headerLeft: expect.any(Object)
         })
       )
     })
+    it('navigates to proper views', () => {})
   })
   describe('DrawerContent', () => {
-    const wrapper = shallow(<DrawerContent />)
+    const wrapper = shallow(
+      <DrawerContent
+        navigation={{ toggleDrawer: jest.fn() }}
+        switchLanguage={jest.fn()}
+      />
+    )
     it('renders nav image', () => {
       expect(wrapper.find(Image)).toHaveLength(1)
     })
     it('allows user to change language', () => {
-      const spy = jest.spyOn(wrapper.instance(), 'switchLanguage')
+      const spy = jest.spyOn(wrapper.instance(), 'changeLanguage')
       wrapper
         .find('#en')
         .props()

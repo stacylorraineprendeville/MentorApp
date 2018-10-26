@@ -8,9 +8,8 @@ import {
   FlatList,
   AsyncStorage
 } from 'react-native'
-
+import { withNamespaces } from 'react-i18next'
 import PropTypes from 'prop-types'
-
 import Button from '../components/Button'
 import DraftListItem from '../components/DraftListItem'
 import globalStyles from '../globalStyles'
@@ -21,11 +20,23 @@ import { url } from '../config'
 import colors from '../theme.json'
 
 export class Dashboard extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.getParam('title', 'Dashboard')
+  })
+
+  constructor(props) {
+    super(props)
+  }
+
   componentDidMount() {
     AsyncStorage.getItem('userVisitedDashboard').then(
       value => (value === 'false' ? this.loadData() : null)
     )
     AsyncStorage.setItem('userVisitedDashboard', 'true')
+
+    this.props.navigation.setParams({
+      title: this.props.t('views.dashboard')
+    })
   }
 
   loadData() {
@@ -35,6 +46,7 @@ export class Dashboard extends Component {
   }
 
   render() {
+    const { t } = this.props
     return (
       <ScrollView style={{ backgroundColor: colors.white }}>
         <View style={globalStyles.container}>
@@ -46,7 +58,7 @@ export class Dashboard extends Component {
                 alignSelf: 'center'
               }}
             >
-              Welcome!
+              {t('general.welcome')}!
             </Text>
           </View>
           <Image style={{ ...styles.img, ...styles.center }} source={family} />
@@ -122,6 +134,7 @@ Dashboard.propTypes = {
   navigation: PropTypes.object.isRequired,
   loadFamilies: PropTypes.func.isRequired,
   loadSurveys: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
   loadSnapshots: PropTypes.func.isRequired,
   drafts: PropTypes.array.isRequired,
   env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
@@ -140,7 +153,9 @@ const mapDispatchToProps = {
   loadSurveys
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Dashboard)
+export default withNamespaces()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Dashboard)
+)

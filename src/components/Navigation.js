@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withNamespaces } from 'react-i18next'
 import {
   ScrollView,
   Image,
@@ -20,45 +21,85 @@ import SurveysView from '../screens/Surveys'
 import FamiliesView from '../screens/Families'
 import FamilyView from '../screens/Family'
 import DashboardView from '../screens/Dashboard'
+import DraftView from '../screens/Draft'
 import SyncView from '../screens/Sync'
 import colors from '../theme.json'
+import globalStyles from '../globalStyles'
 import i18n from '../i18n'
+import { switchLanguage } from '../redux/actions'
 
-const mapStateToProps = ({ language }) => ({
-  language
-})
+const mapStateToProps = () => ({})
+
+const mapDispatchToProps = {
+  switchLanguage
+}
 
 // Component that renders the drawer menu content. DrawerItems are the links to
 // the given views.
-
 export class DrawerContent extends Component {
-  switchLanguage(language) {
-    i18n.locale = language
+  changeLanguage = lng => {
+    i18n.changeLanguage(lng)
+    this.props.switchLanguage(lng)
+    this.props.navigation.toggleDrawer()
   }
   render() {
+    const { lng } = this.props
     return (
-      <ScrollView>
-        <Image
-          style={{ height: 172, width: 304 }}
-          source={require('../../assets/images/navigation_image.png')}
-        />
-        <View style={styles.languageSwitch}>
-          <TouchableOpacity id="en" onPress={() => this.switchLanguage('en')}>
-            <Text style={styles.whiteText}>EN</Text>
-          </TouchableOpacity>
-          <Text style={styles.whiteText}> | </Text>
-          <TouchableOpacity id="es" onPress={() => this.switchLanguage('es')}>
-            <Text style={styles.whiteText}>ESP</Text>
-          </TouchableOpacity>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View>
+          <Image
+            style={{ height: 172, width: 304 }}
+            source={require('../../assets/images/navigation_image.png')}
+          />
+          <View style={styles.languageSwitch}>
+            <TouchableOpacity id="en" onPress={() => this.changeLanguage('en')}>
+              <Text
+                style={[
+                  globalStyles.h3,
+                  lng === 'en' ? styles.whiteText : styles.greyText
+                ]}
+              >
+                EN
+              </Text>
+            </TouchableOpacity>
+            <Text style={[globalStyles.h3, styles.whiteText]}> | </Text>
+            <TouchableOpacity id="es" onPress={() => this.changeLanguage('es')}>
+              <Text
+                style={[
+                  globalStyles.h3,
+                  lng === 'es' ? styles.whiteText : styles.greyText
+                ]}
+              >
+                ESP
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={[styles.username, globalStyles.h3, styles.whiteText]}>
+            Username
+          </Text>
+          <DrawerItems {...this.props} />
         </View>
-        <Text style={[styles.username, styles.whiteText]}>Username</Text>
-        <DrawerItems {...this.props} />
+        <TouchableOpacity id="logout" style={styles.logout} onPress={() => {}}>
+          <Icon name="arrow-back" size={20} color={colors.palegreen} />
+          <Text style={styles.logoutLabel}>Logout</Text>
+        </TouchableOpacity>
       </ScrollView>
     )
   }
 }
 
-const ConnectedDrawerContent = connect(mapStateToProps)(DrawerContent)
+DrawerContent.propTypes = {
+  lng: PropTypes.string,
+  switchLanguage: PropTypes.func.isRequired,
+  navigation: PropTypes.object.isRequired
+}
+
+const ConnectedDrawerContent = withNamespaces()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(DrawerContent)
+)
 
 // Separate component for the icon next to each nav link as color and size are
 // the same for each.
@@ -72,78 +113,82 @@ DrawerIcon.propTypes = {
 
 // Each of the major views has a stack that needs the same nav options.
 // These options handle the header styles and menu icon.
-export const generateNavOptions = navigation => ({
-  headerTitleStyle: {
-    fontFamily: 'Poppins',
-    fontSize: 18,
-    fontWeight: '500',
-    lineHeight: 26,
-    marginLeft: 35
-  },
-  headerStyle: {
-    height: 66,
-    backgroundColor: colors.beige
-  },
-  headerLeftContainerStyle: {
-    marginLeft: 19
-  },
-  headerLeft: (
-    <Icon
-      name="menu"
-      size={30}
-      color={colors.lightdark}
-      onTouchEnd={() => navigation.toggleDrawer()}
-    />
-  )
-})
+export const generateNavOptions = ({ navigation, headerLeft = true }) => {
+  const options = {
+    headerTitleStyle: {
+      fontFamily: 'Poppins',
+      fontSize: 18,
+      fontWeight: '500',
+      lineHeight: 26,
+      marginLeft: 35
+    },
+    headerStyle: {
+      height: 66,
+      backgroundColor: colors.beige
+    }
+  }
+
+  if (headerLeft) {
+    options.headerLeftContainerStyle = {
+      marginLeft: 19
+    }
+    options.headerLeft = (
+      <Icon
+        name="menu"
+        size={30}
+        color={colors.lightdark}
+        onTouchEnd={() => navigation.toggleDrawer()}
+      />
+    )
+  }
+
+  return options
+}
 
 const DashboardStack = createStackNavigator(
   {
     Dashboard: {
-      screen: DashboardView,
-      navigationOptions: {
-        title: i18n.t('navigation.dashboard')
-      }
+      screen: DashboardView
     }
   },
   {
-    navigationOptions: ({ navigation }) => generateNavOptions(navigation)
+    navigationOptions: ({ navigation }) => generateNavOptions({ navigation })
   }
 )
 
-const LifemapStack = createStackNavigator(
-  {
-    Surveys: {
-      screen: SurveysView,
-      navigationOptions: {
-        title: 'Create a Life Map'
-      }
-    }
+const LifemapStack = createStackNavigator({
+  Surveys: {
+    screen: SurveysView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Create a Life Map',
+      ...generateNavOptions({ navigation })
+    })
   },
-  {
-    navigationOptions: ({ navigation }) => generateNavOptions(navigation)
+  Draft: {
+    screen: DraftView,
+    navigationOptions: ({ navigation }) => ({
+      title: `Survey ${navigation.state.params.survey}`,
+      ...generateNavOptions({ navigation, headerLeft: false })
+    })
   }
-)
+})
 
-const FamiliesStack = createStackNavigator(
-  {
-    Families: {
-      screen: FamiliesView,
-      navigationOptions: {
-        title: 'Families'
-      }
-    },
-    Family: {
-      screen: FamilyView,
-      navigationOptions: ({ navigation }) => {
-        return { title: `Family ${navigation.state.params.family}` }
-      }
-    }
+const FamiliesStack = createStackNavigator({
+  Families: {
+    screen: FamiliesView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Families',
+      ...generateNavOptions({ navigation })
+    })
   },
-  {
-    navigationOptions: ({ navigation }) => generateNavOptions(navigation)
+  Family: {
+    screen: FamilyView,
+    navigationOptions: ({ navigation }) => ({
+      title: `Family ${navigation.state.params.family}`,
+      ...generateNavOptions({ navigation, headerLeft: false })
+    })
   }
-)
+})
 
 const SyncStack = createStackNavigator(
   {
@@ -155,7 +200,7 @@ const SyncStack = createStackNavigator(
     }
   },
   {
-    navigationOptions: ({ navigation }) => generateNavOptions(navigation)
+    navigationOptions: ({ navigation }) => generateNavOptions({ navigation })
   }
 )
 
@@ -165,7 +210,7 @@ const DrawerNavigator = createDrawerNavigator(
     Dashboard: {
       screen: DashboardStack,
       navigationOptions: {
-        drawerLabel: i18n.t('navigation.dashboard'),
+        drawerLabel: i18n.t('views.dashboard'),
         drawerIcon: <DrawerIcon name="dashboard" />
       }
     },
@@ -239,13 +284,16 @@ export const AppStack = createStackNavigator(
 )
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
+  greyText: {
+    color: colors.palegrey
+  },
   whiteText: {
-    color: colors.white,
-    fontFamily: 'Poppins',
-    fontSize: 16,
-    fontWeight: '500',
-    letterSpacing: 0.2,
-    lineHeight: 20
+    color: colors.white
   },
   languageSwitch: {
     flexDirection: 'row',
@@ -257,5 +305,17 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 139,
     left: 16
+  },
+  logout: {
+    flexDirection: 'row',
+    marginLeft: 15,
+    marginBottom: 25
+  },
+  logoutLabel: {
+    marginLeft: 20,
+    fontFamily: 'Poppins',
+    fontWeight: '600',
+    fontSize: 14,
+    color: colors.palegreen
   }
 })
