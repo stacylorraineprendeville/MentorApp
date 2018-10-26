@@ -5,7 +5,8 @@ import {
   View,
   StyleSheet,
   FlatList,
-  AsyncStorage
+  AsyncStorage,
+  NetInfo
 } from 'react-native'
 
 import PropTypes from 'prop-types'
@@ -13,6 +14,7 @@ import PropTypes from 'prop-types'
 import Button from '../components/Button'
 import RoundImage from '../components/RoundImage'
 import DraftListItem from '../components/DraftListItem'
+import Loading from '../components/Loading'
 import globalStyles from '../globalStyles'
 import { connect } from 'react-redux'
 import { loadFamilies, loadSnapshots, loadSurveys } from '../redux/actions'
@@ -20,72 +22,104 @@ import { url } from '../config'
 import colors from '../theme.json'
 
 export class Dashboard extends Component {
+  state = {
+    loadingTime: 'ok',
+    connection: true
+  }
+  componentWillMount() {}
   componentDidMount() {
     AsyncStorage.getItem('userVisitedDashboard').then(
       value => (value === 'false' ? this.loadData() : null)
     )
     AsyncStorage.setItem('userVisitedDashboard', 'true')
+    this.detectSlowLoading()
+    this.checkConnectivity().then(isConnected =>
+      this.setConnectivityState(isConnected)
+    )
   }
 
-  loadData() {
+  checkConnectivity = () => NetInfo.isConnected.fetch()
+
+  setConnectivityState = isConnected =>
+    this.setState({ connection: isConnected })
+
+  loadData = () => {
     this.props.loadSnapshots(url[this.props.env], this.props.user.token)
     this.props.loadSurveys(url[this.props.env], this.props.user.token)
     this.props.loadFamilies(url[this.props.env], this.props.user.token)
   }
 
+  detectSlowLoading = () => {
+    setTimeout(() => this.setState({ loadingTime: 'slow' }), 15000)
+  }
+
   render() {
     return (
       <ScrollView style={styles.background}>
-        <View style={globalStyles.container}>
+        {this.props.offline.outbox.length && this.state.connection ? (
+          <Loading time={this.state.loadingTime} />
+        ) : (
           <View>
-            <Text
-              style={{
-                ...globalStyles.h3,
-                marginBottom: 33,
-                alignSelf: 'center'
-              }}
-            >
-              Welcome!
-            </Text>
-          </View>
-          <RoundImage source="family" />
-          <Button
-            text="Create a lifemap"
-            colored
-            handleClick={() => this.props.navigation.navigate('Surveys')}
-          />
-          <View style={styles.columns}>
-            <Button text="Find a family" icon="search" handleClick={() => {}} />
-            <Button text="Add a family" icon="add" handleClick={() => {}} />
-          </View>
-        </View>
-        <View style={styles.borderBottom}>
-          <Text style={{ ...globalStyles.subline, ...styles.listTitle }}>
-            Latest drafts
-          </Text>
-        </View>
-        <FlatList
-          style={{ ...styles.background, paddingLeft: 25 }}
-          data={this.props.drafts}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <DraftListItem
-              item={item}
-              handleClick={() =>
-                this.props.navigation.navigate('Draft', {
-                  draft: item.draft_id
-                })
-              }
+            <View style={globalStyles.container}>
+              <View>
+                <Text
+                  style={{
+                    ...globalStyles.h3,
+                    marginBottom: 33,
+                    alignSelf: 'center'
+                  }}
+                >
+                  Welcome!
+                </Text>
+              </View>
+              <RoundImage source="family" />
+              <Button
+                text="Create a lifemap"
+                colored
+                handleClick={() => this.props.navigation.navigate('Surveys')}
+              />
+              <View style={styles.columns}>
+                <Button
+                  text="Find a family"
+                  icon="search"
+                  handleClick={() => {}}
+                />
+                <Button text="Add a family" icon="add" handleClick={() => {}} />
+              </View>
+            </View>
+            <View style={styles.borderBottom}>
+              <Text style={{ ...globalStyles.subline, ...styles.listTitle }}>
+                Latest drafts
+              </Text>
+            </View>
+            <FlatList
+              style={{ ...styles.background, paddingLeft: 25 }}
+              data={this.props.drafts}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <DraftListItem
+                  item={item}
+                  handleClick={() =>
+                    this.props.navigation.navigate('Draft', {
+                      draft: item.draft_id
+                    })
+                  }
+                />
+              )}
             />
-          )}
-        />
-        {!this.props.drafts.length && (
-          <Text
-            id="no-drafts-message"
-            style={{ ...globalStyles.subline, ...styles.listTitle }}
-          >
-            No drafts to display
-          </Text>
+            {!this.props.drafts.length && (
+              <Text
+                id="no-drafts-message"
+                style={{
+                  ...globalStyles.subline,
+                  textAlign: 'center',
+                  marginTop: 10
+                }}
+              >
+                No drafts to display
+              </Text>
+            )}
+          </View>
         )}
       </ScrollView>
     )

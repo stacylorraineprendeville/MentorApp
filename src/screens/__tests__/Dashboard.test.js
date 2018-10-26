@@ -12,10 +12,10 @@ const createTestProps = props => ({
   },
   env: 'production',
   user: { status: '' },
-
   loadSurveys: jest.fn(),
   loadSnapshots: jest.fn(),
   loadFamilies: jest.fn(),
+  offline: { outbox: [] },
   drafts: [
     {
       draft_id: 1
@@ -38,7 +38,6 @@ describe('Dashboard View', () => {
     it('renders <ScrollView />', () => {
       expect(wrapper.find(ScrollView)).toHaveLength(1)
     })
-
     it('renders <Button />', () => {
       expect(wrapper.find(Button)).toHaveLength(3)
     })
