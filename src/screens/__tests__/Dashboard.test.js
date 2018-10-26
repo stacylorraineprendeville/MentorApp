@@ -4,6 +4,7 @@ import { ScrollView, Text, FlatList, TouchableOpacity } from 'react-native'
 import MockAsyncStorage from 'mock-async-storage'
 import { Dashboard } from '../Dashboard'
 import Button from '../../components/Button'
+import RoundImage from '../../components/RoundImage'
 
 const createTestProps = props => ({
   navigation: {
@@ -40,6 +41,9 @@ describe('Dashboard View', () => {
 
     it('renders <Button />', () => {
       expect(wrapper.find(Button)).toHaveLength(3)
+    })
+    it('renders <RoundImage />', () => {
+      expect(wrapper.find(RoundImage)).toHaveLength(1)
     })
     it('renders <FlatList />', () => {
       expect(wrapper.find(FlatList)).toHaveLength(1)
