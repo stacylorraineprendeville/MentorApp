@@ -3,7 +3,6 @@ import {
   ScrollView,
   Text,
   View,
-  Image,
   StyleSheet,
   FlatList,
   AsyncStorage

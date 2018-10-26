@@ -1,29 +1,15 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Image, StyleSheet, View } from 'react-native'
-const family = require('../../assets/images/family.png')
-const surveys = require('../../assets/images/surveys.png')
+import { Image, StyleSheet } from 'react-native'
+
+const images = {
+  family: require('../../assets/images/family.png'),
+  surveys: require('../../assets/images/surveys.png')
+}
 
 class RoundImage extends Component {
-  getSource = () => {
-    switch (this.props.source) {
-      case 'family':
-        return family
-        break
-      case 'surveys':
-        return surveys
-        break
-      default:
-        return ''
-    }
-  }
   render() {
-    const source = this.getSource()
-    return (
-      <View>
-        <Image style={styles.image} source={source} />
-      </View>
-    )
+    return <Image style={styles.image} source={images[this.props.source]} />
   }
 }
 
