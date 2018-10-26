@@ -35,7 +35,7 @@ export class Dashboard extends Component {
 
   render() {
     return (
-      <ScrollView style={{ backgroundColor: colors.white }}>
+      <ScrollView style={styles.background}>
         <View style={globalStyles.container}>
           <View>
             <Text
@@ -61,11 +61,11 @@ export class Dashboard extends Component {
         </View>
         <View style={styles.borderBottom}>
           <Text style={{ ...globalStyles.subline, ...styles.listTitle }}>
-            Drafts
+            Latest drafts
           </Text>
         </View>
         <FlatList
-          style={styles.list}
+          style={{ ...styles.background, paddingLeft: 25 }}
           data={this.props.drafts}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
@@ -101,14 +101,14 @@ const styles = StyleSheet.create({
     marginBottom: -13
   },
   listTitle: {
-    backgroundColor: colors.white,
+    backgroundColor: colors.beige,
     height: 41,
     lineHeight: 41,
     flex: 1,
     textAlign: 'center'
   },
-  list: {
-    backgroundColor: colors.white
+  background: {
+    backgroundColor: colors.palebeige
   },
   borderBottom: {
     borderBottomColor: colors.lightgrey,
@@ -126,10 +126,11 @@ Dashboard.propTypes = {
   user: PropTypes.object.isRequired
 }
 
-const mapStateToProps = ({ env, user, drafts }) => ({
+const mapStateToProps = ({ env, user, drafts, offline }) => ({
   env,
   user,
-  drafts
+  drafts,
+  offline
 })
 
 const mapDispatchToProps = {
