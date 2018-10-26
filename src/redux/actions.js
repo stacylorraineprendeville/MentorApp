@@ -30,7 +30,7 @@ export const login = (username, password, env) => dispatch =>
     .then(data => {
       if (data.status !== 200) {
         dispatch(setLoginError(null, data.status, null))
-        throw new Error(e)
+        throw new Error()
       } else return data.json()
     })
     .then(data =>
