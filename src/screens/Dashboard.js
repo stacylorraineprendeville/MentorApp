@@ -5,8 +5,7 @@ import {
   View,
   StyleSheet,
   FlatList,
-  AsyncStorage,
-  NetInfo
+  AsyncStorage
 } from 'react-native'
 
 import PropTypes from 'prop-types'
@@ -23,25 +22,16 @@ import colors from '../theme.json'
 
 export class Dashboard extends Component {
   state = {
-    loadingTime: 'ok',
-    connection: true
+    loadingTime: 'ok'
   }
-  componentWillMount() {}
+
   componentDidMount() {
     AsyncStorage.getItem('userVisitedDashboard').then(
       value => (value === 'false' ? this.loadData() : null)
     )
     AsyncStorage.setItem('userVisitedDashboard', 'true')
     this.detectSlowLoading()
-    this.checkConnectivity().then(isConnected =>
-      this.setConnectivityState(isConnected)
-    )
   }
-
-  checkConnectivity = () => NetInfo.isConnected.fetch()
-
-  setConnectivityState = isConnected =>
-    this.setState({ connection: isConnected })
 
   loadData = () => {
     this.props.loadSnapshots(url[this.props.env], this.props.user.token)
@@ -56,7 +46,8 @@ export class Dashboard extends Component {
   render() {
     return (
       <ScrollView style={styles.background}>
-        {this.props.offline.outbox.length && this.state.connection ? (
+        {this.props.offline.outbox.length &&
+        this.props.navigation.getParam('firstTimeVisitor') ? (
           <Loading time={this.state.loadingTime} />
         ) : (
           <View>
