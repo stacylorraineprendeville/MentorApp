@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import {
-  SET_TOKEN_SUCCESS,
-  SET_TOKEN_ERROR,
+  SET_LOGIN_SUCCESS,
+  SET_LOGIN_ERROR,
   SET_ENV,
   LOAD_SURVEYS,
   LOAD_FAMILIES,
@@ -16,12 +16,23 @@ import {
 
 //Login
 
-export const token = (state = { token: '', status: '' }, action) => {
+export const user = (
+  state = { token: null, status: null, username: null },
+  action
+) => {
   switch (action.type) {
-    case SET_TOKEN_SUCCESS:
-      return { token: action.token, status: 'success' }
-    case SET_TOKEN_ERROR:
-      return { token: '', status: 'error' }
+    case SET_LOGIN_SUCCESS:
+      return {
+        status: action.status,
+        token: action.token,
+        username: action.username
+      }
+    case SET_LOGIN_ERROR:
+      return {
+        status: action.status,
+        token: action.token,
+        username: action.username
+      }
     default:
       return state
   }
@@ -129,7 +140,7 @@ export const snapshots = (state = [], action) => {
 
 export const rootReducer = combineReducers({
   env,
-  token,
+  user,
   surveys,
   families,
   drafts,

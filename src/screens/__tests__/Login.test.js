@@ -8,7 +8,7 @@ const createTestProps = props => ({
   setEnv: jest.fn(),
   login: jest.fn(() => new Promise(resolve => resolve(true))),
   env: 'production',
-  token: { status: '' },
+  user: { status: null },
   navigation: {
     navigate: arg => arg
   },
@@ -38,17 +38,26 @@ describe('Login View', () => {
       expect(wrapper).toHaveState({
         username: '',
         password: '',
-        error: null
+        error: false,
+        connection: null
       })
     })
-    it('renders error message when token status is error', async () => {
-      props = createTestProps({ token: { status: 'error' } })
+    it('renders error message when user status is 400', async () => {
+      props = createTestProps({ user: { status: 400 } })
+      wrapper = shallow(<Login {...props} />)
+      await wrapper.instance().onLogin()
+      expect(wrapper.find(Text)).toHaveLength(5)
+      expect(wrapper.find('#error-message')).toExist()
+    })
+    it('renders error message when user status is 401', async () => {
+      props = createTestProps({ user: { status: 401 } })
       wrapper = shallow(<Login {...props} />)
       await wrapper.instance().onLogin()
       expect(wrapper.find(Text)).toHaveLength(5)
       expect(wrapper.find('#error-message')).toExist()
     })
   })
+
   describe('functionality', () => {
     it('typing in credentials changes state', () => {
       wrapper
@@ -82,17 +91,48 @@ describe('Login View', () => {
       expect(wrapper.instance().props.login).toHaveBeenCalledTimes(1)
     })
 
-    it('changes error state to true when token status is error', async () => {
-      props = createTestProps({ token: { status: 'error' } })
-
-      wrapper = shallow(<Login {...props} />)
-      await wrapper.instance().onLogin()
-      expect(wrapper.instance().state.error).toBe(true)
+    it('calls check connectivity function', () => {
+      const spy = jest.spyOn(wrapper.instance(), 'checkConnectivity')
+      wrapper.instance().checkConnectivity()
+      expect(spy).toHaveBeenCalledTimes(1)
     })
 
-    it('changes error state to false when token status is success', async () => {
-      props = createTestProps({ token: { status: 'success' } })
+    it('calls set connectivity state function', async () => {
+      const spy = jest.spyOn(wrapper.instance(), 'setConnectivityState')
+      wrapper.instance().setConnectivityState()
+      wrapper.update()
+      expect(spy).toHaveBeenCalledTimes(1)
+    })
+    it('sets the correct connectivity state when online', async () => {
+      wrapper.instance().setConnectivityState(true)
+      wrapper.update()
+      expect(wrapper.instance().state.connection).toBe(true)
+      expect(wrapper.instance().state.error).toBe(false)
+    })
+    it('sets the correct connectivity state when offline', async () => {
+      wrapper.instance().setConnectivityState(false)
+      wrapper.update()
+      expect(wrapper.instance().state.connection).toBe(false)
+      expect(wrapper.instance().state.error).toBe('No connection')
+    })
+    it('changes error state to correct message when user status is 401', async () => {
+      props = createTestProps({ user: { status: 401 } })
       wrapper = shallow(<Login {...props} />)
+      await wrapper.instance().checkConnectivity()
+      await wrapper.instance().onLogin()
+      expect(wrapper.instance().state.error).toBe('Wrong username or password')
+    })
+    it('changes error state to correct message when user status is 400', async () => {
+      props = createTestProps({ user: { status: 400 } })
+      wrapper = shallow(<Login {...props} />)
+      await wrapper.instance().checkConnectivity()
+      await wrapper.instance().onLogin()
+      expect(wrapper.instance().state.error).toBe('Wrong username or password')
+    })
+    it('changes error state to false when user status is 200', async () => {
+      props = createTestProps({ user: { status: 200 } })
+      wrapper = shallow(<Login {...props} />)
+      await wrapper.instance().checkConnectivity()
       await wrapper.instance().onLogin()
       expect(wrapper.instance().state.error).toBe(false)
     })
