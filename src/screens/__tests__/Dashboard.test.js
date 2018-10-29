@@ -72,7 +72,7 @@ describe('Dashboard View', () => {
     })
     it('renders loading screen the first time user visits app', () => {
       props = createTestProps({
-        navigation: { getParam: jest.fn(() => true) },
+        navigation: { ...props.navigation, getParam: jest.fn(() => true) },
         offline: { outbox: ['a', 'b'] }
       })
       wrapper = shallow(<Dashboard {...props} />)

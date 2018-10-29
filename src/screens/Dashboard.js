@@ -20,6 +20,13 @@ import { url } from '../config'
 import colors from '../theme.json'
 
 export class Dashboard extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('title', 'Dashboard'),
+      drawerLabel: navigation.getParam('title', 'Dashboard')
+    }
+  }
+
   state = {
     loadingTime: 'ok'
   }
@@ -27,12 +34,23 @@ export class Dashboard extends Component {
   clearTimers = () => {
     clearTimeout(this.slowLoadingTimer)
   }
+  updateTitle = () =>
+    this.props.navigation.setParams({
+      title: this.props.t('views.dashboard')
+    })
   componentDidMount() {
     AsyncStorage.getItem('userVisitedDashboard').then(
       value => (value === 'false' ? this.loadData() : null)
     )
     AsyncStorage.setItem('userVisitedDashboard', 'true')
     this.detectSlowLoading()
+    this.updateTitle()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.lng !== this.props.lng) {
+      this.updateTitle()
+    }
   }
 
   componentWillUnmount() {
@@ -160,14 +178,16 @@ Dashboard.propTypes = {
   drafts: PropTypes.array.isRequired,
   env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
   user: PropTypes.object.isRequired,
-  offline: PropTypes.object
+  offline: PropTypes.object,
+  lng: PropTypes.string
 }
 
-const mapStateToProps = ({ env, user, drafts, offline }) => ({
+const mapStateToProps = ({ env, user, drafts, offline, string }) => ({
   env,
   user,
   drafts,
-  offline
+  offline,
+  string
 })
 
 const mapDispatchToProps = {
