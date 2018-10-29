@@ -23,7 +23,7 @@ export class Login extends Component {
     username: '',
     password: '',
     error: false,
-    connection: null
+    connection: false
   }
   componentDidMount() {
     this.checkConnectivity().then(isConnected =>
@@ -60,7 +60,9 @@ export class Login extends Component {
       .then(() => {
         if (this.props.user.status === 200) {
           this.setState({ error: false })
-          this.props.navigation.navigate('Dashboard')
+          this.props.navigation.navigate('Dashboard', {
+            firstTimeVisitor: true
+          })
         } else if (
           this.props.user.status === 400 ||
           this.props.user.status === 401

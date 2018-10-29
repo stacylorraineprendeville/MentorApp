@@ -39,7 +39,7 @@ describe('Login View', () => {
         username: '',
         password: '',
         error: false,
-        connection: null
+        connection: false
       })
     })
     it('renders error message when user status is 400', async () => {

@@ -214,7 +214,7 @@ const createTestProps = props => ({
     }
   ],
   env: 'development',
-  token: {
+  user: {
     token: ''
   },
   ...props
