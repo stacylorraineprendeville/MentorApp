@@ -200,9 +200,9 @@ describe('drafts reducer', () => {
 describe('language reducer', () => {
   it('should handle SWITCH_LANGUAGE', () => {
     expect(
-      reducer.env('es', {
+      reducer.language('en', {
         type: action.SWITCH_LANGUAGE,
-        language: 'en'
+        language: 'es'
       })
     ).toEqual('es')
   })

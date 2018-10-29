@@ -4,7 +4,8 @@ import { Image, StyleSheet } from 'react-native'
 
 const images = {
   family: require('../../assets/images/family.png'),
-  surveys: require('../../assets/images/surveys.png')
+  surveys: require('../../assets/images/surveys.png'),
+  stoplight: require('../../assets/images/stoplight.png')
 }
 
 class RoundImage extends Component {
@@ -14,7 +15,7 @@ class RoundImage extends Component {
 }
 
 RoundImage.propTypes = {
-  source: PropTypes.oneOf(['family', 'surveys'])
+  source: PropTypes.oneOf(['family', 'surveys', 'stoplight'])
 }
 
 const styles = StyleSheet.create({
