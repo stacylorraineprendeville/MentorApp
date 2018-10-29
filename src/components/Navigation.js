@@ -64,7 +64,9 @@ export class DrawerContent extends Component {
                 EN
               </Text>
             </TouchableOpacity>
-            <Text style={[globalStyles.h3, styles.whiteText]}> | </Text>
+            <Text style={[globalStyles.h3, styles.whiteText]}>
+              {'  '}|{'  '}
+            </Text>
             <TouchableOpacity id="es" onPress={() => this.changeLanguage('es')}>
               <Text
                 style={[
@@ -109,12 +111,18 @@ const ConnectedDrawerContent = withNamespaces()(
 
 // Separate component for the icon next to each nav link as color and size are
 // the same for each.
-const DrawerIcon = ({ name }) => (
-  <Icon name={name} color={colors.palegreen} size={20} />
+const DrawerIcon = ({ name, rotate }) => (
+  <Icon
+    name={name}
+    color={colors.palegreen}
+    size={24}
+    style={rotate ? styles.rotate : {}}
+  />
 )
 
 DrawerIcon.propTypes = {
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  rotate: PropTypes.bool
 }
 
 // Each of the major views has a stack that needs the same nav options.
@@ -151,16 +159,19 @@ export const generateNavOptions = ({ navigation, headerLeft = true }) => {
   return options
 }
 
-const DashboardStack = createStackNavigator(
-  {
-    Dashboard: {
-      screen: DashboardView
-    }
-  },
-  {
+const DashboardStack = createStackNavigator({
+  Dashboard: {
+    screen: DashboardView,
     navigationOptions: ({ navigation }) => generateNavOptions({ navigation })
+  },
+  Draft: {
+    screen: DraftView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Draft',
+      ...generateNavOptions({ navigation, headerLeft: false })
+    })
   }
-)
+})
 
 const LifemapStack = createStackNavigator({
   Surveys: {
@@ -173,7 +184,7 @@ const LifemapStack = createStackNavigator({
   Draft: {
     screen: DraftView,
     navigationOptions: ({ navigation }) => ({
-      title: `Survey ${navigation.state.params.survey}`,
+      title: 'Draft',
       ...generateNavOptions({ navigation, headerLeft: false })
     })
   }
@@ -217,20 +228,24 @@ const DrawerNavigator = createDrawerNavigator(
       screen: DashboardStack,
       navigationOptions: {
         drawerLabel: i18n.t('views.dashboard'),
-        drawerIcon: <DrawerIcon name="dashboard" />
+        drawerIcon: (
+          <Image source={require('../../assets/images/icon_dashboard.png')} />
+        )
       }
     },
     Surveys: {
       screen: LifemapStack,
       navigationOptions: {
         drawerLabel: 'Create a Life Map',
-        drawerIcon: <DrawerIcon name="map" />
+        drawerIcon: <DrawerIcon name="swap-calls" rotate={true} />
       }
     },
     Families: {
       screen: FamiliesStack,
       navigationOptions: {
-        drawerIcon: <DrawerIcon name="people" />
+        drawerIcon: (
+          <Image source={require('../../assets/images/icon_family_nav.png')} />
+        )
       }
     },
     Sync: {
@@ -323,5 +338,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 14,
     color: colors.palegreen
+  },
+  rotate: {
+    transform: [{ rotate: '90deg' }]
   }
 })
