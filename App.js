@@ -12,11 +12,15 @@ import SplashScreen from 'react-native-splash-screen'
 
 import Login from './src/screens/Login'
 import Surveys from './src/screens/Surveys'
-import Draft from './src/screens/Draft'
 import Families from './src/screens/Families'
 import Family from './src/screens/Family'
 import Drafts from './src/screens/Drafts'
 import Dashboard from './src/screens/Dashboard'
+
+//Lifemap screens
+
+import Draft from './src/screens/lifemap/Draft'
+import BeginLifemap from './src/screens/lifemap/BeginLifemap'
 
 const store = createStore(
   rootReducer,
@@ -25,13 +29,14 @@ const store = createStore(
 )
 
 const AppNavigator = createStackNavigator({
-  Login: { screen: Login },
   Dashboard: { screen: Dashboard },
   Surveys: { screen: Surveys },
+  Login: { screen: Login },
   Draft: { screen: Draft },
   Families: { screen: Families },
   Family: { screen: Family },
-  Drafts: { screen: Drafts }
+  Drafts: { screen: Drafts },
+  BeginLifemap: { screen: BeginLifemap }
 })
 
 export default class App extends Component {
