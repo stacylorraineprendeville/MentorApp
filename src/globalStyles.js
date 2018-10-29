@@ -83,7 +83,7 @@ export default StyleSheet.create({
     fontFamily: 'Roboto',
     fontSize: 14,
     lineHeight: 20,
-    color: colors.lightdark
+    color: colors.grey
   },
   tag: {
     fontFamily: 'Roboto',

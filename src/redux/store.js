@@ -16,7 +16,7 @@ export default createStore(
   rootReducer,
   typeof window !== 'undefined' &&
   typeof window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ !== 'undefined' &&
-  typeof atob
+  typeof atob !== 'undefined'
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(applyMiddleware(thunk))
     : applyMiddleware(thunk),
   offline({

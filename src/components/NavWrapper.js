@@ -30,7 +30,7 @@ export class NavWrapper extends Component {
   render() {
     return this.state.rehydrated ? (
       <View style={styles.container}>
-        {this.props.token.token ? <AppStack /> : <LoginStack />}
+        {this.props.user.token ? <AppStack /> : <LoginStack />}
       </View>
     ) : (
       <ActivityIndicator size="large" style={styles.activityIndicator} />
@@ -51,11 +51,11 @@ const styles = StyleSheet.create({
 })
 
 NavWrapper.propTypes = {
-  token: PropTypes.object
+  user: PropTypes.object
 }
 
-const mapStateToProps = ({ token }) => ({
-  token
+const mapStateToProps = ({ user }) => ({
+  user
 })
 
 export default connect(mapStateToProps)(NavWrapper)

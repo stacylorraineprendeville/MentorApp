@@ -4,6 +4,8 @@ import { AsyncStorage as storage, ScrollView, FlatList } from 'react-native'
 import MockAsyncStorage from 'mock-async-storage'
 import { Dashboard } from '../Dashboard'
 import Button from '../../components/Button'
+import Loading from '../../components/Loading'
+import RoundImage from '../../components/RoundImage'
 
 const createTestProps = props => ({
   navigation: {
@@ -11,11 +13,11 @@ const createTestProps = props => ({
     setParams: jest.fn()
   },
   env: 'production',
-  token: { status: '' },
-
+  user: { status: '' },
   loadSurveys: jest.fn(),
   loadSnapshots: jest.fn(),
   loadFamilies: jest.fn(),
+  offline: { outbox: [] },
   t: jest.fn(),
   drafts: [
     {
@@ -39,9 +41,11 @@ describe('Dashboard View', () => {
     it('renders <ScrollView />', () => {
       expect(wrapper.find(ScrollView)).toHaveLength(1)
     })
-
     it('renders <Button />', () => {
       expect(wrapper.find(Button)).toHaveLength(3)
+    })
+    it('renders <RoundImage />', () => {
+      expect(wrapper.find(RoundImage)).toHaveLength(1)
     })
     it('renders <FlatList />', () => {
       expect(wrapper.find(FlatList)).toHaveLength(1)
@@ -53,10 +57,26 @@ describe('Dashboard View', () => {
     })
   })
   describe('functionality', () => {
+    it('has proper initial state', () => {
+      expect(wrapper).toHaveState({
+        loadingTime: 'ok'
+      })
+    })
     it('passes the correct data to <FlatList />', () => {
       expect(wrapper.find(FlatList).props().data).toEqual(
         wrapper.instance().props.drafts
       )
+    })
+    it('does not renders loading screen when user has visited the app or data has finished downloading', () => {
+      expect(wrapper.find(Loading)).toHaveLength(0)
+    })
+    it('renders loading screen the first time user visits app', () => {
+      props = createTestProps({
+        navigation: { getParam: jest.fn(() => true) },
+        offline: { outbox: ['a', 'b'] }
+      })
+      wrapper = shallow(<Dashboard {...props} />)
+      expect(wrapper.find(Loading)).toHaveLength(1)
     })
   })
 })

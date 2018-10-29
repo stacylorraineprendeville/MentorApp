@@ -5,7 +5,7 @@ import { NavWrapper } from '../NavWrapper'
 import { LoginStack, AppStack } from '../Navigation'
 
 const createTestProps = props => ({
-  token: { token: '' },
+  user: { token: '' },
   ...props
 })
 
@@ -36,7 +36,7 @@ describe('Navigation Wrapper', () => {
   })
 
   it('renders <AppStack /> stack if there is a token in the store', () => {
-    const props = createTestProps({ token: { token: '34423' }, ...props })
+    const props = createTestProps({ user: { token: '34423' }, ...props })
     const wrapper = shallow(<NavWrapper {...props} />)
     wrapper.setState({ rehydrated: true })
     expect(wrapper.find(AppStack)).toHaveLength(1)

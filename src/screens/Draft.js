@@ -95,7 +95,7 @@ export class Draft extends Component {
           onPress={() =>
             this.props.submitDraft(
               url[this.props.env],
-              this.props.token.token,
+              this.props.user.token,
               this.draft_id,
               draft
             )
@@ -148,7 +148,7 @@ Draft.propTypes = {
   surveys: PropTypes.array,
   navigation: PropTypes.object.isRequired,
   env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
-  token: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired
 }
 
 const styles = StyleSheet.create({
@@ -157,9 +157,9 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = ({ env, surveys, token, drafts, snapshots }) => ({
+const mapStateToProps = ({ env, surveys, user, drafts, snapshots }) => ({
   env,
-  token,
+  user,
   surveys,
   drafts,
   snapshots

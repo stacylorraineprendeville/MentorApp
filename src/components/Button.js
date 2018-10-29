@@ -14,6 +14,7 @@ class Button extends Component {
             : styles.buttonStyle
         }
         onPress={this.props.handleClick}
+        disabled={this.props.disabled}
       >
         {this.props.icon && (
           <Icon
@@ -41,7 +42,8 @@ Button.propTypes = {
   text: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired,
   colored: PropTypes.bool,
-  icon: PropTypes.string
+  icon: PropTypes.string,
+  disabled: PropTypes.bool
 }
 
 const styles = StyleSheet.create({

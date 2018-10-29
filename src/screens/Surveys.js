@@ -1,43 +1,47 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Button } from 'react-native'
+import { StyleSheet, ScrollView, FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+
+import globalStyles from '../globalStyles'
+import RoundImage from '../components/RoundImage'
+import LifemapListItem from '../components/LifemapListItem'
+import colors from '../theme.json'
 
 export class Surveys extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        {this.props.surveys.map(survey => (
-          <Button
-            key={survey.id}
-            title={survey.title}
-            onPress={() =>
-              this.props.navigation.navigate('Draft', {
-                survey: this.props.surveys.filter(
-                  item => survey.title === item.title
-                )[0].id
-              })
-            }
-          />
-        ))}
-      </View>
+      <ScrollView style={{ ...globalStyles.container, padding: 0 }}>
+        <RoundImage source="surveys" />
+        <FlatList
+          style={styles.list}
+          data={this.props.surveys}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <LifemapListItem
+              name={item.title}
+              handleClick={() =>
+                this.props.navigation.navigate('Draft', { survey: item.id })
+              }
+            />
+          )}
+        />
+      </ScrollView>
     )
   }
 }
+const styles = StyleSheet.create({
+  list: {
+    borderTopColor: colors.lightgrey,
+    borderTopWidth: 1,
+    paddingBottom: 60
+  }
+})
 
 Surveys.propTypes = {
   surveys: PropTypes.array,
   navigation: PropTypes.object.isRequired
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
 
 const mapStateToProps = ({ surveys }) => ({
   surveys

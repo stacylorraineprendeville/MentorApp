@@ -6,7 +6,8 @@ import {
   TextInput,
   Image,
   StyleSheet,
-  View
+  View,
+  NetInfo
 } from 'react-native'
 import { connect } from 'react-redux'
 import { setEnv, login } from '../redux/actions'
@@ -20,7 +21,30 @@ export class Login extends Component {
   state = {
     username: '',
     password: '',
-    error: null
+    error: false,
+    connection: false
+  }
+  componentDidMount() {
+    this.checkConnectivity().then(isConnected =>
+      this.setConnectivityState(isConnected)
+    )
+    this.onConnectivityChange()
+  }
+
+  checkConnectivity = () => NetInfo.isConnected.fetch()
+
+  setConnectivityState = isConnected =>
+    isConnected
+      ? this.setState({ connection: true })
+      : this.setState({ connection: false, error: 'No connection' })
+
+  onConnectivityChange = () => {
+    NetInfo.addEventListener('connectionChange', () =>
+      this.setState({
+        connection: !this.state.connection,
+        error: this.state.connection ? 'No connection' : false
+      })
+    )
   }
 
   componentDidUpdate() {
@@ -33,10 +57,17 @@ export class Login extends Component {
     this.props
       .login(this.state.username, this.state.password, url[this.props.env])
       .then(() => {
-        if (this.props.token.status === 'success') {
+        if (this.props.user.status === 200) {
           this.setState({ error: false })
-          this.props.navigation.navigate('Dashboard')
-        } else this.setState({ error: true })
+          this.props.navigation.navigate('Dashboard', {
+            firstTimeVisitor: true
+          })
+        } else if (
+          this.props.user.status === 400 ||
+          this.props.user.status === 401
+        ) {
+          this.setState({ error: 'Wrong username or password' })
+        }
       })
 
   render() {
@@ -58,7 +89,10 @@ export class Login extends Component {
           <TextInput
             id="username"
             autoCapitalize="none"
-            style={styles.input}
+            style={{
+              ...styles.input,
+              borderColor: this.state.error ? colors.red : colors.green
+            }}
             onChangeText={username => this.setState({ username })}
           />
           <Text style={globalStyles.h5}>PASSWORD</Text>
@@ -66,23 +100,28 @@ export class Login extends Component {
             id="password"
             secureTextEntry
             autoCapitalize="none"
-            style={styles.input}
+            style={{
+              ...styles.input,
+              borderColor: this.state.error ? colors.red : colors.green,
+              marginBottom: this.state.error ? 0 : 25
+            }}
             onChangeText={password => this.setState({ password })}
           />
+          {this.state.error && (
+            <Text
+              id="error-message"
+              style={{ ...globalStyles.tag, ...styles.error }}
+            >
+              {this.state.error}
+            </Text>
+          )}
           <Button
             id="login-button"
             handleClick={() => this.onLogin()}
             text="Login"
             colored
+            disabled={this.state.error === 'No connection' ? true : false}
           />
-          {this.state.error && (
-            <Text
-              id="error-message"
-              style={{ ...globalStyles.h4, color: colors.red }}
-            >
-              Login error
-            </Text>
-          )}
         </ScrollView>
       </View>
     )
@@ -94,28 +133,28 @@ Login.propTypes = {
   login: PropTypes.func.isRequired,
   env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
   navigation: PropTypes.object.isRequired,
-  token: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired
 }
 
 const styles = StyleSheet.create({
   input: {
     fontSize: 16,
     fontFamily: 'Roboto',
-    borderColor: colors.green,
     borderWidth: 1,
     borderRadius: 2,
     height: 48,
-    marginBottom: 18,
+    marginBottom: 25,
     padding: 15,
     color: colors.lightdark,
     backgroundColor: colors.white
   },
-  logo: { width: 42, height: 42, marginBottom: 8 }
+  logo: { width: 42, height: 42, marginBottom: 8 },
+  error: { color: colors.red, lineHeight: 15, marginBottom: 10 }
 })
 
-const mapStateToProps = ({ env, token }) => ({
+const mapStateToProps = ({ env, user }) => ({
   env,
-  token
+  user
 })
 
 const mapDispatchToProps = {
