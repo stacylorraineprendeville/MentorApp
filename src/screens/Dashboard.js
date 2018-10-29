@@ -7,9 +7,8 @@ import {
   FlatList,
   AsyncStorage
 } from 'react-native'
-
+import { withNamespaces } from 'react-i18next'
 import PropTypes from 'prop-types'
-
 import Button from '../components/Button'
 import RoundImage from '../components/RoundImage'
 import DraftListItem from '../components/DraftListItem'
@@ -21,16 +20,41 @@ import { url } from '../config'
 import colors from '../theme.json'
 
 export class Dashboard extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('title', 'Dashboard'),
+      drawerLabel: navigation.getParam('title', 'Dashboard')
+    }
+  }
+
   state = {
     loadingTime: 'ok'
   }
-
+  slowLoadingTimer
+  clearTimers = () => {
+    clearTimeout(this.slowLoadingTimer)
+  }
+  updateTitle = () =>
+    this.props.navigation.setParams({
+      title: this.props.t('views.dashboard')
+    })
   componentDidMount() {
     AsyncStorage.getItem('userVisitedDashboard').then(
       value => (value === 'false' ? this.loadData() : null)
     )
     AsyncStorage.setItem('userVisitedDashboard', 'true')
     this.detectSlowLoading()
+    this.updateTitle()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.lng !== this.props.lng) {
+      this.updateTitle()
+    }
+  }
+
+  componentWillUnmount() {
+    this.clearTimers()
   }
 
   loadData = () => {
@@ -40,14 +64,18 @@ export class Dashboard extends Component {
   }
 
   detectSlowLoading = () => {
-    setTimeout(() => this.setState({ loadingTime: 'slow' }), 15000)
+    this.slowLoadingTimer = setTimeout(
+      () => this.setState({ loadingTime: 'slow' }),
+      15000
+    )
   }
 
   render() {
+    const { t, navigation, drafts } = this.props
     return (
       <ScrollView style={styles.background}>
         {this.props.offline.outbox.length &&
-        this.props.navigation.getParam('firstTimeVisitor') ? (
+        navigation.getParam('firstTimeVisitor') ? (
           <Loading time={this.state.loadingTime} />
         ) : (
           <View>
@@ -60,14 +88,14 @@ export class Dashboard extends Component {
                     alignSelf: 'center'
                   }}
                 >
-                  Welcome!
+                  {t('general.welcome')}!
                 </Text>
               </View>
               <RoundImage source="family" />
               <Button
                 text="Create a lifemap"
                 colored
-                handleClick={() => this.props.navigation.navigate('Surveys')}
+                handleClick={() => navigation.navigate('Surveys')}
               />
               <View style={styles.columns}>
                 <Button
@@ -85,20 +113,20 @@ export class Dashboard extends Component {
             </View>
             <FlatList
               style={{ ...styles.background, paddingLeft: 25 }}
-              data={this.props.drafts}
+              data={drafts}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <DraftListItem
                   item={item}
                   handleClick={() =>
-                    this.props.navigation.navigate('Draft', {
+                    navigation.navigate('Draft', {
                       draft: item.draft_id
                     })
                   }
                 />
               )}
             />
-            {!this.props.drafts.length && (
+            {!drafts.length && (
               <Text
                 id="no-drafts-message"
                 style={{
@@ -145,17 +173,21 @@ Dashboard.propTypes = {
   navigation: PropTypes.object.isRequired,
   loadFamilies: PropTypes.func.isRequired,
   loadSurveys: PropTypes.func.isRequired,
+  t: PropTypes.func.isRequired,
   loadSnapshots: PropTypes.func.isRequired,
   drafts: PropTypes.array.isRequired,
   env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
-  user: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired,
+  offline: PropTypes.object,
+  lng: PropTypes.string
 }
 
-const mapStateToProps = ({ env, user, drafts, offline }) => ({
+const mapStateToProps = ({ env, user, drafts, offline, string }) => ({
   env,
   user,
   drafts,
-  offline
+  offline,
+  string
 })
 
 const mapDispatchToProps = {
@@ -164,7 +196,9 @@ const mapDispatchToProps = {
   loadSurveys
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Dashboard)
+export default withNamespaces()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Dashboard)
+)

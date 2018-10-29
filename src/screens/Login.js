@@ -6,7 +6,6 @@ import {
   TextInput,
   Image,
   StyleSheet,
-  TouchableOpacity,
   View,
   NetInfo
 } from 'react-native'
@@ -84,7 +83,7 @@ export class Login extends Component {
               color: colors.lightdark
             }}
           >
-            {"Let's get started..."}
+            {'Let\'s get started...'}
           </Text>
           <Text style={globalStyles.h5}>USERNAME</Text>
           <TextInput

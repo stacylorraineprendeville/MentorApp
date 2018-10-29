@@ -1,45 +1,11 @@
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
 import { AsyncStorage } from 'react-native'
-import offlineConfig from '@redux-offline/redux-offline/lib/defaults'
-import { offline } from '@redux-offline/redux-offline'
-import { createStackNavigator } from 'react-navigation'
-
-import { rootReducer } from './src/redux/reducer'
 import SplashScreen from 'react-native-splash-screen'
+import NavigationWrapper from './src/components/NavWrapper'
+import store from './src/redux/store'
 
-import Login from './src/screens/Login'
-import Surveys from './src/screens/Surveys'
-import Families from './src/screens/Families'
-import Family from './src/screens/Family'
-import Drafts from './src/screens/Drafts'
-import Dashboard from './src/screens/Dashboard'
-
-//Lifemap screens
-
-import Draft from './src/screens/lifemap/Draft'
-import BeginLifemap from './src/screens/lifemap/BeginLifemap'
-
-const store = createStore(
-  rootReducer,
-  applyMiddleware(thunk),
-  offline(offlineConfig)
-)
-
-const AppNavigator = createStackNavigator({
-  Dashboard: { screen: Dashboard },
-  Surveys: { screen: Surveys },
-  Login: { screen: Login },
-  Draft: { screen: Draft },
-  Families: { screen: Families },
-  Family: { screen: Family },
-  Drafts: { screen: Drafts },
-  BeginLifemap: { screen: BeginLifemap }
-})
-
-export default class App extends Component {
+class App extends Component {
   componentDidMount() {
     AsyncStorage.setItem('userVisitedDashboard', 'false')
     SplashScreen.hide()
@@ -47,8 +13,10 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <AppNavigator />
+        <NavigationWrapper />
       </Provider>
     )
   }
 }
+
+export default App

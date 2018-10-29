@@ -161,3 +161,11 @@ export const loadSnapshots = (env, token) => ({
     }
   }
 })
+
+// Language
+export const SWITCH_LANGUAGE = 'SWITCH_LANGUAGE'
+
+export const switchLanguage = language => ({
+  type: SWITCH_LANGUAGE,
+  language
+})

@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { ScrollView, Text, FlatList, TouchableOpacity } from 'react-native'
+import { AsyncStorage as storage, ScrollView, FlatList } from 'react-native'
 import MockAsyncStorage from 'mock-async-storage'
 import { Dashboard } from '../Dashboard'
 import Button from '../../components/Button'
@@ -9,7 +9,8 @@ import RoundImage from '../../components/RoundImage'
 
 const createTestProps = props => ({
   navigation: {
-    navigate: arg => arg
+    navigate: arg => arg,
+    setParams: jest.fn()
   },
   env: 'production',
   user: { status: '' },
@@ -17,6 +18,7 @@ const createTestProps = props => ({
   loadSnapshots: jest.fn(),
   loadFamilies: jest.fn(),
   offline: { outbox: [] },
+  t: jest.fn(),
   drafts: [
     {
       draft_id: 1
@@ -70,7 +72,7 @@ describe('Dashboard View', () => {
     })
     it('renders loading screen the first time user visits app', () => {
       props = createTestProps({
-        navigation: { getParam: jest.fn(() => true) },
+        navigation: { ...props.navigation, getParam: jest.fn(() => true) },
         offline: { outbox: ['a', 'b'] }
       })
       wrapper = shallow(<Dashboard {...props} />)
@@ -85,7 +87,6 @@ const mock = () => {
   jest.mock('AsyncStorage', () => mockImpl)
 }
 mock()
-import { AsyncStorage as storage } from 'react-native'
 
 describe('Dashboard not yet visited by user', () => {
   let wrapper

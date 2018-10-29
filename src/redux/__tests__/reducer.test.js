@@ -196,3 +196,14 @@ describe('drafts reducer', () => {
     ).toEqual(expectedStore)
   })
 })
+
+describe('language reducer', () => {
+  it('should handle SWITCH_LANGUAGE', () => {
+    expect(
+      reducer.language('en', {
+        type: action.SWITCH_LANGUAGE,
+        language: 'es'
+      })
+    ).toEqual('es')
+  })
+})
