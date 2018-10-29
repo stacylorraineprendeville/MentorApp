@@ -29,10 +29,16 @@ describe('Navigation', () => {
       <DrawerContent
         navigation={{ toggleDrawer: jest.fn() }}
         switchLanguage={jest.fn()}
+        user={{ username: 'test' }}
       />
     )
     it('renders nav image', () => {
       expect(wrapper.find(Image)).toHaveLength(1)
+    })
+    it('shows proper username', () => {
+      expect(wrapper.find('#username')).toHaveHTML(
+        '<react-native-mock>test</react-native-mock>'
+      )
     })
     it('allows user to change language', () => {
       const spy = jest.spyOn(wrapper.instance(), 'changeLanguage')

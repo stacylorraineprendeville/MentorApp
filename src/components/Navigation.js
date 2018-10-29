@@ -28,7 +28,9 @@ import globalStyles from '../globalStyles'
 import i18n from '../i18n'
 import { switchLanguage } from '../redux/actions'
 
-const mapStateToProps = () => ({})
+const mapStateToProps = ({ user }) => ({
+  user
+})
 
 const mapDispatchToProps = {
   switchLanguage
@@ -43,7 +45,7 @@ export class DrawerContent extends Component {
     this.props.navigation.toggleDrawer()
   }
   render() {
-    const { lng } = this.props
+    const { lng, user } = this.props
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View>
@@ -74,8 +76,11 @@ export class DrawerContent extends Component {
               </Text>
             </TouchableOpacity>
           </View>
-          <Text style={[styles.username, globalStyles.h3, styles.whiteText]}>
-            Username
+          <Text
+            id="username"
+            style={[styles.username, globalStyles.h3, styles.whiteText]}
+          >
+            {user.username}
           </Text>
           <DrawerItems {...this.props} />
         </View>
@@ -91,7 +96,8 @@ export class DrawerContent extends Component {
 DrawerContent.propTypes = {
   lng: PropTypes.string,
   switchLanguage: PropTypes.func.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired
 }
 
 const ConnectedDrawerContent = withNamespaces()(
