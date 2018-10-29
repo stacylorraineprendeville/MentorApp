@@ -23,13 +23,20 @@ export class Dashboard extends Component {
   state = {
     loadingTime: 'ok'
   }
-
+  slowLoadingTimer
+  clearTimers = () => {
+    clearTimeout(this.slowLoadingTimer)
+  }
   componentDidMount() {
     AsyncStorage.getItem('userVisitedDashboard').then(
       value => (value === 'false' ? this.loadData() : null)
     )
     AsyncStorage.setItem('userVisitedDashboard', 'true')
     this.detectSlowLoading()
+  }
+
+  componentWillUnmount() {
+    this.clearTimers()
   }
 
   loadData = () => {
@@ -39,15 +46,18 @@ export class Dashboard extends Component {
   }
 
   detectSlowLoading = () => {
-    setTimeout(() => this.setState({ loadingTime: 'slow' }), 15000)
+    this.slowLoadingTimer = setTimeout(
+      () => this.setState({ loadingTime: 'slow' }),
+      15000
+    )
   }
 
   render() {
-    const { t } = this.props
+    const { t, navigation, drafts } = this.props
     return (
       <ScrollView style={styles.background}>
         {this.props.offline.outbox.length &&
-        this.props.navigation.getParam('firstTimeVisitor') ? (
+        navigation.getParam('firstTimeVisitor') ? (
           <Loading time={this.state.loadingTime} />
         ) : (
           <View>
@@ -67,7 +77,7 @@ export class Dashboard extends Component {
               <Button
                 text="Create a lifemap"
                 colored
-                handleClick={() => this.props.navigation.navigate('Surveys')}
+                handleClick={() => navigation.navigate('Surveys')}
               />
               <View style={styles.columns}>
                 <Button
@@ -85,20 +95,20 @@ export class Dashboard extends Component {
             </View>
             <FlatList
               style={{ ...styles.background, paddingLeft: 25 }}
-              data={this.props.drafts}
+              data={drafts}
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <DraftListItem
                   item={item}
                   handleClick={() =>
-                    this.props.navigation.navigate('Draft', {
+                    navigation.navigate('Draft', {
                       draft: item.draft_id
                     })
                   }
                 />
               )}
             />
-            {!this.props.drafts.length && (
+            {!drafts.length && (
               <Text
                 id="no-drafts-message"
                 style={{

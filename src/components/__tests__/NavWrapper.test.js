@@ -1,8 +1,10 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { ActivityIndicator } from 'react-native'
 import { NavWrapper } from '../NavWrapper'
 import { LoginStack, AppStack } from '../Navigation'
+import Loading from '../Loading'
+
+jest.useFakeTimers()
 
 const createTestProps = props => ({
   user: { token: '' },
@@ -17,6 +19,10 @@ describe('Navigation Wrapper', () => {
     wrapper = shallow(<NavWrapper {...props} />)
   })
 
+  afterEach(() => {
+    jest.clearAllTimers()
+  })
+
   it('checks for store hydration on mount', () => {
     expect(wrapper).toHaveState({
       rehydrated: false
@@ -27,7 +33,7 @@ describe('Navigation Wrapper', () => {
   })
 
   it('renders ActivityIndicator if store is not hydrated', () => {
-    expect(wrapper.find(ActivityIndicator)).toHaveLength(1)
+    expect(wrapper.find(Loading)).toHaveLength(1)
   })
 
   it('renders <LoginStack /> stack if no token is available', () => {

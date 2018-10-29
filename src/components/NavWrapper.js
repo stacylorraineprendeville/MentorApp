@@ -1,31 +1,45 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, ActivityIndicator } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getHydrationState } from '../redux/store'
 import { LoginStack, AppStack } from './Navigation'
+import Loading from './Loading'
 
 export class NavWrapper extends Component {
-  constructor(props) {
-    super(props)
-    this.mounted = false
-    this.state = {
-      rehydrated: false
-    }
+  state = {
+    loadingTime: 'ok',
+    rehydrated: false
   }
-  checkHydration() {
+  slowLoadingTimer
+  clearTimers = () => {
+    clearTimeout(this.slowLoadingTimer)
+    this.slowLoadingTimer = null
+  }
+  checkHydration = () => {
     if (getHydrationState() === false) {
       setTimeout(() => {
         this.checkHydration()
       }, 1000)
     } else {
+      this.clearTimers()
       this.setState({
         rehydrated: true
       })
     }
   }
+  detectSlowLoading = () => {
+    this.slowLoadingTimer = setTimeout(
+      () => this.setState({ loadingTime: 'slow' }),
+      15000
+    )
+  }
   componentDidMount() {
     this.checkHydration()
+    this.detectSlowLoading()
+  }
+  componentWillUnmount = () => {
+    this.clearTimers()
   }
   render() {
     return this.state.rehydrated ? (
@@ -33,7 +47,7 @@ export class NavWrapper extends Component {
         {this.props.user.token ? <AppStack /> : <LoginStack />}
       </View>
     ) : (
-      <ActivityIndicator size="large" style={styles.activityIndicator} />
+      <Loading time={this.state.loadingTime} />
     )
   }
 }
@@ -41,12 +55,6 @@ export class NavWrapper extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  activityIndicator: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 80
   }
 })
 
