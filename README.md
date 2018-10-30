@@ -1,5 +1,15 @@
 This is the moblie app for the Poverty Stoplight platform. It is a native, not a web, app which requires you to setup your machine for native development.
 
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Instalation](#to-install)
+- [Running](#to-run)
+- [Simulation on OSX](#running-the-simulation-on-osx)
+- [Running on actual device](#running-the-app-on-a-real-device)
+- [Debugging](#debugging)
+
+
 ## Prerequisites
 
 ### For OSX
@@ -76,7 +86,7 @@ sdkmanager --update
 2. Now you need to an android virtual device for the emulator to run. First, you need to download the necessary system image with `sdkmanager "name;of;image"`. The naming convention of the APIs is `system-images;android-<API_VERSION>;google_apis;x86` for x86 emulators, which is what we need. Version number is different depending on which android version you need. So for example, if you want to test *Marshmallow* you run `sdkmanager "system-images;android-23;google_apis;x86"`. If you need to test *KitKat* you run `sdkmanager "system-images;android-19;google_apis;x86"`. After this run `sdkmanager --licenses` and accept all the licences with `y`.
 
 ```
-sdkmanager "system-images;android-23;google_apis;x86 # for marshmallow
+sdkmanager "system-images;android-23;google_apis;x86" # for marshmallow
 ```
 
 3. When you have the image you create the device with `avdmanager create avd -n <name> -k "<system-images;name>"`. So with the Marshmallow image installed above we can do `avdmanager create avd -n test -k "system-images;android-23;google_apis;x86"` and that will create a device named `test` running Android Marshmallow. You can use anything for the name.
@@ -111,3 +121,21 @@ In case you see a red screen with `unable to load script from assets index.andro
 1. (in project directory) run `mkdir android/app/src/main/assets`
 2. run `react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res`
 3. Try starting the app again `npm run android-start`
+
+## Debugging
+
+To see the console log you need to enable Remote Debugging. You can use the `⌘D` keyboard shortcut when your app is running in the iOS Simulator, or `⌘M` when running in an Android emulator on Mac OS. That opens the dev menu where you can select Enable Remote Debugging. You can also enable Hot Reload from there.
+
+When running the app on an android device you can use the adb shell on your dev machine terminal to give it commands.
+
+To open the dev tools on a device: `adb shell input keyevent 82`
+To refresh an android device used for testing run: `adb shell input text "RR"`
+
+In case you get an `failed to connect to dev server` error, most probably your dev machine is either on a different network, or has switched it's IP since your last session. To fix that:
+
+1. Open dev tools on the device, shaking it or using the command above.
+2. Open Dev Settings
+3. In there tap Debug server host & port for device
+4. Enter your IP, including the `:8081` port otherwise it's likely not to work.
+
+To find your IP address on a Mac, open Settings > Network > Advanced (while your active connection is selected) > TCP/IP tab. Your local IP should be next to IPv4 Address.

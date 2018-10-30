@@ -1,92 +1,50 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, Button } from 'react-native'
+import { StyleSheet, ScrollView, FlatList } from 'react-native'
 import { connect } from 'react-redux'
-import { OfflineImageStore } from 'react-native-image-offline'
 import PropTypes from 'prop-types'
 
-import { loadSurveys } from '../redux/actions'
-import { url } from '../config'
+import globalStyles from '../globalStyles'
+import RoundImage from '../components/RoundImage'
+import LifemapListItem from '../components/LifemapListItem'
+import colors from '../theme.json'
 
 export class Surveys extends Component {
-  componentDidMount() {
-    this.props.loadSurveys(url[this.props.env], this.props.token.token)
-    this.storeSurveyImagesOffline()
-  }
-  storeSurveyImagesOffline() {
-    OfflineImageStore.restore(
-      {
-        name: 'Survey Images'
-      },
-      () => {
-        let arr = []
-        this.props.surveys.forEach(survey => {
-          Object.values(survey.survey_schema.properties)
-            .filter(
-              prop =>
-                prop.type === 'array' &&
-                prop.hasOwnProperty('items') &&
-                prop.items.hasOwnProperty('enum')
-            )
-            .forEach(prop =>
-              prop.items.enum
-                .filter(item => item.url)
-                .forEach(item => arr.push(item.url))
-            )
-        })
-
-        OfflineImageStore.preLoad(arr)
-      }
-    )
-  }
   render() {
     return (
-      <View style={styles.container}>
-        {this.props.surveys.map(survey => (
-          <Button
-            key={survey.id}
-            title={survey.title}
-            onPress={() =>
-              this.props.navigation.navigate('Draft', {
-                survey: this.props.surveys.filter(
-                  item => survey.title === item.title
-                )[0].id
-              })
-            }
-          />
-        ))}
-      </View>
+      <ScrollView style={{ ...globalStyles.container, padding: 0 }}>
+        <RoundImage source="surveys" />
+        <FlatList
+          style={styles.list}
+          data={this.props.surveys}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <LifemapListItem
+              name={item.title}
+              handleClick={() =>
+                this.props.navigation.navigate('Draft', { survey: item.id })
+              }
+            />
+          )}
+        />
+      </ScrollView>
     )
   }
 }
-
-Surveys.propTypes = {
-  loadSurveys: PropTypes.func.isRequired,
-  surveys: PropTypes.array,
-  env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
-  navigation: PropTypes.object.isRequired,
-  token: PropTypes.object.isRequired
-}
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
+  list: {
+    borderTopColor: colors.lightgrey,
+    borderTopWidth: 1,
+    paddingBottom: 60
   }
 })
 
-const mapStateToProps = ({ env, surveys, token }) => ({
-  env,
-  token,
+Surveys.propTypes = {
+  surveys: PropTypes.array,
+  navigation: PropTypes.object.isRequired
+}
+
+const mapStateToProps = ({ surveys }) => ({
   surveys
 })
 
-const mapDispatchToProps = {
-  loadSurveys
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Surveys)
+export default connect(mapStateToProps)(Surveys)

@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import {
-  SET_TOKEN_SUCCESS,
-  SET_TOKEN_ERROR,
+  SET_LOGIN_SUCCESS,
+  SET_LOGIN_ERROR,
   SET_ENV,
   LOAD_SURVEYS,
   LOAD_FAMILIES,
@@ -11,17 +11,29 @@ import {
   LOAD_SNAPSHOTS,
   SUBMIT_DRAFT,
   SUBMIT_DRAFT_COMMIT,
-  SUBMIT_DRAFT_ROLLBACK
+  SUBMIT_DRAFT_ROLLBACK,
+  SWITCH_LANGUAGE
 } from './actions'
 
 //Login
 
-export const token = (state = { token: '', status: '' }, action) => {
+export const user = (
+  state = { token: null, status: null, username: null },
+  action
+) => {
   switch (action.type) {
-    case SET_TOKEN_SUCCESS:
-      return { token: action.token, status: 'success' }
-    case SET_TOKEN_ERROR:
-      return { token: '', status: 'error' }
+    case SET_LOGIN_SUCCESS:
+      return {
+        status: action.status,
+        token: action.token,
+        username: action.username
+      }
+    case SET_LOGIN_ERROR:
+      return {
+        status: action.status,
+        token: action.token,
+        username: action.username
+      }
     default:
       return state
   }
@@ -29,7 +41,7 @@ export const token = (state = { token: '', status: '' }, action) => {
 
 //Environment
 
-export const env = (state = 'development', action) => {
+export const env = (state = 'production', action) => {
   switch (action.type) {
     case SET_ENV:
       return action.env
@@ -127,11 +139,22 @@ export const snapshots = (state = [], action) => {
   }
 }
 
+// Language
+export const language = (state = false, action) => {
+  switch (action.type) {
+    case SWITCH_LANGUAGE:
+      return action.language
+    default:
+      return state
+  }
+}
+
 export const rootReducer = combineReducers({
   env,
-  token,
+  user,
   surveys,
   families,
   drafts,
-  snapshots
+  snapshots,
+  language
 })

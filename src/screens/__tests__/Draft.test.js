@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import { ScrollView, View, Button, TextInput, Picker } from 'react-native'
-import { Draft } from '../Draft'
+import { Draft } from '../lifemap/Draft'
 
 const createTestProps = props => ({
   createDraft: jest.fn(),
@@ -214,7 +214,7 @@ const createTestProps = props => ({
     }
   ],
   env: 'development',
-  token: {
+  user: {
     token: ''
   },
   ...props
@@ -285,13 +285,13 @@ describe('Single Draft View', () => {
       expect(wrapper.find(ScrollView)).toHaveLength(1)
     })
 
-    it('renders submit draft button', () => {
+    it('renders continue draft button', () => {
       expect(wrapper.find(Button)).toHaveLength(1)
-      expect(wrapper.find(Button)).toHaveProp('title', 'Submit')
+      expect(wrapper.find(Button)).toHaveProp('title', 'Continue')
     })
 
     it('display a list of Views with proper titles for each survey question', () => {
-      expect(wrapper.find(View)).toHaveLength(3)
+      expect(wrapper.find(View)).toHaveLength(4)
     })
 
     it('renders a TextInput for a string question', () => {
@@ -344,12 +344,14 @@ describe('Single Draft View', () => {
 
       expect(spy).toHaveBeenCalledTimes(3)
     })
-    it('calls submitDraft on pressing Submit button', () => {
+    it('calls navigator function on pressing Continue button', () => {
       wrapper
-        .find('#submit')
+        .find('#continue')
         .props()
         .onPress()
-      expect(wrapper.instance().props.submitDraft).toHaveBeenCalledTimes(1)
+      expect(
+        wrapper.instance().props.navigation.navigate
+      ).toHaveBeenCalledTimes(1)
     })
   })
 })

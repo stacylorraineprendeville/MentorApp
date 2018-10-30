@@ -32,13 +32,15 @@ describe('login actions', () => {
     fetchMock.postOnce(
       `${env}/oauth/token?username=${user}&password=${pass}&grant_type=password`,
       {
-        body: { access_token: 'token' }
+        body: { access_token: 'token', user: { username: 'username' } }
       }
     )
     const expectedAction = [
       {
-        type: action.SET_TOKEN_SUCCESS,
-        token: 'token'
+        type: action.SET_LOGIN_SUCCESS,
+        token: 'token',
+        status: 200,
+        username: 'username'
       }
     ]
 
@@ -58,7 +60,10 @@ describe('login actions', () => {
     )
     const expectedAction = [
       {
-        type: action.SET_TOKEN_ERROR
+        type: action.SET_LOGIN_ERROR,
+        token: null,
+        status: 401,
+        username: null
       }
     ]
 
@@ -203,5 +208,15 @@ describe('drafts actions', () => {
       }
     }
     expect(action.submitDraft(env, token, id, payload)).toEqual(expectedAction)
+  })
+  describe('language actions', () => {
+    it('should create an action to switch the app language', () => {
+      const language = 'es'
+      const expectedAction = {
+        type: action.SWITCH_LANGUAGE,
+        language
+      }
+      expect(action.switchLanguage(language)).toEqual(expectedAction)
+    })
   })
 })

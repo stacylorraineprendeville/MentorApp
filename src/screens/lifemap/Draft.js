@@ -13,8 +13,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import uuid from 'uuid/v1'
 
-import { createDraft, addSurveyData, submitDraft } from '../redux/actions'
-import { url } from '../config'
+import { createDraft, addSurveyData, submitDraft } from '../../redux/actions'
+import { url } from '../../config'
 
 export class Draft extends Component {
   //Get draft id from Redux store if it exists else create new draft id
@@ -44,6 +44,7 @@ export class Draft extends Component {
       this.props.createDraft({
         survey_id: this.survey.id,
         survey_version_id: this.survey['survey_version_id'],
+        created: Date.now(),
         draft_id: this.draft_id,
         personal_survey_data: {},
         economic_survey_data: {},
@@ -95,15 +96,13 @@ export class Draft extends Component {
     return (
       <ScrollView style={styles.container}>
         <Button
-          id="submit"
-          title="Submit"
+          id="continue"
+          title="Continue"
           onPress={() =>
-            this.props.submitDraft(
-              url[this.props.env],
-              this.props.token.token,
-              this.draft_id,
-              draft
-            )
+            this.props.navigation.navigate('BeginLifemap', {
+              draft: this.draft_id,
+              survey: this.survey.id
+            })
           }
         />
         {orderedQuestions.map(question => (
@@ -164,7 +163,7 @@ Draft.propTypes = {
   surveys: PropTypes.array,
   navigation: PropTypes.object.isRequired,
   env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
-  token: PropTypes.object.isRequired
+  user: PropTypes.object.isRequired
 }
 
 const styles = StyleSheet.create({
@@ -177,12 +176,11 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = ({ env, surveys, token, drafts, snapshots }) => ({
+const mapStateToProps = ({ env, surveys, user, drafts }) => ({
   env,
-  token,
+  user,
   surveys,
-  drafts,
-  snapshots
+  drafts
 })
 
 const mapDispatchToProps = {
