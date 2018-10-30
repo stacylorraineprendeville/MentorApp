@@ -9,10 +9,10 @@ import Button from '../../components/Button'
 import colors from '../../theme.json'
 
 export class BeginLifemap extends Component {
-  numberOfQuestions = this.props.surveys.filter(
-    survey => survey.id === this.props.navigation.getParam('survey')
-  )[0]['survey_ui_schema']['ui:group:indicators'].length
-
+  numberOfQuestions = this.props.navigation.getParam('survey')[
+    'survey_ui_schema'
+  ]['ui:group:indicators'].length
+  survey = this.props.navigation.getParam('survey')
   render() {
     return (
       <ScrollView
@@ -28,7 +28,17 @@ export class BeginLifemap extends Component {
         </Text>
         <RoundImage source="stoplight" style={{ marginTop: -100 }} />
         <View style={{ height: 50 }}>
-          <Button colored text="Continue" handleClick={() => {}} />
+          <Button
+            colored
+            text="Continue"
+            handleClick={() =>
+              this.props.navigation.navigate('Question', {
+                draft_id: this.props.navigation.getParam('draft_id'),
+                survey: this.props.navigation.getParam('survey'),
+                step: 0
+              })
+            }
+          />
         </View>
       </ScrollView>
     )

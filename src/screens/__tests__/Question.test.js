@@ -1,48 +1,33 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { ScrollView, FlatList, Text } from 'react-native'
-import { BeginLifemap } from '../lifemap/BeginLifemap'
-import RoundImage from '../../components/RoundImage'
-import Button from '../../components/Button'
+import { ScrollView, Text } from 'react-native'
+import { Question } from '../lifemap/Question'
 
 const createTestProps = props => ({
   navigation: {
     navigate: jest.fn(),
-    getParam: jest.fn(() => 2)
-  },
-  surveys: [
-    {
+    getParam: jest.fn(() => ({
       id: 1,
       title: 'Test survey',
       survey_ui_schema: { 'ui:group:indicators': ['a', 'b'] }
-    },
-    {
-      id: 2,
-      title: 'Other survey',
-      survey_ui_schema: { 'ui:group:indicators': ['a', 'b', 'c'] }
-    }
-  ],
+    }))
+  },
   ...props
 })
 
-describe('BeginLifemap View', () => {
+describe('Question View', () => {
   let wrapper
   beforeEach(() => {
     const props = createTestProps()
-    wrapper = shallow(<BeginLifemap {...props} />)
+    wrapper = shallow(<Question {...props} />)
   })
   describe('rendering', () => {
     it('renders ScrollView', () => {
       expect(wrapper.find(ScrollView)).toHaveLength(1)
     })
-    it('renders RoundImage', () => {
-      expect(wrapper.find(RoundImage)).toHaveLength(1)
-    })
+
     it('renders Text', () => {
       expect(wrapper.find(Text)).toHaveLength(1)
-    })
-    it('renders Button', () => {
-      expect(wrapper.find(Button)).toHaveLength(1)
     })
   })
 

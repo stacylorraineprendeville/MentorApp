@@ -94,8 +94,8 @@ export class Draft extends Component {
           title="Continue"
           onPress={() =>
             this.props.navigation.navigate('BeginLifemap', {
-              draft: this.draft_id,
-              survey: this.survey.id
+              draftId: this.draft_id,
+              survey: this.survey
             })
           }
         />

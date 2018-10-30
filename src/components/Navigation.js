@@ -16,6 +16,7 @@ import {
 } from 'react-navigation'
 import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import QuestionView from '../screens/lifemap/Question'
 import BeginLifemapView from '../screens/lifemap/BeginLifemap'
 import LoginView from '../screens/Login'
 import SurveysView from '../screens/Surveys'
@@ -167,6 +168,9 @@ const DraftStack = createStackNavigator(
     },
     BeginLifemap: {
       screen: BeginLifemapView
+    },
+    Question: {
+      screen: QuestionView
     }
   },
   {
@@ -182,7 +186,7 @@ const DashboardStack = createStackNavigator({
   Draft: {
     screen: DraftStack,
     navigationOptions: ({ navigation }) => ({
-      title: 'Draft',
+      title: 'Your life Map',
       ...generateNavOptions({ navigation, headerLeft: false })
     })
   }
