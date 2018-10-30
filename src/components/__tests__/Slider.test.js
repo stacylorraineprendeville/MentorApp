@@ -1,0 +1,126 @@
+import React from 'react'
+
+import { shallow } from 'enzyme'
+import {
+  StyleSheet,
+  ScrollView,
+  Text,
+  View,
+  Image,
+  TouchableOpacity
+} from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialIcons'
+import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons'
+import Slider from '../Slider'
+import colors from '../../theme.json'
+
+const createTestProps = props => ({
+  ...props,
+  slides: [
+    {
+      description:
+        'Our household income is always above 60% of the UK average.',
+      url: 'https://some-url-1.jpg',
+      value: 'GREEN'
+    },
+    {
+      description:
+        'Our household income, this year, is above 60% of the UK average.',
+      url: 'https://some-url-2.jpg',
+      value: 'YELLOW'
+    },
+    {
+      description:
+        'Our household income is always below 60% of the UK average.',
+      url: 'https://some-url-3.jpg',
+      value: 'RED'
+    }
+  ],
+  giveAnswer: jest.fn(),
+  text: 'Some button text'
+})
+
+describe('Slider Component', () => {
+  let wrapper
+  let props
+  beforeEach(() => {
+    props = createTestProps()
+    wrapper = shallow(<Slider {...props} />)
+  })
+  describe('rendering', () => {
+    it('renders ScrollView', () => {
+      expect(wrapper.find(ScrollView)).toHaveLength(1)
+    })
+    it('renders TouchableOpacity', () => {
+      expect(wrapper.find(TouchableOpacity)).toHaveLength(5)
+    })
+
+    it('renders Text', () => {
+      expect(wrapper.find(Text)).toHaveLength(3)
+    })
+    it('renders Icon', () => {
+      expect(wrapper.find(Icon)).toHaveLength(1)
+    })
+    it('renders Icon2', () => {
+      wrapper = shallow(<Slider {...props} />)
+      expect(wrapper.find(Icon2)).toHaveLength(2)
+    })
+  })
+
+  describe('functionality', () => {
+    it('has correct initial state', () => {
+      expect(wrapper.instance().state).toEqual({ selectedColor: colors.green })
+    })
+    it('does not change state when user clicks on green slide', () => {
+      wrapper
+        .find(TouchableOpacity)
+        .at(0)
+        .props()
+        .onPress()
+      expect(wrapper.instance().state).toEqual({ selectedColor: colors.green })
+    })
+    it('does changes state to yellow when user clicks on yellow slide', () => {
+      wrapper
+        .find(TouchableOpacity)
+        .at(1)
+        .props()
+        .onPress()
+      expect(wrapper.instance().state).toEqual({ selectedColor: colors.gold })
+    })
+  })
+  it('does changes state to red when user clicks on red slide', () => {
+    wrapper
+      .find(TouchableOpacity)
+      .at(2)
+      .props()
+      .onPress()
+    expect(wrapper.instance().state).toEqual({ selectedColor: colors.red })
+  })
+  it('calls giveAnswer function with the correct argument for green', () => {
+    wrapper
+      .find(TouchableOpacity)
+      .at(0)
+      .props()
+      .onPress()
+    expect(wrapper.instance().props.giveAnswer).toHaveBeenCalledTimes(1)
+    expect(wrapper.instance().props.giveAnswer).toHaveBeenCalledWith('GREEN')
+  })
+  it('calls giveAnswer function with the correct argument for yellow', () => {
+    wrapper
+      .find(TouchableOpacity)
+      .at(1)
+      .props()
+      .onPress()
+    expect(wrapper.instance().props.giveAnswer).toHaveBeenCalledTimes(1)
+    expect(wrapper.instance().props.giveAnswer).toHaveBeenCalledWith('YELLOW')
+  })
+  it('calls giveAnswer function with the correct argument for red', () => {
+    wrapper
+      .find(TouchableOpacity)
+      .at(2)
+      .props()
+      .onPress()
+    expect(wrapper.instance().props.giveAnswer).toHaveBeenCalledTimes(1)
+    expect(wrapper.instance().props.giveAnswer).toHaveBeenCalledWith('RED')
+  })
+})

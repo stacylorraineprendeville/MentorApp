@@ -26,7 +26,7 @@ export class BeginLifemap extends Component {
           This life map has {this.numberOfQuestions} questions. It will take
           apporximately 35 minutes to complete!
         </Text>
-        <RoundImage source="stoplight" style={{ marginTop: -100 }} />
+        <RoundImage source="stoplight" />
         <View style={{ height: 50 }}>
           <Button
             colored
@@ -49,8 +49,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingLeft: 50,
     paddingRight: 50,
-    paddingTop: 80,
-    marginBottom: -110
+    paddingTop: 80
   },
   contentContainer: {
     flexGrow: 1,
