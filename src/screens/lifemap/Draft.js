@@ -6,15 +6,14 @@ import {
   Text,
   TextInput,
   Picker,
+  Image,
   Button
 } from 'react-native'
-import { OfflineImage } from 'react-native-image-offline'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import uuid from 'uuid/v1'
 
 import { createDraft, addSurveyData, submitDraft } from '../../redux/actions'
-import { url } from '../../config'
 
 export class Draft extends Component {
   //Get draft id from Redux store if it exists else create new draft id
@@ -89,9 +88,6 @@ export class Draft extends Component {
 
   render() {
     const { orderedQuestions, questionProperties } = this
-    const draft = this.props.drafts.filter(
-      draft => draft.draft_id === this.draft_id
-    )[0]
 
     return (
       <ScrollView style={styles.container}>
@@ -128,7 +124,7 @@ export class Draft extends Component {
                 {questionProperties[question]['items']['enum']
                   .filter(item => item.url !== 'NONE')
                   .map(item => (
-                    <OfflineImage
+                    <Image
                       key={item.url}
                       style={styles.surveyImage}
                       source={{ uri: item.url }}
