@@ -4,7 +4,7 @@ import offlineConfig from '@redux-offline/redux-offline/lib/defaults'
 import { offline } from '@redux-offline/redux-offline'
 import { rootReducer } from './reducer'
 import { setLanguage } from '../i18n'
-
+import { cacheImages } from '../cache'
 let rehydrated = false
 
 export const getHydrationState = () => rehydrated
@@ -24,6 +24,7 @@ export default createStore(
     persistCallback: () => {
       setLanguage()
       rehydrated = true
+      cacheImages()
     }
   })
 )

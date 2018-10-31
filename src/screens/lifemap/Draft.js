@@ -6,13 +6,12 @@ import {
   Text,
   TextInput,
   Picker,
-  Image,
   Button
 } from 'react-native'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import uuid from 'uuid/v1'
-
+import Image from '../../components/CachedImage'
 import { createDraft, addSurveyData, submitDraft } from '../../redux/actions'
 
 export class Draft extends Component {
@@ -123,13 +122,7 @@ export class Draft extends Component {
               <View>
                 {questionProperties[question]['items']['enum']
                   .filter(item => item.url !== 'NONE')
-                  .map(item => (
-                    <Image
-                      key={item.url}
-                      style={styles.surveyImage}
-                      source={{ uri: item.url }}
-                    />
-                  ))}
+                  .map(item => <Image key={item.url} source={item.url} />)}
                 <Picker
                   onValueChange={value => this.storeDraftItem(question, value)}
                   selectedValue={this.getDraftItem(question)}
