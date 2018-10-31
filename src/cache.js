@@ -24,18 +24,15 @@ export const cacheImages = () => {
     RNFetchBlob.fs
       .exists(`${dirs.DocumentDir}/${source.replace(/https?:\/\//, '')}`)
       .then(exist => {
-        if (exist) {
-          console.log('file exists')
-        } else {
-          console.log('does not exist')
+        if (!exist) {
           RNFetchBlob.config({
             fileCache: true,
             appendExt: 'jpg',
             path: `${dirs.DocumentDir}/${source.replace(/https?:\/\//, '')}`
           })
             .fetch('GET', source)
-            .then(res => {
-              console.log('image cached at', res.path())
+            .then(() => {
+              // image is cached
             })
         }
       })

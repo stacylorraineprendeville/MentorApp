@@ -1,8 +1,9 @@
 package com.povertystoplightapp;
 
 import android.app.Application;
-
+import com.jamesisaac.rnbackgroundtask.BackgroundTaskPackage;
 import com.facebook.react.ReactApplication;
+import com.jamesisaac.rnbackgroundtask.BackgroundTaskPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactcommunity.rnlanguages.RNLanguagesPackage;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new BackgroundTaskPackage(),
             new SplashScreenReactPackage(),
             new VectorIconsPackage(),
             new RNLanguagesPackage(),
@@ -50,7 +52,8 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
-    long size = 50L * 1024L * 1024L; // 50 MB 
+    long size = 50L * 1024L * 1024L; // 50 MB
     com.facebook.react.modules.storage.ReactDatabaseSupplier.getInstance(getApplicationContext()).setMaximumSize(size);
+    BackgroundTaskPackage.useContext(this);
   }
 }
