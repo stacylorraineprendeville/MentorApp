@@ -5,8 +5,9 @@ import {
   Text,
   ProgressBarAndroid,
   View,
-  Image
+  CheckBox
 } from 'react-native'
+
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { addSurveyData } from '../../redux/actions'
@@ -15,27 +16,41 @@ import colors from '../../theme.json'
 import Slider from '../../components/Slider'
 
 export class Question extends Component {
-  indicators = this.props.navigation.getParam('survey')['survey_ui_schema'][
-    'ui:group:indicators'
-  ]
-
   step = this.props.navigation.getParam('step')
+  survey = this.props.navigation.getParam('survey')
+  draft_id = this.props.navigation.getParam('draft_id')
 
-  indicator = this.props.navigation.getParam('survey')['survey_schema']
-    .properties[this.indicators[this.step]]
+  indicators = this.survey['survey_ui_schema']['ui:group:indicators']
+
+  indicator = this.survey['survey_schema'].properties[
+    this.indicators[this.step]
+  ]
 
   indicatorIsRequired = this.props.navigation
     .getParam('survey')
     ['survey_schema'].required.includes(this.indicators[this.step])
+
   slides = this.indicator.items.enum.filter(item => item.url !== 'NONE')
 
+  selectAnswer(answer) {
+    this.props.addSurveyData(this.draft_id, 'indicator_survey_data', {
+      [this.indicators[this.step]]: answer
+    })
+    if (this.step + 1 < this.indicators.length) {
+      this.props.navigation.push('Question', {
+        draft_id: this.draft_id,
+        survey: this.survey,
+        step: this.step + 1
+      })
+    }
+  }
+
   render() {
-    console.log(this.slides)
     return (
-      <ScrollView style={{ ...globalStyles.container, padding: 0 }}>
-        <View style={{ paddingLeft: 25, paddingRight: 25 }}>
+      <ScrollView style={globalStyles.background}>
+        <View style={{ ...globalStyles.container, paddingTop: 20 }}>
           <Text style={{ ...globalStyles.h5, textAlign: 'right' }}>{`${this
-            .step + 1} / ${this.indicators.length + 1}`}</Text>
+            .step + 1} / ${this.indicators.length}`}</Text>
           <Text style={{ ...globalStyles.h3 }}>{`${this.step + 1}. ${
             this.indicator.title.es
           }`}</Text>
@@ -43,17 +58,54 @@ export class Question extends Component {
             styleAttr="Horizontal"
             color={colors.green}
             indeterminate={false}
-            progress={(this.step + 1) / (this.indicators.length + 1)}
+            progress={(this.step + 1) / this.indicators.length}
             style={{ marginTop: 35 }}
           />
         </View>
-        <Slider slides={this.slides} giveAnswer={() => {}} />
+        <Slider
+          slides={this.slides}
+          selectAnswer={answer => this.selectAnswer(answer)}
+        />
+        <View style={styles.skip}>
+          {this.indicatorIsRequired ? (
+            <View style={{ flexDirection: 'row' }}>
+              <CheckBox
+                onValueChange={() => {
+                  ;() =>
+                    this.props.addSurveyData(
+                      this.props.navigation.getParam('draft_id'),
+                      'indicator_survey_data',
+                      {
+                        [this.indicators[this.step]]: answer
+                      }
+                    )
+                }}
+              />
+              <Text style={{ ...globalStyles.tag, marginTop: 8 }}>
+                Skip this question
+              </Text>
+            </View>
+          ) : (
+            <Text style={globalStyles.tag}> *Response required </Text>
+          )}
+        </View>
       </ScrollView>
     )
   }
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  padding: {
+    paddingLeft: 25,
+    paddingRight: 25
+  },
+  skip: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 30,
+    paddingBottom: 30
+  }
+})
 
 Question.propTypes = {
   addSurveyData: PropTypes.func.isRequired,

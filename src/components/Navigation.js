@@ -161,22 +161,29 @@ export const generateNavOptions = ({ navigation, headerLeft = true }) => {
   return options
 }
 
-const DraftStack = createStackNavigator(
-  {
-    Draft: {
-      screen: DraftView
-    },
-    BeginLifemap: {
-      screen: BeginLifemapView
-    },
-    Question: {
-      screen: QuestionView
-    }
+const DraftStack = createStackNavigator({
+  Draft: {
+    screen: DraftView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Your life Map',
+      ...generateNavOptions({ navigation })
+    })
   },
-  {
-    headerMode: 'none'
+  BeginLifemap: {
+    screen: BeginLifemapView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Your life Map',
+      ...generateNavOptions({ navigation, headerLeft: false })
+    })
+  },
+  Question: {
+    screen: QuestionView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Your life Map',
+      ...generateNavOptions({ navigation, headerLeft: false })
+    })
   }
-)
+})
 
 const DashboardStack = createStackNavigator({
   Dashboard: {
@@ -185,10 +192,7 @@ const DashboardStack = createStackNavigator({
   },
   Draft: {
     screen: DraftStack,
-    navigationOptions: ({ navigation }) => ({
-      title: 'Your life Map',
-      ...generateNavOptions({ navigation, headerLeft: false })
-    })
+    navigationOptions: { header: null }
   }
 })
 
@@ -201,11 +205,7 @@ const LifemapStack = createStackNavigator({
     })
   },
   Draft: {
-    screen: DraftStack,
-    navigationOptions: ({ navigation }) => ({
-      title: 'Draft',
-      ...generateNavOptions({ navigation, headerLeft: false })
-    })
+    screen: DraftStack
   }
 })
 

@@ -42,13 +42,6 @@ describe('Login View', () => {
         connection: false
       })
     })
-    it('renders error message when user status is 400', async () => {
-      props = createTestProps({ user: { status: 400 } })
-      wrapper = shallow(<Login {...props} />)
-      await wrapper.instance().onLogin()
-      expect(wrapper.find(Text)).toHaveLength(5)
-      expect(wrapper.find('#error-message')).toExist()
-    })
     it('renders error message when user status is 401', async () => {
       props = createTestProps({ user: { status: 401 } })
       wrapper = shallow(<Login {...props} />)
@@ -117,13 +110,6 @@ describe('Login View', () => {
     })
     it('changes error state to correct message when user status is 401', async () => {
       props = createTestProps({ user: { status: 401 } })
-      wrapper = shallow(<Login {...props} />)
-      await wrapper.instance().checkConnectivity()
-      await wrapper.instance().onLogin()
-      expect(wrapper.instance().state.error).toBe('Wrong username or password')
-    })
-    it('changes error state to correct message when user status is 400', async () => {
-      props = createTestProps({ user: { status: 400 } })
       wrapper = shallow(<Login {...props} />)
       await wrapper.instance().checkConnectivity()
       await wrapper.instance().onLogin()

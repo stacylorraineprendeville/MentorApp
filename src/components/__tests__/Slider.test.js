@@ -36,7 +36,7 @@ const createTestProps = props => ({
       value: 'RED'
     }
   ],
-  giveAnswer: jest.fn(),
+  selectAnswer: jest.fn(),
   text: 'Some button text'
 })
 
@@ -96,31 +96,31 @@ describe('Slider Component', () => {
       .onPress()
     expect(wrapper.instance().state).toEqual({ selectedColor: colors.red })
   })
-  it('calls giveAnswer function with the correct argument for green', () => {
+  it('calls selectAnswer function with the correct argument for green', () => {
     wrapper
       .find(TouchableOpacity)
       .at(0)
       .props()
       .onPress()
-    expect(wrapper.instance().props.giveAnswer).toHaveBeenCalledTimes(1)
-    expect(wrapper.instance().props.giveAnswer).toHaveBeenCalledWith('GREEN')
+    expect(wrapper.instance().props.selectAnswer).toHaveBeenCalledTimes(1)
+    expect(wrapper.instance().props.selectAnswer).toHaveBeenCalledWith('GREEN')
   })
-  it('calls giveAnswer function with the correct argument for yellow', () => {
+  it('calls selectAnswer function with the correct argument for yellow', () => {
     wrapper
       .find(TouchableOpacity)
       .at(1)
       .props()
       .onPress()
-    expect(wrapper.instance().props.giveAnswer).toHaveBeenCalledTimes(1)
-    expect(wrapper.instance().props.giveAnswer).toHaveBeenCalledWith('YELLOW')
+    expect(wrapper.instance().props.selectAnswer).toHaveBeenCalledTimes(1)
+    expect(wrapper.instance().props.selectAnswer).toHaveBeenCalledWith('YELLOW')
   })
-  it('calls giveAnswer function with the correct argument for red', () => {
+  it('calls selectAnswer function with the correct argument for red', () => {
     wrapper
       .find(TouchableOpacity)
       .at(2)
       .props()
       .onPress()
-    expect(wrapper.instance().props.giveAnswer).toHaveBeenCalledTimes(1)
-    expect(wrapper.instance().props.giveAnswer).toHaveBeenCalledWith('RED')
+    expect(wrapper.instance().props.selectAnswer).toHaveBeenCalledTimes(1)
+    expect(wrapper.instance().props.selectAnswer).toHaveBeenCalledWith('RED')
   })
 })

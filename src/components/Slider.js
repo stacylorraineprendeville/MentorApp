@@ -40,7 +40,7 @@ class Slider extends Component {
           {this.props.slides.map((slide, i) => (
             <TouchableOpacity
               onPress={() => {
-                this.props.giveAnswer(slide.value)
+                this.props.selectAnswer(slide.value)
                 this.setState({
                   selectedColor: colors[slideColors[slide.value]]
                 })
@@ -97,7 +97,7 @@ class Slider extends Component {
 
 Slider.propTypes = {
   slides: PropTypes.array.isRequired,
-  giveAnswer: PropTypes.func.isRequired
+  selectAnswer: PropTypes.func.isRequired
 }
 
 const styles = StyleSheet.create({

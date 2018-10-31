@@ -16,17 +16,21 @@ export class BeginLifemap extends Component {
   render() {
     return (
       <ScrollView
-        style={{
-          ...globalStyles.container,
-          padding: 0
-        }}
+        style={globalStyles.background}
         contentContainerStyle={styles.contentContainer}
       >
-        <Text style={{ ...globalStyles.h3, ...styles.text }}>
-          This life map has {this.numberOfQuestions} questions. It will take
-          apporximately 35 minutes to complete!
-        </Text>
-        <RoundImage source="stoplight" />
+        <View
+          style={{
+            ...globalStyles.container,
+            padding: 0
+          }}
+        >
+          <Text style={{ ...globalStyles.h3, ...styles.text }}>
+            This life map has {this.numberOfQuestions} questions. It will take
+            apporximately 35 minutes to complete!
+          </Text>
+          <RoundImage source="stoplight" />
+        </View>
         <View style={{ height: 50 }}>
           <Button
             colored
@@ -49,7 +53,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingLeft: 50,
     paddingRight: 50,
-    paddingTop: 80
+    paddingTop: 80,
+    paddingBottom: 30
   },
   contentContainer: {
     flexGrow: 1,

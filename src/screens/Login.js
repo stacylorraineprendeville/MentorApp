@@ -62,10 +62,7 @@ export class Login extends Component {
           this.props.navigation.navigate('Dashboard', {
             firstTimeVisitor: true
           })
-        } else if (
-          this.props.user.status === 400 ||
-          this.props.user.status === 401
-        ) {
+        } else if (this.props.user.status === 401) {
           this.setState({ error: 'Wrong username or password' })
         }
       })
@@ -83,7 +80,7 @@ export class Login extends Component {
               color: colors.lightdark
             }}
           >
-            {'Let\'s get started...'}
+            {"Let's get started..."}
           </Text>
           <Text style={globalStyles.h5}>USERNAME</Text>
           <TextInput
