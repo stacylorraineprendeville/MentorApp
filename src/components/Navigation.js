@@ -161,12 +161,13 @@ export const generateNavOptions = ({ navigation, headerLeft = true }) => {
   return options
 }
 
-const DraftStack = createStackNavigator({
+// Reusable object for all screens related to a draft
+const DraftScreens = {
   Draft: {
     screen: DraftView,
     navigationOptions: ({ navigation }) => ({
       title: 'Your life Map',
-      ...generateNavOptions({ navigation })
+      ...generateNavOptions({ navigation, headerLeft: false })
     })
   },
   BeginLifemap: {
@@ -183,17 +184,14 @@ const DraftStack = createStackNavigator({
       ...generateNavOptions({ navigation, headerLeft: false })
     })
   }
-})
+}
 
 const DashboardStack = createStackNavigator({
   Dashboard: {
     screen: DashboardView,
     navigationOptions: ({ navigation }) => generateNavOptions({ navigation })
   },
-  Draft: {
-    screen: DraftStack,
-    navigationOptions: { header: null }
-  }
+  ...DraftScreens
 })
 
 const LifemapStack = createStackNavigator({
@@ -204,9 +202,7 @@ const LifemapStack = createStackNavigator({
       ...generateNavOptions({ navigation })
     })
   },
-  Draft: {
-    screen: DraftStack
-  }
+  ...DraftScreens
 })
 
 const FamiliesStack = createStackNavigator({

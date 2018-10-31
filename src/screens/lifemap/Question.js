@@ -26,9 +26,9 @@ export class Question extends Component {
     this.indicators[this.step]
   ]
 
-  indicatorIsRequired = this.props.navigation
-    .getParam('survey')
-    ['survey_schema'].required.includes(this.indicators[this.step])
+  indicatorIsRequired = this.survey['survey_schema'].required.includes(
+    this.indicators[this.step]
+  )
 
   slides = this.indicator.items.enum.filter(item => item.url !== 'NONE')
 
@@ -68,25 +68,17 @@ export class Question extends Component {
         />
         <View style={styles.skip}>
           {this.indicatorIsRequired ? (
+            <Text style={globalStyles.tag}> *Response required </Text>
+          ) : (
             <View style={{ flexDirection: 'row' }}>
               <CheckBox
-                onValueChange={() => {
-                  ;() =>
-                    this.props.addSurveyData(
-                      this.props.navigation.getParam('draft_id'),
-                      'indicator_survey_data',
-                      {
-                        [this.indicators[this.step]]: answer
-                      }
-                    )
-                }}
+                id="skip-question-checkbox"
+                onChange={() => this.selectAnswer('NONE')}
               />
               <Text style={{ ...globalStyles.tag, marginTop: 8 }}>
                 Skip this question
               </Text>
             </View>
-          ) : (
-            <Text style={globalStyles.tag}> *Response required </Text>
           )}
         </View>
       </ScrollView>
