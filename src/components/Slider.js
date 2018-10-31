@@ -35,7 +35,9 @@ class Slider extends Component {
             flexDirection: 'row',
             justifyContent: 'space-between'
           }}
-          ref="_scrollView"
+          ref={comp => {
+            this._scrollView = comp
+          }}
         >
           {this.props.slides.map((slide, i) => (
             <TouchableOpacity
@@ -68,7 +70,7 @@ class Slider extends Component {
           <TouchableOpacity
             style={styles.iconSmall}
             onPress={() =>
-              this.refs._scrollView.scrollTo({ x: 0, y: 0, animated: true })
+              this._scrollView.scrollTo({ x: 0, y: 0, animated: true })
             }
           >
             <Icon2 name="chevron-double-left" size={24} color={colors.green} />
@@ -83,9 +85,7 @@ class Slider extends Component {
           </View>
           <TouchableOpacity
             style={styles.iconSmall}
-            onPress={() =>
-              this.refs._scrollView.scrollToEnd({ animated: true })
-            }
+            onPress={() => this._scrollView.scrollToEnd({ animated: true })}
           >
             <Icon2 name="chevron-double-right" size={24} color={colors.green} />
           </TouchableOpacity>

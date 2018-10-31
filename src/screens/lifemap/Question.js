@@ -87,10 +87,6 @@ export class Question extends Component {
 }
 
 const styles = StyleSheet.create({
-  padding: {
-    paddingLeft: 25,
-    paddingRight: 25
-  },
   skip: {
     justifyContent: 'center',
     alignItems: 'center',
