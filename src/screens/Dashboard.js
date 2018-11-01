@@ -73,7 +73,7 @@ export class Dashboard extends Component {
   render() {
     const { t, navigation, drafts } = this.props
     return (
-      <ScrollView style={styles.background}>
+      <ScrollView style={globalStyles.background}>
         {this.props.offline.outbox.length &&
         navigation.getParam('firstTimeVisitor') ? (
           <Loading time={this.state.loadingTime} />
@@ -159,9 +159,6 @@ const styles = StyleSheet.create({
     lineHeight: 41,
     flex: 1,
     textAlign: 'center'
-  },
-  background: {
-    backgroundColor: colors.palebeige
   },
   borderBottom: {
     borderBottomColor: colors.lightgrey,

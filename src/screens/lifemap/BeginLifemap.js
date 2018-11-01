@@ -9,26 +9,40 @@ import Button from '../../components/Button'
 import colors from '../../theme.json'
 
 export class BeginLifemap extends Component {
-  numberOfQuestions = this.props.surveys.filter(
-    survey => survey.id === this.props.navigation.getParam('survey')
-  )[0]['survey_ui_schema']['ui:group:indicators'].length
-
+  numberOfQuestions = this.props.navigation.getParam('survey')[
+    'survey_ui_schema'
+  ]['ui:group:indicators'].length
+  survey = this.props.navigation.getParam('survey')
   render() {
     return (
       <ScrollView
-        style={{
-          ...globalStyles.container,
-          padding: 0
-        }}
+        style={globalStyles.background}
         contentContainerStyle={styles.contentContainer}
       >
-        <Text style={{ ...globalStyles.h3, ...styles.text }}>
-          This life map has {this.numberOfQuestions} questions. It will take
-          apporximately 35 minutes to complete!
-        </Text>
-        <RoundImage source="stoplight" style={{ marginTop: -100 }} />
+        <View
+          style={{
+            ...globalStyles.container,
+            padding: 0
+          }}
+        >
+          <Text style={{ ...globalStyles.h3, ...styles.text }}>
+            This life map has {this.numberOfQuestions} questions. It will take
+            apporximately 35 minutes to complete!
+          </Text>
+          <RoundImage source="stoplight" />
+        </View>
         <View style={{ height: 50 }}>
-          <Button colored text="Continue" handleClick={() => {}} />
+          <Button
+            colored
+            text="Continue"
+            handleClick={() =>
+              this.props.navigation.navigate('Question', {
+                draft_id: this.props.navigation.getParam('draft_id'),
+                survey: this.props.navigation.getParam('survey'),
+                step: 0
+              })
+            }
+          />
         </View>
       </ScrollView>
     )
@@ -40,7 +54,7 @@ const styles = StyleSheet.create({
     paddingLeft: 50,
     paddingRight: 50,
     paddingTop: 80,
-    marginBottom: -110
+    paddingBottom: 30
   },
   contentContainer: {
     flexGrow: 1,

@@ -8,20 +8,12 @@ import Button from '../../components/Button'
 const createTestProps = props => ({
   navigation: {
     navigate: jest.fn(),
-    getParam: jest.fn(() => 2)
-  },
-  surveys: [
-    {
-      id: 1,
-      title: 'Test survey',
-      survey_ui_schema: { 'ui:group:indicators': ['a', 'b'] }
-    },
-    {
+    getParam: jest.fn(() => ({
       id: 2,
       title: 'Other survey',
       survey_ui_schema: { 'ui:group:indicators': ['a', 'b', 'c'] }
-    }
-  ],
+    }))
+  },
   ...props
 })
 
@@ -42,7 +34,7 @@ describe('BeginLifemap View', () => {
       expect(wrapper.find(Text)).toHaveLength(1)
     })
     it('renders Button', () => {
-      expect(wrapper.find(Text)).toHaveLength(1)
+      expect(wrapper.find(Button)).toHaveLength(1)
     })
   })
 
