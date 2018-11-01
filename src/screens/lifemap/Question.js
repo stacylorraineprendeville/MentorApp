@@ -4,8 +4,7 @@ import {
   ScrollView,
   Text,
   ProgressBarAndroid,
-  View,
-  CheckBox
+  View
 } from 'react-native'
 
 import { connect } from 'react-redux'
@@ -14,6 +13,7 @@ import { addSurveyData } from '../../redux/actions'
 import globalStyles from '../../globalStyles'
 import colors from '../../theme.json'
 import Slider from '../../components/Slider'
+import Checkbox from '../../components/Checkbox'
 
 export class Question extends Component {
   step = this.props.navigation.getParam('step')
@@ -41,6 +41,12 @@ export class Question extends Component {
         draft_id: this.draft_id,
         survey: this.survey,
         step: this.step + 1
+      })
+    } else {
+      this.props.navigation.navigate('Skipped', {
+        draft_id: this.draft_id,
+        survey: this.survey,
+        step: 'end'
       })
     }
   }
@@ -70,15 +76,10 @@ export class Question extends Component {
           {this.indicatorIsRequired ? (
             <Text style={globalStyles.tag}> *Response required </Text>
           ) : (
-            <View style={{ flexDirection: 'row' }}>
-              <CheckBox
-                id="skip-question-checkbox"
-                onChange={() => this.selectAnswer('NONE')}
-              />
-              <Text style={{ ...globalStyles.tag, marginTop: 8 }}>
-                Skip this question
-              </Text>
-            </View>
+            <Checkbox
+              onIconPress={() => this.selectAnswer('NONE')}
+              title="Skip this question"
+            />
           )}
         </View>
       </ScrollView>
