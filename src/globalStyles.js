@@ -2,6 +2,9 @@ import { Platform, StyleSheet } from 'react-native'
 import colors from './theme.json'
 
 export default StyleSheet.create({
+  background: {
+    backgroundColor: colors.palebeige
+  },
   container: {
     flex: 1,
     backgroundColor: colors.palebeige,

@@ -16,6 +16,7 @@ import {
 } from 'react-navigation'
 import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import QuestionView from '../screens/lifemap/Question'
 import BeginLifemapView from '../screens/lifemap/BeginLifemap'
 import LoginView from '../screens/Login'
 import SurveysView from '../screens/Surveys'
@@ -160,32 +161,37 @@ export const generateNavOptions = ({ navigation, headerLeft = true }) => {
   return options
 }
 
-const DraftStack = createStackNavigator(
-  {
-    Draft: {
-      screen: DraftView
-    },
-    BeginLifemap: {
-      screen: BeginLifemapView
-    }
+// Reusable object for all screens related to a draft
+const DraftScreens = {
+  Draft: {
+    screen: DraftView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Your life Map',
+      ...generateNavOptions({ navigation, headerLeft: false })
+    })
   },
-  {
-    headerMode: 'none'
+  BeginLifemap: {
+    screen: BeginLifemapView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Your life Map',
+      ...generateNavOptions({ navigation, headerLeft: false })
+    })
+  },
+  Question: {
+    screen: QuestionView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Your life Map',
+      ...generateNavOptions({ navigation, headerLeft: false })
+    })
   }
-)
+}
 
 const DashboardStack = createStackNavigator({
   Dashboard: {
     screen: DashboardView,
     navigationOptions: ({ navigation }) => generateNavOptions({ navigation })
   },
-  Draft: {
-    screen: DraftStack,
-    navigationOptions: ({ navigation }) => ({
-      title: 'Draft',
-      ...generateNavOptions({ navigation, headerLeft: false })
-    })
-  }
+  ...DraftScreens
 })
 
 const LifemapStack = createStackNavigator({
@@ -196,13 +202,7 @@ const LifemapStack = createStackNavigator({
       ...generateNavOptions({ navigation })
     })
   },
-  Draft: {
-    screen: DraftStack,
-    navigationOptions: ({ navigation }) => ({
-      title: 'Draft',
-      ...generateNavOptions({ navigation, headerLeft: false })
-    })
-  }
+  ...DraftScreens
 })
 
 const FamiliesStack = createStackNavigator({
