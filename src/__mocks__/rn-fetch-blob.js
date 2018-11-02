@@ -1,6 +1,3 @@
-const existsMock = jest.fn()
-existsMock.mockReturnValueOnce({ then: jest.fn() })
-
 export default {
   DocumentDir: () => {},
   ImageCache: {
@@ -9,11 +6,13 @@ export default {
     }
   },
   fs: {
-    exists: existsMock,
+    exists: jest.fn(() => {
+      return Promise.resolve(true)
+    }),
     dirs: {
       MainBundleDir: () => {},
       CacheDir: () => {},
-      DocumentDir: () => {}
+      DocumentDir: 'foo'
     }
   }
 }

@@ -5,11 +5,11 @@ import SplashScreen from 'react-native-splash-screen'
 import BackgroundTask from 'react-native-background-task'
 import NavigationWrapper from './src/components/NavWrapper'
 import store from './src/redux/store'
-import { cacheImages } from './src/cache'
+import { initImageCaching } from './src/cache'
 
 // schedule a background task to check the images cache
 BackgroundTask.define(() => {
-  cacheImages()
+  initImageCaching()
   BackgroundTask.finish()
 })
 

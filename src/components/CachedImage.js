@@ -5,7 +5,7 @@ import RNFetchBlob from 'rn-fetch-blob'
 
 let dirs = RNFetchBlob.fs.dirs
 
-class CachedImage extends Component {
+export class CachedImage extends Component {
   constructor(props) {
     super(props)
     this.state = {
