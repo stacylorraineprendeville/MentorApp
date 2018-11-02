@@ -10,7 +10,6 @@ import Checkbox from './Checkbox.js'
 
 class SkippedListItem extends Component {
   render() {
-    console.log(this.props.item)
     return (
       <TouchableOpacity
         style={{ ...styles.listItem, ...styles.borderBottom }}
@@ -20,7 +19,10 @@ class SkippedListItem extends Component {
           <Text style={{ ...globalStyles.p, marginBottom: 20 }}>
             {this.props.item}
           </Text>
-          <Checkbox onIconPress={() => {}} title="Skip this question" />
+          <Checkbox
+            onIconPress={() => this.props.onIconPress()}
+            title="Skip this question"
+          />
         </View>
         <Icon name="navigate-next" size={23} color={colors.lightdark} />
       </TouchableOpacity>
