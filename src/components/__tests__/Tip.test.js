@@ -41,7 +41,7 @@ describe('Tip Component', () => {
         .handleClick()
       expect(wrapper.instance().state).toEqual({ tipVisible: false })
     })
-    it('has shows title and description', () => {
+    it('shows correct title', () => {
       expect(
         wrapper
           .find(Text)
@@ -49,11 +49,13 @@ describe('Tip Component', () => {
           .props().children
       ).toBe('Title')
     })
-    expect(
-      wrapper
-        .find(Text)
-        .last()
-        .props().children
-    ).toBe('Description')
+    it('shows correct description', () => {
+      expect(
+        wrapper
+          .find(Text)
+          .last()
+          .props().children
+      ).toBe('Description')
+    })
   })
 })

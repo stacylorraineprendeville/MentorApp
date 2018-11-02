@@ -26,7 +26,9 @@ class Checkbox extends Component {
         textStyle={globalStyles.subline}
         containerStyle={{
           backgroundColor: colors.palebeige,
-          borderColor: colors.palebeige
+          borderColor: colors.palebeige,
+          padding: 0,
+          marginLeft: 0
         }}
       />
     )

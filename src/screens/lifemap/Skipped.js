@@ -1,17 +1,27 @@
 import React, { Component } from 'react'
-import { StyleSheet, ScrollView, Image, View } from 'react-native'
+import { StyleSheet, ScrollView, Image, View, FlatList } from 'react-native'
 import { Divider } from 'react-native-elements'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Checkbox from '../../components/Checkbox'
+
 import Tip from '../../components/Tip'
+import SkippedListItem from '../../components/SkippedListItem'
 
 import globalStyles from '../../globalStyles'
-
 import colors from '../../theme.json'
 
 export class Skipped extends Component {
+  survey = this.props.navigation.getParam('survey')
+  indicators = this.props.drafts.filter(
+    item => item.draft_id === this.props.navigation.getParam('draft_id')
+  )[0].indicator_survey_data
+
+  skippedQuestions = Object.keys(this.indicators).filter(
+    key => this.indicators[key] === 'NONE'
+  )
+
   render() {
+    console.log(this.survey)
     return (
       <ScrollView style={globalStyles.background}>
         <View style={globalStyles.container}>
@@ -21,6 +31,18 @@ export class Skipped extends Component {
           />
         </View>
         <Divider style={{ backgroundColor: colors.lightgrey }} />
+        <FlatList
+          style={{ ...styles.background, paddingLeft: 25 }}
+          data={this.skippedQuestions}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <SkippedListItem
+              item={this.survey.survey_schema.properties[item].title.es}
+              onIconPress={() => {}}
+              handleClick={() => {}}
+            />
+          )}
+        />
         <Tip
           title={'You skipped the following questions'}
           description={'Click on the question to answer it now!'}
@@ -38,8 +60,9 @@ Skipped.propTypes = {
   navigation: PropTypes.object.isRequired
 }
 
-const mapStateToProps = ({ drafts }) => ({
-  drafts
+const mapStateToProps = ({ drafts, surveys }) => ({
+  drafts,
+  surveys
 })
 
 export default connect(mapStateToProps)(Skipped)

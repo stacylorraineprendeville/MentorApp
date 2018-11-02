@@ -6,13 +6,25 @@ import { Skipped } from '../lifemap/Skipped'
 const createTestProps = props => ({
   navigation: {
     navigate: jest.fn(),
-    getParam: jest.fn(() => ({
-      id: 2,
-      title: 'Other survey',
-      survey_ui_schema: { 'ui:group:indicators': ['a', 'b', 'c'] }
-    }))
+    getParam: jest.fn(param => {
+      if (param === 'draft_id') {
+        return 1
+      }
+      if (param === 'survey') {
+        return {
+          id: 2,
+          title: 'Other survey',
+          survey_ui_schema: { 'ui:group:indicators': ['a', 'b', 'c'] }
+        }
+      }
+    })
   },
-  drafts: [],
+  drafts: [
+    {
+      draft_id: 1,
+      indicator_survey_data: ['phone']
+    }
+  ],
   ...props
 })
 
