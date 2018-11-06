@@ -3,6 +3,7 @@ import { shallow } from 'enzyme'
 import { NavWrapper } from '../NavWrapper'
 import { LoginStack, AppStack } from '../Navigation'
 import Loading from '../Loading'
+import * as store from '../../redux/store'
 
 jest.useFakeTimers()
 
@@ -23,28 +24,50 @@ describe('Navigation Wrapper', () => {
     jest.clearAllTimers()
   })
 
-  it('checks for store hydration on mount', () => {
-    expect(wrapper).toHaveState({
-      rehydrated: false
+  describe('before rehydration', () => {
+    it('checks for store hydration on mount', () => {
+      expect(wrapper).toHaveState({
+        rehydrated: false
+      })
+      const spy = jest.spyOn(wrapper.instance(), 'checkHydration')
+      wrapper.instance().componentDidMount()
+      expect(spy).toHaveBeenCalledTimes(1)
     })
-    const spy = jest.spyOn(wrapper.instance(), 'checkHydration')
-    wrapper.instance().componentDidMount()
-    expect(spy).toHaveBeenCalledTimes(1)
+
+    it('renders ActivityIndicator if store is not hydrated', () => {
+      expect(wrapper.find(Loading)).toHaveLength(1)
+    })
   })
 
-  it('renders ActivityIndicator if store is not hydrated', () => {
-    expect(wrapper.find(Loading)).toHaveLength(1)
-  })
+  describe('after rehydration', () => {
+    beforeEach(() => {
+      /* eslint-disable import/namespace */
+      store.getHydrationState = () => true
+      /* eslint-enable import/namespace */
+      props = createTestProps()
+      wrapper = shallow(<NavWrapper {...props} />)
+    })
 
-  it('renders <LoginStack /> stack if no token is available', () => {
-    wrapper.setState({ rehydrated: true })
-    expect(wrapper.find(LoginStack)).toHaveLength(1)
-  })
+    it('sets proper state if store is rehydrated', () => {
+      expect(wrapper).toHaveState({
+        rehydrated: true
+      })
+    })
 
-  it('renders <AppStack /> stack if there is a token in the store', () => {
-    const props = createTestProps({ user: { token: '34423' }, ...props })
-    const wrapper = shallow(<NavWrapper {...props} />)
-    wrapper.setState({ rehydrated: true })
-    expect(wrapper.find(AppStack)).toHaveLength(1)
+    it('renders <LoginStack /> stack if no token is available', () => {
+      expect(wrapper.find(LoginStack)).toHaveLength(1)
+    })
+
+    it('renders <AppStack /> stack if there is a token in the store', () => {
+      const props = createTestProps({ user: { token: '34423' }, ...props })
+      const wrapper = shallow(<NavWrapper {...props} />)
+      expect(wrapper.find(AppStack)).toHaveLength(1)
+    })
+    it('clears timers on unmount', () => {
+      const spy = jest.spyOn(wrapper.instance(), 'clearTimers')
+
+      wrapper.unmount()
+      expect(spy).toHaveBeenCalledTimes(1)
+    })
   })
 })

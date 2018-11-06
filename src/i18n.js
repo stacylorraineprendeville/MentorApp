@@ -14,6 +14,8 @@ const resources = {
   }
 }
 
+/* eslint-disable import/no-named-as-default-member */
+
 // set language after store rehydration
 export const setLanguage = () => {
   const reduxLanguage = store.getState().language

@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { ScrollView, FlatList, Text } from 'react-native'
+import { ScrollView, Text } from 'react-native'
 import { BeginLifemap } from '../lifemap/BeginLifemap'
 import RoundImage from '../../components/RoundImage'
 import Button from '../../components/Button'

@@ -16,6 +16,7 @@ import {
 } from 'react-navigation'
 import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 import QuestionView from '../screens/lifemap/Question'
 import BeginLifemapView from '../screens/lifemap/BeginLifemap'
 import LoginView from '../screens/Login'
@@ -89,7 +90,7 @@ export class DrawerContent extends Component {
           <DrawerItems {...this.props} />
         </View>
         <TouchableOpacity id="logout" style={styles.logout} onPress={() => {}}>
-          <Icon name="arrow-back" size={20} color={colors.palegreen} />
+          <CommunityIcon name="logout" size={20} color={colors.palegreen} />
           <Text style={styles.logoutLabel}>Logout</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -205,7 +206,7 @@ const LifemapStack = createStackNavigator({
   ...DraftScreens
 })
 
-const FamiliesStack = createStackNavigator({
+export const FamiliesStack = createStackNavigator({
   Families: {
     screen: FamiliesView,
     navigationOptions: ({ navigation }) => ({
