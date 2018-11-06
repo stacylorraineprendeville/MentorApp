@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { Text, TouchableOpacity, StyleSheet, View } from 'react-native'
-import moment from 'moment'
 
 import colors from '../theme.json'
 import globalStyles from '../globalStyles'

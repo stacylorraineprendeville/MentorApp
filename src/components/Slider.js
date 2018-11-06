@@ -112,14 +112,6 @@ const styles = StyleSheet.create({
     borderColor: colors.white,
     borderWidth: 3
   },
-  iconSmall: {
-    backgroundColor: colors.white,
-    borderRadius: 22,
-    width: 44,
-    height: 44,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   nav: {
     flexDirection: 'row',
     justifyContent: 'center',
