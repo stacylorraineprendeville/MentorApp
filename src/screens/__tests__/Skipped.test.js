@@ -1,6 +1,8 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { ScrollView, Image } from 'react-native'
+import { ScrollView, Image, FlatList } from 'react-native'
+import { Divider } from 'react-native-elements'
+import Tip from '../../components/Tip'
 import { Skipped } from '../lifemap/Skipped'
 
 const createTestProps = props => ({
@@ -22,7 +24,7 @@ const createTestProps = props => ({
   drafts: [
     {
       draft_id: 1,
-      indicator_survey_data: ['phone']
+      indicator_survey_data: { phone: 'NONE', education: 'RED' }
     }
   ],
   ...props
@@ -41,7 +43,19 @@ describe('Skipped View', () => {
     it('renders Image', () => {
       expect(wrapper.find(Image)).toHaveLength(1)
     })
+    it('renders Divider', () => {
+      expect(wrapper.find(Divider)).toHaveLength(1)
+    })
+    it('rendersFlatList', () => {
+      expect(wrapper.find(FlatList)).toHaveLength(1)
+    })
+    it('renders Tip', () => {
+      expect(wrapper.find(Tip)).toHaveLength(1)
+    })
   })
-
-  describe('functionality', () => {})
+  describe('functionality', () => {
+    it('passess the correct data to FlatList', () => {
+      expect(wrapper.find(FlatList).props().data).toEqual(['phone'])
+    })
+  })
 })
