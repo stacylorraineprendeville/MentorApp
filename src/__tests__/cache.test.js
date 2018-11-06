@@ -43,6 +43,6 @@ describe('image cache', () => {
   })
   it('cacheImages checks every image if it exists in the cache first', () => {
     cacheImages(['url1.jpg', 'url2.jpg'])
-    expect(RNFetchBlob.fs.exists).toHaveBeenCalledTimes(2)
+    expect(RNFetchBlob.fs.exists).toHaveBeenCalledTimes(1)
   })
 })

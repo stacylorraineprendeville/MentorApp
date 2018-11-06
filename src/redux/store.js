@@ -2,10 +2,11 @@ import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import offlineConfig from '@redux-offline/redux-offline/lib/defaults'
 import { offline } from '@redux-offline/redux-offline'
+import { NetInfo } from 'react-native'
 import { rootReducer } from './reducer'
 import { setLanguage } from '../i18n'
 let rehydrated = false
-import { initImageCaching } from '../cache'
+import { initImageCaching, isInProgress } from '../cache'
 
 export const getHydrationState = () => rehydrated
 
@@ -25,6 +26,15 @@ export default createStore(
       setLanguage()
       rehydrated = true
       initImageCaching()
+
+      // resume caching images if network goes back up
+      NetInfo.addEventListener('connectionChange', () => {
+        NetInfo.isConnected.fetch().then(isConnected => {
+          if (isConnected && !isInProgress) {
+            initImageCaching()
+          }
+        })
+      })
     }
   })
 )

@@ -4,6 +4,7 @@ import { NetInfo } from 'react-native'
 let dirs = RNFetchBlob.fs.dirs
 
 export const getSurveys = () => store.getState().surveys
+export let isInProgress = false
 
 export const filterURLsFromSurveys = surveys => {
   const imageURLs = []
@@ -24,8 +25,14 @@ export const filterURLsFromSurveys = surveys => {
   return imageURLs
 }
 
-export const cacheImages = imageURLs => {
-  imageURLs.forEach(source => {
+export const cacheImages = async imageURLs => {
+  async function asyncForEach(array, callback) {
+    for (let index = 0; index < array.length; index++) {
+      await callback(array[index], index, array)
+    }
+  }
+
+  await asyncForEach(imageURLs, async source => {
     RNFetchBlob.fs
       .exists(`${dirs.DocumentDir}/${source.replace(/https?:\/\//, '')}`)
       .then(exist => {
@@ -42,9 +49,11 @@ export const cacheImages = imageURLs => {
         }
       })
   })
+  isInProgress = false
 }
 
 export const initImageCaching = () => {
+  isInProgress = true
   // check if online before caching
   NetInfo.isConnected.fetch().then(async online => {
     if (online) {
