@@ -2,7 +2,6 @@ import React from 'react'
 
 import { shallow } from 'enzyme'
 import { Image } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons'
 import RoundImage from '../RoundImage'
 
 const createTestProps = props => ({

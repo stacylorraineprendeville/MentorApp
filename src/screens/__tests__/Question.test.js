@@ -1,7 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { ScrollView, Text, ProgressBarAndroid, View } from 'react-native'
-
+import { ScrollView, Text, ProgressBarAndroid } from 'react-native'
 import { Question } from '../lifemap/Question'
 import Slider from '../../components/Slider'
 import Checkbox from '../../components/Checkbox'

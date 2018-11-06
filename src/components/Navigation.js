@@ -214,7 +214,7 @@ const LifemapStack = createStackNavigator({
   ...DraftScreens
 })
 
-const FamiliesStack = createStackNavigator({
+export const FamiliesStack = createStackNavigator({
   Families: {
     screen: FamiliesView,
     navigationOptions: ({ navigation }) => ({

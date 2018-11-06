@@ -6,7 +6,6 @@ import PropTypes from 'prop-types'
 import globalStyles from '../../globalStyles'
 import RoundImage from '../../components/RoundImage'
 import Button from '../../components/Button'
-import colors from '../../theme.json'
 
 export class BeginLifemap extends Component {
   numberOfQuestions = this.props.navigation.getParam('survey')[

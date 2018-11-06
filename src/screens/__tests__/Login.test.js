@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { ScrollView, TextInput, Text, TouchableOpacity } from 'react-native'
+import { ScrollView, TextInput, Text } from 'react-native'
 import Button from '../../components/Button'
 import { Login } from '../Login'
 
