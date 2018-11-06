@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { Text, TouchableOpacity, StyleSheet, View } from 'react-native'
-import moment from 'moment'
 
 import colors from '../theme.json'
 import globalStyles from '../globalStyles'
+import Checkbox from './Checkbox.js'
 
-class DraftListItem extends Component {
+class SkippedListItem extends Component {
   render() {
     return (
       <TouchableOpacity
@@ -15,13 +15,13 @@ class DraftListItem extends Component {
         onPress={this.props.handleClick}
       >
         <View>
-          <Text style={globalStyles.tag}>
-            {moment(this.props.item.created).format('MMM, DD YYYY')}
+          <Text style={{ ...globalStyles.p, ...styles.text }}>
+            {this.props.item}
           </Text>
-          <Text style={globalStyles.p}>
-            {this.props.item.personal_survey_data.firstName}{' '}
-            {this.props.item.personal_survey_data.lastName}
-          </Text>
+          <Checkbox
+            onIconPress={() => this.props.onIconPress()}
+            title="Skip this question"
+          />
         </View>
         <Icon name="navigate-next" size={23} color={colors.lightdark} />
       </TouchableOpacity>
@@ -29,15 +29,17 @@ class DraftListItem extends Component {
   }
 }
 
-DraftListItem.propTypes = {
-  item: PropTypes.object.isRequired,
+SkippedListItem.propTypes = {
+  item: PropTypes.string.isRequired,
+  onIconPress: PropTypes.func.isRequired,
   handleClick: PropTypes.func.isRequired
 }
 
 const styles = StyleSheet.create({
   listItem: {
-    height: 95,
-    padding: 25,
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingRight: 25,
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,
@@ -46,7 +48,11 @@ const styles = StyleSheet.create({
   borderBottom: {
     borderBottomColor: colors.lightgrey,
     borderBottomWidth: 1
+  },
+  text: {
+    marginBottom: 20,
+    width: '80%'
   }
 })
 
-export default DraftListItem
+export default SkippedListItem

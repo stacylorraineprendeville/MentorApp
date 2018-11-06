@@ -3,7 +3,6 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { ScrollView, Text, Image, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons'
 import Slider from '../Slider'
 import colors from '../../theme.json'
 
@@ -45,7 +44,7 @@ describe('Slider Component', () => {
       expect(wrapper.find(ScrollView)).toHaveLength(1)
     })
     it('renders TouchableOpacity', () => {
-      expect(wrapper.find(TouchableOpacity)).toHaveLength(5)
+      expect(wrapper.find(TouchableOpacity)).toHaveLength(3)
     })
     it('renders Image', () => {
       expect(wrapper.find(Image)).toHaveLength(3)
@@ -55,10 +54,6 @@ describe('Slider Component', () => {
     })
     it('renders Icon', () => {
       expect(wrapper.find(Icon)).toHaveLength(1)
-    })
-    it('renders Icon2', () => {
-      wrapper = shallow(<Slider {...props} />)
-      expect(wrapper.find(Icon2)).toHaveLength(2)
     })
   })
 

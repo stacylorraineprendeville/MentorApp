@@ -11,7 +11,6 @@ import {
 import colors from '../theme.json'
 import globalStyles from '../globalStyles'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const slideColors = {
   RED: 'red',
@@ -67,15 +66,6 @@ class Slider extends Component {
           ))}
         </ScrollView>
         <View style={styles.nav}>
-          <TouchableOpacity
-            id="go-left"
-            style={styles.iconSmall}
-            onPress={() =>
-              this._scrollView.scrollTo({ x: 0, y: 0, animated: true })
-            }
-          >
-            <Icon2 name="chevron-double-left" size={24} color={colors.green} />
-          </TouchableOpacity>
           <View
             style={{
               ...styles.iconBig,
@@ -84,13 +74,6 @@ class Slider extends Component {
           >
             <Icon name="done" size={56} color={colors.white} />
           </View>
-          <TouchableOpacity
-            id="go-right"
-            style={styles.iconSmall}
-            onPress={() => this._scrollView.scrollToEnd({ animated: true })}
-          >
-            <Icon2 name="chevron-double-right" size={24} color={colors.green} />
-          </TouchableOpacity>
         </View>
       </View>
     )
@@ -128,14 +111,6 @@ const styles = StyleSheet.create({
     marginRight: 32,
     borderColor: colors.white,
     borderWidth: 3
-  },
-  iconSmall: {
-    backgroundColor: colors.white,
-    borderRadius: 22,
-    width: 44,
-    height: 44,
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   nav: {
     flexDirection: 'row',
