@@ -11,17 +11,20 @@ import globalStyles from '../../globalStyles'
 import colors from '../../theme.json'
 
 export class Skipped extends Component {
-  survey = this.props.navigation.getParam('survey')
-  indicators = this.props.drafts.filter(
-    item => item.draft_id === this.props.navigation.getParam('draft_id')
-  )[0].indicator_survey_data
-
-  skippedQuestions = Object.keys(this.indicators).filter(
-    key => this.indicators[key] === 'NONE'
-  )
-
   render() {
-    console.log(this.survey)
+    const survey = this.props.navigation.getParam('survey')
+
+    const indicatorsArray = survey['survey_ui_schema']['ui:group:indicators']
+
+    const draft_id = this.props.navigation.getParam('draft_id')
+
+    const indicators = this.props.drafts.filter(
+      item => item.draft_id === draft_id
+    )[0].indicator_survey_data
+
+    const skippedQuestions = Object.keys(indicators).filter(
+      key => indicators[key] === 'NONE'
+    )
     return (
       <ScrollView style={globalStyles.background}>
         <View style={globalStyles.container}>
@@ -33,13 +36,20 @@ export class Skipped extends Component {
         <Divider style={{ backgroundColor: colors.lightgrey }} />
         <FlatList
           style={{ ...styles.background, paddingLeft: 25 }}
-          data={this.skippedQuestions}
+          data={skippedQuestions}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <SkippedListItem
-              item={this.survey.survey_schema.properties[item].title.es}
+              item={survey.survey_schema.properties[item].title.es}
               onIconPress={() => {}}
-              handleClick={() => {}}
+              handleClick={() =>
+                this.props.navigation.push('Question', {
+                  draft_id: draft_id,
+                  survey: survey,
+                  step: indicatorsArray.indexOf(item),
+                  skipped: true
+                })
+              }
             />
           )}
         />

@@ -16,7 +16,7 @@ class SkippedListItem extends Component {
         onPress={this.props.handleClick}
       >
         <View>
-          <Text style={{ ...globalStyles.p, marginBottom: 20 }}>
+          <Text style={{ ...globalStyles.p, ...styles.text }}>
             {this.props.item}
           </Text>
           <Checkbox
@@ -49,6 +49,10 @@ const styles = StyleSheet.create({
   borderBottom: {
     borderBottomColor: colors.lightgrey,
     borderBottomWidth: 1
+  },
+  text: {
+    marginBottom: 20,
+    width: '80%'
   }
 })
 
