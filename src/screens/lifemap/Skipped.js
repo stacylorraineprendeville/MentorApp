@@ -91,13 +91,11 @@ const styles = StyleSheet.create({
 
 Skipped.propTypes = {
   drafts: PropTypes.array.isRequired,
-  surveys: PropTypes.array.isRequired,
   navigation: PropTypes.object.isRequired
 }
 
-const mapStateToProps = ({ drafts, surveys }) => ({
-  drafts,
-  surveys
+const mapStateToProps = ({ drafts }) => ({
+  drafts
 })
 
 export default connect(mapStateToProps)(Skipped)

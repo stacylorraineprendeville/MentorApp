@@ -57,5 +57,17 @@ describe('Skipped View', () => {
     it('passess the correct data to FlatList', () => {
       expect(wrapper.find(FlatList).props().data).toEqual(['phone'])
     })
+    it('has correct initial state', () => {
+      expect(wrapper.instance().state).toEqual({ checkedBoxes: [] })
+    })
+    it('navigates to screen Final if all checkboxes are checked', () => {
+      wrapper.setState({ checkedBoxes: ['phone'] })
+      expect(
+        wrapper.instance().props.navigation.navigate
+      ).toHaveBeenCalledTimes(1)
+      expect(wrapper.instance().props.navigation.navigate).toHaveBeenCalledWith(
+        'Final'
+      )
+    })
   })
 })
