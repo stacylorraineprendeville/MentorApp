@@ -3,6 +3,7 @@ import { shallow } from 'enzyme'
 import { ScrollView, Text, ProgressBarAndroid } from 'react-native'
 import { Question } from '../lifemap/Question'
 import Slider from '../../components/Slider'
+import Checkbox from '../../components/Checkbox'
 
 const createTestProps = props => ({
   navigation: {
@@ -24,18 +25,16 @@ const createTestProps = props => ({
 describe('Question View', () => {
   let wrapper
   beforeEach(() => {
-    const originalError = console.error
-    console.error = jest.fn()
     const props = createTestProps()
     wrapper = shallow(<Question {...props} />)
-    console.error = originalError
+    survey.survey_schema.required = []
   })
   describe('rendering', () => {
     it('renders ScrollView', () => {
       expect(wrapper.find(ScrollView)).toHaveLength(1)
     })
     it('renders Text', () => {
-      expect(wrapper.find(Text)).toHaveLength(3)
+      expect(wrapper.find(Text)).toHaveLength(2)
     })
     it('renders ProgressBarAndroid', () => {
       expect(wrapper.find(ProgressBarAndroid)).toHaveLength(1)
@@ -59,21 +58,22 @@ describe('Question View', () => {
     it('calls selectAnswer with argument NONE when checkbox is checked', () => {
       const spy = jest.spyOn(wrapper.instance(), 'selectAnswer')
       wrapper
-        .find('#skip-question-checkbox')
+        .find(Checkbox)
         .props()
-        .onChange()
+        .onIconPress()
 
       expect(spy).toHaveBeenCalledTimes(1)
       expect(spy).toHaveBeenCalledWith('NONE')
     })
     it('renders CheckBox when indicator is not required', () => {
-      expect(wrapper.find('#skip-question-checkbox')).toHaveLength(1)
+      expect(wrapper.find(Checkbox)).toHaveLength(1)
     })
-    it('does not CheckBox when indicator is required', () => {
+    it('renders Text when indicator is required', () => {
       survey.survey_schema.required = ['phone']
       const props = createTestProps()
       wrapper = shallow(<Question {...props} />)
-      expect(wrapper.find('#skip-question-checkbox')).toHaveLength(0)
+      expect(wrapper.find(Checkbox)).toHaveLength(0)
+      expect(wrapper.find(Text)).toHaveLength(3)
     })
   })
 })

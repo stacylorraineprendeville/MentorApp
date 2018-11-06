@@ -25,6 +25,7 @@ import FamiliesView from '../screens/Families'
 import FamilyView from '../screens/Family'
 import DashboardView from '../screens/Dashboard'
 import DraftView from '../screens/lifemap/Draft'
+import SkippedView from '../screens/lifemap/Skipped'
 import SyncView from '../screens/Sync'
 import colors from '../theme.json'
 import globalStyles from '../globalStyles'
@@ -180,6 +181,13 @@ const DraftScreens = {
   },
   Question: {
     screen: QuestionView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Your life Map',
+      ...generateNavOptions({ navigation, headerLeft: false })
+    })
+  },
+  Skipped: {
+    screen: SkippedView,
     navigationOptions: ({ navigation }) => ({
       title: 'Your life Map',
       ...generateNavOptions({ navigation, headerLeft: false })

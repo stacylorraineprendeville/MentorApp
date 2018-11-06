@@ -11,7 +11,7 @@ class Button extends Component {
         style={
           this.props.colored
             ? { ...styles.buttonStyle, ...styles.colored }
-            : styles.buttonStyle
+            : { ...styles.buttonStyle, ...styles.transparent }
         }
         onPress={this.props.handleClick}
         disabled={this.props.disabled}
@@ -20,7 +20,7 @@ class Button extends Component {
           <Icon
             name={this.props.icon}
             size={21}
-            color={colors.green}
+            color={colors.palegreen}
             style={styles.icon}
           />
         )}
@@ -68,6 +68,9 @@ const styles = StyleSheet.create({
   },
   colored: {
     backgroundColor: colors.palegreen
+  },
+  transparent: {
+    backgroundColor: colors.palebeige
   },
   greenText: {
     color: colors.palegreen,
