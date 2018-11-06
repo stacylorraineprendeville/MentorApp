@@ -11,20 +11,44 @@ import globalStyles from '../../globalStyles'
 import colors from '../../theme.json'
 
 export class Skipped extends Component {
+  state = {
+    checkedBoxes: []
+  }
+
+  componentDidUpdate() {
+    const indicators = this.getIndicators()
+    const skippedQuestions = this.getSkippedQuestions(indicators)
+    if (this.state.checkedBoxes.length === skippedQuestions.length) {
+      return this.props.navigation.navigate('Final')
+    }
+  }
+
+  draft_id = this.props.navigation.getParam('draft_id')
+  survey = this.props.navigation.getParam('survey')
+  indicatorsArray = this.survey['survey_ui_schema']['ui:group:indicators']
+
+  toggleCheckbox = question => {
+    if (this.state.checkedBoxes.includes(question)) {
+      this.setState({
+        checkedBoxes: this.state.checkedBoxes.filter(item => item === question)
+      })
+    } else
+      this.setState({
+        checkedBoxes: [...this.state.checkedBoxes, question]
+      })
+  }
+
+  getIndicators = () =>
+    this.props.drafts.filter(item => item.draft_id === this.draft_id)[0]
+      .indicator_survey_data
+
+  getSkippedQuestions = indicators =>
+    Object.keys(indicators).filter(key => indicators[key] === 'NONE')
+
   render() {
-    const survey = this.props.navigation.getParam('survey')
+    const indicators = this.getIndicators()
+    const skippedQuestions = this.getSkippedQuestions(indicators)
 
-    const indicatorsArray = survey['survey_ui_schema']['ui:group:indicators']
-
-    const draft_id = this.props.navigation.getParam('draft_id')
-
-    const indicators = this.props.drafts.filter(
-      item => item.draft_id === draft_id
-    )[0].indicator_survey_data
-
-    const skippedQuestions = Object.keys(indicators).filter(
-      key => indicators[key] === 'NONE'
-    )
     return (
       <ScrollView style={globalStyles.background}>
         <View style={globalStyles.container}>
@@ -40,13 +64,13 @@ export class Skipped extends Component {
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <SkippedListItem
-              item={survey.survey_schema.properties[item].title.es}
-              onIconPress={() => {}}
+              item={this.survey.survey_schema.properties[item].title.es}
+              onIconPress={() => this.toggleCheckbox(item)}
               handleClick={() =>
                 this.props.navigation.push('Question', {
-                  draft_id: draft_id,
-                  survey: survey,
-                  step: indicatorsArray.indexOf(item),
+                  draft_id: this.draft_id,
+                  survey: this.survey,
+                  step: this.indicatorsArray.indexOf(item),
                   skipped: true
                 })
               }
@@ -66,7 +90,8 @@ const styles = StyleSheet.create({
 })
 
 Skipped.propTypes = {
-  drafts: PropTypes.array,
+  drafts: PropTypes.array.isRequired,
+  surveys: PropTypes.array.isRequired,
   navigation: PropTypes.object.isRequired
 }
 
