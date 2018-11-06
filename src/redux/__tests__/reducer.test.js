@@ -124,6 +124,24 @@ describe('drafts reducer', () => {
       })
     ).toEqual([...initialStore, { ...payload, status: 'In progress' }])
   })
+  it('should handle SUBMIT_DRAFT', () => {
+    const expectedStore = [
+      {
+        draft_id: 1,
+        status: 'Pending'
+      },
+      {
+        draft_id: 2,
+        status: 'In progress'
+      }
+    ]
+    expect(
+      reducer.drafts(initialStore, {
+        type: action.SUBMIT_DRAFT,
+        id: 1
+      })
+    ).toEqual(expectedStore)
+  })
   it('should handle SUBMIT_DRAFT_COMMIT', () => {
     const expectedStore = [
       {

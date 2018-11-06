@@ -2,7 +2,6 @@ import React from 'react'
 
 import { shallow } from 'enzyme'
 import { Text, ActivityIndicator, View } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons'
 import Loading from '../Loading'
 
 const createTestProps = props => ({

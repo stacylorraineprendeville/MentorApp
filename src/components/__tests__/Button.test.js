@@ -4,6 +4,7 @@ import { shallow } from 'enzyme'
 import { TouchableOpacity, Text } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Button from '../Button'
+import colors from '../../theme.json'
 
 const createTestProps = props => ({
   ...props,
@@ -33,6 +34,18 @@ describe('Button Component', () => {
     })
     it('does not render <Icon /> when icon property is not defined', () => {
       expect(wrapper.find(Icon)).toHaveLength(0)
+    })
+    it('has proper backgroundColor and text color when passed colored = true', () => {
+      props = createTestProps({
+        colored: true
+      })
+      wrapper = shallow(<Button {...props} />)
+
+      expect(wrapper.find(TouchableOpacity).props().style.backgroundColor).toBe(
+        colors.palegreen
+      )
+
+      expect(wrapper.find(Text).props().style.color).toBe(colors.white)
     })
   })
   describe('functionality', () => {

@@ -68,6 +68,7 @@ class Slider extends Component {
         </ScrollView>
         <View style={styles.nav}>
           <TouchableOpacity
+            id="go-left"
             style={styles.iconSmall}
             onPress={() =>
               this._scrollView.scrollTo({ x: 0, y: 0, animated: true })
@@ -84,6 +85,7 @@ class Slider extends Component {
             <Icon name="done" size={56} color={colors.white} />
           </View>
           <TouchableOpacity
+            id="go-right"
             style={styles.iconSmall}
             onPress={() => this._scrollView.scrollToEnd({ animated: true })}
           >
