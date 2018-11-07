@@ -5,6 +5,13 @@ let dirs = RNFetchBlob.fs.dirs
 
 export const getSurveys = () => store.getState().surveys
 export let isInProgress = false
+let isOnline = true
+
+NetInfo.addEventListener('connectionChange', () => {
+  NetInfo.isConnected.fetch().then(connetction => {
+    isOnline = connetction
+  })
+})
 
 export const filterURLsFromSurveys = surveys => {
   const imageURLs = []
@@ -28,6 +35,10 @@ export const filterURLsFromSurveys = surveys => {
 export const cacheImages = async imageURLs => {
   async function asyncForEach(array, callback) {
     for (let index = 0; index < array.length; index++) {
+      // break loop if offline
+      if (!isOnline) {
+        break
+      }
       await callback(array[index], index, array)
     }
   }
