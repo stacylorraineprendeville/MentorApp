@@ -37,7 +37,12 @@ export class CachedImage extends Component {
     const { cachedSource } = this.state
     const { source, style } = this.props
 
-    return <Image style={style} source={{ uri: cachedSource || source }} />
+    return (
+      <Image
+        style={style}
+        source={{ uri: cachedSource ? cachedSource : source }}
+      />
+    )
   }
 }
 
