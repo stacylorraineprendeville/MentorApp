@@ -8,8 +8,11 @@ export let isInProgress = false
 let isOnline = true
 
 NetInfo.addEventListener('connectionChange', () => {
-  NetInfo.isConnected.fetch().then(connetction => {
-    isOnline = connetction
+  NetInfo.isConnected.fetch().then(connection => {
+    isOnline = connection
+    if (connection) {
+      initImageCaching()
+    }
   })
 })
 
@@ -47,7 +50,7 @@ export const cacheImages = async imageURLs => {
     RNFetchBlob.fs
       .exists(`${dirs.DocumentDir}/${source.replace(/https?:\/\//, '')}`)
       .then(exist => {
-        if (!exist) {
+        if (!exist && isOnline) {
           RNFetchBlob.config({
             fileCache: true,
             appendExt: 'jpg',
@@ -57,6 +60,7 @@ export const cacheImages = async imageURLs => {
             .then(() => {
               // image is cached
             })
+            .catch(() => {})
         }
       })
   })
@@ -64,6 +68,7 @@ export const cacheImages = async imageURLs => {
 }
 
 export const initImageCaching = () => {
+  console.log('initImageCaching called', isOnline)
   isInProgress = true
   // check if online before caching
   NetInfo.isConnected.fetch().then(async online => {
