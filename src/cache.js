@@ -68,7 +68,6 @@ export const cacheImages = async imageURLs => {
 }
 
 export const initImageCaching = () => {
-  console.log('initImageCaching called', isOnline)
   isInProgress = true
   // check if online before caching
   NetInfo.isConnected.fetch().then(async online => {
