@@ -63,6 +63,15 @@ describe('Skipped Questions View when questions are skipped', () => {
     it('has correct initial state', () => {
       expect(wrapper.instance().state).toEqual({ checkedBoxes: [] })
     })
+    it('adds item to state when toggleCheckbox is called', () => {
+      wrapper.instance().toggleCheckbox('income')
+      expect(wrapper.instance().state).toEqual({ checkedBoxes: ['income'] })
+    })
+    it('removes item from state when toggleCheckbox is called and item already exists in state', () => {
+      wrapper.setState({ checkedBoxes: ['income'] })
+      wrapper.instance().toggleCheckbox('income')
+      expect(wrapper.instance().state).toEqual({ checkedBoxes: [] })
+    })
   })
 })
 
@@ -81,7 +90,7 @@ describe('Final Lifemap View when no questions are skipped', () => {
   })
   describe('rendering', () => {
     it('renders ScrollView', () => {
-      expect(wrapper.find(ScrollView)).toHaveLength(1)
+      expect(wrapper.find(ScrollView)).toHaveLength(2)
     })
     it('renders RoundImage', () => {
       expect(wrapper.find(RoundImage)).toHaveLength(1)
