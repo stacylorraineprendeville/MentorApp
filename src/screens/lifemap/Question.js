@@ -36,6 +36,7 @@ export class Question extends Component {
     this.props.addSurveyData(this.draft_id, 'indicator_survey_data', {
       [this.indicators[this.step]]: answer
     })
+
     if (
       this.step + 1 < this.indicators.length &&
       !this.props.navigation.getParam('skipped')
@@ -45,13 +46,11 @@ export class Question extends Component {
         survey: this.survey,
         step: this.step + 1
       })
-    } else {
-      this.props.navigation.navigate('Skipped', {
+    } else
+      this.props.navigation.navigate('Final', {
         draft_id: this.draft_id,
-        survey: this.survey,
-        step: 'skip'
+        survey: this.survey
       })
-    }
   }
 
   render() {
@@ -104,11 +103,15 @@ Question.propTypes = {
   navigation: PropTypes.object.isRequired
 }
 
+const mapStateToProps = ({ drafts }) => ({
+  drafts
+})
+
 const mapDispatchToProps = {
   addSurveyData
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Question)

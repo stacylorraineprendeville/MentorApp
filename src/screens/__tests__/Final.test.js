@@ -1,9 +1,11 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { ScrollView, Image, FlatList } from 'react-native'
+import { ScrollView, Image, FlatList, Text } from 'react-native'
 import { Divider } from 'react-native-elements'
+import { Final } from '../lifemap/Final'
+import RoundImage from '../../components/RoundImage'
+import Button from '../../components/Button'
 import Tip from '../../components/Tip'
-import { Skipped } from '../lifemap/Skipped'
 
 const createTestProps = props => ({
   navigation: {
@@ -21,20 +23,21 @@ const createTestProps = props => ({
       }
     })
   },
-  drafts: [
-    {
-      draft_id: 1,
-      indicator_survey_data: { phone: 'NONE', education: 'RED' }
-    }
-  ],
   ...props
 })
 
-describe('Skipped View', () => {
+describe('Skipped Questions View when questions are skipped', () => {
   let wrapper
   beforeEach(() => {
-    const props = createTestProps()
-    wrapper = shallow(<Skipped {...props} />)
+    const props = createTestProps({
+      drafts: [
+        {
+          draft_id: 1,
+          indicator_survey_data: { phone: 'NONE', education: 'RED' }
+        }
+      ]
+    })
+    wrapper = shallow(<Final {...props} />)
   })
   describe('rendering', () => {
     it('renders ScrollView', () => {
@@ -60,13 +63,48 @@ describe('Skipped View', () => {
     it('has correct initial state', () => {
       expect(wrapper.instance().state).toEqual({ checkedBoxes: [] })
     })
-    it('navigates to screen Final if all checkboxes are checked', () => {
-      wrapper.setState({ checkedBoxes: ['phone'] })
+  })
+})
+
+describe('Final Lifemap View when no questions are skipped', () => {
+  let wrapper
+  beforeEach(() => {
+    const props = createTestProps({
+      drafts: [
+        {
+          draft_id: 1,
+          indicator_survey_data: { phone: 'GREEN', education: 'RED' }
+        }
+      ]
+    })
+    wrapper = shallow(<Final {...props} />)
+  })
+  describe('rendering', () => {
+    it('renders ScrollView', () => {
+      expect(wrapper.find(ScrollView)).toHaveLength(1)
+    })
+    it('renders RoundImage', () => {
+      expect(wrapper.find(RoundImage)).toHaveLength(1)
+    })
+    it('renders Text', () => {
+      expect(wrapper.find(Text)).toHaveLength(2)
+    })
+    it('renders Button', () => {
+      expect(wrapper.find(Button)).toHaveLength(1)
+    })
+  })
+
+  describe('functionality', () => {
+    it('calls handleClick function when Button is clicked', () => {
+      wrapper
+        .find(Button)
+        .props()
+        .handleClick()
       expect(
         wrapper.instance().props.navigation.navigate
       ).toHaveBeenCalledTimes(1)
       expect(wrapper.instance().props.navigation.navigate).toHaveBeenCalledWith(
-        'Final'
+        'Dashboard'
       )
     })
   })
