@@ -1,5 +1,12 @@
 import React, { Component } from 'react'
-import { Image, Platform } from 'react-native'
+import {
+  Image,
+  Platform,
+  NetInfo,
+  View,
+  ActivityIndicator,
+  StyleSheet
+} from 'react-native'
 import PropTypes from 'prop-types'
 import RNFetchBlob from 'rn-fetch-blob'
 
@@ -9,10 +16,10 @@ export class CachedImage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      cachedSource: false
+      source: false
     }
   }
-  setSource(source) {
+  getProperSourceForOS(source) {
     return Platform.OS === 'android' ? 'file://' + source : '' + source
   }
   checkIfCached() {
@@ -23,25 +30,43 @@ export class CachedImage extends Component {
       .then(exist => {
         if (exist) {
           this.setState({
-            cachedSource: this.setSource(
+            source: this.getProperSourceForOS(
               `${dirs.DocumentDir}/${source.replace(/https?:\/\//, '')}`
             )
           })
         }
       })
   }
+  updateSource(online) {
+    if (online) {
+      this.setState({
+        source: this.props.source
+      })
+    } else {
+      this.checkIfCached()
+    }
+  }
   componentDidMount() {
-    this.checkIfCached()
+    // check if connected on mount
+    NetInfo.isConnected.fetch().then(async online => {
+      this.updateSource(online)
+    })
+
+    // add event on net change
+    NetInfo.addEventListener('connectionChange', online => {
+      this.updateSource(online)
+    })
   }
   render() {
-    const { cachedSource } = this.state
-    const { source, style } = this.props
+    const { source } = this.state
+    const { style } = this.props
 
-    return (
-      <Image
-        style={style}
-        source={{ uri: cachedSource ? cachedSource : source }}
-      />
+    return source ? (
+      <Image style={style} source={{ uri: source }} />
+    ) : (
+      <View style={[styles.placeholder, style]}>
+        <ActivityIndicator size="large" />
+      </View>
     )
   }
 }
@@ -50,5 +75,12 @@ CachedImage.propTypes = {
   source: PropTypes.string,
   style: PropTypes.object
 }
+
+const styles = StyleSheet.create({
+  placeholder: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+})
 
 export default CachedImage
