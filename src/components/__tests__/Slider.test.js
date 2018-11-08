@@ -1,7 +1,8 @@
 import React from 'react'
 
 import { shallow } from 'enzyme'
-import { ScrollView, Text, Image, TouchableOpacity } from 'react-native'
+import { ScrollView, Text, TouchableOpacity } from 'react-native'
+import Image from '../CachedImage'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Slider from '../Slider'
 import colors from '../../theme.json'

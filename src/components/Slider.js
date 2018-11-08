@@ -5,9 +5,9 @@ import {
   ScrollView,
   Text,
   View,
-  Image,
   TouchableOpacity
 } from 'react-native'
+import Image from './CachedImage'
 import colors from '../theme.json'
 import globalStyles from '../globalStyles'
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -52,7 +52,7 @@ class Slider extends Component {
                 backgroundColor: colors[slideColors[slide.value]]
               }}
             >
-              <Image source={{ uri: slide.url }} style={styles.image} />
+              <Image source={slide.url} style={styles.image} />
               <Text
                 style={{
                   ...globalStyles.p,

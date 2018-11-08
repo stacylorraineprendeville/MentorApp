@@ -11,7 +11,6 @@ import {
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import uuid from 'uuid/v1'
-
 import { createDraft, addSurveyData, submitDraft } from '../../redux/actions'
 
 export class Draft extends Component {
@@ -36,7 +35,7 @@ export class Draft extends Component {
   economicsData = this.survey['survey_ui_schema']['ui:group:economics']
   indicatorsData = this.survey['survey_ui_schema']['ui:group:indicators']
 
-  componentDidMount() {
+  getDraftFromRedux() {
     //Get draft  from Redux store if it exists else create new draft
     if (!this.props.navigation.getParam('draft')) {
       this.props.createDraft({
@@ -49,6 +48,10 @@ export class Draft extends Component {
         indicator_survey_data: {}
       })
     }
+  }
+
+  componentDidMount() {
+    this.getDraftFromRedux()
   }
 
   getDraftItem = key => {
@@ -115,18 +118,20 @@ export class Draft extends Component {
               />
             )}
             {questionProperties[question]['type'] === 'array' && (
-              <Picker
-                onValueChange={value => this.storeDraftItem(question, value)}
-                selectedValue={this.getDraftItem(question)}
-              >
-                {questionProperties[question]['items']['enum'].map(item => (
-                  <Picker.Item
-                    key={item.description}
-                    label={item.description}
-                    value={item.value}
-                  />
-                ))}
-              </Picker>
+              <View>
+                <Picker
+                  onValueChange={value => this.storeDraftItem(question, value)}
+                  selectedValue={this.getDraftItem(question)}
+                >
+                  {questionProperties[question]['items']['enum'].map(item => (
+                    <Picker.Item
+                      key={item.description}
+                      label={item.description}
+                      value={item.value}
+                    />
+                  ))}
+                </Picker>
+              </View>
             )}
           </View>
         ))}
