@@ -6,6 +6,7 @@ import uuid from 'uuid/v1'
 import { createDraft, addSurveyData } from '../../redux/actions'
 
 import Button from '../../components/Button'
+import TextInput from '../../components/TextInput'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import globalStyles from '../../globalStyles'
 import colors from '../../theme.json'
@@ -56,6 +57,7 @@ export class FamilyParticipant extends Component {
           }}
         >
           <Icon name="face" color={colors.grey} size={55} style={styles.icon} />
+          <TextInput label="name" errormsg="Error" onTextChange={() => {}} />
         </View>
         <View style={{ height: 50 }}>
           <Button

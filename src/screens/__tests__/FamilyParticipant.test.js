@@ -220,7 +220,7 @@ const createTestProps = props => ({
   ...props
 })
 
-describe('Single Draft View', () => {
+describe('Family Participant View', () => {
   let wrapper
   beforeEach(() => {
     const props = createTestProps()
