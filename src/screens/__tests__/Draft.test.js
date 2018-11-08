@@ -291,7 +291,7 @@ describe('Single Draft View', () => {
     })
 
     it('display a list of Views with proper titles for each survey question', () => {
-      expect(wrapper.find(View)).toHaveLength(3)
+      expect(wrapper.find(View)).toHaveLength(4)
     })
 
     it('renders a TextInput for a string question', () => {
