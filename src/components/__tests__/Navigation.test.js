@@ -1,12 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import { Image } from 'react-native'
-import {
-  AppStack,
-  DrawerContent,
-  generateNavOptions,
-  FamiliesStack
-} from '../Navigation'
+import { AppStack, DrawerContent, generateNavOptions } from '../Navigation'
 
 describe('Navigation', () => {
   describe('Drawer', () => {
