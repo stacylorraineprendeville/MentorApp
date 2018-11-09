@@ -1,5 +1,11 @@
 import React, { Component } from 'react'
-import { View, StyleSheet, ActivityIndicator, Text } from 'react-native'
+import {
+  ScrollView,
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  Text
+} from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import globalStyles from '../../globalStyles'
 
@@ -27,31 +33,45 @@ export default class Location extends Component {
   }
   render() {
     const { latitude, longitude } = this.state
-    return latitude ? (
-      <View style={styles.container}>
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude,
-            longitude,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005
-          }}
-          region={{
-            latitude,
-            longitude,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005
-          }}
-        >
-          <Marker coordinate={{ latitude, longitude }} title="You are here" />
-        </MapView>
-      </View>
-    ) : (
-      <View style={[styles.placeholder, styles.map]}>
-        <ActivityIndicator size="large" />
-        <Text style={globalStyles.h3}>Getting your location…</Text>
-      </View>
+    return (
+      <ScrollView>
+        {latitude ? (
+          <View style={styles.container}>
+            <MapView
+              style={styles.map}
+              initialRegion={{
+                latitude,
+                longitude,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005
+              }}
+              region={{
+                latitude,
+                longitude,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005
+              }}
+            >
+              <Marker
+                draggable
+                coordinate={{ latitude, longitude }}
+                onDragEnd={e =>
+                  this.setState({
+                    latitude: e.nativeEvent.coordinate.latitude,
+                    longitude: e.nativeEvent.coordinate.longitude
+                  })
+                }
+                title="You are here"
+              />
+            </MapView>
+          </View>
+        ) : (
+          <View style={[styles.placeholder, styles.map]}>
+            <ActivityIndicator size="large" />
+            <Text style={globalStyles.h3}>Getting your location…</Text>
+          </View>
+        )}
+      </ScrollView>
     )
   }
 }

@@ -1,7 +1,78 @@
+import React from 'react'
+import { shallow } from 'enzyme'
+import { ScrollView } from 'react-native'
+import MapView, { Marker } from 'react-native-maps'
+import Location from '../lifemap/Location'
+
+global.navigator = {
+  geolocation: {
+    getCurrentPosition: callback =>
+      callback({
+        coords: {
+          latitude: 44,
+          longitude: 45
+        }
+      }),
+    watchPosition: jest.fn()
+  }
+}
+
 describe('Family Location component', () => {
-  it('renders MapView', () => {})
-  it('gets device location', () => {})
-  it('shows a Marker', () => {})
-  it('allows dragging of the Marker', () => {})
+  let wrapper
+  beforeEach(() => {
+    wrapper = shallow(<Location />)
+  })
+  it('renders base ScrollView', () => {
+    expect(wrapper.find(ScrollView)).toHaveLength(1)
+  })
+  it('has proper initial state', () => {
+    wrapper = shallow(<Location />, { disableLifecycleMethods: true })
+    expect(wrapper).toHaveState({
+      latitude: null,
+      longitude: null,
+      error: null
+    })
+  })
+  it('renders MapView', () => {
+    expect(wrapper.find(MapView)).toHaveLength(1)
+  })
+  it('gets device location', () => {
+    expect(wrapper).toHaveState({
+      latitude: 44,
+      longitude: 45,
+      error: null
+    })
+  })
+  it('shows a Marker at the user location', () => {
+    expect(wrapper.find(Marker)).toHaveLength(1)
+    expect(wrapper.find(Marker)).toHaveProp('coordinate', {
+      latitude: 44,
+      longitude: 45
+    })
+  })
+  it('allows dragging of the Marker', () => {
+    expect(wrapper.find(Marker)).toHaveProp('draggable')
+    expect(wrapper.find(Marker)).toHaveProp('onDragEnd')
+  })
+  it('updates Marker state after draging has finished', () => {
+    wrapper
+      .find(Marker)
+      .first()
+      .props()
+      .onDragEnd({
+        nativeEvent: {
+          coordinate: {
+            latitude: 50,
+            longitude: 50
+          }
+        }
+      })
+
+    expect(wrapper).toHaveState({
+      latitude: 50,
+      longitude: 50,
+      error: null
+    })
+  })
   it('shows GPS accuracy range', () => {})
 })
