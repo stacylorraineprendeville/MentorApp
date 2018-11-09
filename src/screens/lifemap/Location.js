@@ -13,7 +13,7 @@ export default class Location extends Component {
   state = {
     latitude: null,
     longitude: null,
-    error: null
+    accuracy: null
   }
   getDeviceLocation() {
     navigator.geolocation.getCurrentPosition(
@@ -21,7 +21,7 @@ export default class Location extends Component {
         this.setState({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-          error: null
+          accuracy: position.coords.accuracy
         })
       },
       error => this.setState({ error: error.message }),
@@ -32,11 +32,11 @@ export default class Location extends Component {
     this.getDeviceLocation()
   }
   render() {
-    const { latitude, longitude } = this.state
+    const { latitude, longitude, accuracy } = this.state
     return (
-      <ScrollView>
+      <ScrollView style={globalStyles.background}>
         {latitude ? (
-          <View style={styles.container}>
+          <View>
             <MapView
               style={styles.map}
               initialRegion={{
@@ -71,15 +71,17 @@ export default class Location extends Component {
             <Text style={globalStyles.h3}>Getting your location…</Text>
           </View>
         )}
+        <View style={styles.container}>
+          <Text>
+            {accuracy ? `GPS: Accurate to ${Math.round(accuracy)}m` : ' '}
+          </Text>
+        </View>
       </ScrollView>
     )
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
   map: {
     height: 300,
     width: '100%'
@@ -87,5 +89,9 @@ const styles = StyleSheet.create({
   placeholder: {
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  container: {
+    marginTop: 3,
+    paddingHorizontal: 16
   }
 })

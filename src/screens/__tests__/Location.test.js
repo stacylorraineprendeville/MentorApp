@@ -4,6 +4,7 @@ import { ScrollView } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
 import Location from '../lifemap/Location'
 
+// navigator mock
 global.navigator = {
   geolocation: {
     getCurrentPosition: callback =>
@@ -29,8 +30,7 @@ describe('Family Location component', () => {
     wrapper = shallow(<Location />, { disableLifecycleMethods: true })
     expect(wrapper).toHaveState({
       latitude: null,
-      longitude: null,
-      error: null
+      longitude: null
     })
   })
   it('renders MapView', () => {
@@ -39,8 +39,7 @@ describe('Family Location component', () => {
   it('gets device location', () => {
     expect(wrapper).toHaveState({
       latitude: 44,
-      longitude: 45,
-      error: null
+      longitude: 45
     })
   })
   it('shows a Marker at the user location', () => {
@@ -70,8 +69,7 @@ describe('Family Location component', () => {
 
     expect(wrapper).toHaveState({
       latitude: 50,
-      longitude: 50,
-      error: null
+      longitude: 50
     })
   })
   it('shows GPS accuracy range', () => {})
