@@ -9,16 +9,16 @@ class LifemapVisual extends Component {
       switch (color) {
         case 'GREEN':
           return colors.green
-          break
+
         case 'YELLOW':
           return colors.gold
-          break
+
         case 'RED':
           return colors.red
-          break
+
         case 'NONE':
           return colors.palegrey
-          break
+
         default:
           return colors.palegrey
       }
