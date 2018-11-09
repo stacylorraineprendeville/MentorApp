@@ -57,7 +57,27 @@ export class FamilyParticipant extends Component {
           }}
         >
           <Icon name="face" color={colors.grey} size={55} style={styles.icon} />
-          <TextInput label="name" errormsg="Error" onTextChange={() => {}} />
+          <TextInput
+            status="active"
+            errormsg="Error"
+            onTextChange={() => {}}
+            placeholder="First name"
+          />
+          <TextInput
+            errormsg="Error"
+            onTextChange={() => {}}
+            placeholder="Last name"
+          />
+          <TextInput
+            errormsg="Error"
+            onTextChange={() => {}}
+            placeholder="Email"
+          />
+          <TextInput
+            errormsg="Error"
+            onTextChange={() => {}}
+            placeholder="Phone"
+          />
         </View>
         <View style={{ height: 50 }}>
           <Button

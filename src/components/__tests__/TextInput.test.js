@@ -11,7 +11,7 @@ import TextInput from '../TextInput'
 
 const createTestProps = props => ({
   ...props,
-  onChangeText: jest.fn(),
+  onTextChange: jest.fn(),
   label: 'Some label',
   errormsg: 'Some error msg'
 })
@@ -30,7 +30,8 @@ describe('TextInput Component', () => {
     it('renders FormInput', () => {
       expect(wrapper.find(FormInput)).toHaveLength(1)
     })
-    it('renders FormValidationMessage', () => {
+    it('renders FormValidationMessage when there is an error', () => {
+      wrapper.setState({ status: 'error' })
       expect(wrapper.find(FormValidationMessage)).toHaveLength(1)
     })
   })
@@ -44,6 +45,7 @@ describe('TextInput Component', () => {
       ).toBe('Some label')
     })
     it('has the correct error msg', () => {
+      wrapper.setState({ status: 'error' })
       expect(
         wrapper
           .find(FormValidationMessage)
@@ -53,13 +55,44 @@ describe('TextInput Component', () => {
     })
 
     it('calls onChangeText when text is changed', () => {
-      console.log(wrapper.find(FormInput).props())
+      const spy = jest.spyOn(wrapper.instance(), 'onChangeText')
       wrapper
         .find(FormInput)
         .props()
         .onChangeText('Changed text')
 
-      expect(wrapper.instance().props.onChangeText).toHaveBeenCalledTimes(1)
+      expect(spy).toHaveBeenCalledTimes(1)
+    })
+
+    it('has correct initial state', () => {
+      expect(wrapper.instance().state).toEqual({ text: '', status: 'blur' })
+    })
+
+    it('changes text state when onChangeText is called', () => {
+      wrapper
+        .find(FormInput)
+        .props()
+        .onChangeText('Changed text')
+
+      expect(wrapper.instance().state.text).toEqual('Changed text')
+    })
+
+    it('changes state to active when onFocus is called', () => {
+      wrapper
+        .find(FormInput)
+        .props()
+        .onFocus()
+
+      expect(wrapper.instance().state.status).toEqual('active')
+    })
+
+    it('changes state to blur when onBlur is called', () => {
+      wrapper.setState({ status: 'active' })
+      wrapper
+        .find(FormInput)
+        .props()
+        .onBlur()
+      expect(wrapper.instance().state.status).toEqual('blur')
     })
   })
 })
