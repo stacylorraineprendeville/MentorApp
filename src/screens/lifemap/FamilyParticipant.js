@@ -43,7 +43,12 @@ export class FamilyParticipant extends Component {
   componentDidMount() {
     this.getDraftFromRedux()
   }
-
+  handleClick() {
+    this.props.navigation.navigate('BeginLifemap', {
+      draft_id: this.draft_id,
+      survey: this.survey
+    })
+  }
   render() {
     return (
       <ScrollView
@@ -58,37 +63,41 @@ export class FamilyParticipant extends Component {
         >
           <Icon name="face" color={colors.grey} size={55} style={styles.icon} />
           <TextInput
-            status="active"
-            errormsg="Error"
-            onTextChange={() => {}}
+            validation="string"
+            onChangeText={text => {
+              console.log(text)
+            }}
             placeholder="First name"
+            required
           />
           <TextInput
-            errormsg="Error"
-            onTextChange={() => {}}
+            validation="string"
+            onChangeText={text => {
+              console.log(text)
+            }}
             placeholder="Last name"
+            required
           />
           <TextInput
-            errormsg="Error"
-            onTextChange={() => {}}
+            onChangeText={text => {
+              console.log(text)
+            }}
             placeholder="Email"
+            validation="email"
           />
           <TextInput
-            errormsg="Error"
-            onTextChange={() => {}}
+            onChangeText={text => {
+              console.log(text)
+            }}
             placeholder="Phone"
+            validation="phone"
           />
         </View>
         <View style={{ height: 50 }}>
           <Button
             colored
             text="Continue"
-            handleClick={() =>
-              this.props.navigation.navigate('BeginLifemap', {
-                draft_id: this.draft_id,
-                survey: this.survey
-              })
-            }
+            handleClick={() => this.handleClick()}
           />
         </View>
       </ScrollView>

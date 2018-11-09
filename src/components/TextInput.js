@@ -7,17 +7,19 @@ import {
   FormValidationMessage
 } from 'react-native-elements'
 import colors from '../theme.json'
+import validator from 'validator'
 import globalStyles from '../globalStyles'
 
 class TextInput extends Component {
   state = {
     status: 'blur',
-    text: ''
+    text: '',
+    errorMsg: null
   }
 
   onChangeText(text) {
-    // this.props.onChangeText(text)
     this.setState({ text })
+    this.props.onChangeText(text)
   }
 
   onFocus() {
@@ -27,9 +29,61 @@ class TextInput extends Component {
   }
 
   onBlur() {
+    this.validateInput()
+  }
+
+  validateInput() {
     this.setState({
       status: 'blur'
     })
+    if (this.props.required && validator.isEmpty(this.state.text)) {
+      return this.setState({
+        status: 'error',
+        errorMsg: 'Field is required'
+      })
+    }
+
+    if (
+      this.props.validation === 'email' &&
+      !validator.isEmail(this.state.text) &&
+      !validator.isEmpty(this.state.text)
+    ) {
+      return this.setState({
+        status: 'error',
+        errorMsg: 'Invalid email'
+      })
+    }
+
+    if (
+      this.props.validation === 'string' &&
+      !validator.isAlpha(this.state.text) &&
+      !validator.isEmpty(this.state.text)
+    ) {
+      return this.setState({
+        status: 'error',
+        errorMsg: 'Invalid value'
+      })
+    }
+    if (
+      this.props.validation === 'phone' &&
+      !validator.isMobilePhone(this.state.text) &&
+      !validator.isEmpty(this.state.text)
+    ) {
+      return this.setState({
+        status: 'error',
+        errorMsg: 'Invalid phone number'
+      })
+    }
+    if (
+      this.props.validation === 'number' &&
+      !validator.isNumeric(this.state.text) &&
+      !validator.isEmpty(this.state.text)
+    ) {
+      return this.setState({
+        status: 'error',
+        errorMsg: 'Invalid number'
+      })
+    }
   }
 
   defineTextColor = status => {
@@ -46,19 +100,16 @@ class TextInput extends Component {
   }
 
   render() {
-    const { status } = this.state
-    const showPlaceholder = status === 'blur' && this.state.text === ''
+    const { status, text, errorMsg } = this.state
+    let showPlaceholder = status === 'blur' && text === ''
     return (
       <View>
         <FormLabel>{this.props.label}</FormLabel>
         {!showPlaceholder && (
           <Text
             style={{
-              color: this.defineTextColor(status),
-              marginBottom: -30,
-              marginLeft: 25,
-              zIndex: 100,
-              fontSize: 14
+              ...styles.text,
+              color: this.defineTextColor(status)
             }}
           >
             {this.props.placeholder}
@@ -66,22 +117,29 @@ class TextInput extends Component {
           </Text>
         )}
         <FormInput
+          autoCapitalize="none"
           onFocus={() => this.onFocus()}
-          onBlur={() => this.onBlur()}
-          placeholder={showPlaceholder ? this.props.placeholder : ''}
+          onBlur={() => this.onBlur(text)}
+          placeholder={
+            showPlaceholder
+              ? `${this.props.placeholder} ${
+                  !this.props.required ? ' - Optional' : ''
+                }`
+              : ''
+          }
           onChangeText={text => this.onChangeText(text)}
           inputStyle={{
             ...styles.inputStyle,
-            ...styles[this.state.status],
+            ...styles[status],
             paddingTop: !showPlaceholder ? 30 : 10
           }}
           multiline
         >
-          <Text style={{ fontSize: 16, margin: 10 }}>{this.state.text}</Text>
+          <Text style={{ fontSize: 16, margin: 10 }}>{text}</Text>
         </FormInput>
-        {this.state.status === 'error' && (
+        {status === 'error' && (
           <FormValidationMessage style={{ color: colors.red }}>
-            {this.props.errormsg}
+            {errorMsg}
           </FormValidationMessage>
         )}
       </View>
@@ -109,13 +167,20 @@ const styles = StyleSheet.create({
   error: {
     backgroundColor: colors.white,
     borderBottomColor: colors.red
+  },
+  text: {
+    marginBottom: -30,
+    marginLeft: 25,
+    zIndex: 100,
+    fontSize: 14
   }
 })
 
 TextInput.propTypes = {
   label: PropTypes.string,
-  errormsg: PropTypes.string.isRequired,
-  onTextChange: PropTypes.func.isRequired
+  required: PropTypes.bool,
+  onChangeText: PropTypes.func.isRequired,
+  validation: PropTypes.oneOf(['email', 'string', 'phone', 'number'])
 }
 
 export default TextInput

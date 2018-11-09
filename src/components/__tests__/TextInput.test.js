@@ -11,9 +11,8 @@ import TextInput from '../TextInput'
 
 const createTestProps = props => ({
   ...props,
-  onTextChange: jest.fn(),
-  label: 'Some label',
-  errormsg: 'Some error msg'
+  onChangeText: jest.fn(),
+  label: 'Some label'
 })
 
 describe('TextInput Component', () => {
@@ -44,15 +43,6 @@ describe('TextInput Component', () => {
           .text()
       ).toBe('Some label')
     })
-    it('has the correct error msg', () => {
-      wrapper.setState({ status: 'error' })
-      expect(
-        wrapper
-          .find(FormValidationMessage)
-          .render()
-          .text()
-      ).toBe('Some error msg')
-    })
 
     it('calls onChangeText when text is changed', () => {
       const spy = jest.spyOn(wrapper.instance(), 'onChangeText')
@@ -65,7 +55,11 @@ describe('TextInput Component', () => {
     })
 
     it('has correct initial state', () => {
-      expect(wrapper.instance().state).toEqual({ text: '', status: 'blur' })
+      expect(wrapper.instance().state).toEqual({
+        text: '',
+        status: 'blur',
+        errorMsg: null
+      })
     })
 
     it('changes text state when onChangeText is called', () => {
@@ -94,5 +88,78 @@ describe('TextInput Component', () => {
         .onBlur()
       expect(wrapper.instance().state.status).toEqual('blur')
     })
+  })
+  describe('Input validation', () => {
+    it('shows correct error message when input is required but empty', () => {
+      props = createTestProps({ required: true, validation: 'string' })
+      wrapper = shallow(<TextInput {...props} />)
+      wrapper.setState({ status: 'error' })
+
+      wrapper
+        .find(FormInput)
+        .props()
+        .onBlur()
+
+      expect(
+        wrapper
+          .find(FormValidationMessage)
+          .render()
+          .text()
+      ).toBe('Field is required')
+    })
+  })
+
+  it('shows correct error message when validation is email', () => {
+    props = createTestProps({ required: true, validation: 'email' })
+    wrapper = shallow(<TextInput {...props} />)
+    wrapper.setState({ status: 'error', text: 'not an email' })
+
+    wrapper
+      .find(FormInput)
+      .props()
+      .onBlur()
+
+    expect(
+      wrapper
+        .find(FormValidationMessage)
+        .render()
+        .text()
+    ).toBe('Invalid email')
+  })
+
+  it('shows correct error message when validation is phone', () => {
+    props = createTestProps({ required: true, validation: 'phone' })
+    wrapper = shallow(<TextInput {...props} />)
+    wrapper.setState({ status: 'error', text: 'not a phone' })
+
+    wrapper
+      .find(FormInput)
+      .props()
+      .onBlur()
+
+    expect(
+      wrapper
+        .find(FormValidationMessage)
+        .render()
+        .text()
+    ).toBe('Invalid phone number')
+  })
+
+  it('shows correct error message when validation is number', () => {
+    props = createTestProps({ required: true, validation: 'number' })
+    wrapper = shallow(<TextInput {...props} />)
+    wrapper.setState({ status: 'error', text: 'not a number' })
+
+    wrapper
+      .find(FormInput)
+      .props()
+      .onBlur()
+
+    expect(
+      wrapper
+        .find(FormValidationMessage)
+        .render()
+        .text()
+    ).toBe('Invalid number')
   })
 })
