@@ -13,7 +13,7 @@ import globalStyles from '../globalStyles'
 class TextInput extends Component {
   state = {
     status: 'blur',
-    text: '',
+    text: this.props.value,
     errorMsg: null
   }
 
@@ -39,10 +39,15 @@ class TextInput extends Component {
     if (this.props.required && validator.isEmpty(this.state.text)) {
       return this.setState({
         status: 'error',
-        errorMsg: 'Field is required'
+        errorMsg: 'This field is required'
       })
     }
-
+    if (this.props.required && this.state.text.length > 50) {
+      return this.setState({
+        status: 'error',
+        errorMsg: 'Please enter a valid value'
+      })
+    }
     if (
       this.props.validation === 'email' &&
       !validator.isEmail(this.state.text) &&
@@ -50,7 +55,7 @@ class TextInput extends Component {
     ) {
       return this.setState({
         status: 'error',
-        errorMsg: 'Invalid email'
+        errorMsg: 'Please enter a valid email address'
       })
     }
 
@@ -61,7 +66,7 @@ class TextInput extends Component {
     ) {
       return this.setState({
         status: 'error',
-        errorMsg: 'Invalid value'
+        errorMsg: 'Please enter alphabetic characters'
       })
     }
     if (
@@ -71,7 +76,7 @@ class TextInput extends Component {
     ) {
       return this.setState({
         status: 'error',
-        errorMsg: 'Invalid phone number'
+        errorMsg: 'Please enter a valid phone number'
       })
     }
     if (
@@ -81,7 +86,7 @@ class TextInput extends Component {
     ) {
       return this.setState({
         status: 'error',
-        errorMsg: 'Invalid number'
+        errorMsg: 'Please enter a valid number'
       })
     }
   }
@@ -122,9 +127,7 @@ class TextInput extends Component {
           onBlur={() => this.onBlur(text)}
           placeholder={
             showPlaceholder
-              ? `${this.props.placeholder} ${
-                  !this.props.required ? ' - Optional' : ''
-                }`
+              ? `${this.props.placeholder} ${this.props.required ? '*' : ''}`
               : ''
           }
           onChangeText={text => this.onChangeText(text)}
@@ -133,7 +136,6 @@ class TextInput extends Component {
             ...styles[status],
             paddingTop: !showPlaceholder ? 30 : 10
           }}
-          multiline
         >
           <Text style={{ fontSize: 16, margin: 10 }}>{text}</Text>
         </FormInput>
@@ -178,6 +180,7 @@ const styles = StyleSheet.create({
 
 TextInput.propTypes = {
   label: PropTypes.string,
+  value: PropTypes.string,
   required: PropTypes.bool,
   onChangeText: PropTypes.func.isRequired,
   validation: PropTypes.oneOf(['email', 'string', 'phone', 'number'])

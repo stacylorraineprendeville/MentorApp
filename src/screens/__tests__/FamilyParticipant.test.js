@@ -16,6 +16,11 @@ const createTestProps = props => ({
       draft_id: 4,
       survey_id: 2,
       personal_survey_data: {
+        firstName: 'Jane',
+        lastName: 'Doe',
+        documentNumber: '5468568',
+        email: 'jane@doe.com',
+        phone: '40965035',
         gender: 'F'
       },
       economic_survey_data: {
@@ -24,9 +29,6 @@ const createTestProps = props => ({
       indicator_survey_data: {
         income: 'GREEN'
       }
-    },
-    {
-      draft_id: 5
     }
   ],
   surveys: [
@@ -229,6 +231,7 @@ describe('Family Participant View', () => {
   describe('lifecycle', () => {
     describe('no saved draft', () => {
       it('creates universally unique draft identifier if there is no draft_id', () => {
+        const draft = {}
         expect(wrapper.instance().draft_id).toEqual(
           expect.stringMatching(/[a-z0-9_.-].*/)
         )

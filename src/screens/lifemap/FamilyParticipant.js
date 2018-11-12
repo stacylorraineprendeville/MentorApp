@@ -25,6 +25,13 @@ export class FamilyParticipant extends Component {
   //Get survey by id
   survey = this.props.surveys.filter(survey => survey.id === this.survey_id)[0]
 
+  //Get draft
+
+  draft =
+    this.props.drafts.filter(draft => draft.draft_id === this.draft_id)[0] || {}
+  //Required fields
+  requiredFields = ['firstName', 'lastName', 'documentNumber']
+
   getDraftFromRedux() {
     //Get draft  from Redux store if it exists else create new draft
     if (!this.props.navigation.getParam('draft')) {
@@ -49,6 +56,7 @@ export class FamilyParticipant extends Component {
       survey: this.survey
     })
   }
+  disableButton() {}
   render() {
     return (
       <ScrollView
@@ -65,35 +73,56 @@ export class FamilyParticipant extends Component {
           <TextInput
             validation="string"
             onChangeText={text => {
-              console.log(text)
+              this.props.addSurveyData(this.draft_id, 'personal_survey_data', {
+                firstName: text
+              })
             }}
             placeholder="First name"
+            value={(this.draft.personal_survey_data || {}).firstName}
             required
           />
           <TextInput
             validation="string"
             onChangeText={text => {
-              console.log(text)
+              this.props.addSurveyData(this.draft_id, 'personal_survey_data', {
+                lastName: text
+              })
             }}
             placeholder="Last name"
+            value={(this.draft.personal_survey_data || {}).lastName}
             required
           />
           <TextInput
             onChangeText={text => {
-              console.log(text)
+              this.props.addSurveyData(this.draft_id, 'personal_survey_data', {
+                documentNumber: text
+              })
             }}
+            value={(this.draft.personal_survey_data || {}).documentNumber}
+            placeholder="Document number"
+          />
+          <TextInput
+            onChangeText={text => {
+              this.props.addSurveyData(this.draft_id, 'personal_survey_data', {
+                email: text
+              })
+            }}
+            value={(this.draft.personal_survey_data || {}).email}
             placeholder="Email"
             validation="email"
           />
           <TextInput
             onChangeText={text => {
-              console.log(text)
+              this.props.addSurveyData(this.draft_id, 'personal_survey_data', {
+                phone: text
+              })
             }}
+            value={(this.draft.personal_survey_data || {}).phone}
             placeholder="Phone"
             validation="phone"
           />
         </View>
-        <View style={{ height: 50 }}>
+        <View style={{ height: 50, marginTop: 50 }}>
           <Button
             colored
             text="Continue"

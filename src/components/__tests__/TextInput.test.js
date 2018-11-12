@@ -12,7 +12,8 @@ import TextInput from '../TextInput'
 const createTestProps = props => ({
   ...props,
   onChangeText: jest.fn(),
-  label: 'Some label'
+  label: 'Some label',
+  value: ''
 })
 
 describe('TextInput Component', () => {
@@ -105,7 +106,7 @@ describe('TextInput Component', () => {
           .find(FormValidationMessage)
           .render()
           .text()
-      ).toBe('Field is required')
+      ).toBe('This field is required')
     })
   })
 
@@ -124,7 +125,7 @@ describe('TextInput Component', () => {
         .find(FormValidationMessage)
         .render()
         .text()
-    ).toBe('Invalid email')
+    ).toBe('Please enter a valid email address')
   })
 
   it('shows correct error message when validation is phone', () => {
@@ -142,7 +143,7 @@ describe('TextInput Component', () => {
         .find(FormValidationMessage)
         .render()
         .text()
-    ).toBe('Invalid phone number')
+    ).toBe('Please enter a valid phone number')
   })
 
   it('shows correct error message when validation is number', () => {
@@ -160,6 +161,6 @@ describe('TextInput Component', () => {
         .find(FormValidationMessage)
         .render()
         .text()
-    ).toBe('Invalid number')
+    ).toBe('Please enter a valid number')
   })
 })
