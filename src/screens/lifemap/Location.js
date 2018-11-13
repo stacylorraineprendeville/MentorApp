@@ -4,12 +4,14 @@ import {
   View,
   StyleSheet,
   ActivityIndicator,
-  Text,
-  TextInput
+  Text
 } from 'react-native'
+import Button from '../../components/Button'
+import TextInput from '../../components/TextInput'
 import MapView, { Marker } from 'react-native-maps'
 import globalStyles from '../../globalStyles'
 import SearchBar from '../../components/SearchBar'
+import CountrySelect from '../../components/CountrySelect'
 
 export default class Location extends Component {
   state = {
@@ -18,7 +20,9 @@ export default class Location extends Component {
     accuracy: null,
     postcode: '',
     houseDescription: '',
-    searchAddress: ''
+    searchAddress: '',
+    errorsDetected: [],
+    country: null
   }
   getDeviceLocation() {
     navigator.geolocation.getCurrentPosition(
@@ -47,7 +51,7 @@ export default class Location extends Component {
     } = this.state
 
     return (
-      <ScrollView style={[globalStyles.background, styles.view]}>
+      <ScrollView contentContainerStyle={globalStyles.background}>
         {latitude ? (
           <View>
             <SearchBar
@@ -91,23 +95,40 @@ export default class Location extends Component {
             <Text style={globalStyles.h3}>Getting your location…</Text>
           </View>
         )}
-        <View style={styles.container}>
-          <Text id="accuracy">
+        <View>
+          <Text id="accuracy" style={styles.container}>
             {accuracy ? `GPS: Accurate to ${Math.round(accuracy)}m` : ' '}
           </Text>
+          <CountrySelect
+            onChange={country =>
+              this.setState({
+                country
+              })
+            }
+          />
           <TextInput
             id="postcode"
-            placeholder="Postcode"
             onChangeText={postcode => this.setState({ postcode })}
+            field="postcode"
             value={postcode}
+            placeholder="Postcode"
           />
           <TextInput
             id="houseDescription"
-            placeholder="Street or house description"
             onChangeText={houseDescription =>
               this.setState({ houseDescription })
             }
+            field="houseDescription"
             value={houseDescription}
+            placeholder="Street or house description"
+          />
+        </View>
+        <View style={{ marginTop: 15 }}>
+          <Button
+            disabled={!!this.state.errorsDetected.length}
+            colored
+            text="Continue"
+            handleClick={() => this.handleClick()}
           />
         </View>
       </ScrollView>
@@ -116,9 +137,6 @@ export default class Location extends Component {
 }
 
 const styles = StyleSheet.create({
-  view: {
-    flex: 1
-  },
   map: {
     height: 300,
     width: '100%'
@@ -128,7 +146,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   container: {
-    marginTop: 3,
     paddingHorizontal: 16
   },
   search: {

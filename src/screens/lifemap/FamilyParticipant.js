@@ -83,8 +83,6 @@ export class FamilyParticipant extends Component {
       draft => draft.draft_id === this.draft_id
     )[0]
 
-    console.log(draft)
-
     const emptyRequiredFields = draft
       ? this.requiredFields.filter(
           item =>
