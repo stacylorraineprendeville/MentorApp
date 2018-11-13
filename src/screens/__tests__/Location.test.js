@@ -5,18 +5,21 @@ import MapView, { Marker } from 'react-native-maps'
 import Location from '../lifemap/Location'
 
 // navigator mock
+/* eslint-disable no-undef */
 global.navigator = {
   geolocation: {
     getCurrentPosition: callback =>
       callback({
         coords: {
           latitude: 44,
-          longitude: 45
+          longitude: 45,
+          accuracy: 15
         }
       }),
     watchPosition: jest.fn()
   }
 }
+/* eslint-enable no-undef */
 
 describe('Family Location component', () => {
   let wrapper
@@ -30,7 +33,10 @@ describe('Family Location component', () => {
     wrapper = shallow(<Location />, { disableLifecycleMethods: true })
     expect(wrapper).toHaveState({
       latitude: null,
-      longitude: null
+      longitude: null,
+      accuracy: null,
+      postcode: '',
+      houseDescription: ''
     })
   })
   it('renders MapView', () => {
@@ -72,5 +78,14 @@ describe('Family Location component', () => {
       longitude: 50
     })
   })
-  it('shows GPS accuracy range', () => {})
+  it('shows GPS accuracy range', () => {
+    expect(wrapper.find('#accuracy')).toHaveHTML(
+      '<react-native-mock>GPS: Accurate to 15m</react-native-mock>'
+    )
+    expect(wrapper).toHaveState({
+      accuracy: 15
+    })
+  })
+  it('shows family location form', () => {})
+  it('edits family locaiton', () => {})
 })

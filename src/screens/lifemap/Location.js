@@ -4,16 +4,20 @@ import {
   View,
   StyleSheet,
   ActivityIndicator,
-  Text
+  Text,
+  TextInput
 } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
+
 import globalStyles from '../../globalStyles'
 
 export default class Location extends Component {
   state = {
     latitude: null,
     longitude: null,
-    accuracy: null
+    accuracy: null,
+    postcode: '',
+    houseDescription: ''
   }
   getDeviceLocation() {
     navigator.geolocation.getCurrentPosition(
@@ -32,7 +36,14 @@ export default class Location extends Component {
     this.getDeviceLocation()
   }
   render() {
-    const { latitude, longitude, accuracy } = this.state
+    const {
+      latitude,
+      longitude,
+      accuracy,
+      postcode,
+      houseDescription
+    } = this.state
+
     return (
       <ScrollView style={globalStyles.background}>
         {latitude ? (
@@ -72,9 +83,21 @@ export default class Location extends Component {
           </View>
         )}
         <View style={styles.container}>
-          <Text>
+          <Text id="accuracy">
             {accuracy ? `GPS: Accurate to ${Math.round(accuracy)}m` : ' '}
           </Text>
+          <TextInput
+            placeholder="Postcode"
+            onChangeText={postcode => this.setState({ postcode })}
+            value={postcode}
+          />
+          <TextInput
+            placeholder="Street or house description"
+            onChangeText={houseDescription =>
+              this.setState({ houseDescription })
+            }
+            value={houseDescription}
+          />
         </View>
       </ScrollView>
     )

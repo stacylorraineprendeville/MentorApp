@@ -19,6 +19,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 import QuestionView from '../screens/lifemap/Question'
 import BeginLifemapView from '../screens/lifemap/BeginLifemap'
+import LocationView from '../screens/lifemap/Location'
 import LoginView from '../screens/Login'
 import SurveysView from '../screens/Surveys'
 import FamiliesView from '../screens/Families'
@@ -318,12 +319,15 @@ export const LoginStack = createStackNavigator(
 // stack has a header bar, which stack to show if the user us not authenticated.
 export const AppStack = createStackNavigator(
   {
+    Location: {
+      screen: LocationView
+    },
     Drawer: {
       screen: DrawerNavigator
     }
   },
   {
-    initialRouteName: 'Drawer',
+    initialRouteName: 'Location',
     headerMode: 'none'
   }
 )
