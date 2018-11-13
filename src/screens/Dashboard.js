@@ -119,7 +119,7 @@ export class Dashboard extends Component {
                 <DraftListItem
                   item={item}
                   handleClick={() =>
-                    navigation.navigate('Draft', {
+                    navigation.navigate('FamilyParticipant', {
                       draft: item.draft_id
                     })
                   }

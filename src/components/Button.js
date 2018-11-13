@@ -5,14 +5,20 @@ import { Text, TouchableOpacity, StyleSheet, Platform } from 'react-native'
 import colors from '../theme.json'
 
 class Button extends Component {
+  defineButtonStyle() {
+    if (this.props.disabled) {
+      return styles.disabled
+    }
+    if (this.props.colored) {
+      return styles.colored
+    }
+    return styles.transparent
+  }
+
   render() {
     return (
       <TouchableOpacity
-        style={
-          this.props.colored
-            ? { ...styles.buttonStyle, ...styles.colored }
-            : { ...styles.buttonStyle, ...styles.transparent }
-        }
+        style={{ ...styles.buttonStyle, ...this.defineButtonStyle() }}
         onPress={this.props.handleClick}
         disabled={this.props.disabled}
       >
@@ -71,6 +77,9 @@ const styles = StyleSheet.create({
   },
   transparent: {
     backgroundColor: colors.palebeige
+  },
+  disabled: {
+    backgroundColor: colors.palegrey
   },
   greenText: {
     color: colors.palegreen,
