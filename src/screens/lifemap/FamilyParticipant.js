@@ -25,12 +25,10 @@ export class FamilyParticipant extends Component {
   //Get survey by id
   survey = this.props.surveys.filter(survey => survey.id === this.survey_id)[0]
 
-  //Get draft
-
-  draft =
-    this.props.drafts.filter(draft => draft.draft_id === this.draft_id)[0] || {}
   //Required fields
   requiredFields = ['firstName', 'lastName', 'documentNumber']
+
+  state = { errorsDetected: [] }
 
   getDraftFromRedux() {
     //Get draft  from Redux store if it exists else create new draft
@@ -50,14 +48,52 @@ export class FamilyParticipant extends Component {
   componentDidMount() {
     this.getDraftFromRedux()
   }
+
   handleClick() {
     this.props.navigation.navigate('BeginLifemap', {
       draft_id: this.draft_id,
       survey: this.survey
     })
   }
-  disableButton() {}
+
+  getFieldValue = (draft, field) => {
+    if (!draft) {
+      return
+    }
+    return draft.personal_survey_data[field]
+  }
+
+  detectError = (error, field) => {
+    if (error && !this.state.errorsDetected.includes(field)) {
+      this.setState({ errorsDetected: [...this.state.errorsDetected, field] })
+    } else
+      this.setState({
+        errorsDetected: this.state.errorsDetected.filter(item => item !== field)
+      })
+  }
+
+  addSurveyData = (text, field) => {
+    this.props.addSurveyData(this.draft_id, 'personal_survey_data', {
+      [field]: text
+    })
+  }
+
   render() {
+    const draft = this.props.drafts.filter(
+      draft => draft.draft_id === this.draft_id
+    )[0]
+
+    const emptyRequiredFields = draft
+      ? this.requiredFields.filter(
+          item => draft.personal_survey_data[item].length === 0
+        )
+      : []
+
+    const isButtonDisabled =
+      emptyRequiredFields.length === 0 && this.state.errorsDetected.length === 0
+        ? false
+        : true
+
     return (
       <ScrollView
         style={globalStyles.background}
@@ -72,58 +108,50 @@ export class FamilyParticipant extends Component {
           <Icon name="face" color={colors.grey} size={55} style={styles.icon} />
           <TextInput
             validation="string"
-            onChangeText={text => {
-              this.props.addSurveyData(this.draft_id, 'personal_survey_data', {
-                firstName: text
-              })
-            }}
+            field="firstName"
+            onChangeText={this.addSurveyData}
             placeholder="First name"
-            value={(this.draft.personal_survey_data || {}).firstName}
+            value={this.getFieldValue(draft, 'firstName')}
             required
+            detectError={this.detectError}
           />
           <TextInput
+            field="lastName"
             validation="string"
-            onChangeText={text => {
-              this.props.addSurveyData(this.draft_id, 'personal_survey_data', {
-                lastName: text
-              })
-            }}
+            onChangeText={this.addSurveyData}
             placeholder="Last name"
-            value={(this.draft.personal_survey_data || {}).lastName}
+            value={this.getFieldValue(draft, 'lastName')}
             required
+            detectError={this.detectError}
           />
           <TextInput
-            onChangeText={text => {
-              this.props.addSurveyData(this.draft_id, 'personal_survey_data', {
-                documentNumber: text
-              })
-            }}
-            value={(this.draft.personal_survey_data || {}).documentNumber}
+            onChangeText={this.addSurveyData}
+            field="documentNumber"
+            required
+            value={this.getFieldValue(draft, 'documentNumber')}
             placeholder="Document number"
+            detectError={this.detectError}
           />
           <TextInput
-            onChangeText={text => {
-              this.props.addSurveyData(this.draft_id, 'personal_survey_data', {
-                email: text
-              })
-            }}
-            value={(this.draft.personal_survey_data || {}).email}
+            onChangeText={this.addSurveyData}
+            field="email"
+            value={this.getFieldValue(draft, 'email')}
             placeholder="Email"
             validation="email"
+            detectError={this.detectError}
           />
           <TextInput
-            onChangeText={text => {
-              this.props.addSurveyData(this.draft_id, 'personal_survey_data', {
-                phone: text
-              })
-            }}
-            value={(this.draft.personal_survey_data || {}).phone}
+            onChangeText={this.addSurveyData}
+            field="phone"
+            value={this.getFieldValue(draft, 'phone')}
             placeholder="Phone"
             validation="phone"
+            detectError={this.detectError}
           />
         </View>
         <View style={{ height: 50, marginTop: 50 }}>
           <Button
+            disabled={isButtonDisabled}
             colored
             text="Continue"
             handleClick={() => this.handleClick()}

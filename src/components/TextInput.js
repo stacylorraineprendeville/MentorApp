@@ -19,7 +19,7 @@ class TextInput extends Component {
 
   onChangeText(text) {
     this.setState({ text })
-    this.props.onChangeText(text)
+    this.props.onChangeText(text, this.props.field)
   }
 
   onFocus() {
@@ -32,31 +32,31 @@ class TextInput extends Component {
     this.validateInput()
   }
 
+  handleError(errorMsg) {
+    this.props.detectError(true, this.props.field)
+    this.setState({
+      status: 'error',
+      errorMsg
+    })
+  }
+
   validateInput() {
     this.setState({
       status: 'blur'
     })
-    if (this.props.required && validator.isEmpty(this.state.text)) {
-      return this.setState({
-        status: 'error',
-        errorMsg: 'This field is required'
-      })
+    this.props.detectError(false, this.props.field)
+    if (this.props.required && !this.state.text) {
+      return this.handleError('This field is required')
     }
-    if (this.props.required && this.state.text.length > 50) {
-      return this.setState({
-        status: 'error',
-        errorMsg: 'Please enter a valid value'
-      })
+    if (this.state.text.length > 50) {
+      return this.handleError('Please enter a valid value')
     }
     if (
       this.props.validation === 'email' &&
       !validator.isEmail(this.state.text) &&
       !validator.isEmpty(this.state.text)
     ) {
-      return this.setState({
-        status: 'error',
-        errorMsg: 'Please enter a valid email address'
-      })
+      return this.handleError('Please enter a valid email address')
     }
 
     if (
@@ -64,30 +64,21 @@ class TextInput extends Component {
       !validator.isAlpha(this.state.text) &&
       !validator.isEmpty(this.state.text)
     ) {
-      return this.setState({
-        status: 'error',
-        errorMsg: 'Please enter alphabetic characters'
-      })
+      return this.handleError('Please enter alphabetic characters')
     }
     if (
       this.props.validation === 'phone' &&
       !validator.isMobilePhone(this.state.text) &&
       !validator.isEmpty(this.state.text)
     ) {
-      return this.setState({
-        status: 'error',
-        errorMsg: 'Please enter a valid phone number'
-      })
+      return this.handleError('Please enter a valid phone number')
     }
     if (
       this.props.validation === 'number' &&
       !validator.isNumeric(this.state.text) &&
       !validator.isEmpty(this.state.text)
     ) {
-      return this.setState({
-        status: 'error',
-        errorMsg: 'Please enter a valid number'
-      })
+      return this.handleError('Please enter a valid number')
     }
   }
 
@@ -106,7 +97,7 @@ class TextInput extends Component {
 
   render() {
     const { status, text, errorMsg } = this.state
-    let showPlaceholder = status === 'blur' && text === ''
+    let showPlaceholder = status === 'blur' && !text
     return (
       <View>
         <FormLabel>{this.props.label}</FormLabel>
@@ -181,9 +172,11 @@ const styles = StyleSheet.create({
 TextInput.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
+  field: PropTypes.string.isRequired,
   required: PropTypes.bool,
   onChangeText: PropTypes.func.isRequired,
-  validation: PropTypes.oneOf(['email', 'string', 'phone', 'number'])
+  validation: PropTypes.oneOf(['email', 'string', 'phone', 'number']),
+  detectError: PropTypes.func
 }
 
 export default TextInput

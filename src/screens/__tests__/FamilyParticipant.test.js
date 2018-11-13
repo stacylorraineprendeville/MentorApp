@@ -1,8 +1,9 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { ScrollView, View, TextInput } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { FamilyParticipant } from '../lifemap/FamilyParticipant'
 import Button from '../../components/Button'
+import TextInput from '../../components/TextInput'
 
 const createTestProps = props => ({
   createDraft: jest.fn(),
@@ -231,7 +232,6 @@ describe('Family Participant View', () => {
   describe('lifecycle', () => {
     describe('no saved draft', () => {
       it('creates universally unique draft identifier if there is no draft_id', () => {
-        const draft = {}
         expect(wrapper.instance().draft_id).toEqual(
           expect.stringMatching(/[a-z0-9_.-].*/)
         )
@@ -287,52 +287,43 @@ describe('Family Participant View', () => {
     it('renders base ScrollView', () => {
       expect(wrapper.find(ScrollView)).toHaveLength(1)
     })
-
+    it('renders TextInput', () => {
+      expect(wrapper.find(TextInput)).toHaveLength(5)
+    })
     it('renders continue draft button', () => {
       expect(wrapper.find(Button)).toHaveLength(1)
     })
 
-    // it('sets proper TextInput value from draft', () => {
-    //   const props = createTestProps({
-    //     navigation: {
-    //       navigate: jest.fn(),
-    //       getParam: param => (param === 'draft' ? 4 : 1)
-    //     },
-    //     ...props
-    //   })
-    //   wrapper = shallow(<Draft {...props} />)
-    //
-    //   expect(wrapper.find(TextInput).props().value).toBe('F')
-    // })
+    it('sets proper TextInput value from draft', () => {
+      const props = createTestProps({
+        navigation: {
+          navigate: jest.fn(),
+          getParam: param => (param === 'draft' ? 4 : 1)
+        },
+        ...props
+      })
+      wrapper = shallow(<FamilyParticipant {...props} />)
+
+      expect(
+        wrapper
+          .find(TextInput)
+          .first()
+          .props().value
+      ).toBe('Jane')
+    })
   })
 
   describe('functionality', () => {
-    // it('calls storeDraftItem onChange', () => {
-    //   const spy = jest.spyOn(wrapper.instance(), 'storeDraftItem')
-    //
-    //   wrapper
-    //     .find(TextInput)
-    //     .first()
-    //     .props()
-    //     .onChangeText('M')
-    //
-    //   expect(spy).toHaveBeenCalledTimes(1)
-    //
-    //   wrapper
-    //     .find(TextInput)
-    //     .last()
-    //     .props()
-    //     .onChangeText('No')
-    //
-    //   expect(spy).toHaveBeenCalledTimes(2)
-    //
-    //   wrapper
-    //     .find(Picker)
-    //     .props()
-    //     .onValueChange()
-    //
-    //   expect(spy).toHaveBeenCalledTimes(3)
-    // })
+    it('calls addSurveyData on input change', () => {
+      wrapper
+        .find(TextInput)
+        .first()
+        .props()
+        .onChangeText()
+
+      expect(wrapper.instance().props.addSurveyData).toHaveBeenCalledTimes(1)
+    })
+
     it('calls navigator function on pressing Continue button', () => {
       wrapper
         .find(Button)
@@ -341,6 +332,23 @@ describe('Family Participant View', () => {
       expect(
         wrapper.instance().props.navigation.navigate
       ).toHaveBeenCalledTimes(1)
+    })
+
+    it('has correct initial state', () => {
+      expect(wrapper.instance().state).toEqual({
+        errorsDetected: []
+      })
+    })
+
+    it('detects an error', () => {
+      wrapper.instance().detectError(true, 'phone')
+      expect(wrapper.instance().state.errorsDetected).toEqual(['phone'])
+    })
+
+    it('detects when the error is corrected', () => {
+      wrapper.setState({ errorsDetected: ['phone'] })
+      wrapper.instance().detectError(false, 'phone')
+      expect(wrapper.instance().state.errorsDetected).toEqual([])
     })
   })
 })

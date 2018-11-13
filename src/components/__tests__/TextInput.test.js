@@ -12,8 +12,10 @@ import TextInput from '../TextInput'
 const createTestProps = props => ({
   ...props,
   onChangeText: jest.fn(),
+  detectError: jest.fn(),
   label: 'Some label',
-  value: ''
+  value: '',
+  field: 'phone'
 })
 
 describe('TextInput Component', () => {
@@ -162,5 +164,10 @@ describe('TextInput Component', () => {
         .render()
         .text()
     ).toBe('Please enter a valid number')
+  })
+
+  it('calls function detectError when handleError is called', () => {
+    wrapper.instance().handleError()
+    expect(wrapper.instance().props.detectError).toHaveBeenCalledTimes(1)
   })
 })
