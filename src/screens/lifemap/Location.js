@@ -8,8 +8,8 @@ import {
   TextInput
 } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
-
 import globalStyles from '../../globalStyles'
+import SearchBar from '../../components/SearchBar'
 
 export default class Location extends Component {
   state = {
@@ -17,7 +17,8 @@ export default class Location extends Component {
     longitude: null,
     accuracy: null,
     postcode: '',
-    houseDescription: ''
+    houseDescription: '',
+    searchAddress: ''
   }
   getDeviceLocation() {
     navigator.geolocation.getCurrentPosition(
@@ -41,13 +42,21 @@ export default class Location extends Component {
       longitude,
       accuracy,
       postcode,
-      houseDescription
+      houseDescription,
+      searchAddress
     } = this.state
 
     return (
-      <ScrollView style={globalStyles.background}>
+      <ScrollView style={[globalStyles.background, styles.view]}>
         {latitude ? (
           <View>
+            <SearchBar
+              id="searchAddress"
+              style={styles.search}
+              placeholder="Search by street or postal code"
+              onChangeText={searchAddress => this.setState({ searchAddress })}
+              value={searchAddress}
+            />
             <MapView
               style={styles.map}
               initialRegion={{
@@ -87,11 +96,13 @@ export default class Location extends Component {
             {accuracy ? `GPS: Accurate to ${Math.round(accuracy)}m` : ' '}
           </Text>
           <TextInput
+            id="postcode"
             placeholder="Postcode"
             onChangeText={postcode => this.setState({ postcode })}
             value={postcode}
           />
           <TextInput
+            id="houseDescription"
             placeholder="Street or house description"
             onChangeText={houseDescription =>
               this.setState({ houseDescription })
@@ -105,6 +116,9 @@ export default class Location extends Component {
 }
 
 const styles = StyleSheet.create({
+  view: {
+    flex: 1
+  },
   map: {
     height: 300,
     width: '100%'
@@ -116,5 +130,12 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 3,
     paddingHorizontal: 16
+  },
+  search: {
+    zIndex: 2,
+    position: 'absolute',
+    top: 7.5,
+    right: 7.5,
+    left: 7.5
   }
 })

@@ -63,8 +63,10 @@ describe('Login View', () => {
         .props()
         .onChangeText('Foo')
 
-      expect(wrapper.state().username).toBe('Joe')
-      expect(wrapper.state().password).toBe('Foo')
+      expect(wrapper).toHaveState({
+        username: 'Joe',
+        password: 'Foo'
+      })
     })
 
     it('sets the env to demo when username is demo', () => {

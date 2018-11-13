@@ -86,6 +86,20 @@ describe('Family Location component', () => {
       accuracy: 15
     })
   })
-  it('shows family location form', () => {})
-  it('edits family locaiton', () => {})
+  it('edits family locaiton', () => {
+    wrapper
+      .find('#postcode')
+      .props()
+      .onChangeText('123')
+
+    wrapper
+      .find('#houseDescription')
+      .props()
+      .onChangeText('Foo')
+
+    expect(wrapper).toHaveState({
+      postcode: '123',
+      houseDescription: 'Foo'
+    })
+  })
 })
