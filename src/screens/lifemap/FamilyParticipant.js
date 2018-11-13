@@ -83,16 +83,18 @@ export class FamilyParticipant extends Component {
       draft => draft.draft_id === this.draft_id
     )[0]
 
+    console.log(draft)
+
     const emptyRequiredFields = draft
       ? this.requiredFields.filter(
-          item => draft.personal_survey_data[item].length === 0
+          item =>
+            !draft.personal_survey_data[item] ||
+            draft.personal_survey_data[item].length === 0
         )
       : []
 
-    const isButtonDisabled =
-      emptyRequiredFields.length === 0 && this.state.errorsDetected.length === 0
-        ? false
-        : true
+    const isButtonEnabled =
+      !emptyRequiredFields.length && !this.state.errorsDetected.length
 
     return (
       <ScrollView
@@ -151,7 +153,7 @@ export class FamilyParticipant extends Component {
         </View>
         <View style={{ height: 50, marginTop: 50 }}>
           <Button
-            disabled={isButtonDisabled}
+            disabled={!isButtonEnabled}
             colored
             text="Continue"
             handleClick={() => this.handleClick()}
@@ -175,7 +177,9 @@ const styles = StyleSheet.create({
 FamilyParticipant.propTypes = {
   surveys: PropTypes.array.isRequired,
   drafts: PropTypes.array.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  createDraft: PropTypes.func.isRequired,
+  addSurveyData: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = {

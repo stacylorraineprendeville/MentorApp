@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { ScrollView, View } from 'react-native'
+import { ScrollView } from 'react-native'
 import { FamilyParticipant } from '../lifemap/FamilyParticipant'
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
