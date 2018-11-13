@@ -7,18 +7,18 @@ import colors from '../theme.json'
 class Button extends Component {
   defineButtonStyle() {
     if (this.props.disabled) {
-      return { ...styles.buttonStyle, ...styles.disabled }
+      return styles.disabled
     }
     if (this.props.colored) {
-      return { ...styles.buttonStyle, ...styles.colored }
+      return styles.colored
     }
-    return { ...styles.buttonStyle, ...styles.transparent }
+    return styles.transparent
   }
 
   render() {
     return (
       <TouchableOpacity
-        style={this.defineButtonStyle()}
+        style={{ ...styles.buttonStyle, ...this.defineButtonStyle() }}
         onPress={this.props.handleClick}
         disabled={this.props.disabled}
       >
@@ -87,10 +87,6 @@ const styles = StyleSheet.create({
   },
   whiteText: {
     color: colors.white,
-    fontSize: 18
-  },
-  disabledText: {
-    color: colors.grey,
     fontSize: 18
   },
   icon: {

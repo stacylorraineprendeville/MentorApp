@@ -8,7 +8,6 @@ import {
 } from 'react-native-elements'
 import colors from '../theme.json'
 import validator from 'validator'
-import globalStyles from '../globalStyles'
 
 class TextInput extends Component {
   state = {
@@ -172,6 +171,7 @@ const styles = StyleSheet.create({
 TextInput.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
+  placeholder: PropTypes.string,
   field: PropTypes.string.isRequired,
   required: PropTypes.bool,
   onChangeText: PropTypes.func.isRequired,
