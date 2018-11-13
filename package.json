@@ -29,7 +29,8 @@
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
     "rn-fetch-blob": "^0.10.13",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "validator": "^10.9.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
