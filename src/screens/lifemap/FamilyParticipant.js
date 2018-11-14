@@ -33,7 +33,8 @@ export class FamilyParticipant extends Component {
     'document',
     'documentNumber',
     'gender',
-    'countryOfBirth'
+    'countryOfBirth',
+    'dateOfBirth'
   ]
 
   state = { errorsDetected: [] }
@@ -101,7 +102,7 @@ export class FamilyParticipant extends Component {
 
     const isButtonEnabled =
       !emptyRequiredFields.length && !this.state.errorsDetected.length
-
+    console.log(draft)
     return (
       <ScrollView
         style={globalStyles.background}
@@ -141,7 +142,13 @@ export class FamilyParticipant extends Component {
               <Picker.Item label={item} value={item} key={item} />
             ))}
           </Picker>
-          <DateInput label="Date of birth*" />
+          <DateInput
+            label="Date of birth*"
+            required
+            field="dateOfBirth"
+            detectError={this.detectError}
+            onValidDate={this.addSurveyData}
+          />
           <Picker
             selectedValue={this.getFieldValue(draft, 'document')}
             onValueChange={itemValue =>

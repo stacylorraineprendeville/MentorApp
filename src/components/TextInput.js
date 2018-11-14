@@ -179,7 +179,7 @@ TextInput.propTypes = {
   onChangeText: PropTypes.func.isRequired,
   validation: PropTypes.oneOf(['email', 'string', 'phone', 'number']),
   detectError: PropTypes.func,
-  active: PropTypes.bool
+  status: PropTypes.string
 }
 
 export default TextInput

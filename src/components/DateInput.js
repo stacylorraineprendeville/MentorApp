@@ -32,6 +32,7 @@ class DateInput extends React.Component {
     day: '',
     month: '',
     year: '',
+    unix: '',
     error: false
   }
   setDay = day => {
@@ -62,11 +63,20 @@ class DateInput extends React.Component {
       this.setState({
         error
       })
+      if (error) {
+        this.props.detectError(true, this.props.field)
+      } else {
+        const unix = moment(
+          `${yearInput} ${monthInput} ${dayInput}`,
+          'YYYY MMMM D'
+        ).unix()
+        this.props.detectError(false, this.props.field)
+        this.props.onValidDate(unix, this.props.field)
+      }
     }
   }
 
   render() {
-    console.log(this.state)
     return (
       <View>
         <Text style={styles.text}>{this.props.label}</Text>
@@ -122,6 +132,14 @@ const styles = StyleSheet.create({
   text: { paddingLeft: 15, paddingRight: 15 }
 })
 
-DateInput.propTypes = {}
+TextInput.propTypes = {
+  label: PropTypes.string,
+  value: PropTypes.string,
+  field: PropTypes.string,
+  required: PropTypes.bool,
+  onChangeText: PropTypes.func.isRequired,
+  detectError: PropTypes.func,
+  onValidDate: PropTypes.func
+}
 
 export default DateInput
