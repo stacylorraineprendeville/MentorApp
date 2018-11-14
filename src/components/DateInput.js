@@ -32,7 +32,6 @@ class DateInput extends React.Component {
     day: '',
     month: '',
     year: '',
-    unix: '',
     error: false
   }
   setDay = day => {

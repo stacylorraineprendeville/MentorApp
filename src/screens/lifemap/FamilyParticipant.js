@@ -102,7 +102,6 @@ export class FamilyParticipant extends Component {
 
     const isButtonEnabled =
       !emptyRequiredFields.length && !this.state.errorsDetected.length
-    console.log(draft)
     return (
       <ScrollView
         style={globalStyles.background}
