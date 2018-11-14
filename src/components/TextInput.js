@@ -11,7 +11,7 @@ import validator from 'validator'
 
 class TextInput extends Component {
   state = {
-    status: 'blur',
+    status: this.props.status || 'blur',
     text: this.props.value,
     errorMsg: null
   }
@@ -42,7 +42,7 @@ class TextInput extends Component {
   validateInput() {
     const year = new Date().getFullYear()
     this.setState({
-      status: this.state.text ? 'filled' : 'blur'
+      status: this.props.status || (this.state.text ? 'filled' : 'blur')
     })
     this.props.detectError(false, this.props.field)
     if (this.props.required && !this.state.text) {
@@ -79,23 +79,6 @@ class TextInput extends Component {
       !validator.isEmpty(this.state.text)
     ) {
       return this.handleError('Please enter a valid number')
-    }
-    if (
-      this.props.validation === 'day' &&
-      !validator.isInt(this.state.text, { min: 1, max: 31 }) &&
-      !validator.isEmpty(this.state.text)
-    ) {
-      return this.handleError('Please enter a valid day')
-    }
-    if (
-      this.props.validation === 'year' &&
-      !validator.isInt(this.state.text, {
-        min: 1900,
-        max: year
-      }) &&
-      !validator.isEmpty(this.state.text)
-    ) {
-      return this.handleError('Please enter a valid year')
     }
   }
 
@@ -152,11 +135,12 @@ class TextInput extends Component {
         >
           <Text style={{ fontSize: 16, margin: 10 }}>{text}</Text>
         </FormInput>
-        {status === 'error' && (
-          <FormValidationMessage style={{ color: colors.red }}>
-            {errorMsg}
-          </FormValidationMessage>
-        )}
+        {status === 'error' &&
+          errorMsg && (
+            <FormValidationMessage style={{ color: colors.red }}>
+              {errorMsg}
+            </FormValidationMessage>
+          )}
       </View>
     )
   }
@@ -199,17 +183,10 @@ TextInput.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
   placeholder: PropTypes.string,
-  field: PropTypes.string.isRequired,
+  field: PropTypes.string,
   required: PropTypes.bool,
   onChangeText: PropTypes.func.isRequired,
-  validation: PropTypes.oneOf([
-    'email',
-    'string',
-    'phone',
-    'number',
-    'day',
-    'year'
-  ]),
+  validation: PropTypes.oneOf(['email', 'string', 'phone', 'number']),
   detectError: PropTypes.func,
   active: PropTypes.bool
 }

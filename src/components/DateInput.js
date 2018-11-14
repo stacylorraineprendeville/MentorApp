@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native'
 import TextInput from './TextInput'
+import validator from 'validator'
 
 const months = [
   'January',
@@ -26,15 +27,18 @@ const months = [
 
 class DateInput extends React.Component {
   state = {
-    active: false
+    date: null,
+    month: null,
+    year: null
   }
+
   render() {
     return (
       <View>
         <Text style={styles.text}>{this.props.label}</Text>
         <View style={styles.container}>
           <Picker
-            onValueChange={(itemValue, itemIndex) => {}}
+            onValueChange={itemValue => this.setState({ month: itemValue })}
             style={styles.month}
           >
             {months.map(item => (
@@ -45,21 +49,17 @@ class DateInput extends React.Component {
           <View style={styles.day}>
             <TextInput
               onChangeText={() => {}}
-              field=""
+              status="error"
               value=""
-              validation="day"
               placeholder="Day"
-              detectError={() => {}}
             />
           </View>
           <View style={styles.year}>
             <TextInput
               onChangeText={() => {}}
-              field=""
               value=""
               placeholder="Year"
-              validation="year"
-              detectError={() => {}}
+              status={false}
             />
           </View>
         </View>
