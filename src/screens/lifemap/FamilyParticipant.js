@@ -7,6 +7,7 @@ import { createDraft, addSurveyData } from '../../redux/actions'
 
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
+import DateInput from '../../components/DateInput'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import globalStyles from '../../globalStyles'
 import colors from '../../theme.json'
@@ -140,6 +141,7 @@ export class FamilyParticipant extends Component {
               <Picker.Item label={item} value={item} key={item} />
             ))}
           </Picker>
+          <DateInput label="Date of birth*" />
           <Picker
             selectedValue={this.getFieldValue(draft, 'document')}
             onValueChange={itemValue =>

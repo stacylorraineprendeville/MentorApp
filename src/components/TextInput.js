@@ -40,8 +40,9 @@ class TextInput extends Component {
   }
 
   validateInput() {
+    const year = new Date().getFullYear()
     this.setState({
-      status: 'blur'
+      status: this.state.text ? 'filled' : 'blur'
     })
     this.props.detectError(false, this.props.field)
     if (this.props.required && !this.state.text) {
@@ -79,6 +80,23 @@ class TextInput extends Component {
     ) {
       return this.handleError('Please enter a valid number')
     }
+    if (
+      this.props.validation === 'day' &&
+      !validator.isInt(this.state.text, { min: 1, max: 31 }) &&
+      !validator.isEmpty(this.state.text)
+    ) {
+      return this.handleError('Please enter a valid day')
+    }
+    if (
+      this.props.validation === 'year' &&
+      !validator.isInt(this.state.text, {
+        min: 1900,
+        max: year
+      }) &&
+      !validator.isEmpty(this.state.text)
+    ) {
+      return this.handleError('Please enter a valid year')
+    }
   }
 
   defineTextColor = status => {
@@ -86,6 +104,8 @@ class TextInput extends Component {
       case 'active':
         return colors.green
       case 'blur':
+        return colors.palegrey
+      case 'filled':
         return colors.palegrey
       case 'error':
         return colors.red
@@ -95,6 +115,7 @@ class TextInput extends Component {
   }
 
   render() {
+    console.log(new Date().getFullYear())
     const { status, text, errorMsg } = this.state
     let showPlaceholder = status === 'blur' && !text
     return (
@@ -124,7 +145,9 @@ class TextInput extends Component {
           inputStyle={{
             ...styles.inputStyle,
             ...styles[status],
-            paddingTop: !showPlaceholder ? 30 : 10
+            paddingTop: !showPlaceholder ? 30 : 10,
+            backgroundColor:
+              status === 'blur' && text ? colors.palebeige : colors.beige
           }}
         >
           <Text style={{ fontSize: 16, margin: 10 }}>{text}</Text>
@@ -152,6 +175,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.beige,
     borderBottomColor: colors.grey
   },
+  filled: {
+    backgroundColor: colors.palebeige,
+    borderBottomColor: colors.grey
+  },
   active: {
     backgroundColor: colors.white,
     borderBottomColor: colors.green
@@ -175,8 +202,16 @@ TextInput.propTypes = {
   field: PropTypes.string.isRequired,
   required: PropTypes.bool,
   onChangeText: PropTypes.func.isRequired,
-  validation: PropTypes.oneOf(['email', 'string', 'phone', 'number']),
-  detectError: PropTypes.func
+  validation: PropTypes.oneOf([
+    'email',
+    'string',
+    'phone',
+    'number',
+    'day',
+    'year'
+  ]),
+  detectError: PropTypes.func,
+  active: PropTypes.bool
 }
 
 export default TextInput
