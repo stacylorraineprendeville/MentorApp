@@ -4,14 +4,14 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import { TextInput, StyleSheet, View } from 'react-native'
 import colors from '../theme.json'
 
-const SearchBar = ({ style, onChangeText, value }) => (
+const SearchBar = ({ style, onChangeText, onSubmit, value }) => (
   <View style={[style, styles.search]}>
     <Icon name="search" size={24} />
     <TextInput
       style={styles.input}
       placeholder="Search by street or postal code"
       onChangeText={text => onChangeText(text)}
-      onEndEditing={text => console.log(text)}
+      onEndEditing={onSubmit}
       value={value}
     />
   </View>
@@ -20,6 +20,7 @@ const SearchBar = ({ style, onChangeText, value }) => (
 SearchBar.propTypes = {
   style: PropTypes.object,
   onChangeText: PropTypes.func,
+  onSubmit: PropTypes.func,
   value: PropTypes.string
 }
 

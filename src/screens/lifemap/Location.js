@@ -37,6 +37,26 @@ export default class Location extends Component {
       { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 }
     )
   }
+  searcForAddress = () => {
+    fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${this.state.searchAddress.replace(
+        ' ',
+        '+'
+      )}&key=AIzaSyBLGYYy86_7QPT-dKgUnFMIJyhUE6AGVwM`
+    )
+      .then(r =>
+        r
+          .json()
+          .then(res =>
+            this.setState({
+              latitude: res.results[0].geometry.location.lat,
+              longitude: res.results[0].geometry.location.lng
+            })
+          )
+          .catch()
+      )
+      .catch()
+  }
   componentDidMount() {
     this.getDeviceLocation()
   }
@@ -59,6 +79,7 @@ export default class Location extends Component {
               style={styles.search}
               placeholder="Search by street or postal code"
               onChangeText={searchAddress => this.setState({ searchAddress })}
+              onSubmit={this.searcForAddress}
               value={searchAddress}
             />
             <MapView
