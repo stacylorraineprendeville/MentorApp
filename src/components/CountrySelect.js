@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { Picker, StyleSheet, View, Text } from 'react-native'
 import colors from '../theme.json'
 import globalStyles from '../globalStyles'
-const countryList = require('localized-countries')(
-  require('localized-countries/data/en')
-)
+import countries from 'localized-countries'
+
+const countryList = countries(require('localized-countries/data/en'))
 
 const CountrySelect = ({ onChange }) => (
   <View style={styles.container}>

@@ -174,6 +174,13 @@ const DraftScreens = {
       ...generateNavOptions({ navigation, headerLeft: false })
     })
   },
+  Location: {
+    screen: LocationView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Location',
+      ...generateNavOptions({ navigation, headerLeft: false })
+    })
+  },
   BeginLifemap: {
     screen: BeginLifemapView,
     navigationOptions: ({ navigation }) => ({
@@ -327,15 +334,12 @@ export const LoginStack = createStackNavigator(
 // stack has a header bar, which stack to show if the user us not authenticated.
 export const AppStack = createStackNavigator(
   {
-    Location: {
-      screen: LocationView
-    },
     Drawer: {
       screen: DrawerNavigator
     }
   },
   {
-    initialRouteName: 'Location',
+    initialRouteName: 'Drawer',
     headerMode: 'none'
   }
 )

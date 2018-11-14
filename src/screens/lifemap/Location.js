@@ -6,6 +6,7 @@ import {
   ActivityIndicator,
   Text
 } from 'react-native'
+import PropTypes from 'prop-types'
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
 import MapView, { Marker } from 'react-native-maps'
@@ -160,12 +161,21 @@ export default class Location extends Component {
             disabled={!!this.state.errorsDetected.length}
             colored
             text="Continue"
-            handleClick={() => this.handleClick()}
+            handleClick={() =>
+              this.props.navigation.navigate('BeginLifemap', {
+                draft_id: this.props.navigation.getParam('draft_id'),
+                survey: this.props.navigation.getParam('survey')
+              })
+            }
           />
         </View>
       </ScrollView>
     )
   }
+}
+
+Location.propTypes = {
+  navigation: PropTypes.object.isRequired
 }
 
 const styles = StyleSheet.create({

@@ -50,7 +50,7 @@ export class FamilyParticipant extends Component {
   }
 
   handleClick() {
-    this.props.navigation.navigate('BeginLifemap', {
+    this.props.navigation.navigate('Location', {
       draft_id: this.draft_id,
       survey: this.survey
     })
