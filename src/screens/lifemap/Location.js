@@ -37,6 +37,14 @@ export default class Location extends Component {
       { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 }
     )
   }
+  detectError = (error, field) => {
+    if (error && !this.state.errorsDetected.includes(field)) {
+      this.setState({ errorsDetected: [...this.state.errorsDetected, field] })
+    } else
+      this.setState({
+        errorsDetected: this.state.errorsDetected.filter(item => item !== field)
+      })
+  }
   searcForAddress = () => {
     fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?address=${this.state.searchAddress.replace(
@@ -133,6 +141,7 @@ export default class Location extends Component {
             field="postcode"
             value={postcode}
             placeholder="Postcode"
+            detectError={this.detectError}
           />
           <TextInput
             id="houseDescription"
@@ -142,6 +151,8 @@ export default class Location extends Component {
             field="houseDescription"
             value={houseDescription}
             placeholder="Street or house description"
+            validation="long-string"
+            detectError={this.detectError}
           />
         </View>
         <View style={{ marginTop: 15 }}>
