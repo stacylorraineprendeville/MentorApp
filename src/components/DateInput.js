@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import moment from 'moment'
+import validator from 'validator'
 import {
   View,
   Picker,
@@ -7,8 +9,8 @@ import {
   Text,
   TouchableWithoutFeedback
 } from 'react-native'
+import colors from '../theme.json'
 import TextInput from './TextInput'
-import validator from 'validator'
 
 const months = [
   'January',
@@ -27,19 +29,52 @@ const months = [
 
 class DateInput extends React.Component {
   state = {
-    date: null,
-    month: null,
-    year: null
+    day: '',
+    month: '',
+    year: '',
+    error: false
+  }
+  setDay = day => {
+    this.setState({ day })
+    this.validateDate({ day })
+  }
+  setMonth = month => {
+    this.setState({ month })
+    this.validateDate({ month })
+  }
+  setYear = year => {
+    this.setState({ year })
+    this.validateDate({ year })
+  }
+
+  validateDate({ day, month, year }) {
+    const yearInput = year || this.state.year
+    const monthInput = month || this.state.month
+    const dayInput = day || this.state.day
+
+    const error = !moment(
+      `${yearInput} ${monthInput} ${dayInput}`,
+      'YYYY MMMM D',
+      true
+    ).isValid(dayInput)
+
+    if (yearInput && monthInput && dayInput) {
+      this.setState({
+        error
+      })
+    }
   }
 
   render() {
+    console.log(this.state)
     return (
       <View>
         <Text style={styles.text}>{this.props.label}</Text>
         <View style={styles.container}>
           <Picker
-            onValueChange={itemValue => this.setState({ month: itemValue })}
+            onValueChange={month => this.setMonth(month)}
             style={styles.month}
+            selectedValue={this.state.month}
           >
             {months.map(item => (
               <Picker.Item label={item} value={item} key={item} />
@@ -48,21 +83,26 @@ class DateInput extends React.Component {
 
           <View style={styles.day}>
             <TextInput
-              onChangeText={() => {}}
-              status="error"
+              onChangeText={day => this.setDay(day)}
               value=""
               placeholder="Day"
+              status={this.state.error ? 'error' : ''}
             />
           </View>
           <View style={styles.year}>
             <TextInput
-              onChangeText={() => {}}
+              onChangeText={year => this.setYear(year)}
               value=""
               placeholder="Year"
-              status={false}
+              status={this.state.error ? 'error' : ''}
             />
           </View>
         </View>
+        {this.state.error && (
+          <Text style={{ ...styles.text, color: colors.red }}>
+            Please enter a valid date
+          </Text>
+        )}
       </View>
     )
   }

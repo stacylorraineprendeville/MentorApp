@@ -28,7 +28,10 @@ class TextInput extends Component {
   }
 
   onBlur() {
-    this.validateInput()
+    this.setState({
+      status: this.props.status || 'blur'
+    })
+    this.props.validation ? this.validateInput() : ''
   }
 
   handleError(errorMsg) {
@@ -40,10 +43,6 @@ class TextInput extends Component {
   }
 
   validateInput() {
-    const year = new Date().getFullYear()
-    this.setState({
-      status: this.props.status || (this.state.text ? 'filled' : 'blur')
-    })
     this.props.detectError(false, this.props.field)
     if (this.props.required && !this.state.text) {
       return this.handleError('This field is required')
@@ -88,8 +87,6 @@ class TextInput extends Component {
         return colors.green
       case 'blur':
         return colors.palegrey
-      case 'filled':
-        return colors.palegrey
       case 'error':
         return colors.red
       default:
@@ -98,8 +95,8 @@ class TextInput extends Component {
   }
 
   render() {
-    console.log(new Date().getFullYear())
-    const { status, text, errorMsg } = this.state
+    const { text, errorMsg } = this.state
+    const status = this.props.status || this.state.status
     let showPlaceholder = status === 'blur' && !text
     return (
       <View>
@@ -128,9 +125,7 @@ class TextInput extends Component {
           inputStyle={{
             ...styles.inputStyle,
             ...styles[status],
-            paddingTop: !showPlaceholder ? 30 : 10,
-            backgroundColor:
-              status === 'blur' && text ? colors.palebeige : colors.beige
+            paddingTop: !showPlaceholder ? 30 : 10
           }}
         >
           <Text style={{ fontSize: 16, margin: 10 }}>{text}</Text>
@@ -157,10 +152,6 @@ const styles = StyleSheet.create({
   },
   blur: {
     backgroundColor: colors.beige,
-    borderBottomColor: colors.grey
-  },
-  filled: {
-    backgroundColor: colors.palebeige,
     borderBottomColor: colors.grey
   },
   active: {

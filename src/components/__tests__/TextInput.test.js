@@ -32,7 +32,7 @@ describe('TextInput Component', () => {
       expect(wrapper.find(FormInput)).toHaveLength(1)
     })
     it('renders FormValidationMessage when there is an error', () => {
-      wrapper.setState({ status: 'error' })
+      wrapper.setState({ status: 'error', errorMsg: 'error' })
       expect(wrapper.find(FormValidationMessage)).toHaveLength(1)
     })
   })
