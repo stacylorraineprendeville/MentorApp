@@ -35,6 +35,7 @@ class TextInput extends Component {
   }
 
   handleError(errorMsg) {
+    this.props.onChangeText('', this.props.field)
     this.props.detectError(true, this.props.field)
     this.setState({
       status: 'error',
