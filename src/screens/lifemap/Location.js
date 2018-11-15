@@ -162,14 +162,14 @@ export class Location extends Component {
             countrySelect
             placeholder="Select a country"
             field="country"
-            value={this.getFieldValue(draft, 'country')}
+            value={this.getFieldValue(draft, 'country') || ''}
             detectError={this.detectError}
           />
           <TextInput
             id="postcode"
             onChangeText={this.addSurveyData}
             field="postcode"
-            value={this.getFieldValue(draft, 'postcode')}
+            value={this.getFieldValue(draft, 'postcode') || ''}
             placeholder="Postcode"
             detectError={this.detectError}
           />
@@ -177,7 +177,7 @@ export class Location extends Component {
             id="houseDescription"
             onChangeText={this.addSurveyData}
             field="houseDescription"
-            value={this.getFieldValue(draft, 'houseDescription')}
+            value={this.getFieldValue(draft, 'houseDescription') || ''}
             placeholder="Street or house description"
             validation="long-string"
             detectError={this.detectError}
