@@ -82,8 +82,17 @@ export class Location extends Component {
       )
       .catch()
   }
+  getDraft = () =>
+    this.props.drafts.filter(
+      draft => draft.draft_id === this.props.navigation.getParam('draft_id')
+    )[0]
   componentDidMount() {
     this.getDeviceLocation()
+    if (!this.getFieldValue(this.getDraft(), 'country')) {
+      this.setState({
+        errorsDetected: ['country']
+      })
+    }
   }
   render() {
     const {
@@ -94,9 +103,7 @@ export class Location extends Component {
       errorsDetected
     } = this.state
 
-    const draft = this.props.drafts.filter(
-      draft => draft.draft_id === this.props.navigation.getParam('draft_id')
-    )[0]
+    const draft = this.getDraft()
 
     return (
       <ScrollView contentContainerStyle={globalStyles.background}>
