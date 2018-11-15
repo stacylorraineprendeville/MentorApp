@@ -2,7 +2,8 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { ScrollView } from 'react-native'
 import MapView, { Marker } from 'react-native-maps'
-import Location from '../lifemap/Location'
+import { Location } from '../lifemap/Location'
+import SearchBar from '../../components/SearchBar'
 
 // navigator mock
 /* eslint-disable no-undef */
@@ -19,25 +20,35 @@ global.navigator = {
     watchPosition: jest.fn()
   }
 }
+global.fetch = () => new Promise(() => {})
 /* eslint-enable no-undef */
+
+const createTestProps = props => ({
+  navigation: {
+    navigate: jest.fn(),
+    getParam: param => (param === 'draft_id' ? 2 : { survey_id: 100 })
+  },
+  addSurveyData: jest.fn(),
+  drafts: [
+    {
+      draft_id: 1
+    },
+    {
+      draft_id: 2,
+      personal_survey_data: {}
+    }
+  ],
+  ...props
+})
 
 describe('Family Location component', () => {
   let wrapper
   beforeEach(() => {
-    wrapper = shallow(<Location />)
+    const props = createTestProps()
+    wrapper = shallow(<Location {...props} />)
   })
   it('renders base ScrollView', () => {
     expect(wrapper.find(ScrollView)).toHaveLength(1)
-  })
-  it('has proper initial state', () => {
-    wrapper = shallow(<Location />, { disableLifecycleMethods: true })
-    expect(wrapper).toHaveState({
-      latitude: null,
-      longitude: null,
-      accuracy: null,
-      postcode: '',
-      houseDescription: ''
-    })
   })
   it('renders MapView', () => {
     expect(wrapper.find(MapView)).toHaveLength(1)
@@ -86,20 +97,66 @@ describe('Family Location component', () => {
       accuracy: 15
     })
   })
-  it('edits family locaiton', () => {
+  it('edits draft in field change', () => {
     wrapper
       .find('#postcode')
       .props()
-      .onChangeText('123')
+      .onChangeText('123', 'postcode')
 
     wrapper
       .find('#houseDescription')
       .props()
-      .onChangeText('Foo')
+      .onChangeText('Foo', 'houseDescription')
+
+    expect(wrapper.instance().props.addSurveyData).toHaveBeenCalledTimes(2)
+  })
+  it('can search for address', () => {
+    const spy = jest.spyOn(wrapper.instance(), 'searcForAddress')
+
+    wrapper
+      .find(SearchBar)
+      .props()
+      .onChangeText('Sofia')
 
     expect(wrapper).toHaveState({
-      postcode: '123',
-      houseDescription: 'Foo'
+      searchAddress: 'Sofia'
+    })
+
+    wrapper
+      .find(SearchBar)
+      .props()
+      .onSubmit()
+
+    expect(spy).toHaveBeenCalledTimes(1)
+  })
+  it('navigates to BeginLifemap with proper params', () => {
+    wrapper
+      .find('#continue')
+      .props()
+      .handleClick()
+
+    expect(wrapper.instance().props.navigation.navigate).toHaveBeenCalledWith(
+      'BeginLifemap',
+      { draft_id: 2, survey: { survey_id: 100 } }
+    )
+  })
+  it('detects errors', () => {
+    wrapper
+      .find('#countrySelect')
+      .props()
+      .detectError('Test error', 'select')
+
+    expect(wrapper).toHaveState({
+      errorsDetected: ['country', 'select']
+    })
+
+    wrapper
+      .find('#countrySelect')
+      .props()
+      .detectError('', 'select')
+
+    expect(wrapper).toHaveState({
+      errorsDetected: ['country']
     })
   })
 })

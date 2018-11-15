@@ -156,6 +156,7 @@ export class Location extends Component {
             {accuracy ? `GPS: Accurate to ${Math.round(accuracy)}m` : ' '}
           </Text>
           <Select
+            id="countrySelect"
             required
             onChange={this.addSurveyData}
             label="Country *"
@@ -185,6 +186,7 @@ export class Location extends Component {
         </View>
         <View style={{ marginTop: 15 }}>
           <Button
+            id="continue"
             disabled={!!errorsDetected.length}
             colored
             text="Continue"

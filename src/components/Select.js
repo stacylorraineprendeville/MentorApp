@@ -37,7 +37,13 @@ class Select extends Component {
     const { errorMsg } = this.state
     return (
       <View>
-        <View style={[styles.container, errorMsg ? styles.error : '']}>
+        <View
+          style={[
+            styles.container,
+            errorMsg ? styles.error : '',
+            this.props.value ? styles.active : ''
+          ]}
+        >
           <Text style={[globalStyles.subline, styles.label]}>
             {this.props.label}
           </Text>
@@ -45,7 +51,6 @@ class Select extends Component {
             id="country-select"
             prompt="Select a country"
             style={styles.dropdown}
-            onFocus={() => console.log('focus')}
             onValueChange={value => this.validateInput(value)}
             selectedValue={this.props.value}
           >
@@ -56,16 +61,16 @@ class Select extends Component {
             />
             {this.props.countrySelect
               ? countryList
-                  .array()
-                  .map(country => (
-                    <Picker.Item
-                      key={country.code}
-                      label={country.label}
-                      value={country.code}
-                    />
-                  ))
-              : this.props.data.map(item => (
+                .array()
+                .map(country => (
                   <Picker.Item
+                    key={country.code}
+                    label={country.label}
+                    value={country.code}
+                  />
+                ))
+              : this.props.data.map(item => (
+                <Picker.Item
                     key={item.value}
                     label={item.label}
                     value={item.value}
@@ -86,7 +91,7 @@ class Select extends Component {
 Select.propTypes = {
   onChange: PropTypes.func.isRequired,
   data: PropTypes.array,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   value: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   field: PropTypes.string,
@@ -104,6 +109,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.grey,
     backgroundColor: colors.beige
+  },
+  active: {
+    backgroundColor: colors.white,
+    borderBottomColor: colors.green
   },
   dropdown: {
     height: 60,
