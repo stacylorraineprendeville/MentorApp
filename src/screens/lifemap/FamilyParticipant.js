@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, ScrollView, View, Picker } from 'react-native'
+import { StyleSheet, ScrollView, View } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import uuid from 'uuid/v1'
@@ -144,14 +144,7 @@ export class FamilyParticipant extends Component {
             detectError={this.detectError}
             data={this.survey.survey_schema.properties.gender.enumNames}
           />
-          <Picker
-            selectedValue={this.getFieldValue(draft, 'gender')}
-            onValueChange={itemValue => this.addSurveyData(itemValue, 'gender')}
-          >
-            {this.survey.survey_schema.properties.gender.enumNames.map(item => (
-              <Picker.Item label={item} value={item} key={item} />
-            ))}
-          </Picker>
+
           <DateInput
             label="Date of birth*"
             field="dateOfBirth"
@@ -159,37 +152,41 @@ export class FamilyParticipant extends Component {
             onValidDate={this.addSurveyData}
             value={this.getFieldValue(draft, 'dateOfBirth')}
           />
-          <Picker
-            selectedValue={this.getFieldValue(draft, 'document')}
-            onValueChange={itemValue =>
-              this.addSurveyData(itemValue, 'document')
-            }
-          >
-            {[
+
+          <Select
+            id="document"
+            required
+            onChange={this.addSurveyData}
+            label="Document type *"
+            placeholder="Document type"
+            field="document"
+            value={this.getFieldValue(draft, 'document') || ''}
+            detectError={this.detectError}
+            data={[
               'Passport',
               'Driver license',
               'National ID card',
               'State ID card',
               'Permanent resident card number',
               'Organization-assigned number'
-            ].map(item => <Picker.Item label={item} value={item} key={item} />)}
-          </Picker>
-          <Picker
-            selectedValue={this.getFieldValue(draft, 'countryOfBirth')}
-            onValueChange={itemValue =>
-              this.addSurveyData(itemValue, 'countryOfBirth')
-            }
-          >
-            {this.survey.survey_schema.properties.countryOfBirth.enumNames.map(
-              item => <Picker.Item label={item} value={item} key={item} />
-            )}
-          </Picker>
+            ]}
+          />
           <TextInput
             onChangeText={this.addSurveyData}
             field="documentNumber"
             required
             value={this.getFieldValue(draft, 'documentNumber')}
             placeholder="Document number"
+            detectError={this.detectError}
+          />
+          <Select
+            required
+            onChange={this.addSurveyData}
+            label="Country of birth*"
+            countrySelect
+            placeholder="Select a country"
+            field="countryofBirth"
+            value={this.getFieldValue(draft, 'countryofBirth') || ''}
             detectError={this.detectError}
           />
           <TextInput

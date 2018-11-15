@@ -11,6 +11,7 @@ import {
 } from 'react-native'
 import colors from '../theme.json'
 import TextInput from './TextInput'
+import Select from './Select'
 
 const months = [
   'January',
@@ -87,17 +88,15 @@ class DateInput extends React.Component {
       <View>
         <Text style={styles.text}>{this.props.label}</Text>
         <View style={styles.container}>
-          <Picker
-            onValueChange={month => this.setMonth(month)}
-            style={styles.month}
-            selectedValue={month}
-          >
-            <Picker.Item label="Select month" value={''} />
-            {months.map(item => (
-              <Picker.Item label={item} value={item} key={item} />
-            ))}
-          </Picker>
-
+          <View style={styles.month}>
+            <Select
+              onChange={month => this.setMonth(month)}
+              label="Month"
+              placeholder="Select month"
+              value={month}
+              data={months}
+            />
+          </View>
           <View style={styles.day}>
             <TextInput
               onChangeText={day => this.setDay(day)}
@@ -134,7 +133,7 @@ const styles = StyleSheet.create({
   },
   year: { width: '36%', marginLeft: '-3%' },
   month: { width: '45%' },
-  text: { paddingLeft: 15, paddingRight: 15 }
+  text: { paddingLeft: 25, marginTop: 20 }
 })
 
 TextInput.propTypes = {

@@ -2,6 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { View, Picker, StyleSheet, Text } from 'react-native'
 import TextInput from '../TextInput'
+import Select from '../Select'
 import DateInput from '../DateInput'
 
 const createTestProps = props => ({
@@ -23,8 +24,8 @@ describe('DateInput Component', () => {
     it('renders Text', () => {
       expect(wrapper.find(Text)).toHaveLength(1)
     })
-    it('renders Picker', () => {
-      expect(wrapper.find(Picker)).toHaveLength(1)
+    it('renders Select', () => {
+      expect(wrapper.find(Select)).toHaveLength(1)
     })
     it('renders TextInput', () => {
       expect(wrapper.find(TextInput)).toHaveLength(2)
@@ -63,9 +64,9 @@ describe('DateInput Component', () => {
     })
     it('changes month state when setMonth is called', () => {
       wrapper
-        .find(Picker)
+        .find(Select)
         .props()
-        .onValueChange('December')
+        .onChange('December')
 
       expect(wrapper.instance().state.month).toEqual('December')
     })
@@ -93,9 +94,9 @@ describe('DateInput Component', () => {
     it('calls validateDate when setMonth is called', () => {
       const spy = jest.spyOn(wrapper.instance(), 'validateDate')
       wrapper
-        .find(Picker)
+        .find(Select)
         .props()
-        .onValueChange('December')
+        .onChange('December')
 
       expect(spy).toHaveBeenCalledTimes(1)
     })
@@ -195,7 +196,7 @@ describe('DateInput Component', () => {
       props = createTestProps({ value: 1515708000 })
       wrapper = shallow(<DateInput {...props} />)
 
-      expect(wrapper.find(Picker).props().selectedValue).toBe('January')
+      expect(wrapper.find(Select).props().value).toBe('January')
     })
   })
 })

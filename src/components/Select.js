@@ -29,7 +29,7 @@ class Select extends Component {
         status: 'edited',
         errorMsg: null
       })
-      this.props.detectError(false, this.props.field)
+      this.props.field ? this.props.detectError(false, this.props.field) : ''
     }
   }
 
@@ -102,8 +102,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.beige
   },
   active: {
-    backgroundColor: colors.white,
-    borderBottomColor: colors.green
+    backgroundColor: colors.palebeige,
+    borderBottomColor: colors.grey
   },
   dropdown: {
     height: 60
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     marginTop: 20,
     marginBottom: -20,
-    color: colors.green,
+    color: colors.grey,
     zIndex: 100
   },
   labelNoValue: {
