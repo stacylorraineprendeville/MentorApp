@@ -11,7 +11,7 @@ import validator from 'validator'
 
 class TextInput extends Component {
   state = {
-    status: this.props.status || 'blur',
+    status: this.props.value ? 'filled' : 'blur',
     text: this.props.value,
     errorMsg: null
   }
@@ -29,7 +29,7 @@ class TextInput extends Component {
 
   onBlur() {
     this.setState({
-      status: this.props.status || 'blur'
+      status: this.state.text ? 'filled' : 'blur'
     })
     this.props.validation ? this.validateInput() : ''
   }
@@ -154,6 +154,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.beige,
     borderBottomColor: colors.grey
   },
+  filled: {
+    backgroundColor: colors.palebeige,
+    borderBottomColor: colors.grey
+  },
   active: {
     backgroundColor: colors.white,
     borderBottomColor: colors.green
@@ -178,8 +182,7 @@ TextInput.propTypes = {
   required: PropTypes.bool,
   onChangeText: PropTypes.func.isRequired,
   validation: PropTypes.oneOf(['email', 'string', 'phone', 'number']),
-  detectError: PropTypes.func,
-  status: PropTypes.string
+  detectError: PropTypes.func
 }
 
 export default TextInput

@@ -48,9 +48,12 @@ class DateInput extends React.Component {
   }
 
   validateDate({ day, month, year }) {
-    const yearInput = year || this.state.year
-    const monthInput = month || this.state.month
-    const dayInput = day || this.state.day
+    const yearInput =
+      year || this.state.year || moment.unix(this.props.value).format('YYYY')
+    const monthInput =
+      month || this.state.month || moment.unix(this.props.value).format('MMMM')
+    const dayInput =
+      day || this.state.day || moment.unix(this.props.value).format('D')
 
     const error = !moment(
       `${yearInput} ${monthInput} ${dayInput}`,
@@ -76,6 +79,10 @@ class DateInput extends React.Component {
   }
 
   render() {
+    const month =
+      this.state.month || moment.unix(this.props.value).format('MMMM')
+    const year = this.state.year || moment.unix(this.props.value).format('YYYY')
+    const day = this.state.day || moment.unix(this.props.value).format('D')
     return (
       <View>
         <Text style={styles.text}>{this.props.label}</Text>
@@ -83,8 +90,9 @@ class DateInput extends React.Component {
           <Picker
             onValueChange={month => this.setMonth(month)}
             style={styles.month}
-            selectedValue={this.state.month}
+            selectedValue={month}
           >
+            <Picker.Item label="Select month" value={''} />
             {months.map(item => (
               <Picker.Item label={item} value={item} key={item} />
             ))}
@@ -93,23 +101,21 @@ class DateInput extends React.Component {
           <View style={styles.day}>
             <TextInput
               onChangeText={day => this.setDay(day)}
-              value=""
+              value={day}
               placeholder="Day"
-              status={this.state.error ? 'error' : ''}
             />
           </View>
           <View style={styles.year}>
             <TextInput
               onChangeText={year => this.setYear(year)}
-              value=""
+              value={year}
               placeholder="Year"
-              status={this.state.error ? 'error' : ''}
             />
           </View>
         </View>
         {this.state.error && (
           <Text style={{ ...styles.text, color: colors.red }}>
-            Please enter a valid date
+            Please enter a valid date e.g. May 03 1977
           </Text>
         )}
       </View>

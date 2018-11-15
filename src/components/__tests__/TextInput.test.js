@@ -63,15 +63,7 @@ describe('TextInput Component', () => {
         errorMsg: null
       })
     })
-    it('has correct initial state when props.status is error', () => {
-      props = createTestProps({ status: 'error' })
-      wrapper = shallow(<TextInput {...props} />)
-      expect(wrapper.instance().state).toEqual({
-        text: '',
-        status: 'error',
-        errorMsg: null
-      })
-    })
+
     it('changes text state when onChangeText is called', () => {
       wrapper
         .find(FormInput)

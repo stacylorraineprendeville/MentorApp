@@ -165,4 +165,37 @@ describe('DateInput Component', () => {
       )
     })
   })
+
+  describe('Get correct values for props.value', () => {
+    it('Get correct day', () => {
+      props = createTestProps({ value: 1515708000 })
+      wrapper = shallow(<DateInput {...props} />)
+
+      expect(
+        wrapper
+          .find(TextInput)
+          .first()
+          .props().value
+      ).toBe('12')
+    })
+
+    it('Get correct year', () => {
+      props = createTestProps({ value: 1515708000 })
+      wrapper = shallow(<DateInput {...props} />)
+
+      expect(
+        wrapper
+          .find(TextInput)
+          .last()
+          .props().value
+      ).toBe('2018')
+    })
+
+    it('Get correct month', () => {
+      props = createTestProps({ value: 1515708000 })
+      wrapper = shallow(<DateInput {...props} />)
+
+      expect(wrapper.find(Picker).props().selectedValue).toBe('January')
+    })
+  })
 })

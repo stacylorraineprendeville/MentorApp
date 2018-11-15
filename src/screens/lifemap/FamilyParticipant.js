@@ -143,10 +143,10 @@ export class FamilyParticipant extends Component {
           </Picker>
           <DateInput
             label="Date of birth*"
-            required
             field="dateOfBirth"
             detectError={this.detectError}
             onValidDate={this.addSurveyData}
+            value={this.getFieldValue(draft, 'dateOfBirth')}
           />
           <Picker
             selectedValue={this.getFieldValue(draft, 'document')}
