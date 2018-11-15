@@ -12,7 +12,7 @@ import TextInput from '../../components/TextInput'
 import MapView, { Marker } from 'react-native-maps'
 import globalStyles from '../../globalStyles'
 import SearchBar from '../../components/SearchBar'
-import CountrySelect from '../../components/CountrySelect'
+import Select from '../../components/Select'
 
 export default class Location extends Component {
   state = {
@@ -23,7 +23,7 @@ export default class Location extends Component {
     houseDescription: '',
     searchAddress: '',
     errorsDetected: [],
-    country: null
+    country: ''
   }
   getDeviceLocation() {
     navigator.geolocation.getCurrentPosition(
@@ -76,7 +76,8 @@ export default class Location extends Component {
       accuracy,
       postcode,
       houseDescription,
-      searchAddress
+      searchAddress,
+      country
     } = this.state
 
     return (
@@ -129,12 +130,19 @@ export default class Location extends Component {
           <Text id="accuracy" style={styles.container}>
             {accuracy ? `GPS: Accurate to ${Math.round(accuracy)}m` : ' '}
           </Text>
-          <CountrySelect
+          <Select
+            required
             onChange={country =>
               this.setState({
                 country
               })
             }
+            label="Country *"
+            countrySelect
+            placeholder="Select a country"
+            field="country"
+            value={country}
+            detectError={this.detectError}
           />
           <TextInput
             id="postcode"

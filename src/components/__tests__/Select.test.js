@@ -1,23 +1,23 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import { Picker } from 'react-native'
-import CountrySelect from '../CountrySelect'
+import Select from '../Select'
 
 const createTestProps = props => ({
   ...props,
   onChange: jest.fn()
 })
 
-describe('CountrySelect dropdown', () => {
+describe('Select dropdown', () => {
   let wrapper
   let props
   beforeEach(() => {
     props = createTestProps()
-    wrapper = shallow(<CountrySelect {...props} />)
+    wrapper = shallow(<Select {...props} />)
   })
   it('renders a Picker from an array of countries', () => {
     expect(wrapper.find(Picker)).toHaveLength(1)
-    expect(wrapper.find(Picker.Item)).toHaveLength(2)
+    expect(wrapper.find(Picker.Item)).toHaveLength(3)
   })
   it('calls onChange prop when selecting a country', () => {
     wrapper
