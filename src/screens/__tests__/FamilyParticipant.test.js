@@ -247,6 +247,24 @@ describe('Family Participant View', () => {
 
       expect(wrapper.instance().props.addSurveyData).toHaveBeenCalledTimes(1)
     })
+    it('calls addSurveyData on select change', () => {
+      wrapper
+        .find(Select)
+        .first()
+        .props()
+        .onChange()
+
+      expect(wrapper.instance().props.addSurveyData).toHaveBeenCalledTimes(1)
+    })
+
+    it('calls addSurveyData on valid date input', () => {
+      wrapper
+        .find(DateInput)
+        .props()
+        .onValidDate('January 21 1999')
+      expect(wrapper.instance().props.addSurveyData).toHaveBeenCalledTimes(1)
+    })
+
     it('calls navigator function on pressing Continue button', () => {
       wrapper
         .find(Button)
