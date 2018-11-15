@@ -6,6 +6,8 @@ import {
   ActivityIndicator,
   Text
 } from 'react-native'
+import { connect } from 'react-redux'
+import { addSurveyData } from '../../redux/actions'
 import PropTypes from 'prop-types'
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
@@ -14,7 +16,7 @@ import globalStyles from '../../globalStyles'
 import SearchBar from '../../components/SearchBar'
 import Select from '../../components/Select'
 
-export default class Location extends Component {
+export class Location extends Component {
   state = {
     latitude: null,
     longitude: null,
@@ -68,6 +70,29 @@ export default class Location extends Component {
   }
   componentDidMount() {
     this.getDeviceLocation()
+  }
+  submit = () => {
+    const {
+      latitude,
+      longitude,
+      postcode,
+      houseDescription,
+      country
+    } = this.state
+
+    this.props.addSurveyData(this.draft_id, 'personal_survey_data', {
+      location: {
+        latitude,
+        longitude
+      },
+      postcode,
+      houseDescription,
+      country
+    })
+    this.props.navigation.navigate('BeginLifemap', {
+      draft_id: this.props.navigation.getParam('draft_id'),
+      survey: this.props.navigation.getParam('survey')
+    })
   }
   render() {
     const {
@@ -170,12 +195,7 @@ export default class Location extends Component {
             disabled={!!errorsDetected.length}
             colored
             text="Continue"
-            handleClick={() =>
-              this.props.navigation.navigate('BeginLifemap', {
-                draft_id: this.props.navigation.getParam('draft_id'),
-                survey: this.props.navigation.getParam('survey')
-              })
-            }
+            handleClick={this.submit}
           />
         </View>
       </ScrollView>
@@ -184,8 +204,20 @@ export default class Location extends Component {
 }
 
 Location.propTypes = {
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  addSurveyData: PropTypes.func.isRequired
 }
+
+const mapDispatchToProps = {
+  addSurveyData
+}
+
+const mapStateToProps = state => state
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Location)
 
 const styles = StyleSheet.create({
   map: {
