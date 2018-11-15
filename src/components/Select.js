@@ -38,16 +38,23 @@ class Select extends Component {
     const { errorMsg } = this.state
     return (
       <View>
-        <View style={styles.container}>
-          <Text style={globalStyles.subline}>{this.props.label}</Text>
+        <View style={[styles.container, errorMsg ? styles.error : '']}>
+          <Text style={[globalStyles.subline, styles.label]}>
+            {this.props.label}
+          </Text>
           <Picker
             id="country-select"
             prompt="Select a country"
             style={styles.dropdown}
+            onFocus={() => console.log('focus')}
             onValueChange={value => this.validateInput(value)}
             selectedValue={this.props.value}
           >
-            <Picker.Item label={this.props.placeholder} value={''} />
+            <Picker.Item
+              style={styles.item}
+              label={this.props.placeholder}
+              value={''}
+            />
             {this.props.countrySelect
               ? countryList
                   .array()
@@ -96,10 +103,21 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: colors.palegrey
+    borderBottomColor: colors.grey,
+    backgroundColor: colors.beige
   },
   dropdown: {
     height: 60,
-    marginBottom: -20
+    marginVertical: -18
+  },
+  label: {
+    paddingHorizontal: 6
+  },
+  item: {
+    backgroundColor: colors.red
+  },
+  error: {
+    backgroundColor: colors.white,
+    borderBottomColor: colors.red
   }
 })

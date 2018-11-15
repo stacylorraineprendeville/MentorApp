@@ -22,7 +22,7 @@ export default class Location extends Component {
     postcode: '',
     houseDescription: '',
     searchAddress: '',
-    errorsDetected: [],
+    errorsDetected: ['country'],
     country: ''
   }
   getDeviceLocation() {
@@ -77,7 +77,8 @@ export default class Location extends Component {
       postcode,
       houseDescription,
       searchAddress,
-      country
+      country,
+      errorsDetected
     } = this.state
 
     return (
@@ -166,7 +167,7 @@ export default class Location extends Component {
         </View>
         <View style={{ marginTop: 15 }}>
           <Button
-            disabled={!!this.state.errorsDetected.length}
+            disabled={!!errorsDetected.length}
             colored
             text="Continue"
             handleClick={() =>
