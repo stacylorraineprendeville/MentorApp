@@ -21,11 +21,10 @@ class Select extends Component {
   }
 
   validateInput = value => {
-    this.props.onChange(value)
-
     if (this.props.required && !value) {
       this.handleError('This field is required')
     } else {
+      this.props.onChange(value, this.props.field)
       this.setState({
         status: 'edited',
         errorMsg: null

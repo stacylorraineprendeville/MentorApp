@@ -24,8 +24,22 @@ export class Location extends Component {
     postcode: '',
     houseDescription: '',
     searchAddress: '',
-    errorsDetected: ['country'],
-    country: ''
+    errorsDetected: []
+  }
+  addSurveyData = (text, field) => {
+    this.props.addSurveyData(
+      this.props.navigation.getParam('draft_id'),
+      'personal_survey_data',
+      {
+        [field]: text
+      }
+    )
+  }
+  getFieldValue = (draft, field) => {
+    if (!draft) {
+      return
+    }
+    return draft.personal_survey_data[field]
   }
   getDeviceLocation() {
     navigator.geolocation.getCurrentPosition(
@@ -71,40 +85,18 @@ export class Location extends Component {
   componentDidMount() {
     this.getDeviceLocation()
   }
-  submit = () => {
-    const {
-      latitude,
-      longitude,
-      postcode,
-      houseDescription,
-      country
-    } = this.state
-
-    this.props.addSurveyData(this.draft_id, 'personal_survey_data', {
-      location: {
-        latitude,
-        longitude
-      },
-      postcode,
-      houseDescription,
-      country
-    })
-    this.props.navigation.navigate('BeginLifemap', {
-      draft_id: this.props.navigation.getParam('draft_id'),
-      survey: this.props.navigation.getParam('survey')
-    })
-  }
   render() {
     const {
       latitude,
       longitude,
       accuracy,
-      postcode,
-      houseDescription,
       searchAddress,
-      country,
       errorsDetected
     } = this.state
+
+    const draft = this.props.drafts.filter(
+      draft => draft.draft_id === this.props.navigation.getParam('draft_id')
+    )[0]
 
     return (
       <ScrollView contentContainerStyle={globalStyles.background}>
@@ -158,33 +150,27 @@ export class Location extends Component {
           </Text>
           <Select
             required
-            onChange={country =>
-              this.setState({
-                country
-              })
-            }
+            onChange={this.addSurveyData}
             label="Country *"
             countrySelect
             placeholder="Select a country"
             field="country"
-            value={country}
+            value={this.getFieldValue(draft, 'country')}
             detectError={this.detectError}
           />
           <TextInput
             id="postcode"
-            onChangeText={postcode => this.setState({ postcode })}
+            onChangeText={this.addSurveyData}
             field="postcode"
-            value={postcode}
+            value={this.getFieldValue(draft, 'postcode')}
             placeholder="Postcode"
             detectError={this.detectError}
           />
           <TextInput
             id="houseDescription"
-            onChangeText={houseDescription =>
-              this.setState({ houseDescription })
-            }
+            onChangeText={this.addSurveyData}
             field="houseDescription"
-            value={houseDescription}
+            value={this.getFieldValue(draft, 'houseDescription')}
             placeholder="Street or house description"
             validation="long-string"
             detectError={this.detectError}
@@ -195,7 +181,12 @@ export class Location extends Component {
             disabled={!!errorsDetected.length}
             colored
             text="Continue"
-            handleClick={this.submit}
+            handleClick={() =>
+              this.props.navigation.navigate('BeginLifemap', {
+                draft_id: this.props.navigation.getParam('draft_id'),
+                survey: this.props.navigation.getParam('survey')
+              })
+            }
           />
         </View>
       </ScrollView>
@@ -205,14 +196,17 @@ export class Location extends Component {
 
 Location.propTypes = {
   navigation: PropTypes.object.isRequired,
-  addSurveyData: PropTypes.func.isRequired
+  addSurveyData: PropTypes.func.isRequired,
+  drafts: PropTypes.array
 }
 
 const mapDispatchToProps = {
   addSurveyData
 }
 
-const mapStateToProps = state => state
+const mapStateToProps = ({ drafts }) => ({
+  drafts
+})
 
 export default connect(
   mapStateToProps,
