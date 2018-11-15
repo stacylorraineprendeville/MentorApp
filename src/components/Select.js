@@ -10,7 +10,7 @@ const countryList = countries(require('localized-countries/data/en'))
 
 class Select extends Component {
   state = {
-    status: 'edited',
+    status: 'not-edited',
     errorMsg: null
   }
   handleError(errorMsg) {
@@ -44,7 +44,13 @@ class Select extends Component {
             this.props.value ? styles.active : ''
           ]}
         >
-          <Text style={[globalStyles.subline, styles.label]}>
+          <Text
+            style={{
+              ...globalStyles.subline,
+              ...styles.label,
+              color: this.props.value ? colors.green : colors.grey
+            }}
+          >
             {this.props.label}
           </Text>
           <Picker
@@ -61,16 +67,16 @@ class Select extends Component {
             />
             {this.props.countrySelect
               ? countryList
-                .array()
-                .map(country => (
-                  <Picker.Item
-                    key={country.code}
-                    label={country.label}
-                    value={country.code}
-                  />
-                ))
+                  .array()
+                  .map(country => (
+                    <Picker.Item
+                      key={country.code}
+                      label={country.label}
+                      value={country.code}
+                    />
+                  ))
               : this.props.data.map(item => (
-                <Picker.Item
+                  <Picker.Item
                     key={item.value}
                     label={item.label}
                     value={item.value}
