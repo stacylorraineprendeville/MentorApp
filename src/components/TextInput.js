@@ -48,8 +48,17 @@ class TextInput extends Component {
     if (this.props.required && !this.state.text) {
       return this.handleError('This field is required')
     }
-    if (this.state.text.length > 50) {
-      return this.handleError('Please enter a valid value')
+    if (
+      this.props.validation === 'long-string' &&
+      this.state.text.length > 250
+    ) {
+      return this.handleError('Value must be less than 250 characters')
+    }
+    if (
+      this.props.validation !== 'long-string' &&
+      this.state.text.length > 50
+    ) {
+      return this.handleError('Value must be less than 50 characters')
     }
     if (
       this.props.validation === 'email' &&
@@ -182,7 +191,13 @@ TextInput.propTypes = {
   field: PropTypes.string,
   required: PropTypes.bool,
   onChangeText: PropTypes.func.isRequired,
-  validation: PropTypes.oneOf(['email', 'string', 'phone', 'number']),
+  validation: PropTypes.oneOf([
+    'email',
+    'string',
+    'phone',
+    'number',
+    'long-string'
+  ]),
   detectError: PropTypes.func
 }
 
