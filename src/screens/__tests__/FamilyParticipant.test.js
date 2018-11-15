@@ -2,6 +2,8 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { ScrollView } from 'react-native'
 import { FamilyParticipant } from '../lifemap/FamilyParticipant'
+import Select from '../../components/Select'
+import DateInput from '../../components/DateInput'
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
 
@@ -206,6 +208,12 @@ describe('Family Participant View', () => {
     it('renders TextInput', () => {
       expect(wrapper.find(TextInput)).toHaveLength(5)
     })
+    it('renders Select', () => {
+      expect(wrapper.find(Select)).toHaveLength(3)
+    })
+    it('renders DateInput', () => {
+      expect(wrapper.find(DateInput)).toHaveLength(1)
+    })
     it('renders continue draft button', () => {
       expect(wrapper.find(Button)).toHaveLength(1)
     })
@@ -239,7 +247,6 @@ describe('Family Participant View', () => {
 
       expect(wrapper.instance().props.addSurveyData).toHaveBeenCalledTimes(1)
     })
-
     it('calls navigator function on pressing Continue button', () => {
       wrapper
         .find(Button)
