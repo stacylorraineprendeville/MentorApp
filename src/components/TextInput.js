@@ -60,14 +60,14 @@ class TextInput extends Component {
 
     if (
       this.props.validation === 'string' &&
-      !validator.isAlpha(this.state.text) &&
+      !/^[a-zA-Z]([\w -]*[a-zA-Z])?$/.test(this.state.text) &&
       !validator.isEmpty(this.state.text)
     ) {
       return this.handleError('Please enter alphabetic characters')
     }
     if (
       this.props.validation === 'phone' &&
-      !validator.isMobilePhone(this.state.text) &&
+      !/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/.test(this.state.text) &&
       !validator.isEmpty(this.state.text)
     ) {
       return this.handleError('Please enter a valid phone number')
