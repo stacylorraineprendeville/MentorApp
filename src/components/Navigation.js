@@ -19,6 +19,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons'
 import QuestionView from '../screens/lifemap/Question'
 import BeginLifemapView from '../screens/lifemap/BeginLifemap'
+import LocationView from '../screens/lifemap/Location'
 import LoginView from '../screens/Login'
 import SurveysView from '../screens/Surveys'
 import FamiliesView from '../screens/Families'
@@ -170,6 +171,13 @@ const DraftScreens = {
     screen: DraftView,
     navigationOptions: ({ navigation }) => ({
       title: 'Your life Map',
+      ...generateNavOptions({ navigation, headerLeft: false })
+    })
+  },
+  Location: {
+    screen: LocationView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Location',
       ...generateNavOptions({ navigation, headerLeft: false })
     })
   },
