@@ -10,7 +10,7 @@ const countryList = countries(require('localized-countries/data/en'))
 
 class Select extends Component {
   state = {
-    status: 'not-edited',
+    status: 'edited',
     errorMsg: null
   }
   handleError(errorMsg) {
@@ -37,6 +37,9 @@ class Select extends Component {
     const { errorMsg } = this.state
     return (
       <View>
+        <Text style={this.props.value ? styles.label : styles.labelNoValue}>
+          {this.props.label}
+        </Text>
         <View
           style={[
             styles.container,
@@ -44,27 +47,14 @@ class Select extends Component {
             this.props.value ? styles.active : ''
           ]}
         >
-          <Text
-            style={{
-              ...globalStyles.subline,
-              ...styles.label,
-              color: this.props.value ? colors.green : colors.grey
-            }}
-          >
-            {this.props.label}
-          </Text>
           <Picker
-            id="country-select"
-            prompt="Select a country"
+            prompt={this.props.placeholder}
             style={styles.dropdown}
             onValueChange={value => this.validateInput(value)}
             selectedValue={this.props.value}
           >
-            <Picker.Item
-              style={styles.item}
-              label={this.props.placeholder}
-              value={''}
-            />
+            <Picker.Item style={styles.item} label={''} value={''} />
+
             {this.props.countrySelect
               ? countryList
                   .array()
@@ -76,11 +66,7 @@ class Select extends Component {
                     />
                   ))
               : this.props.data.map(item => (
-                  <Picker.Item
-                    key={item.value}
-                    label={item.label}
-                    value={item.value}
-                  />
+                  <Picker.Item key={item} label={item} value={item} />
                 ))}
           </Picker>
         </View>
@@ -111,7 +97,6 @@ export default Select
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 15,
-    paddingVertical: 12,
     borderBottomWidth: 1,
     borderBottomColor: colors.grey,
     backgroundColor: colors.beige
@@ -121,11 +106,23 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.green
   },
   dropdown: {
-    height: 60,
-    marginVertical: -18
+    height: 60
   },
   label: {
-    paddingHorizontal: 6
+    ...globalStyles.subline,
+    paddingHorizontal: 25,
+    marginTop: 20,
+    marginBottom: -20,
+    color: colors.green,
+    zIndex: 100
+  },
+  labelNoValue: {
+    ...globalStyles.subline,
+    zIndex: 100,
+    paddingHorizontal: 25,
+    marginTop: 40,
+    marginBottom: -40,
+    color: colors.grey
   },
   item: {
     backgroundColor: colors.red

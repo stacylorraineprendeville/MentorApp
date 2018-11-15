@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import uuid from 'uuid/v1'
 import { createDraft, addSurveyData } from '../../redux/actions'
 
+import Select from '../../components/Select'
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
 import DateInput from '../../components/DateInput'
@@ -132,7 +133,17 @@ export class FamilyParticipant extends Component {
             required
             detectError={this.detectError}
           />
-
+          <Select
+            id="gender"
+            required
+            onChange={this.addSurveyData}
+            label="Gender *"
+            placeholder="Select gender"
+            field="gender"
+            value={this.getFieldValue(draft, 'gender') || ''}
+            detectError={this.detectError}
+            data={this.survey.survey_schema.properties.gender.enumNames}
+          />
           <Picker
             selectedValue={this.getFieldValue(draft, 'gender')}
             onValueChange={itemValue => this.addSurveyData(itemValue, 'gender')}
