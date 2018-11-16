@@ -5,8 +5,10 @@ import PropTypes from 'prop-types'
 import uuid from 'uuid/v1'
 import { createDraft, addSurveyData } from '../../redux/actions'
 
+import Select from '../../components/Select'
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
+import DateInput from '../../components/DateInput'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import globalStyles from '../../globalStyles'
 import colors from '../../theme.json'
@@ -26,7 +28,15 @@ export class FamilyParticipant extends Component {
   survey = this.props.surveys.filter(survey => survey.id === this.survey_id)[0]
 
   //Required fields
-  requiredFields = ['firstName', 'lastName', 'documentNumber']
+  requiredFields = [
+    'firstName',
+    'lastName',
+    'document',
+    'documentNumber',
+    'gender',
+    'countryOfBirth',
+    'dateOfBirth'
+  ]
 
   state = { errorsDetected: [] }
 
@@ -93,7 +103,6 @@ export class FamilyParticipant extends Component {
 
     const isButtonEnabled =
       !emptyRequiredFields.length && !this.state.errorsDetected.length
-
     return (
       <ScrollView
         style={globalStyles.background}
@@ -124,12 +133,60 @@ export class FamilyParticipant extends Component {
             required
             detectError={this.detectError}
           />
+          <Select
+            id="gender"
+            required
+            onChange={this.addSurveyData}
+            label="Gender *"
+            placeholder="Select gender"
+            field="gender"
+            value={this.getFieldValue(draft, 'gender') || ''}
+            detectError={this.detectError}
+            data={this.survey.survey_schema.properties.gender.enumNames}
+          />
+
+          <DateInput
+            label="Date of birth*"
+            field="dateOfBirth"
+            detectError={this.detectError}
+            onValidDate={this.addSurveyData}
+            value={this.getFieldValue(draft, 'dateOfBirth')}
+          />
+
+          <Select
+            id="document"
+            required
+            onChange={this.addSurveyData}
+            label="Document type *"
+            placeholder="Document type"
+            field="document"
+            value={this.getFieldValue(draft, 'document') || ''}
+            detectError={this.detectError}
+            data={[
+              'Passport',
+              'Driver license',
+              'National ID card',
+              'State ID card',
+              'Permanent resident card number',
+              'Organization-assigned number'
+            ]}
+          />
           <TextInput
             onChangeText={this.addSurveyData}
             field="documentNumber"
             required
             value={this.getFieldValue(draft, 'documentNumber')}
             placeholder="Document number"
+            detectError={this.detectError}
+          />
+          <Select
+            required
+            onChange={this.addSurveyData}
+            label="Country of birth*"
+            countrySelect
+            placeholder="Select a country"
+            field="countryOfBirth"
+            value={this.getFieldValue(draft, 'countryOfBirth') || ''}
             detectError={this.detectError}
           />
           <TextInput

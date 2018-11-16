@@ -11,7 +11,7 @@ import validator from 'validator'
 
 class TextInput extends Component {
   state = {
-    status: 'blur',
+    status: this.props.value ? 'filled' : 'blur',
     text: this.props.value,
     errorMsg: null
   }
@@ -28,10 +28,14 @@ class TextInput extends Component {
   }
 
   onBlur() {
-    this.validateInput()
+    this.setState({
+      status: this.state.text ? 'filled' : 'blur'
+    })
+    this.props.validation ? this.validateInput() : ''
   }
 
   handleError(errorMsg) {
+    this.props.onChangeText('', this.props.field)
     this.props.detectError(true, this.props.field)
     this.setState({
       status: 'error',
@@ -40,9 +44,6 @@ class TextInput extends Component {
   }
 
   validateInput() {
-    this.setState({
-      status: 'blur'
-    })
     this.props.detectError(false, this.props.field)
     if (this.props.required && !this.state.text) {
       return this.handleError('This field is required')
@@ -69,14 +70,14 @@ class TextInput extends Component {
 
     if (
       this.props.validation === 'string' &&
-      !validator.isAlpha(this.state.text) &&
+      !/^[a-zA-Z]([\w -]*[a-zA-Z])?$/.test(this.state.text) &&
       !validator.isEmpty(this.state.text)
     ) {
       return this.handleError('Please enter alphabetic characters')
     }
     if (
       this.props.validation === 'phone' &&
-      !validator.isMobilePhone(this.state.text) &&
+      !/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/.test(this.state.text) &&
       !validator.isEmpty(this.state.text)
     ) {
       return this.handleError('Please enter a valid phone number')
@@ -104,7 +105,8 @@ class TextInput extends Component {
   }
 
   render() {
-    const { status, text, errorMsg } = this.state
+    const { text, errorMsg } = this.state
+    const status = this.props.status || this.state.status
     let showPlaceholder = status === 'blur' && !text
     return (
       <View>
@@ -138,11 +140,12 @@ class TextInput extends Component {
         >
           <Text style={{ fontSize: 16, margin: 10 }}>{text}</Text>
         </FormInput>
-        {status === 'error' && (
-          <FormValidationMessage style={{ color: colors.red }}>
-            {errorMsg}
-          </FormValidationMessage>
-        )}
+        {status === 'error' &&
+          errorMsg && (
+            <FormValidationMessage style={{ color: colors.red }}>
+              {errorMsg}
+            </FormValidationMessage>
+          )}
       </View>
     )
   }
@@ -159,6 +162,10 @@ const styles = StyleSheet.create({
   },
   blur: {
     backgroundColor: colors.beige,
+    borderBottomColor: colors.grey
+  },
+  filled: {
+    backgroundColor: colors.palebeige,
     borderBottomColor: colors.grey
   },
   active: {
@@ -181,7 +188,7 @@ TextInput.propTypes = {
   label: PropTypes.string,
   value: PropTypes.string,
   placeholder: PropTypes.string,
-  field: PropTypes.string.isRequired,
+  field: PropTypes.string,
   required: PropTypes.bool,
   onChangeText: PropTypes.func.isRequired,
   validation: PropTypes.oneOf([

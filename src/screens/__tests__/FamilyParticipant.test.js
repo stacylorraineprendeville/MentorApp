@@ -2,6 +2,8 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { ScrollView } from 'react-native'
 import { FamilyParticipant } from '../lifemap/FamilyParticipant'
+import Select from '../../components/Select'
+import DateInput from '../../components/DateInput'
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
 
@@ -15,7 +17,7 @@ const createTestProps = props => ({
   drafts: [
     {
       draft_id: 4,
-      survey_id: 2,
+      survey_id: 1,
       personal_survey_data: {
         firstName: 'Jane',
         lastName: 'Doe',
@@ -41,12 +43,19 @@ const createTestProps = props => ({
         title: 'Stoplight survey example with defaults',
         description: 'A simple stoplight survey example with default values.',
         properties: {
+          countryOfBirth: {
+            type: 'string',
+            title: {
+              es: 'Country of birth'
+            },
+            enum: ['BG', 'PY', 'UK'],
+            enumNames: ['Bulgaria', 'Paraguay', 'United Kingdom']
+          },
           gender: {
             type: 'string',
             title: {
               es: 'Enter your gender'
             },
-            default: 'F',
             enum: ['F', 'M', 'O'],
             enumNames: [
               'Female',
@@ -123,97 +132,6 @@ const createTestProps = props => ({
         'ui:group:indicators': ['income'],
         'ui:custom:fields': {}
       }
-    },
-    {
-      id: 2,
-      title: 'Other survey 2',
-      survey_version_id: 2,
-      survey_schema: {
-        title: 'Stoplight survey example with defaults',
-        description: 'A simple stoplight survey example with default values.',
-        properties: {
-          gender: {
-            type: 'string',
-            title: {
-              es: 'Enter your gender'
-            },
-            default: 'F',
-            enum: ['F', 'M', 'O'],
-            enumNames: [
-              'Female',
-              'Male',
-              'Another gender identity or Prefer not to disclose'
-            ]
-          },
-          familyCar: {
-            type: 'string',
-            title: {
-              es: 'Does your family have a car or truck?'
-            },
-            enum: ['Yes', 'No'],
-            enumNames: ['Yes', 'No']
-          },
-          income: {
-            type: 'array',
-            title: {
-              es: 'Income'
-            },
-            description: {
-              es: 'We have enough income'
-            },
-            default: [
-              {
-                url:
-                  'https://s3.us-east-2.amazonaws.com/fp-psp-images/usa/california/1/1.jpg',
-                value: 'GREEN',
-                description: 'My family’s income is above the poverty line.'
-              }
-            ],
-            items: {
-              type: 'object',
-              enum: [
-                {
-                  url:
-                    'https://s3.us-east-2.amazonaws.com/fp-psp-images/usa/california/1/1.jpg',
-                  value: 'GREEN',
-                  description: 'My family’s income is above the poverty line.'
-                },
-                {
-                  url:
-                    'https://s3.us-east-2.amazonaws.com/fp-psp-images/usa/california/1/2.jpg',
-                  value: 'YELLOW',
-                  description:
-                    'My family’s income is below the total poverty line but above the extreme poverty line.'
-                },
-                {
-                  url:
-                    'https://s3.us-east-2.amazonaws.com/fp-psp-images/usa/california/1/3.jpg',
-                  value: 'RED',
-                  description:
-                    'My family’s income is below the extreme poverty line.'
-                },
-                {
-                  url: 'NONE',
-                  value: 'NONE',
-                  description: ''
-                }
-              ],
-              properties: null
-            }
-          }
-        },
-
-        type: 'object',
-        dependencies: null
-      },
-      survey_ui_schema: {
-        properties: {},
-        'ui:order': ['gender', 'income'],
-        'ui:group:personal': ['gender'],
-        'ui:group:economics': [],
-        'ui:group:indicators': ['income'],
-        'ui:custom:fields': {}
-      }
     }
   ],
   env: 'development',
@@ -274,7 +192,7 @@ describe('Family Participant View', () => {
       })
 
       it('sets proper survey_id when there is a draft', () => {
-        expect(wrapper.instance().survey_id).toBe(2)
+        expect(wrapper.instance().survey_id).toBe(1)
       })
 
       it('does not create a new draft on componentDidMount if such exists', () => {
@@ -289,6 +207,12 @@ describe('Family Participant View', () => {
     })
     it('renders TextInput', () => {
       expect(wrapper.find(TextInput)).toHaveLength(5)
+    })
+    it('renders Select', () => {
+      expect(wrapper.find(Select)).toHaveLength(3)
+    })
+    it('renders DateInput', () => {
+      expect(wrapper.find(DateInput)).toHaveLength(1)
     })
     it('renders continue draft button', () => {
       expect(wrapper.find(Button)).toHaveLength(1)
@@ -321,6 +245,23 @@ describe('Family Participant View', () => {
         .props()
         .onChangeText()
 
+      expect(wrapper.instance().props.addSurveyData).toHaveBeenCalledTimes(1)
+    })
+    it('calls addSurveyData on select change', () => {
+      wrapper
+        .find(Select)
+        .first()
+        .props()
+        .onChange()
+
+      expect(wrapper.instance().props.addSurveyData).toHaveBeenCalledTimes(1)
+    })
+
+    it('calls addSurveyData on valid date input', () => {
+      wrapper
+        .find(DateInput)
+        .props()
+        .onValidDate('January 21 1999')
       expect(wrapper.instance().props.addSurveyData).toHaveBeenCalledTimes(1)
     })
 

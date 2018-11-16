@@ -37,7 +37,9 @@ DraftListItem.propTypes = {
 const styles = StyleSheet.create({
   listItem: {
     height: 95,
-    padding: 25,
+    paddingTop: 25,
+    paddingBottom: 25,
+    paddingRight: 25,
     alignItems: 'center',
     flexDirection: 'row',
     flex: 1,

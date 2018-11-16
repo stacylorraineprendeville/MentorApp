@@ -31,7 +31,7 @@ describe('Select dropdown', () => {
     const spy = jest.spyOn(wrapper.instance(), 'validateInput')
 
     wrapper
-      .find('#country-select')
+      .find(Picker)
       .props()
       .onValueChange('bg')
 
@@ -51,7 +51,7 @@ describe('Select dropdown', () => {
     const spy = jest.spyOn(wrapper.instance(), 'handleError')
 
     wrapper
-      .find('#country-select')
+      .find(Picker)
       .props()
       .onValueChange('')
 
@@ -60,14 +60,14 @@ describe('Select dropdown', () => {
   it('shows a list of items from data prop if not a country select', () => {
     props = createTestProps({
       countrySelect: false,
-      data: [{ value: 1, label: 'One' }, { value: 2, label: 'Two' }]
+      data: ['item1', 'item2']
     })
     wrapper = shallow(<Select {...props} />)
 
     expect(wrapper.find(Picker.Item)).toHaveLength(3)
     expect(wrapper.find(Picker.Item).last()).toHaveProp({
-      value: 2,
-      label: 'Two'
+      value: 'item2',
+      label: 'item2'
     })
   })
 })
