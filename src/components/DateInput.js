@@ -1,14 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-import validator from 'validator'
-import {
-  View,
-  Picker,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback
-} from 'react-native'
+import { View, StyleSheet, Text } from 'react-native'
 import colors from '../theme.json'
 import TextInput from './TextInput'
 import Select from './Select'
@@ -156,12 +149,11 @@ const styles = StyleSheet.create({
   text: { paddingLeft: 25, marginTop: 20 }
 })
 
-TextInput.propTypes = {
+DateInput.propTypes = {
   label: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.number,
   field: PropTypes.string,
   required: PropTypes.bool,
-  onChangeText: PropTypes.func.isRequired,
   detectError: PropTypes.func,
   onValidDate: PropTypes.func
 }

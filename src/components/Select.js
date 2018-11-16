@@ -63,6 +63,7 @@ class Select extends Component {
                       key={country.code}
                       label={country.label}
                       value={country.code}
+                      color={colors.grey}
                     />
                   ))
               : this.props.data.map(item => (

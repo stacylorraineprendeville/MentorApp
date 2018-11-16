@@ -103,6 +103,8 @@ export class FamilyParticipant extends Component {
 
     const isButtonEnabled =
       !emptyRequiredFields.length && !this.state.errorsDetected.length
+    console.log(this.state.errorsDetected)
+    console.log(emptyRequiredFields)
     return (
       <ScrollView
         style={globalStyles.background}
@@ -185,8 +187,8 @@ export class FamilyParticipant extends Component {
             label="Country of birth*"
             countrySelect
             placeholder="Select a country"
-            field="countryofBirth"
-            value={this.getFieldValue(draft, 'countryofBirth') || ''}
+            field="countryOfBirth"
+            value={this.getFieldValue(draft, 'countryOfBirth') || ''}
             detectError={this.detectError}
           />
           <TextInput
