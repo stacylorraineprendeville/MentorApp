@@ -104,9 +104,6 @@ class DateInput extends React.Component {
       this.state.day ||
       (validDate ? moment.unix(this.props.value).format('D') : '')
 
-    console.log(month)
-    console.log(year)
-    console.log(day)
     return (
       <View>
         <Text style={styles.text}>{this.props.label}</Text>

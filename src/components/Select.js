@@ -66,7 +66,12 @@ class Select extends Component {
                     />
                   ))
               : this.props.data.map(item => (
-                  <Picker.Item key={item} label={item} value={item} />
+                  <Picker.Item
+                    key={item}
+                    label={item}
+                    value={item}
+                    color={colors.grey}
+                  />
                 ))}
           </Picker>
         </View>
@@ -106,14 +111,15 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.grey
   },
   dropdown: {
-    height: 60
+    height: 60,
+    paddingTop: 10
   },
   label: {
     ...globalStyles.subline,
     paddingHorizontal: 25,
-    marginTop: 20,
-    marginBottom: -20,
-    color: colors.grey,
+    marginTop: 25,
+    marginBottom: -25,
+    color: colors.palegrey,
     zIndex: 100
   },
   labelNoValue: {
