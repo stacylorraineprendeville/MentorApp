@@ -54,7 +54,7 @@ class Select extends Component {
             onValueChange={value => this.validateInput(value)}
             selectedValue={this.props.value}
           >
-            <Picker.Item style={styles.item} label={' '} value={' '} />
+            <Picker.Item style={styles.item} label={''} value={''} />
 
             {this.props.countrySelect
               ? countryList

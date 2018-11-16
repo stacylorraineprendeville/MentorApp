@@ -16,6 +16,9 @@ export class FamilyMembersNames extends Component {
 
   state = { errorsDetected: [] }
 
+  //Required fields
+  requiredFields = ['count_family_members']
+
   handleClick() {
     this.props.navigation.navigate('Location', {
       draft_id: this.draft_id,
@@ -48,6 +51,16 @@ export class FamilyMembersNames extends Component {
       draft => draft.draft_id === this.draft_id
     )[0]
 
+    const emptyRequiredFields = draft
+      ? this.requiredFields.filter(
+          item =>
+            !draft.family_data[item] || draft.family_data[item].length === 0
+        )
+      : []
+
+    const isButtonEnabled =
+      !emptyRequiredFields.length && !this.state.errorsDetected.length
+
     return (
       <ScrollView
         style={globalStyles.background}
@@ -64,11 +77,35 @@ export class FamilyMembersNames extends Component {
             detectError={this.detectError}
             data={['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']}
           />
+          <TextInput
+            validation="string"
+            field=""
+            onChangeText={() => {}}
+            placeholder="Primary participant"
+            value={draft.personal_survey_data.firstName}
+            required
+            readonly
+            detectError={this.detectError}
+          />
+          {[1, 2, 3].map((item, i) => (
+            <TextInput
+              key={i}
+              validation="string"
+              field=""
+              onChangeText={() => {}}
+              placeholder="Name"
+              value={''}
+              required
+              detectError={this.detectError}
+            />
+          ))}
         </View>
+
         <View style={{ height: 50 }}>
           <Button
             colored
             text="Continue"
+            disabled={!isButtonEnabled}
             handleClick={() => this.handleClick()}
           />
         </View>

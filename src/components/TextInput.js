@@ -137,6 +137,7 @@ class TextInput extends Component {
             ...styles[status],
             paddingTop: !showPlaceholder ? 30 : 10
           }}
+          editable={!this.props.readonly}
         >
           <Text style={{ fontSize: 16, margin: 10 }}>{text}</Text>
         </FormInput>
@@ -190,6 +191,7 @@ TextInput.propTypes = {
   placeholder: PropTypes.string,
   field: PropTypes.string,
   required: PropTypes.bool,
+  readonly: PropTypes.bool,
   onChangeText: PropTypes.func.isRequired,
   validation: PropTypes.oneOf([
     'email',

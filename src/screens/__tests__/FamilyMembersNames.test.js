@@ -7,10 +7,30 @@ import Button from '../../components/Button'
 
 const createTestProps = props => ({
   navigation: {
-    getParam: jest.fn(),
+    getParam: jest.fn(param => (param === 'draft_id' ? 4 : null)),
     navigate: jest.fn()
   },
-  drafts: [],
+  drafts: [
+    {
+      draft_id: 4,
+      survey_id: 1,
+      personal_survey_data: {
+        firstName: 'Jane',
+        lastName: 'Doe',
+        documentNumber: '5468568',
+        email: 'jane@doe.com',
+        phone: '40965035',
+        gender: 'F'
+      },
+      economic_survey_data: {
+        familyCar: 'Yes'
+      },
+      indicator_survey_data: {
+        income: 'GREEN'
+      },
+      family_data: {}
+    }
+  ],
   ...props
 })
 
