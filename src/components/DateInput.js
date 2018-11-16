@@ -49,12 +49,23 @@ class DateInput extends React.Component {
   }
 
   validateDate({ day, month, year }) {
+    const validDate =
+      moment.unix(this.props.value).format('YYYY MMMM D') !== 'Invalid date'
+
     const yearInput =
-      year || this.state.year || moment.unix(this.props.value).format('YYYY')
+      year ||
+      this.state.year ||
+      (validDate ? moment.unix(this.props.value).format('YYYY') : '')
+
     const monthInput =
-      month || this.state.month || moment.unix(this.props.value).format('MMMM')
+      month ||
+      this.state.month ||
+      (validDate ? moment.unix(this.props.value).format('MMMM') : '')
+
     const dayInput =
-      day || this.state.day || moment.unix(this.props.value).format('D')
+      day ||
+      this.state.day ||
+      (validDate ? moment.unix(this.props.value).format('D') : '')
 
     const error = !moment(
       `${yearInput} ${monthInput} ${dayInput}`,
@@ -80,10 +91,22 @@ class DateInput extends React.Component {
   }
 
   render() {
+    const validDate =
+      moment.unix(this.props.value).format('YYYY MMMM D') !== 'Invalid date'
     const month =
-      this.state.month || moment.unix(this.props.value).format('MMMM')
-    const year = this.state.year || moment.unix(this.props.value).format('YYYY')
-    const day = this.state.day || moment.unix(this.props.value).format('D')
+      this.state.month ||
+      (validDate ? moment.unix(this.props.value).format('MMMM') : '')
+
+    const year =
+      this.state.year ||
+      (validDate ? moment.unix(this.props.value).format('YYYY') : '')
+    const day =
+      this.state.day ||
+      (validDate ? moment.unix(this.props.value).format('D') : '')
+
+    console.log(month)
+    console.log(year)
+    console.log(day)
     return (
       <View>
         <Text style={styles.text}>{this.props.label}</Text>
