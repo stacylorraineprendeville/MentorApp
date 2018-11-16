@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
   },
   label: {
     ...globalStyles.subline,
+
     paddingHorizontal: 25,
     marginTop: 25,
     marginBottom: -25,
@@ -127,6 +128,7 @@ const styles = StyleSheet.create({
     ...globalStyles.subline,
     zIndex: 100,
     paddingHorizontal: 25,
+    fontSize: 16,
     marginTop: 40,
     marginBottom: -40,
     color: colors.grey
