@@ -50,7 +50,8 @@ export class FamilyParticipant extends Component {
         draft_id: this.draft_id,
         personal_survey_data: {},
         economic_survey_data: {},
-        indicator_survey_data: {}
+        indicator_survey_data: {},
+        family_data: {}
       })
     }
   }
@@ -60,7 +61,7 @@ export class FamilyParticipant extends Component {
   }
 
   handleClick() {
-    this.props.navigation.navigate('Location', {
+    this.props.navigation.navigate('FamilyMembersNames', {
       draft_id: this.draft_id,
       survey: this.survey
     })
@@ -137,7 +138,7 @@ export class FamilyParticipant extends Component {
             id="gender"
             required
             onChange={this.addSurveyData}
-            label="Gender *"
+            label="Gender"
             placeholder="Select gender"
             field="gender"
             value={this.getFieldValue(draft, 'gender') || ''}
@@ -146,7 +147,7 @@ export class FamilyParticipant extends Component {
           />
 
           <DateInput
-            label="Date of birth*"
+            label="Date of birth *"
             field="dateOfBirth"
             detectError={this.detectError}
             onValidDate={this.addSurveyData}
@@ -154,10 +155,9 @@ export class FamilyParticipant extends Component {
           />
 
           <Select
-            id="document"
             required
             onChange={this.addSurveyData}
-            label="Document type *"
+            label="Document type"
             placeholder="Document type"
             field="document"
             value={this.getFieldValue(draft, 'document') || ''}
@@ -182,7 +182,7 @@ export class FamilyParticipant extends Component {
           <Select
             required
             onChange={this.addSurveyData}
-            label="Country of birth*"
+            label="Country of birth"
             countrySelect
             placeholder="Select a country"
             field="countryOfBirth"

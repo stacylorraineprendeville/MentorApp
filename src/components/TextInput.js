@@ -118,7 +118,7 @@ class TextInput extends Component {
               color: this.defineTextColor(status)
             }}
           >
-            {this.props.placeholder}
+            {`${this.props.placeholder} ${this.props.required ? '*' : ''}`}
             {'\n'}
           </Text>
         )}

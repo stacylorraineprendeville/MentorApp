@@ -159,7 +159,7 @@ export class Location extends Component {
             id="countrySelect"
             required
             onChange={this.addSurveyData}
-            label="Country *"
+            label="Country"
             countrySelect
             placeholder="Select a country"
             field="country"
