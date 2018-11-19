@@ -51,7 +51,7 @@ export class FamilyParticipant extends Component {
         personal_survey_data: {},
         economic_survey_data: {},
         indicator_survey_data: {},
-        family_data: {}
+        family_data: { familyMembersList: [] }
       })
     }
   }

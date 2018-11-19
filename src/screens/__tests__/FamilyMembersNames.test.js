@@ -28,7 +28,7 @@ const createTestProps = props => ({
       indicator_survey_data: {
         income: 'GREEN'
       },
-      family_data: {}
+      family_data: { familyMembersList: [] }
     }
   ],
   ...props

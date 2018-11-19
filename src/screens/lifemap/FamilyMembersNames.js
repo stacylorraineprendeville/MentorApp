@@ -40,9 +40,30 @@ export class FamilyMembersNames extends Component {
       })
   }
 
-  addSurveyData = (text, field) => {
+  addFamilyCount = (text, field) => {
     this.props.addSurveyData(this.draft_id, 'family_data', {
       [field]: text
+    })
+
+    this.addFamilyMemberArray(Number(text))
+  }
+
+  addFamilyMemberArray = count => {
+    let familyMembersList = []
+
+    for (let i = 0; i < Number(count); i++) {
+      familyMembersList.push({ firstName: '' })
+    }
+
+    this.props.addSurveyData(this.draft_id, 'family_data', {
+      familyMembersList: familyMembersList
+    })
+  }
+
+  addFamilyMemberName(name, list, i) {
+    list[i].firstName = name
+    this.props.addSurveyData(this.draft_id, 'family_data', {
+      familyMembersList: list
     })
   }
 
@@ -69,7 +90,7 @@ export class FamilyMembersNames extends Component {
         <View style={{ ...globalStyles.container, padding: 0 }}>
           <Select
             required
-            onChange={this.addSurveyData}
+            onChange={this.addFamilyCount}
             label="Number of people living in this household"
             placeholder="Number of people living in this household"
             field="count_family_members"
@@ -87,21 +108,31 @@ export class FamilyMembersNames extends Component {
             readonly
             detectError={this.detectError}
           />
-          {[1, 2, 3].map((item, i) => (
-            <TextInput
-              key={i}
-              validation="string"
-              field=""
-              onChangeText={() => {}}
-              placeholder="Name"
-              value={''}
-              required
-              detectError={this.detectError}
-            />
+          {draft.family_data.familyMembersList.map((item, i) => (
+            <View key={i}>
+              <TextInput
+                validation="string"
+                field={i.toString()}
+                onChangeText={text =>
+                  this.addFamilyMemberName(
+                    text,
+                    draft.family_data.familyMembersList,
+                    i
+                  )
+                }
+                placeholder="Name"
+                value={
+                  (this.getFieldValue(draft, 'familyMembersList')[i] || {})
+                    .firstName || ''
+                }
+                required
+                detectError={this.detectError}
+              />
+            </View>
           ))}
         </View>
 
-        <View style={{ height: 50 }}>
+        <View style={{ height: 50, marginTop: 30 }}>
           <Button
             colored
             text="Continue"
