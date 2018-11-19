@@ -30,6 +30,7 @@ import FinalView from '../screens/lifemap/Final'
 import FamilyParticipantView from '../screens/lifemap/FamilyParticipant'
 import FamilyMembersNamesView from '../screens/lifemap/FamilyMembersNames'
 import FamilyMembersGenderView from '../screens/lifemap/FamilyMembersGender'
+import FamilyMembersBirthdatesView from '../screens/lifemap/FamilyMembersBirthdates'
 import SyncView from '../screens/Sync'
 import colors from '../theme.json'
 import globalStyles from '../globalStyles'
@@ -172,7 +173,7 @@ const DraftScreens = {
   Draft: {
     screen: DraftView,
     navigationOptions: ({ navigation }) => ({
-      title: 'Your life Map',
+      title: 'Your Life Map',
       ...generateNavOptions({ navigation, headerLeft: false })
     })
   },
@@ -186,14 +187,14 @@ const DraftScreens = {
   BeginLifemap: {
     screen: BeginLifemapView,
     navigationOptions: ({ navigation }) => ({
-      title: 'Your life Map',
+      title: 'Your Life Map',
       ...generateNavOptions({ navigation, headerLeft: false })
     })
   },
   Question: {
     screen: QuestionView,
     navigationOptions: ({ navigation }) => ({
-      title: 'Your life Map',
+      title: 'Your Life Map',
       ...generateNavOptions({ navigation, headerLeft: false })
     })
   },
@@ -207,21 +208,28 @@ const DraftScreens = {
   FamilyParticipant: {
     screen: FamilyParticipantView,
     navigationOptions: ({ navigation }) => ({
-      title: 'Your life Map',
+      title: 'Primary participant',
       ...generateNavOptions({ navigation, headerLeft: false })
     })
   },
   FamilyMembersNames: {
     screen: FamilyMembersNamesView,
     navigationOptions: ({ navigation }) => ({
-      title: 'Your life Map',
+      title: 'Family members',
       ...generateNavOptions({ navigation, headerLeft: false })
     })
   },
   FamilyMembersGender: {
     screen: FamilyMembersGenderView,
     navigationOptions: ({ navigation }) => ({
-      title: 'Your life Map',
+      title: 'Gender',
+      ...generateNavOptions({ navigation, headerLeft: false })
+    })
+  },
+  FamilyMembersBirthdates: {
+    screen: FamilyMembersBirthdatesView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Birth dates',
       ...generateNavOptions({ navigation, headerLeft: false })
     })
   }

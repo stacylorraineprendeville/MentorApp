@@ -16,7 +16,7 @@ export class FamilyMembersGender extends Component {
   state = { errorsDetected: [] }
 
   handleClick() {
-    this.props.navigation.navigate('Location', {
+    this.props.navigation.navigate('FamilyMembersBirthdates', {
       draft_id: this.draft_id,
       survey: this.survey
     })
@@ -62,7 +62,7 @@ export class FamilyMembersGender extends Component {
                 style={{
                   ...globalStyles.h3,
                   paddingHorizontal: 20,
-                  marginTop: 10,
+                  marginTop: 15,
                   marginBottom: -10
                 }}
               >
@@ -79,7 +79,6 @@ export class FamilyMembersGender extends Component {
                 }
                 label="Gender"
                 placeholder="Select gender"
-                field="gender"
                 value={
                   (this.getFieldValue(draft, 'familyMembersList')[i] || {})
                     .gender || ''
