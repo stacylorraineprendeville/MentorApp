@@ -16,9 +16,6 @@ export class FamilyMembersNames extends Component {
 
   state = { errorsDetected: [] }
 
-  //Required fields
-  requiredFields = ['count_family_members']
-
   handleClick() {
     this.props.navigation.navigate('Location', {
       draft_id: this.draft_id,
@@ -45,7 +42,7 @@ export class FamilyMembersNames extends Component {
       [field]: text
     })
 
-    this.addFamilyMemberArray(Number(text))
+    this.addFamilyMemberArray(text)
   }
 
   addFamilyMemberArray = count => {
@@ -72,15 +69,12 @@ export class FamilyMembersNames extends Component {
       draft => draft.draft_id === this.draft_id
     )[0]
 
-    const emptyRequiredFields = draft
-      ? this.requiredFields.filter(
-          item =>
-            !draft.family_data[item] || draft.family_data[item].length === 0
-        )
-      : []
+    const emptyRequiredFields =
+      draft.family_data.familyMembersList.filter(item => item.firstName === '')
+        .length !== 0 || draft.family_data.count_family_members.length === 0
 
     const isButtonEnabled =
-      !emptyRequiredFields.length && !this.state.errorsDetected.length
+      !emptyRequiredFields && !this.state.errorsDetected.length
 
     return (
       <ScrollView
@@ -94,7 +88,9 @@ export class FamilyMembersNames extends Component {
             label="Number of people living in this household"
             placeholder="Number of people living in this household"
             field="count_family_members"
-            value={this.getFieldValue(draft, 'count_family_members') || ''}
+            value={
+              this.getFieldValue(draft, 'count_family_members').toString() || ''
+            }
             detectError={this.detectError}
             data={['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']}
           />
@@ -109,26 +105,25 @@ export class FamilyMembersNames extends Component {
             detectError={this.detectError}
           />
           {draft.family_data.familyMembersList.map((item, i) => (
-            <View key={i}>
-              <TextInput
-                validation="string"
-                field={i.toString()}
-                onChangeText={text =>
-                  this.addFamilyMemberName(
-                    text,
-                    draft.family_data.familyMembersList,
-                    i
-                  )
-                }
-                placeholder="Name"
-                value={
-                  (this.getFieldValue(draft, 'familyMembersList')[i] || {})
-                    .firstName || ''
-                }
-                required
-                detectError={this.detectError}
-              />
-            </View>
+            <TextInput
+              key={i}
+              validation="string"
+              field={i.toString()}
+              onChangeText={text =>
+                this.addFamilyMemberName(
+                  text,
+                  draft.family_data.familyMembersList,
+                  i
+                )
+              }
+              placeholder="Name"
+              value={
+                (this.getFieldValue(draft, 'familyMembersList')[i] || {})
+                  .firstName || ''
+              }
+              required
+              detectError={this.detectError}
+            />
           ))}
         </View>
 
