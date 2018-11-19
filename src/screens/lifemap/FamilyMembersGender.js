@@ -70,7 +70,7 @@ export class FamilyMembersGender extends Component {
                 {item.firstName}
               </Text>
               <Select
-                id="gender"
+                field={i.toString()}
                 onChange={text =>
                   this.addFamilyMemberGender(
                     text,

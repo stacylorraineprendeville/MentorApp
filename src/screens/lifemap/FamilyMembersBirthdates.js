@@ -71,7 +71,7 @@ export class FamilyMembersBirthdates extends Component {
                 {item.firstName}
               </Text>
               <DateInput
-                field="dateOfBirth"
+                field={i.toString()}
                 detectError={this.detectError}
                 onValidDate={date =>
                   this.addFamilyMemberBirthdate(
