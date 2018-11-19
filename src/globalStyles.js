@@ -38,6 +38,19 @@ export default StyleSheet.create({
     fontSize: 18,
     lineHeight: 26
   },
+  h2Bold: {
+    ...Platform.select({
+      ios: {
+        fontFamily: 'Poppins',
+        fontWeight: '600'
+      },
+      android: {
+        fontFamily: 'Poppins SemiBold'
+      }
+    }),
+    fontSize: 18,
+    lineHeight: 27
+  },
   h3: {
     ...Platform.select({
       ios: {

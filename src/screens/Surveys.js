@@ -21,8 +21,9 @@ export class Surveys extends Component {
             <LifemapListItem
               name={item.title}
               handleClick={() =>
-                this.props.navigation.navigate('FamilyParticipant', {
-                  survey: item.id
+                this.props.navigation.navigate('Terms', {
+                  draft: item.draft_id,
+                  page: 'terms'
                 })
               }
             />

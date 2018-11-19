@@ -81,47 +81,48 @@ export class Dashboard extends Component {
             <View>
               <View style={globalStyles.container}>
                 <View>
-                <Text
-                  style={{
-                    ...globalStyles.h3,
-                    marginBottom: 33,
-                    alignSelf: 'center'
-                  }}
-                >
-                  {t('general.welcome')}!
+                  <Text
+                    style={{
+                      ...globalStyles.h3,
+                      marginBottom: 33,
+                      alignSelf: 'center'
+                    }}
+                  >
+                    {t('general.welcome')}!
+                  </Text>
+                </View>
+                <RoundImage source="family" />
+                <Button
+                  text="Create a lifemap"
+                  colored
+                  handleClick={() => navigation.navigate('Surveys')}
+                />
+                <View style={styles.columns}>
+                  <Button
+                    text="Find a family"
+                    icon="search"
+                    handleClick={() => {}}
+                  />
+                  <Button text="Add a family" icon="add" handleClick={() => {}} />
+                </View>
+              </View>
+              <View style={styles.borderBottom}>
+                <Text style={{ ...globalStyles.subline, ...styles.listTitle }}>
+                  Latest drafts
                 </Text>
               </View>
-              <RoundImage source="family" />
-              <Button
-                text="Create a lifemap"
-                colored
-                handleClick={() => navigation.navigate('Surveys')}
-              />
-              <View style={styles.columns}>
-                <Button
-                  text="Find a family"
-                  icon="search"
-                  handleClick={() => {}}
-                />
-                <Button text="Add a family" icon="add" handleClick={() => {}} />
-              </View>
-            </View>
-            <View style={styles.borderBottom}>
-              <Text style={{ ...globalStyles.subline, ...styles.listTitle }}>
-                Latest drafts
-              </Text>
-            </View>
-            <FlatList
-              style={{ ...styles.background, paddingLeft: 25 }}
-              data={drafts}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => (
-                <DraftListItem
-                  item={item}
-                  handleClick={() =>
-                    navigation.navigate('FamilyParticipant', {
-                      draft: item.draft_id
-                    })
+              <FlatList
+                style={{ ...styles.background, paddingLeft: 25 }}
+                data={drafts}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
+                  <DraftListItem
+                    item={item}
+                    handleClick={() =>
+                      navigation.navigate('Terms', {
+                        draft: item.draft_id,
+                        page: 'terms'
+                      })
                   }
                 />
               )}

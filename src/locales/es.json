@@ -3,6 +3,8 @@
     "welcome": "Bienvenido"
   },
   "views": {
-    "dashboard": "Tablero"
+    "dashboard": "Tablero",
+    "terms":
+      "This app is provided by the Poverty Stoplight and its use is subject to the following Terms and Conditions. \n\n 1 .Your access of the app constitutes acceptance of these Terms and Conditions. \n\n 2. The Poverty Stoplight reserves the rights to modify, add or delete any point of these Terms and Conditions at any time. Your use of this app constitutes your acceptance of these Terms and Conditions. \n\n 3. The Poverty Stoplight does not warrant that the functions and materials contained in the app will be uninterrupted or error free; that the website, or the server that makes it available are free of viruses or bugs; or represent the full functionality, accuracy and reliability of the materials. We will try to the best of our ability to correct any error presented within a determined timeframe. \n\n 4. All intellectual property of the app and the material or information it contains (including without limitation copyright, designs, database rights and trade marks (registered or unregistered) is and shall remain the property of The Poverty Stoplight and Fundación Paraguaya or its third party licensors. \n\n 5. Commercial use or publication of all or any item displayed is strictly prohibited without authorization from Fundación Paraguaya (The Poverty Stoplight Team) and its third party licensor. Nothing contained in these Terms and Conditions shall be construed as conferring any licence by Fundación Paraguaya to use any item displayed. \n\n 6. Information in the survey cannot be copied, shared or posted on any mean of communication. \n\n If these Terms and Conditions are not accepted in full, the use of the Poverty Stoplight survey must be terminated immediately."
   }
 }
