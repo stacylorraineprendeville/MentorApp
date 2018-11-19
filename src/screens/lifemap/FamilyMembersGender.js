@@ -32,10 +32,11 @@ export class FamilyMembersGender extends Component {
   detectError = (error, field) => {
     if (error && !this.state.errorsDetected.includes(field)) {
       this.setState({ errorsDetected: [...this.state.errorsDetected, field] })
-    } else
+    } else if (!error) {
       this.setState({
         errorsDetected: this.state.errorsDetected.filter(item => item !== field)
       })
+    }
   }
 
   addFamilyMemberGender(gender, list, i) {

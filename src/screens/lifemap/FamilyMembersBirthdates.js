@@ -33,13 +33,14 @@ export class FamilyMembersBirthdates extends Component {
   detectError = (error, field) => {
     if (error && !this.state.errorsDetected.includes(field)) {
       this.setState({ errorsDetected: [...this.state.errorsDetected, field] })
-    } else
+    } else if (!error) {
       this.setState({
         errorsDetected: this.state.errorsDetected.filter(item => item !== field)
       })
+    }
   }
 
-  addFamilyMemberBirthdate(gender, list, i) {
+  addFamilyMemberBirthdate(birthDate, list, i) {
     list[i].birthDate = birthDate
     this.props.addSurveyData(this.draft_id, 'family_data', {
       familyMembersList: list

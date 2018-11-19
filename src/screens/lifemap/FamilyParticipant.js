@@ -77,10 +77,11 @@ export class FamilyParticipant extends Component {
   detectError = (error, field) => {
     if (error && !this.state.errorsDetected.includes(field)) {
       this.setState({ errorsDetected: [...this.state.errorsDetected, field] })
-    } else
+    } else if (!error) {
       this.setState({
         errorsDetected: this.state.errorsDetected.filter(item => item !== field)
       })
+    }
   }
 
   addSurveyData = (text, field) => {
@@ -174,6 +175,7 @@ export class FamilyParticipant extends Component {
           <TextInput
             onChangeText={this.addSurveyData}
             field="documentNumber"
+            validation="string"
             required
             value={this.getFieldValue(draft, 'documentNumber')}
             placeholder="Document number"
