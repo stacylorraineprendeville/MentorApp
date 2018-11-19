@@ -1,12 +1,23 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, StyleSheet } from 'react-native'
+import { ScrollView, View, Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { withNamespaces } from 'react-i18next'
 import globalStyles from '../../globalStyles'
 import colors from '../../theme.json'
 import RoundImage from '../../components/RoundImage'
+import Button from '../../components/Button'
 
-class Terms extends Component {
+const navigationRules = {
+  terms: {
+    nextPage: 'Privacy',
+    param: 'privacy'
+  },
+  privacy: {
+    nextPage: 'FamilyParticipant'
+  }
+}
+
+export class Terms extends Component {
   render() {
     const { t, navigation } = this.props
     return (
@@ -18,9 +29,25 @@ class Terms extends Component {
         <Text style={[globalStyles.h2Bold, styles.heading]}>
           Please read carefully before creating the Life Map
         </Text>
-        <Text style={[globalStyles.subline, styles.content]}>
+        <Text id="content" style={[globalStyles.subline, styles.content]}>
           {t(`views.${navigation.getParam('page')}`)}
         </Text>
+        <View style={styles.buttonsBar}>
+          <Button text="Disagree" handleClick={() => navigation.goBack()} />
+          <Button
+            colored
+            text="Agree"
+            handleClick={() =>
+              navigation.navigate(
+                navigationRules[navigation.getParam('page')].nextPage,
+                {
+                  draft: this.props.navigation.getParam('draft'),
+                  page: navigationRules[navigation.getParam('page')].param
+                }
+              )
+            }
+          />
+        </View>
       </ScrollView>
     )
   }
@@ -46,5 +73,11 @@ const styles = StyleSheet.create({
   content: {
     marginTop: 25,
     paddingHorizontal: 20
+  },
+  buttonsBar: {
+    height: 50,
+    marginTop: 50,
+    flex: 1,
+    flexDirection: 'row'
   }
 })
