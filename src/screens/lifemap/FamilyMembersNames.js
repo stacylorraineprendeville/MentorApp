@@ -17,7 +17,7 @@ export class FamilyMembersNames extends Component {
   state = { errorsDetected: [] }
 
   handleClick() {
-    this.props.navigation.navigate('Location', {
+    this.props.navigation.navigate('FamilyMembersGender', {
       draft_id: this.draft_id,
       survey: this.survey
     })

@@ -29,6 +29,7 @@ import DraftView from '../screens/lifemap/Draft'
 import FinalView from '../screens/lifemap/Final'
 import FamilyParticipantView from '../screens/lifemap/FamilyParticipant'
 import FamilyMembersNamesView from '../screens/lifemap/FamilyMembersNames'
+import FamilyMembersGenderView from '../screens/lifemap/FamilyMembersGender'
 import SyncView from '../screens/Sync'
 import colors from '../theme.json'
 import globalStyles from '../globalStyles'
@@ -212,6 +213,13 @@ const DraftScreens = {
   },
   FamilyMembersNames: {
     screen: FamilyMembersNamesView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Your life Map',
+      ...generateNavOptions({ navigation, headerLeft: false })
+    })
+  },
+  FamilyMembersGender: {
+    screen: FamilyMembersGenderView,
     navigationOptions: ({ navigation }) => ({
       title: 'Your life Map',
       ...generateNavOptions({ navigation, headerLeft: false })
