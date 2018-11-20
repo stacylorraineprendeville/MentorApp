@@ -26,6 +26,7 @@ import FamiliesView from '../screens/Families'
 import FamilyView from '../screens/Family'
 import DashboardView from '../screens/Dashboard'
 import DraftView from '../screens/lifemap/Draft'
+import Terms from '../screens/lifemap/Terms'
 import FinalView from '../screens/lifemap/Final'
 import FamilyParticipantView from '../screens/lifemap/FamilyParticipant'
 import FamilyMembersNamesView from '../screens/lifemap/FamilyMembersNames'
@@ -174,6 +175,27 @@ const DraftScreens = {
     screen: DraftView,
     navigationOptions: ({ navigation }) => ({
       title: 'Your Life Map',
+      ...generateNavOptions({ navigation, headerLeft: false })
+    })
+  },
+  Terms: {
+    screen: Terms,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Terms & Conditions',
+      ...generateNavOptions({ navigation, headerLeft: false })
+    })
+  },
+  Privacy: {
+    screen: Terms,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Privacy Policy',
+      ...generateNavOptions({ navigation, headerLeft: false })
+    })
+  },
+  FamilyParticipant: {
+    screen: FamilyParticipantView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Your life Map',
       ...generateNavOptions({ navigation, headerLeft: false })
     })
   },
