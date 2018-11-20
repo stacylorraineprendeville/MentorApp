@@ -33,7 +33,11 @@ export class Terms extends Component {
           {t(`views.${navigation.getParam('page')}`)}
         </Text>
         <View style={styles.buttonsBar}>
-          <Button text="Disagree" handleClick={() => navigation.goBack()} />
+          <Button
+            text="Disagree"
+            underlined
+            handleClick={() => navigation.goBack()}
+          />
           <Button
             colored
             text="Agree"
@@ -64,6 +68,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
     flexDirection: 'column',
+    justifyContent: 'space-between',
     paddingTop: 33
   },
   heading: {
