@@ -12,7 +12,7 @@ import validator from 'validator'
 class TextInput extends Component {
   state = {
     status: this.props.value ? 'filled' : 'blur',
-    text: this.props.value,
+    text: this.props.value || '',
     errorMsg: null
   }
 

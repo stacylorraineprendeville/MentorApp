@@ -72,7 +72,7 @@ export class FamilyMembersNames extends Component {
 
     const emptyRequiredFields =
       draft.family_data.familyMembersList.filter(item => item.firstName === '')
-        .length !== 0 || draft.family_data.count_family_members.length === 0
+        .length !== 0 || !draft.family_data.count_family_members
 
     const isButtonEnabled =
       !emptyRequiredFields && !this.state.errorsDetected.length
@@ -89,9 +89,9 @@ export class FamilyMembersNames extends Component {
             label="Number of people living in this household"
             placeholder="Number of people living in this household"
             field="count_family_members"
-            value={
-              this.getFieldValue(draft, 'count_family_members').toString() || ''
-            }
+            value={(
+              this.getFieldValue(draft, 'count_family_members') || ''
+            ).toString()}
             detectError={this.detectError}
             data={['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']}
           />
