@@ -50,6 +50,8 @@ export class Login extends Component {
   componentDidUpdate() {
     if (this.state.username === 'demo') {
       this.props.setEnv('demo')
+    } else if (this.state.username === 'life_survey_user') {
+      this.props.setEnv('testing')
     } else this.props.setEnv('production')
   }
 
