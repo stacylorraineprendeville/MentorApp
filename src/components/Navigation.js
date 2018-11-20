@@ -192,13 +192,6 @@ const DraftScreens = {
       ...generateNavOptions({ navigation, headerLeft: false })
     })
   },
-  FamilyParticipant: {
-    screen: FamilyParticipantView,
-    navigationOptions: ({ navigation }) => ({
-      title: 'Your life Map',
-      ...generateNavOptions({ navigation, headerLeft: false })
-    })
-  },
   Location: {
     screen: LocationView,
     navigationOptions: ({ navigation }) => ({

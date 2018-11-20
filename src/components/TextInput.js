@@ -200,6 +200,7 @@ TextInput.propTypes = {
     'number',
     'long-string'
   ]),
+  status: PropTypes.oneOf(['blur', 'error', 'active', 'filled']),
   detectError: PropTypes.func
 }
 

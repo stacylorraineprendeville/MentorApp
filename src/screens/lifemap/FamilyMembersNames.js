@@ -150,7 +150,8 @@ const styles = StyleSheet.create({
 
 FamilyMembersNames.propTypes = {
   drafts: PropTypes.array,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  addSurveyData: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = {
