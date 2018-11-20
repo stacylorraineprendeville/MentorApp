@@ -45,7 +45,7 @@ export class Terms extends Component {
               navigation.navigate(
                 navigationRules[navigation.getParam('page')].nextPage,
                 {
-                  draft: this.props.navigation.getParam('draft'),
+                  survey: this.props.navigation.getParam('survey'),
                   page: navigationRules[navigation.getParam('page')].param
                 }
               )

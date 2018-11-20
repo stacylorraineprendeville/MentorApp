@@ -22,7 +22,7 @@ export class Surveys extends Component {
               name={item.title}
               handleClick={() =>
                 this.props.navigation.navigate('Terms', {
-                  draft: item.draft_id,
+                  survey: item.id,
                   page: 'terms'
                 })
               }
