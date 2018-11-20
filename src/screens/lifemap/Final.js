@@ -54,21 +54,21 @@ export class Final extends Component {
         contentContainerStyle={styles.contentContainer}
       >
         {skippedQuestions.length > 0 &&
-        skippedQuestions.length !== this.state.checkedBoxes.length ? (
-          <View>
-            <View style={globalStyles.container}>
-              <Image
-                style={styles.image}
-                source={require('../../../assets/images/skipped.png')}
-              />
-            </View>
-            <Divider style={{ backgroundColor: colors.lightgrey }} />
-            <FlatList
-              style={{ ...styles.background, paddingLeft: 25 }}
-              data={skippedQuestions}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => (
-                <SkippedListItem
+          skippedQuestions.length !== this.state.checkedBoxes.length ? (
+            <View>
+              <View style={globalStyles.container}>
+                <Image
+                  style={styles.image}
+                  source={require('../../../assets/images/skipped.png')}
+                />
+              </View>
+              <Divider style={{ backgroundColor: colors.lightgrey }} />
+              <FlatList
+                style={{ ...styles.background, paddingLeft: 25 }}
+                data={skippedQuestions}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
+                  <SkippedListItem
                   item={this.survey.survey_schema.properties[item].title.es}
                   onIconPress={() => this.toggleCheckbox(item)}
                   handleClick={() =>

@@ -31,11 +31,11 @@ class Button extends Component {
           />
         )}
         <Text
-          style={
-            this.props.colored
-              ? { ...styles.buttonText, ...styles.whiteText }
-              : { ...styles.buttonText, ...styles.greenText }
-          }
+          style={{
+            ...styles.buttonText,
+            ...(this.props.colored ? styles.whiteText : styles.greenText),
+            ...(this.props.underlined ? styles.underlined : {})
+          }}
         >
           {this.props.text}
         </Text>
@@ -48,6 +48,7 @@ Button.propTypes = {
   text: PropTypes.string.isRequired,
   handleClick: PropTypes.func.isRequired,
   colored: PropTypes.bool,
+  underlined: PropTypes.bool,
   icon: PropTypes.string,
   disabled: PropTypes.bool
 }
@@ -71,6 +72,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  underlined: {
+    textDecorationLine: 'underline',
+    textDecorationStyle: 'solid',
+    textDecorationColor: colors.palegreen
   },
   colored: {
     backgroundColor: colors.palegreen

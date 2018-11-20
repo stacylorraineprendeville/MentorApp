@@ -6,7 +6,8 @@ const images = {
   family: require('../../assets/images/family.png'),
   surveys: require('../../assets/images/surveys.png'),
   stoplight: require('../../assets/images/stoplight.png'),
-  partner: require('../../assets/images/partner.png')
+  partner: require('../../assets/images/partner.png'),
+  check: require('../../assets/images/check.png')
 }
 
 class RoundImage extends Component {
@@ -16,7 +17,13 @@ class RoundImage extends Component {
 }
 
 RoundImage.propTypes = {
-  source: PropTypes.oneOf(['family', 'surveys', 'stoplight', 'partner'])
+  source: PropTypes.oneOf([
+    'family',
+    'surveys',
+    'stoplight',
+    'partner',
+    'check'
+  ])
 }
 
 const styles = StyleSheet.create({

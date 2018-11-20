@@ -39,8 +39,8 @@ export class Dashboard extends Component {
       title: this.props.t('views.dashboard')
     })
   componentDidMount() {
-    AsyncStorage.getItem('userVisitedDashboard').then(
-      value => (value === 'false' ? this.loadData() : null)
+    AsyncStorage.getItem('userVisitedDashboard').then(value =>
+      value === 'false' ? this.loadData() : null
     )
     AsyncStorage.setItem('userVisitedDashboard', 'true')
     this.detectSlowLoading()
@@ -75,12 +75,12 @@ export class Dashboard extends Component {
     return (
       <ScrollView style={globalStyles.background}>
         {this.props.offline.outbox.length &&
-          navigation.getParam('firstTimeVisitor') ? (
-            <Loading time={this.state.loadingTime} />
-          ) : (
-            <View>
-              <View style={globalStyles.container}>
-                <View>
+        navigation.getParam('firstTimeVisitor') ? (
+          <Loading time={this.state.loadingTime} />
+        ) : (
+          <View>
+            <View style={globalStyles.container}>
+              <View>
                 <Text
                   style={{
                     ...globalStyles.h3,
