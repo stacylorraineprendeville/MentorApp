@@ -40,15 +40,18 @@ const styles = StyleSheet.create({
     height: 95,
     borderBottomColor: colors.lightgrey,
     borderBottomWidth: 1,
-    width: '100%',
-    marginLeft: 25
+    marginLeft: 25,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    flex: 1
   },
   image: {
     height: 65,
     width: 65
   },
   p: {
-    lineHeight: 95
+    paddingRight: 20,
+    alignSelf: 'center'
   }
 })
 
