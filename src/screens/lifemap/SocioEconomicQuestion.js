@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { ScrollView, View, StyleSheet } from 'react-native'
+import TextInput from '../../components/TextInput'
 import Select from '../../components/Select'
 import Button from '../../components/Button'
 import globalStyles from '../../globalStyles'
@@ -70,23 +71,31 @@ export default class SocioEconomicQuestion extends Component {
           {!!socioEconomics &&
             socioEconomics.questionsPerScreen[
               socioEconomics.currentScreen - 1
-            ].map(question => {
-              if (question.answerType === 'select') {
-                return (
-                  <Select
-                    key={question.questionText}
-                    required={question.required}
-                    onChange={() => {}}
-                    placeholder={question.questionText}
-                    label={question.questionText}
-                    field={question.questionText}
-                    value={''}
-                    detectError={this.detectError}
-                    data={question.options}
-                  />
-                )
-              }
-            })}
+            ].map(question =>
+              question.answerType === 'select' ? (
+                <Select
+                  key={question.questionText}
+                  required={question.required}
+                  onChange={() => {}}
+                  placeholder={question.questionText}
+                  label={question.questionText}
+                  field={question.questionText}
+                  value={''}
+                  detectError={this.detectError}
+                  data={question.options}
+                />
+              ) : (
+                <TextInput
+                  key={question.questionText}
+                  field={question.questionText}
+                  onChangeText={() => {}}
+                  placeholder={question.questionText}
+                  value={''}
+                  required={question.required}
+                  detectError={this.detectError}
+                />
+              )
+            )}
         </View>
         <View style={{ marginTop: 15 }}>
           <Button
@@ -97,16 +106,16 @@ export default class SocioEconomicQuestion extends Component {
             handleClick={() =>
               socioEconomics.currentScreen === socioEconomics.totalScreens
                 ? this.props.navigation.navigate('BeginLifemap', {
-                  draft_id: this.props.navigation.getParam('draft_id'),
-                  survey: this.props.navigation.getParam('survey')
-                })
+                    draft_id: this.props.navigation.getParam('draft_id'),
+                    survey: this.props.navigation.getParam('survey')
+                  })
                 : this.props.navigation.navigate('SocioEconomicQuestion', {
-                  draft_id: this.props.navigation.getParam('draft_id'),
-                  survey: this.props.navigation.getParam('survey'),
+                    draft_id: this.props.navigation.getParam('draft_id'),
+                    survey: this.props.navigation.getParam('survey'),
                     currentScreen: socioEconomics.currentScreen++,
                     questionsPerScreen: socioEconomics.questionsPerScreen,
                     totalScreens: socioEconomics.totalScreens
-                })
+                  })
             }
           />
         </View>
