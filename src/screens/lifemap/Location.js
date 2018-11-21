@@ -193,7 +193,7 @@ export class Location extends Component {
             colored
             text="Continue"
             handleClick={() =>
-              this.props.navigation.navigate('BeginLifemap', {
+              this.props.navigation.navigate('SocioEconomicQuestion', {
                 draft_id: this.props.navigation.getParam('draft_id'),
                 survey: this.props.navigation.getParam('survey')
               })

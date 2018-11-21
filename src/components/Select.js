@@ -58,23 +58,32 @@ class Select extends Component {
 
             {this.props.countrySelect
               ? countryList
-                  .array()
-                  .map(country => (
-                    <Picker.Item
-                      key={country.code}
-                      label={country.label}
-                      value={country.code}
-                      color={colors.grey}
-                    />
-                  ))
-              : this.props.data.map(item => (
+                .array()
+                .map(country => (
+                  <Picker.Item
+                    key={country.code}
+                    label={country.label}
+                    value={country.code}
+                    color={colors.grey}
+                  />
+                ))
+              : this.props.data.map(item =>
+                typeof item === 'object' ? (
+                  <Picker.Item
+                    key={item.value}
+                    label={item.text}
+                    value={item.value}
+                    color={colors.grey}
+                  />
+                ) : (
                   <Picker.Item
                     key={item}
                     label={item}
                     value={item}
                     color={colors.grey}
                   />
-                ))}
+                )
+              )}
           </Picker>
         </View>
         {!!errorMsg && (

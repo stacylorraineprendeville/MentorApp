@@ -129,14 +129,14 @@ describe('Family Location component', () => {
 
     expect(spy).toHaveBeenCalledTimes(1)
   })
-  it('navigates to BeginLifemap with proper params', () => {
+  it('navigates to SocioEconomicQuestion with proper params', () => {
     wrapper
       .find('#continue')
       .props()
       .handleClick()
 
     expect(wrapper.instance().props.navigation.navigate).toHaveBeenCalledWith(
-      'BeginLifemap',
+      'SocioEconomicQuestion',
       { draft_id: 2, survey: { survey_id: 100 } }
     )
   })
