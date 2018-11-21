@@ -16,11 +16,16 @@ export class FamilyMembersNames extends Component {
 
   state = { errorsDetected: [] }
 
-  handleClick() {
-    this.props.navigation.navigate('FamilyMembersGender', {
-      draft_id: this.draft_id,
-      survey: this.survey
-    })
+  handleClick(draft) {
+    this.getFieldValue(draft, 'count_family_members') > 1
+      ? this.props.navigation.navigate('FamilyMembersGender', {
+          draft_id: this.draft_id,
+          survey: this.survey
+        })
+      : this.props.navigation.navigate('Location', {
+          draft_id: this.draft_id,
+          survey: this.survey
+        })
   }
   getFieldValue = (draft, field) => {
     if (!draft) {
@@ -133,7 +138,7 @@ export class FamilyMembersNames extends Component {
             colored
             text="Continue"
             disabled={!isButtonEnabled}
-            handleClick={() => this.handleClick()}
+            handleClick={() => this.handleClick(draft)}
           />
         </View>
       </ScrollView>
