@@ -38,7 +38,10 @@ class Select extends Component {
     const { errorMsg } = this.state
     return (
       <View>
-        <Text style={this.props.value ? styles.label : styles.labelNoValue}>
+        <Text
+          numberOfLines={2}
+          style={this.props.value ? styles.label : styles.labelNoValue}
+        >
           {`${this.props.label} ${this.props.required ? '*' : ''}`}
         </Text>
         <View
@@ -58,32 +61,32 @@ class Select extends Component {
 
             {this.props.countrySelect
               ? countryList
-                .array()
-                .map(country => (
-                  <Picker.Item
-                    key={country.code}
-                    label={country.label}
-                    value={country.code}
-                    color={colors.grey}
-                  />
-                ))
+                  .array()
+                  .map(country => (
+                    <Picker.Item
+                      key={country.code}
+                      label={country.label}
+                      value={country.code}
+                      color={colors.grey}
+                    />
+                  ))
               : this.props.data.map(item =>
-                typeof item === 'object' ? (
-                  <Picker.Item
-                    key={item.value}
-                    label={item.text}
-                    value={item.value}
-                    color={colors.grey}
-                  />
-                ) : (
-                  <Picker.Item
-                    key={item}
-                    label={item}
-                    value={item}
-                    color={colors.grey}
-                  />
-                )
-              )}
+                  typeof item === 'object' ? (
+                    <Picker.Item
+                      key={item.value}
+                      label={item.text}
+                      value={item.value}
+                      color={colors.grey}
+                    />
+                  ) : (
+                    <Picker.Item
+                      key={item}
+                      label={item}
+                      value={item}
+                      color={colors.grey}
+                    />
+                  )
+                )}
           </Picker>
         </View>
         {!!errorMsg && (
@@ -122,12 +125,10 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.grey
   },
   dropdown: {
-    height: 60,
     paddingTop: 10
   },
   label: {
     ...globalStyles.subline,
-
     paddingHorizontal: 25,
     marginTop: 25,
     marginBottom: -25,
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     fontSize: 16,
     marginTop: 40,
-    marginBottom: -40,
+    marginBottom: -50,
     color: colors.grey
   },
   item: {
