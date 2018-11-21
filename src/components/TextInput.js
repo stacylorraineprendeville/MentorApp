@@ -12,7 +12,7 @@ import validator from 'validator'
 class TextInput extends Component {
   state = {
     status: this.props.value ? 'filled' : 'blur',
-    text: this.props.value,
+    text: this.props.value || '',
     errorMsg: null
   }
 
@@ -118,7 +118,7 @@ class TextInput extends Component {
               color: this.defineTextColor(status)
             }}
           >
-            {this.props.placeholder}
+            {`${this.props.placeholder} ${this.props.required ? '*' : ''}`}
             {'\n'}
           </Text>
         )}
@@ -137,6 +137,7 @@ class TextInput extends Component {
             ...styles[status],
             paddingTop: !showPlaceholder ? 30 : 10
           }}
+          editable={!this.props.readonly}
         >
           <Text style={{ fontSize: 16, margin: 10 }}>{text}</Text>
         </FormInput>
@@ -190,6 +191,7 @@ TextInput.propTypes = {
   placeholder: PropTypes.string,
   field: PropTypes.string,
   required: PropTypes.bool,
+  readonly: PropTypes.bool,
   onChangeText: PropTypes.func.isRequired,
   validation: PropTypes.oneOf([
     'email',
@@ -198,6 +200,7 @@ TextInput.propTypes = {
     'number',
     'long-string'
   ]),
+  status: PropTypes.oneOf(['blur', 'error', 'active', 'filled']),
   detectError: PropTypes.func
 }
 

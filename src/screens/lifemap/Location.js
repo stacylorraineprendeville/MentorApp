@@ -57,11 +57,13 @@ export class Location extends Component {
   detectError = (error, field) => {
     if (error && !this.state.errorsDetected.includes(field)) {
       this.setState({ errorsDetected: [...this.state.errorsDetected, field] })
-    } else
+    } else if (!error) {
       this.setState({
         errorsDetected: this.state.errorsDetected.filter(item => item !== field)
       })
+    }
   }
+
   searcForAddress = () => {
     fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?address=${this.state.searchAddress.replace(
@@ -159,7 +161,7 @@ export class Location extends Component {
             id="countrySelect"
             required
             onChange={this.addSurveyData}
-            label="Country *"
+            label="Country"
             countrySelect
             placeholder="Select a country"
             field="country"

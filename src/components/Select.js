@@ -15,6 +15,7 @@ class Select extends Component {
   }
   handleError(errorMsg) {
     this.props.detectError(true, this.props.field)
+    this.props.onChange('', this.props.field)
     this.setState({
       errorMsg
     })
@@ -38,7 +39,7 @@ class Select extends Component {
     return (
       <View>
         <Text style={this.props.value ? styles.label : styles.labelNoValue}>
-          {this.props.label}
+          {`${this.props.label} ${this.props.required ? '*' : ''}`}
         </Text>
         <View
           style={[
@@ -117,6 +118,7 @@ const styles = StyleSheet.create({
   },
   label: {
     ...globalStyles.subline,
+
     paddingHorizontal: 25,
     marginTop: 25,
     marginBottom: -25,
@@ -127,6 +129,7 @@ const styles = StyleSheet.create({
     ...globalStyles.subline,
     zIndex: 100,
     paddingHorizontal: 25,
+    fontSize: 16,
     marginTop: 40,
     marginBottom: -40,
     color: colors.grey
