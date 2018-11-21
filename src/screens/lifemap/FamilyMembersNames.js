@@ -49,7 +49,7 @@ export class FamilyMembersNames extends Component {
   addFamilyMemberArray = count => {
     let familyMembersList = []
 
-    for (let i = 0; i < Number(count); i++) {
+    for (let i = 0; i < Number(count) - 1; i++) {
       familyMembersList.push({ firstName: '' })
     }
 
