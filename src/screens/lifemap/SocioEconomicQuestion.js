@@ -7,7 +7,7 @@ import Button from '../../components/Button'
 import globalStyles from '../../globalStyles'
 import data from '../../fake-socio-economic-data.json'
 
-export default class SocioEconomicQuestion extends Component {
+export class SocioEconomicQuestion extends Component {
   data = data
   state = {
     errorsDetected: []
@@ -135,3 +135,5 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   }
 })
+
+export default SocioEconomicQuestion
