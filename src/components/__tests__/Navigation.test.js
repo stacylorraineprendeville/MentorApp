@@ -28,7 +28,6 @@ describe('Navigation', () => {
       expect(wrapper.instance()._navigation.navigate('Dashboard')).toBe(true)
       expect(wrapper.instance()._navigation.navigate('Sync')).toBe(true)
       expect(wrapper.instance()._navigation.navigate('Family')).toBe(true)
-      expect(wrapper.instance()._navigation.navigate('Draft')).toBe(true)
       expect(wrapper.instance()._navigation.navigate('Question')).toBe(true)
     })
   })

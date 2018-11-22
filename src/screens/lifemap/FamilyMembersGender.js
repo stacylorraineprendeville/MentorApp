@@ -46,6 +46,7 @@ export class FamilyMembersGender extends Component {
     })
   }
 
+  gender = this.survey.surveyPersonalQuestions.filter(item => item.id === 2)[0]
   render() {
     const draft = this.props.drafts.filter(
       draft => draft.draft_id === this.draft_id
@@ -85,7 +86,7 @@ export class FamilyMembersGender extends Component {
                     .gender || ''
                 }
                 detectError={this.detectError}
-                data={this.survey.survey_schema.properties.gender.enumNames}
+                data={this.gender.options}
               />
             </View>
           ))}

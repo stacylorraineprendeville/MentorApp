@@ -13,22 +13,27 @@ const createTestProps = props => ({
         param === 'draft_id'
           ? 4
           : {
-              survey_schema: {
-                properties: {
-                  gender: {
-                    type: 'string',
-                    title: {
-                      es: 'Enter your gender'
+              surveyPersonalQuestions: [
+                {
+                  id: 2,
+                  questionText: 'Enter your gender',
+                  answerType: 'select',
+                  options: [
+                    {
+                      text: 'Female',
+                      value: 'F'
                     },
-                    enum: ['F', 'M', 'O'],
-                    enumNames: [
-                      'Female',
-                      'Male',
-                      'Another gender identity or Prefer not to disclose'
-                    ]
-                  }
+                    {
+                      text: 'Male',
+                      value: 'M'
+                    },
+                    {
+                      text: 'Prefer not to disclose',
+                      value: 'O'
+                    }
+                  ]
                 }
-              }
+              ]
             }
     ),
     navigate: jest.fn()

@@ -14,19 +14,19 @@ const createTestProps = props => ({
       description:
         'Our household income is always above 60% of the UK average.',
       url: 'https://some-url-1.jpg',
-      value: 'GREEN'
+      value: 3
     },
     {
       description:
         'Our household income, this year, is above 60% of the UK average.',
       url: 'https://some-url-2.jpg',
-      value: 'YELLOW'
+      value: 2
     },
     {
       description:
         'Our household income is always below 60% of the UK average.',
       url: 'https://some-url-3.jpg',
-      value: 'RED'
+      value: 1
     }
   ],
   selectAnswer: jest.fn(),
@@ -94,7 +94,7 @@ describe('Slider Component', () => {
       .props()
       .onPress()
     expect(wrapper.instance().props.selectAnswer).toHaveBeenCalledTimes(1)
-    expect(wrapper.instance().props.selectAnswer).toHaveBeenCalledWith('GREEN')
+    expect(wrapper.instance().props.selectAnswer).toHaveBeenCalledWith(3)
   })
   it('calls selectAnswer function with the correct argument for yellow', () => {
     wrapper
@@ -103,7 +103,7 @@ describe('Slider Component', () => {
       .props()
       .onPress()
     expect(wrapper.instance().props.selectAnswer).toHaveBeenCalledTimes(1)
-    expect(wrapper.instance().props.selectAnswer).toHaveBeenCalledWith('YELLOW')
+    expect(wrapper.instance().props.selectAnswer).toHaveBeenCalledWith(2)
   })
   it('calls selectAnswer function with the correct argument for red', () => {
     wrapper
@@ -112,6 +112,6 @@ describe('Slider Component', () => {
       .props()
       .onPress()
     expect(wrapper.instance().props.selectAnswer).toHaveBeenCalledTimes(1)
-    expect(wrapper.instance().props.selectAnswer).toHaveBeenCalledWith('RED')
+    expect(wrapper.instance().props.selectAnswer).toHaveBeenCalledWith(1)
   })
 })

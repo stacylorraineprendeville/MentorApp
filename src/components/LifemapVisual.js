@@ -7,16 +7,13 @@ class LifemapVisual extends Component {
   getColors = () =>
     Object.values(this.props.data).map(color => {
       switch (color) {
-        case 'GREEN':
-          return colors.green
-
-        case 'YELLOW':
-          return colors.gold
-
-        case 'RED':
+        case 1:
           return colors.red
-
-        case 'NONE':
+        case 2:
+          return colors.gold
+        case 3:
+          return colors.green
+        case 0:
           return colors.palegrey
 
         default:

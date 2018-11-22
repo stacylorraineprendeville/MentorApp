@@ -55,7 +55,7 @@ export const env = (state = 'production', action) => {
 export const surveys = (state = [], action) => {
   switch (action.type) {
     case LOAD_SURVEYS:
-      return action.payload ? action.payload : state
+      return action.payload ? action.payload.data.surveysByUser : state
     default:
       return state
   }

@@ -4,26 +4,18 @@ import RNFetchBlob from 'rn-fetch-blob'
 
 const surveyTestData = [
   {
-    survey_schema: {
-      properties: {
-        currency: {
-          type: 'string'
-        },
-        accessToCredit: {
-          type: 'array',
-          items: {
-            enum: [
-              {
-                url: 'url1.jpg'
-              },
-              {
-                url: 'url2.jpg'
-              }
-            ]
+    surveyStoplightQuestions: [
+      {
+        stoplightColors: [
+          {
+            url: 'url1.jpg'
+          },
+          {
+            url: 'url2.jpg'
           }
-        }
+        ]
       }
-    }
+    ]
   }
 ]
 

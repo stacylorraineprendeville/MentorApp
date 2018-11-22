@@ -39,99 +39,65 @@ const createTestProps = props => ({
       id: 1,
       title: 'Dev Demo',
       survey_version_id: 2,
-      survey_schema: {
-        title: 'Stoplight survey example with defaults',
-        description: 'A simple stoplight survey example with default values.',
-        properties: {
-          countryOfBirth: {
-            type: 'string',
-            title: {
-              es: 'Country of birth'
+      surveyPersonalQuestions: [
+        {
+          id: 2,
+          questionText: 'Enter your gender',
+          answerType: 'select',
+          options: [
+            {
+              text: 'Female',
+              value: 'F'
             },
-            enum: ['BG', 'PY', 'UK'],
-            enumNames: ['Bulgaria', 'Paraguay', 'United Kingdom']
-          },
-          gender: {
-            type: 'string',
-            title: {
-              es: 'Enter your gender'
+            {
+              text: 'Male',
+              value: 'M'
             },
-            enum: ['F', 'M', 'O'],
-            enumNames: [
-              'Female',
-              'Male',
-              'Another gender identity or Prefer not to disclose'
-            ]
-          },
-          familyCar: {
-            type: 'string',
-            title: {
-              es: 'Does your family have a car or truck?'
-            },
-            enum: ['Yes', 'No'],
-            enumNames: ['Yes', 'No']
-          },
-          income: {
-            type: 'array',
-            title: {
-              es: 'Income'
-            },
-            description: {
-              es: 'We have enough income'
-            },
-            default: [
-              {
-                url:
-                  'https://s3.us-east-2.amazonaws.com/fp-psp-images/usa/california/1/1.jpg',
-                value: 'GREEN',
-                description: 'My family’s income is above the poverty line.'
-              }
-            ],
-            items: {
-              type: 'object',
-              enum: [
-                {
-                  url:
-                    'https://s3.us-east-2.amazonaws.com/fp-psp-images/usa/california/1/1.jpg',
-                  value: 'GREEN',
-                  description: 'My family’s income is above the poverty line.'
-                },
-                {
-                  url:
-                    'https://s3.us-east-2.amazonaws.com/fp-psp-images/usa/california/1/2.jpg',
-                  value: 'YELLOW',
-                  description:
-                    'My family’s income is below the total poverty line but above the extreme poverty line.'
-                },
-                {
-                  url:
-                    'https://s3.us-east-2.amazonaws.com/fp-psp-images/usa/california/1/3.jpg',
-                  value: 'RED',
-                  description:
-                    'My family’s income is below the extreme poverty line.'
-                },
-                {
-                  url: 'NONE',
-                  value: 'NONE',
-                  description: ''
-                }
-              ],
-              properties: null
+            {
+              text: 'Prefer not to disclose',
+              value: 'O'
             }
-          }
+          ]
         },
-
-        type: 'object',
-        dependencies: null
-      },
-      survey_ui_schema: {
-        properties: {},
-        'ui:order': ['gender', 'income', 'familyCar'],
-        'ui:group:personal': ['gender'],
-        'ui:group:economics': ['familyCar'],
-        'ui:group:indicators': ['income'],
-        'ui:custom:fields': {}
-      }
+        {
+          id: 7,
+          questionText: 'Enter your country of birth',
+          answerType: 'select',
+          options: [
+            {
+              text: 'Afghanistan',
+              value: 'AF'
+            },
+            {
+              text: 'Albania',
+              value: 'AL'
+            },
+            {
+              text: 'Algiers',
+              value: 'DZ'
+            }
+          ]
+        },
+        {
+          id: 9,
+          questionText: 'Personal Reference',
+          answerType: 'select',
+          options: [
+            {
+              text: 'National Insurance Number',
+              value: 'NATIONALINSURANCE'
+            },
+            {
+              text: 'Organisation Reference Number',
+              value: 'ORGANISATIONALREFERENCENUMBER'
+            },
+            {
+              text: 'Other identification',
+              value: 'OTHER'
+            }
+          ]
+        }
+      ]
     }
   ],
   env: 'development',
@@ -147,6 +113,7 @@ describe('Family Participant View', () => {
     const props = createTestProps()
     wrapper = shallow(<FamilyParticipant {...props} />)
   })
+
   describe('lifecycle', () => {
     describe('no saved draft', () => {
       it('creates universally unique draft identifier if there is no draft_id', () => {
@@ -159,14 +126,11 @@ describe('Family Participant View', () => {
         expect(wrapper.instance().survey_id).toBe(1)
       })
 
-      it('sets survey with survey_schema and survey_ui_schema', () => {
+      it('sets survey with surveyPersonalQuestions', () => {
         expect(wrapper.instance().survey.id).toBe(1)
         expect(wrapper.instance().survey.title).toBe('Dev Demo')
-        expect(wrapper.instance().survey.survey_schema).toEqual(
-          expect.any(Object)
-        )
-        expect(wrapper.instance().survey.survey_ui_schema).toEqual(
-          expect.any(Object)
+        expect(wrapper.instance().survey.surveyPersonalQuestions).toEqual(
+          expect.any(Array)
         )
       })
 

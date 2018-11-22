@@ -18,20 +18,11 @@ NetInfo.addEventListener('connectionChange', () => {
 
 export const filterURLsFromSurveys = surveys => {
   const imageURLs = []
-  surveys.forEach(survey => {
-    Object.values(survey.survey_schema.properties)
-      .filter(
-        prop =>
-          prop.type === 'array' &&
-          prop.hasOwnProperty('items') &&
-          prop.items.hasOwnProperty('enum')
-      )
-      .forEach(prop =>
-        prop.items.enum
-          .filter(item => item.url && item.url !== 'NONE')
-          .forEach(item => imageURLs.push(item.url))
-      )
-  })
+  surveys.forEach(survey =>
+    survey.surveyStoplightQuestions.forEach(question =>
+      question.stoplightColors.forEach(color => imageURLs.push(color.url))
+    )
+  )
   return imageURLs
 }
 

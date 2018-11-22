@@ -20,21 +20,13 @@ export class Question extends Component {
   survey = this.props.navigation.getParam('survey')
   draft_id = this.props.navigation.getParam('draft_id')
 
-  indicators = this.survey['survey_ui_schema']['ui:group:indicators']
-
-  indicator = this.survey['survey_schema'].properties[
-    this.indicators[this.step]
-  ]
-
-  indicatorIsRequired = this.survey['survey_schema'].required.includes(
-    this.indicators[this.step]
-  )
-
-  slides = this.indicator.items.enum.filter(item => item.url !== 'NONE')
+  indicators = this.survey.surveyStoplightQuestions
+  indicator = this.indicators[this.step]
+  slides = this.indicator.stoplightColors
 
   selectAnswer(answer) {
     this.props.addSurveyData(this.draft_id, 'indicator_survey_data', {
-      [this.indicators[this.step]]: answer
+      [this.indicator.questionText]: answer
     })
 
     if (
@@ -60,7 +52,7 @@ export class Question extends Component {
           <Text style={{ ...globalStyles.h5, textAlign: 'right' }}>{`${this
             .step + 1} / ${this.indicators.length}`}</Text>
           <Text style={{ ...globalStyles.h3 }}>{`${this.step + 1}. ${
-            this.indicator.title.es
+            this.indicator.questionText
           }`}</Text>
           <ProgressBarAndroid
             styleAttr="Horizontal"
@@ -75,11 +67,11 @@ export class Question extends Component {
           selectAnswer={answer => this.selectAnswer(answer)}
         />
         <View style={styles.skip}>
-          {this.indicatorIsRequired ? (
+          {this.indicator.required ? (
             <Text style={globalStyles.tag}> *Response required </Text>
           ) : (
             <Checkbox
-              onIconPress={() => this.selectAnswer('NONE')}
+              onIconPress={() => this.selectAnswer(0)}
               title="Skip this question"
             />
           )}
