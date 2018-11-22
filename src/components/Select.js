@@ -125,12 +125,15 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.grey
   },
   dropdown: {
+    height: 60,
     paddingTop: 10
   },
   label: {
     ...globalStyles.subline,
+
     paddingHorizontal: 25,
     marginTop: 25,
+    marginBottom: -25,
     color: colors.palegrey,
     zIndex: 100
   },
@@ -140,7 +143,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     fontSize: 16,
     marginTop: 40,
-    marginBottom: -50,
+    marginBottom: -40,
     color: colors.grey
   },
   item: {
