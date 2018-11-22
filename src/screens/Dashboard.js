@@ -118,17 +118,18 @@ export class Dashboard extends Component {
                 renderItem={({ item }) => (
                   <DraftListItem
                     item={item}
-                    handleClick={() =>
-                      // navigation.navigate('SocioEconomicQuestion', {
-                      //   draft: item.draft_id
-                      // })
-                      navigation.navigate('FamilyParticipant', {
+                    handleClick={
+                      () =>
+                      navigation.navigate('SocioEconomicQuestion', {
                         draft: item.draft_id
                       })
+                      // navigation.navigate('FamilyParticipant', {
+                      //   draft: item.draft_id
+                      // })
                     }
                   />
                 )}
-            />
+              />
             {!drafts.length && (
               <Text
                 id="no-drafts-message"
