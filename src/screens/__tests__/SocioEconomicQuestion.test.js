@@ -8,6 +8,7 @@ import TextInput from '../../components/TextInput'
 const createTestProps = props => ({
   navigation: {
     navigate: jest.fn(),
+    push: jest.fn(),
     getParam: () => null,
     setParams: jest.fn()
   },
@@ -69,6 +70,7 @@ describe('SocioEconomicQuestion screens', () => {
     beforeEach(() => {
       props = createTestProps({
         navigation: {
+          push: jest.fn(),
           navigate: jest.fn(),
           getParam: () => ({
             currentScreen: 1,
@@ -141,11 +143,9 @@ describe('SocioEconomicQuestion screens', () => {
         .props()
         .handleClick()
 
-      expect(
-        wrapper.instance().props.navigation.navigate
-      ).toHaveBeenCalledTimes(1)
+      expect(wrapper.instance().props.navigation.push).toHaveBeenCalledTimes(1)
 
-      expect(wrapper.instance().props.navigation.navigate).toHaveBeenCalledWith(
+      expect(wrapper.instance().props.navigation.push).toHaveBeenCalledWith(
         'SocioEconomicQuestion',
         expect.any(Object)
       )

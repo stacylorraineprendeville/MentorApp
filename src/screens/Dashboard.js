@@ -121,15 +121,15 @@ export class Dashboard extends Component {
                     handleClick={
                       () =>
                       navigation.navigate('SocioEconomicQuestion', {
-                        draft: item.draft_id
+                        draft_id: item.draft_id
                       })
                       // navigation.navigate('FamilyParticipant', {
-                      //   draft: item.draft_id
-                      // })
-                    }
-                  />
-                )}
-              />
+                    //   draft: item.draft_id
+                    // })
+                  }
+                />
+              )}
+            />
             {!drafts.length && (
               <Text
                 id="no-drafts-message"

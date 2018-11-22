@@ -167,12 +167,14 @@ export class SocioEconomicQuestion extends Component {
                     draft_id: this.props.navigation.getParam('draft_id'),
                     survey: this.props.navigation.getParam('survey')
                   })
-                : this.props.navigation.navigate('SocioEconomicQuestion', {
+                : this.props.navigation.push('SocioEconomicQuestion', {
                     draft_id: this.props.navigation.getParam('draft_id'),
                     survey: this.props.navigation.getParam('survey'),
-                    currentScreen: socioEconomics.currentScreen++,
-                    questionsPerScreen: socioEconomics.questionsPerScreen,
-                    totalScreens: socioEconomics.totalScreens
+                    socioEconomics: {
+                      currentScreen: socioEconomics.currentScreen + 1,
+                      questionsPerScreen: socioEconomics.questionsPerScreen,
+                      totalScreens: socioEconomics.totalScreens
+                    }
                   })
             }
           />
