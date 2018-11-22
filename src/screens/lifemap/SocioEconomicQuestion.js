@@ -62,7 +62,6 @@ export class SocioEconomicQuestion extends Component {
 
   render() {
     const socioEconomics = this.props.navigation.getParam('socioEconomics')
-    console.log(this.draft)
     return (
       <ScrollView
         style={globalStyles.background}
@@ -79,17 +78,44 @@ export class SocioEconomicQuestion extends Component {
               socioEconomics.currentScreen - 1
             ].map(question =>
               question.answerType === 'select' ? (
-                <Select
-                  key={question.questionText}
-                  required={question.required}
-                  onChange={() => {}}
-                  placeholder={question.questionText}
-                  label={question.questionText}
-                  field={question.questionText}
-                  value={''}
-                  detectError={this.detectError}
-                  data={question.options}
-                />
+                <View key={question.questionText}>
+                  {question.forFamilyMember &&
+                    parseInt(this.draft.family_data.count_family_members) >
+                      1 && (
+                      <Text style={styles.memberName}>
+                        {this.draft.personal_survey_data.firstName}
+                      </Text>
+                    )}
+                  <Select
+                    required={question.required}
+                    onChange={() => {}}
+                    placeholder={question.questionText}
+                    label={question.questionText}
+                    field={question.questionText}
+                    value={''}
+                    detectError={this.detectError}
+                    data={question.options}
+                  />
+                  {question.forFamilyMember &&
+                    parseInt(this.draft.family_data.count_family_members) > 1 &&
+                    this.draft.family_data.familyMembersList.map(member => (
+                      <View key={member.firstName}>
+                        <Text style={styles.memberName}>
+                          {member.firstName}
+                        </Text>
+                        <Select
+                          required={question.required}
+                          onChange={() => {}}
+                          placeholder={question.questionText}
+                          label={question.questionText}
+                          field={question.questionText}
+                          value={''}
+                          detectError={this.detectError}
+                          data={question.options}
+                        />
+                      </View>
+                    ))}
+                </View>
               ) : (
                 <View key={question.questionText}>
                   {question.forFamilyMember &&
@@ -100,7 +126,6 @@ export class SocioEconomicQuestion extends Component {
                       </Text>
                     )}
                   <TextInput
-                    key={question.questionText}
                     field={question.questionText}
                     onChangeText={() => {}}
                     placeholder={question.questionText}
