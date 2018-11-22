@@ -11,6 +11,37 @@ const createTestProps = props => ({
     getParam: () => null,
     setParams: jest.fn()
   },
+  drafts: [
+    {
+      survey_id: 1,
+      survey_version_id: 19,
+      created: 1542801890805,
+      draft_id: 1,
+      economic_survey_data: {},
+      indicator_survey_data: {},
+      status: 'In progress',
+      family_data: {
+        count_family_members: '2',
+        familyMembersList: [
+          {
+            firstName: 'man',
+            gender: 'Male',
+            birthDate: 418078800
+          }
+        ]
+      },
+      personal_survey_data: {
+        firstName: 'dan',
+        lastName: 'man',
+        gender: 'Male',
+        dateOfBirth: 324334800,
+        document: 'Permanent resident card number',
+        documentNumber: 'asdggasddsa',
+        countryOfBirth: 'DZ',
+        country: 'DZ'
+      }
+    }
+  ],
   ...props
 })
 
@@ -121,38 +152,41 @@ describe('SocioEconomicQuestion screens', () => {
     })
   })
 
-  describe('last screen', () => {
+  describe('non-initial screen', () => {
     beforeEach(() => {
       props = createTestProps({
         navigation: {
           navigate: jest.fn(),
-          getParam: () => ({
-            currentScreen: 3,
-            totalScreens: 3,
-            questionsPerScreen: [
-              [],
-              [],
-              [
-                {
-                  questionText:
-                    'Please estimate your gross monthly household income (i.e, before taxes National Insurance contributions or other deductions)',
-                  answerType: 'text',
-                  dimension: 'Income',
-                  required: true,
-                  forFamilyMember: false,
-                  options: []
+          getParam: param =>
+            param === 'socioEconomics'
+              ? {
+                  currentScreen: 3,
+                  totalScreens: 3,
+                  questionsPerScreen: [
+                    [],
+                    [],
+                    [
+                      {
+                        questionText:
+                          'Please estimate your gross monthly household income (i.e, before taxes National Insurance contributions or other deductions)',
+                        answerType: 'text',
+                        dimension: 'Income',
+                        required: true,
+                        forFamilyMember: true,
+                        options: []
+                      }
+                    ]
+                  ]
                 }
-              ]
-            ]
-          }),
+              : 1,
           setParams: jest.fn()
         }
       })
       wrapper = shallow(<SocioEconomicQuestion {...props} />)
     })
 
-    it('renders a TextInput for each text question', () => {
-      expect(wrapper.find(TextInput)).toHaveLength(1)
+    it('renders a TextInput for each text question for each family member', () => {
+      expect(wrapper.find(TextInput)).toHaveLength(2)
     })
 
     it('sets the correct TextInput props', () => {

@@ -131,7 +131,6 @@ const styles = StyleSheet.create({
     ...globalStyles.subline,
     paddingHorizontal: 25,
     marginTop: 25,
-    marginBottom: -25,
     color: colors.palegrey,
     zIndex: 100
   },

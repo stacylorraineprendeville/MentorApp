@@ -7,7 +7,6 @@ import { addSurveyData } from '../../redux/actions'
 
 import globalStyles from '../../globalStyles'
 import Button from '../../components/Button'
-import Select from '../../components/Select'
 import DateInput from '../../components/DateInput'
 
 export class FamilyMembersBirthdates extends Component {

@@ -108,7 +108,10 @@ export class Location extends Component {
     const draft = this.getDraft()
 
     return (
-      <ScrollView contentContainerStyle={globalStyles.background}>
+      <ScrollView
+        style={globalStyles.background}
+        contentContainerStyle={styles.contentContainer}
+      >
         {latitude ? (
           <View>
             <SearchBar
@@ -228,6 +231,11 @@ const styles = StyleSheet.create({
   map: {
     height: 300,
     width: '100%'
+  },
+  contentContainer: {
+    flexGrow: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   },
   placeholder: {
     alignItems: 'center',

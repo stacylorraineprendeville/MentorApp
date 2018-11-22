@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { ScrollView, View, StyleSheet } from 'react-native'
+import { ScrollView, View, StyleSheet, Text } from 'react-native'
+import { connect } from 'react-redux'
 import TextInput from '../../components/TextInput'
 import Select from '../../components/Select'
 import Button from '../../components/Button'
@@ -14,6 +15,10 @@ export class SocioEconomicQuestion extends Component {
   }
   constructor(props) {
     super(props)
+
+    this.draft = props.drafts.filter(
+      draft => draft.draft_id === this.props.navigation.getParam('draft_id')
+    )[0]
 
     // If this is the first socio economics screen set the whole process
     // in the navigation. On every next screen it will know which questions
@@ -57,6 +62,7 @@ export class SocioEconomicQuestion extends Component {
 
   render() {
     const socioEconomics = this.props.navigation.getParam('socioEconomics')
+    console.log(this.draft)
     return (
       <ScrollView
         style={globalStyles.background}
@@ -85,15 +91,42 @@ export class SocioEconomicQuestion extends Component {
                   data={question.options}
                 />
               ) : (
-                <TextInput
-                  key={question.questionText}
-                  field={question.questionText}
-                  onChangeText={() => {}}
-                  placeholder={question.questionText}
-                  value={''}
-                  required={question.required}
-                  detectError={this.detectError}
-                />
+                <View key={question.questionText}>
+                  {question.forFamilyMember &&
+                    parseInt(this.draft.family_data.count_family_members) >
+                      1 && (
+                      <Text style={styles.memberName}>
+                        {this.draft.personal_survey_data.firstName}
+                      </Text>
+                    )}
+                  <TextInput
+                    key={question.questionText}
+                    field={question.questionText}
+                    onChangeText={() => {}}
+                    placeholder={question.questionText}
+                    value={''}
+                    required={question.required}
+                    detectError={this.detectError}
+                  />
+                  {question.forFamilyMember &&
+                    parseInt(this.draft.family_data.count_family_members) > 1 &&
+                    this.draft.family_data.familyMembersList.map(member => (
+                      <View key={member.firstName}>
+                        <Text style={styles.memberName}>
+                          {member.firstName}
+                        </Text>
+                        <TextInput
+                          key={question.questionText}
+                          field={question.questionText}
+                          onChangeText={() => {}}
+                          placeholder={question.questionText}
+                          value={''}
+                          required={question.required}
+                          detectError={this.detectError}
+                        />
+                      </View>
+                    ))}
+                </View>
               )
             )}
         </View>
@@ -125,7 +158,8 @@ export class SocioEconomicQuestion extends Component {
 }
 
 SocioEconomicQuestion.propTypes = {
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  drafts: PropTypes.array.isRequired
 }
 
 const styles = StyleSheet.create({
@@ -133,7 +167,24 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexDirection: 'column',
     justifyContent: 'space-between'
+  },
+  memberName: {
+    marginHorizontal: 20,
+    fontWeight: 'normal',
+    marginTop: 23,
+    marginBottom: -20,
+    fontSize: 16,
+    lineHeight: 20
   }
 })
 
-export default SocioEconomicQuestion
+const mapDispatchToProps = {}
+
+const mapStateToProps = ({ drafts }) => ({
+  drafts
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SocioEconomicQuestion)
