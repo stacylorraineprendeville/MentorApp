@@ -90,10 +90,10 @@ export class FamilyParticipant extends Component {
     })
   }
 
-  gender = this.survey.surveyPersonalQuestions.filter(item => item.id === 2)[0]
+  gender = this.survey.surveyPersonalQuestions.filter(item => item.id === 22)[0]
 
   documentType = this.survey.surveyPersonalQuestions.filter(
-    item => item.id === 9
+    item => item.id === 29
   )[0]
 
   render() {

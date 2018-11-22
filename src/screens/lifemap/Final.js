@@ -25,13 +25,13 @@ export class Final extends Component {
   state = {
     checkedBoxes: []
   }
-  getSkippedQuestions = () => {
-    const answers = this.draft.indicator_survey_data
+  getSkippedQuestions = draft => {
+    const answers = draft.indicator_survey_data
     return Object.keys(answers).filter(key => answers[key] == 0)
   }
 
   draft_id = this.props.navigation.getParam('draft_id')
-  draft = this.props.drafts.filter(item => item.draft_id === this.draft_id)[0]
+
   survey = this.props.navigation.getParam('survey')
   indicatorsArray = this.survey.surveyStoplightQuestions.map(
     item => item.questionText
@@ -49,9 +49,11 @@ export class Final extends Component {
   }
 
   render() {
-    const skippedQuestions = this.getSkippedQuestions()
-    // console.log(skippedQuestions)
-    // console.log(this.draft.indicator_survey_data)
+    const draft = this.props.drafts.filter(
+      item => item.draft_id === this.draft_id
+    )[0]
+    const skippedQuestions = this.getSkippedQuestions(draft)
+
     return (
       <ScrollView
         style={globalStyles.background}
@@ -112,7 +114,7 @@ export class Final extends Component {
                 You have completed the lifemap
               </Text>
               <RoundImage source="partner" />
-              <LifemapVisual data={this.draft.indicator_survey_data} />
+              <LifemapVisual data={draft.indicator_survey_data} />
             </View>
             <View style={{ height: 50 }}>
               <Button

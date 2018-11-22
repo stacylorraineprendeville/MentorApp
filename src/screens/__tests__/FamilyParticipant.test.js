@@ -41,7 +41,7 @@ const createTestProps = props => ({
       survey_version_id: 2,
       surveyPersonalQuestions: [
         {
-          id: 2,
+          id: 22,
           questionText: 'Enter your gender',
           answerType: 'select',
           options: [
@@ -60,26 +60,7 @@ const createTestProps = props => ({
           ]
         },
         {
-          id: 7,
-          questionText: 'Enter your country of birth',
-          answerType: 'select',
-          options: [
-            {
-              text: 'Afghanistan',
-              value: 'AF'
-            },
-            {
-              text: 'Albania',
-              value: 'AL'
-            },
-            {
-              text: 'Algiers',
-              value: 'DZ'
-            }
-          ]
-        },
-        {
-          id: 9,
+          id: 29,
           questionText: 'Personal Reference',
           answerType: 'select',
           options: [
