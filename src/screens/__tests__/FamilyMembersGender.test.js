@@ -15,7 +15,7 @@ const createTestProps = props => ({
           : {
               surveyPersonalQuestions: [
                 {
-                  id: 2,
+                  id: 22,
                   questionText: 'Enter your gender',
                   answerType: 'select',
                   options: [

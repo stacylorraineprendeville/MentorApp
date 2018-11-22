@@ -46,7 +46,7 @@ export class FamilyMembersGender extends Component {
     })
   }
 
-  gender = this.survey.surveyPersonalQuestions.filter(item => item.id === 2)[0]
+  gender = this.survey.surveyPersonalQuestions.filter(item => item.id === 22)[0]
   render() {
     const draft = this.props.drafts.filter(
       draft => draft.draft_id === this.draft_id
