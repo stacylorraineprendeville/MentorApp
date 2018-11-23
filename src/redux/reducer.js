@@ -79,47 +79,40 @@ export const drafts = (state = [], action) => {
     case CREATE_DRAFT:
       return [...state, { ...action.payload, status: 'In progress' }]
     case ADD_SURVEY_DATA:
-      return state.map(
-        draft =>
-          draft.draft_id === action.id
-            ? {
-                ...draft,
-                [action.category]: {
-                  ...draft[action.category],
-                  ...action.payload
-                }
-              }
-            : draft
+      return state.map(draft =>
+        draft.draft_id === action.id
+          ? {
+              ...draft,
+              [action.category]: action.payload
+            }
+          : draft
       )
     case SUBMIT_DRAFT:
-      return state.map(
-        draft =>
-          draft.draft_id === action.id
-            ? {
-                ...draft,
-                status: 'Pending'
-              }
-            : draft
+      return state.map(draft =>
+        draft.draft_id === action.id
+          ? {
+              ...draft,
+              status: 'Pending'
+            }
+          : draft
       )
     case SUBMIT_DRAFT_COMMIT:
-      return state.map(
-        draft =>
-          draft.draft_id === action.meta.id
-            ? {
-                ...draft,
-                status: 'Success'
-              }
-            : draft
+      return state.map(draft =>
+        draft.draft_id === action.meta.id
+          ? {
+              ...draft,
+              status: 'Success'
+            }
+          : draft
       )
     case SUBMIT_DRAFT_ROLLBACK:
-      return state.map(
-        draft =>
-          draft.draft_id === action.meta.id
-            ? {
-                ...draft,
-                status: 'Error'
-              }
-            : draft
+      return state.map(draft =>
+        draft.draft_id === action.meta.id
+          ? {
+              ...draft,
+              status: 'Error'
+            }
+          : draft
       )
     case DELETE_DRAFT:
       return state.filter(draft => draft.draft_id !== action.id)
