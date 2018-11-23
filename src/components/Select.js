@@ -70,8 +70,8 @@ class Select extends Component {
               : this.props.data.map(item => (
                   <Picker.Item
                     key={item}
-                    label={item}
-                    value={item}
+                    label={item.text}
+                    value={item.value}
                     color={colors.grey}
                   />
                 ))}

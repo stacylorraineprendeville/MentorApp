@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
   buttonsBar: {
     height: 50,
     marginTop: 50,
+    marginBottom: -2,
     flex: 1,
     flexDirection: 'row'
   }

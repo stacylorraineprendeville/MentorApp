@@ -7,18 +7,18 @@ import TextInput from './TextInput'
 import Select from './Select'
 
 const months = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
+  { text: 'January', value: 'January' },
+  { text: 'February', value: 'February' },
+  { text: 'March', value: 'March' },
+  { text: 'April', value: 'April' },
+  { text: 'May', value: 'May' },
+  { text: 'June', value: 'June' },
+  { text: 'July', value: 'July' },
+  { text: 'August', value: 'August' },
+  { text: 'September', value: 'September' },
+  { text: 'October', value: 'October' },
+  { text: 'November', value: 'November' },
+  { text: 'December', value: 'December' }
 ]
 
 class DateInput extends React.Component {
@@ -106,6 +106,7 @@ class DateInput extends React.Component {
               onChange={month => this.setMonth(month)}
               label="Month"
               placeholder="Select month"
+              field=""
               value={month}
               data={months}
             />

@@ -11,7 +11,7 @@ const createTestProps = props => ({
     getParam: jest.fn(() => ({
       id: 2,
       title: 'Other survey',
-      survey_ui_schema: { 'ui:group:indicators': ['a', 'b', 'c'] }
+      surveyStoplightQuestions: [{ a: 'a' }, { b: 'b' }, { c: 'c' }]
     }))
   },
   ...props

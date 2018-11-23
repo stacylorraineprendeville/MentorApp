@@ -43,17 +43,21 @@ describe('login reducer', () => {
 })
 
 describe('surveys reducer', () => {
-  const payload = [
-    { surveyId: 1, surveyContent: 'content' },
-    { surveyId: 2, surveyContent: 'content-2' }
-  ]
+  const payload = {
+    data: {
+      surveysByUser: [
+        { surveyId: 1, surveyContent: 'content' },
+        { surveyId: 2, surveyContent: 'content-2' }
+      ]
+    }
+  }
   it('should handle LOAD_SURVEYS', () => {
     expect(
       reducer.surveys([], {
         type: action.LOAD_SURVEYS,
         payload
       })
-    ).toEqual(payload)
+    ).toEqual(payload.data.surveysByUser)
     expect(
       reducer.surveys([], {
         type: action.LOAD_SURVEYS

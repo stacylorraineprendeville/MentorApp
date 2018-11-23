@@ -13,9 +13,9 @@ import globalStyles from '../globalStyles'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 const slideColors = {
-  RED: 'red',
-  YELLOW: 'gold',
-  GREEN: 'green'
+  1: 'red',
+  2: 'gold',
+  3: 'green'
 }
 
 class Slider extends Component {

@@ -18,7 +18,11 @@ const createTestProps = props => ({
         return {
           id: 2,
           title: 'Other survey',
-          survey_ui_schema: { 'ui:group:indicators': ['a', 'b', 'c'] }
+          surveyStoplightQuestions: [
+            { phone: 'phone' },
+            { education: 'education' },
+            { c: 'c' }
+          ]
         }
       }
     })
@@ -33,7 +37,7 @@ describe('Skipped Questions View when questions are skipped', () => {
       drafts: [
         {
           draft_id: 1,
-          indicator_survey_data: { phone: 'NONE', education: 'RED' }
+          indicator_survey_data: { phone: 0, education: 3 }
         }
       ]
     })
@@ -82,7 +86,7 @@ describe('Final Lifemap View when no questions are skipped', () => {
       drafts: [
         {
           draft_id: 1,
-          indicator_survey_data: { phone: 'GREEN', education: 'RED' }
+          indicator_survey_data: { phone: 3, education: 1 }
         }
       ]
     })

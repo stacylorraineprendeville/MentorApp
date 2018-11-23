@@ -8,9 +8,8 @@ import RoundImage from '../../components/RoundImage'
 import Button from '../../components/Button'
 
 export class BeginLifemap extends Component {
-  numberOfQuestions = this.props.navigation.getParam('survey')[
-    'survey_ui_schema'
-  ]['ui:group:indicators'].length
+  survey = this.props.navigation.getParam('survey')
+  numberOfQuestions = this.survey.surveyStoplightQuestions.length
   survey = this.props.navigation.getParam('survey')
   render() {
     return (
@@ -37,7 +36,7 @@ export class BeginLifemap extends Component {
             handleClick={() =>
               this.props.navigation.navigate('Question', {
                 draft_id: this.props.navigation.getParam('draft_id'),
-                survey: this.props.navigation.getParam('survey'),
+                survey: this.survey,
                 step: 0
               })
             }
