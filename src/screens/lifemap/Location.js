@@ -28,7 +28,7 @@ export class Location extends Component {
   }
   addSurveyData = (text, field) => {
     this.props.addSurveyData(
-      this.props.navigation.getParam('draft_id'),
+      this.props.navigation.getParam('draftId'),
       'personal_survey_data',
       {
         [field]: text
@@ -86,7 +86,7 @@ export class Location extends Component {
   }
   getDraft = () =>
     this.props.drafts.filter(
-      draft => draft.draft_id === this.props.navigation.getParam('draft_id')
+      draft => draft.draftId === this.props.navigation.getParam('draftId')
     )[0]
   componentDidMount() {
     this.getDeviceLocation()
@@ -197,7 +197,7 @@ export class Location extends Component {
             text="Continue"
             handleClick={() =>
               this.props.navigation.navigate('SocioEconomicQuestion', {
-                draft_id: this.props.navigation.getParam('draft_id'),
+                draftId: this.props.navigation.getParam('draftId'),
                 survey: this.props.navigation.getParam('survey')
               })
             }

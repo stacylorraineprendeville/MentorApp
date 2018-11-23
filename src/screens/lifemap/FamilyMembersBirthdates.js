@@ -10,14 +10,14 @@ import Button from '../../components/Button'
 import DateInput from '../../components/DateInput'
 
 export class FamilyMembersBirthdates extends Component {
-  draft_id = this.props.navigation.getParam('draft_id')
+  draftId = this.props.navigation.getParam('draftId')
   survey = this.props.navigation.getParam('survey')
 
   state = { errorsDetected: [] }
 
   handleClick() {
     this.props.navigation.navigate('Location', {
-      draft_id: this.draft_id,
+      draftId: this.draftId,
       survey: this.survey
     })
   }
@@ -41,14 +41,14 @@ export class FamilyMembersBirthdates extends Component {
 
   addFamilyMemberBirthdate(birthDate, list, i) {
     list[i].birthDate = birthDate
-    this.props.addSurveyData(this.draft_id, 'family_data', {
+    this.props.addSurveyData(this.draftId, 'family_data', {
       familyMembersList: list
     })
   }
 
   render() {
     const draft = this.props.drafts.filter(
-      draft => draft.draft_id === this.draft_id
+      draft => draft.draftId === this.draftId
     )[0]
 
     return (

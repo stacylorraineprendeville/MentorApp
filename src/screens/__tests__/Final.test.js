@@ -11,7 +11,7 @@ const createTestProps = props => ({
   navigation: {
     navigate: jest.fn(),
     getParam: jest.fn(param => {
-      if (param === 'draft_id') {
+      if (param === 'draftId') {
         return 1
       }
       if (param === 'survey') {
@@ -36,7 +36,7 @@ describe('Skipped Questions View when questions are skipped', () => {
     const props = createTestProps({
       drafts: [
         {
-          draft_id: 1,
+          draftId: 1,
           indicator_survey_data: { phone: 0, education: 3 }
         }
       ]
@@ -85,7 +85,7 @@ describe('Final Lifemap View when no questions are skipped', () => {
     const props = createTestProps({
       drafts: [
         {
-          draft_id: 1,
+          draftId: 1,
           indicator_survey_data: { phone: 3, education: 1 }
         }
       ]

@@ -9,28 +9,69 @@ import TextInput from '../../components/TextInput'
 
 const createTestProps = props => ({
   createDraft: jest.fn(),
-  addSurveyData: jest.fn(),
+  addSurveyFamilyMembeData: jest.fn(),
   navigation: {
     navigate: jest.fn(),
     getParam: param => (param === 'draft' ? null : 1)
   },
   drafts: [
     {
-      draft_id: 4,
-      survey_id: 1,
-      personal_survey_data: {
-        firstName: 'Jane',
-        lastName: 'Doe',
-        documentNumber: '5468568',
-        email: 'jane@doe.com',
-        phone: '40965035',
-        gender: 'F'
-      },
-      economic_survey_data: {
-        familyCar: 'Yes'
-      },
-      indicator_survey_data: {
-        income: 'GREEN'
+      draftId: 4,
+      surveyId: 1,
+      economicSurveyDataList: [
+        { key: 'educationPersonMostStudied', value: 'SCHOOL-COMPLETE' },
+        { key: 'receiveStateIncome', value: 'NO' },
+        { key: 'currency', value: 'GBP/Pound Sterling' },
+        { key: 'areaOfResidence', value: 'URBAN' }
+      ],
+
+      indicatorSurveyDataList: [
+        { key: 'insurance', value: 1 },
+        { key: 'entertainmentAndRecreation', value: 3 },
+        { key: 'stableHousing', value: 2 }
+      ],
+      familyData: {
+        countFamilyMembers: 1,
+        longitude: -25.8976,
+        latitude: -22.2521,
+        familyIdentifier: 'ASD323', //uuid
+        address: 'SOME ADDRESS',
+        postalCode: '1000',
+        accuracy: 100, //number
+        familyMembersList: [
+          {
+            firstName: 'Juan', //mandatory
+            lastName: 'Perez', //mandatory
+            documentNumber: '123456',
+            email: 'juan@gmail.com',
+            birthCountry: 'Paraguay',
+            gender: 'F',
+            birthDate: 12345,
+            primary: true,
+            socioEconomicAnswers: [
+              { key: 'educationPersonMostStudied', value: 'SCHOOL-COMPLETE' },
+              { key: 'receiveStateIncome', value: 'NO' }
+            ]
+          },
+          {
+            firstName: 'Ana', //mandatory
+            lastName: 'Perez',
+            documentNumber: '123456',
+            email: 'juan@gmail.com',
+            birthCountry: 'Paraguay',
+            gender: 'F',
+            birthDate: 12345,
+            primary: false,
+            socioEconomicAnswers: [
+              {
+                key: 'familyUbication',
+                value: '54.98584496333538,-1.5724916942463096'
+              },
+              { key: 'educationPersonMostStudied', value: 'SCHOOL-COMPLETE' },
+              { key: 'receiveStateIncome', value: 'NO' }
+            ]
+          }
+        ]
       }
     }
   ],
@@ -97,14 +138,14 @@ describe('Family Participant View', () => {
 
   describe('lifecycle', () => {
     describe('no saved draft', () => {
-      it('creates universally unique draft identifier if there is no draft_id', () => {
-        expect(wrapper.instance().draft_id).toEqual(
+      it('creates universally unique draft identifier if there is no draftId', () => {
+        expect(wrapper.instance().draftId).toEqual(
           expect.stringMatching(/[a-z0-9_.-].*/)
         )
       })
 
-      it('sets proper survey_id when there is no draft', () => {
-        expect(wrapper.instance().survey_id).toBe(1)
+      it('sets proper surveyId when there is no draft', () => {
+        expect(wrapper.instance().surveyId).toBe(1)
       })
 
       it('sets survey with surveyPersonalQuestions', () => {
@@ -132,12 +173,12 @@ describe('Family Participant View', () => {
         wrapper = shallow(<FamilyParticipant {...props} />)
       })
 
-      it('sets draft_id', () => {
-        expect(wrapper.instance().draft_id).toBe(4)
+      it('sets draftId', () => {
+        expect(wrapper.instance().draftId).toBe(4)
       })
 
-      it('sets proper survey_id when there is a draft', () => {
-        expect(wrapper.instance().survey_id).toBe(1)
+      it('sets proper surveyId when there is a draft', () => {
+        expect(wrapper.instance().surveyId).toBe(1)
       })
 
       it('does not create a new draft on componentDidMount if such exists', () => {
@@ -178,36 +219,42 @@ describe('Family Participant View', () => {
           .find(TextInput)
           .first()
           .props().value
-      ).toBe('Jane')
+      ).toBe('Juan')
     })
   })
 
   describe('functionality', () => {
-    it('calls addSurveyData on input change', () => {
+    it('calls addSurveyFamilyMembeData on input change', () => {
       wrapper
         .find(TextInput)
         .first()
         .props()
         .onChangeText()
 
-      expect(wrapper.instance().props.addSurveyData).toHaveBeenCalledTimes(1)
+      expect(
+        wrapper.instance().props.addSurveyFamilyMembeData
+      ).toHaveBeenCalledTimes(1)
     })
-    it('calls addSurveyData on select change', () => {
+    it('calls addSurveyFamilyMembeData on select change', () => {
       wrapper
         .find(Select)
         .first()
         .props()
         .onChange()
 
-      expect(wrapper.instance().props.addSurveyData).toHaveBeenCalledTimes(1)
+      expect(
+        wrapper.instance().props.addSurveyFamilyMembeData
+      ).toHaveBeenCalledTimes(1)
     })
 
-    it('calls addSurveyData on valid date input', () => {
+    it('calls addSurveyFamilyMembeData on valid date input', () => {
       wrapper
         .find(DateInput)
         .props()
         .onValidDate('January 21 1999')
-      expect(wrapper.instance().props.addSurveyData).toHaveBeenCalledTimes(1)
+      expect(
+        wrapper.instance().props.addSurveyFamilyMembeData
+      ).toHaveBeenCalledTimes(1)
     })
 
     it('calls navigator function on pressing Continue button', () => {

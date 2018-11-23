@@ -10,7 +10,7 @@ const createTestProps = props => ({
   navigation: {
     getParam: jest.fn(
       param =>
-        param === 'draft_id'
+        param === 'draftId'
           ? 4
           : {
               surveyPersonalQuestions: [
@@ -40,8 +40,8 @@ const createTestProps = props => ({
   },
   drafts: [
     {
-      draft_id: 4,
-      survey_id: 1,
+      draftId: 4,
+      surveyId: 1,
       personal_survey_data: {
         firstName: 'Jane',
         lastName: 'Doe',

@@ -9,13 +9,13 @@ import Select from '../../components/Select'
 
 const createTestProps = props => ({
   navigation: {
-    getParam: jest.fn(param => (param === 'draft_id' ? 4 : null)),
+    getParam: jest.fn(param => (param === 'draftId' ? 4 : null)),
     navigate: jest.fn()
   },
   drafts: [
     {
-      draft_id: 4,
-      survey_id: 1,
+      draftId: 4,
+      surveyId: 1,
       personal_survey_data: {
         firstName: 'Jane',
         lastName: 'Doe',
@@ -125,7 +125,7 @@ describe('FamilyMembersNames View', () => {
     const props = createTestProps({
       drafts: [
         {
-          draft_id: 4,
+          draftId: 4,
           personal_survey_data: {
             firstName: 'Jane'
           },
@@ -149,7 +149,7 @@ describe('FamilyMembersNames View', () => {
     const props = createTestProps({
       drafts: [
         {
-          draft_id: 4,
+          draftId: 4,
           personal_survey_data: {
             firstName: 'Jane'
           },

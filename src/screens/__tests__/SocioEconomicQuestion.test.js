@@ -15,10 +15,10 @@ const createTestProps = props => ({
   },
   drafts: [
     {
-      survey_id: 1,
+      surveyId: 1,
       survey_version_id: 19,
       created: 1542801890805,
-      draft_id: 1,
+      draftId: 1,
       economic_survey_data: {},
       indicator_survey_data: {},
       status: 'In progress',

@@ -11,7 +11,7 @@ import Select from '../../components/Select'
 import TextInput from '../../components/TextInput'
 
 export class FamilyMembersNames extends Component {
-  draft_id = this.props.navigation.getParam('draft_id')
+  draftId = this.props.navigation.getParam('draftId')
   survey = this.props.navigation.getParam('survey')
 
   state = { errorsDetected: [] }
@@ -19,11 +19,11 @@ export class FamilyMembersNames extends Component {
   handleClick(draft) {
     this.getFieldValue(draft, 'count_family_members') > 1
       ? this.props.navigation.navigate('FamilyMembersGender', {
-          draft_id: this.draft_id,
+          draftId: this.draftId,
           survey: this.survey
         })
       : this.props.navigation.navigate('Location', {
-          draft_id: this.draft_id,
+          draftId: this.draftId,
           survey: this.survey
         })
   }
@@ -44,7 +44,7 @@ export class FamilyMembersNames extends Component {
   }
 
   addFamilyCount = (text, field) => {
-    this.props.addSurveyData(this.draft_id, 'family_data', {
+    this.props.addSurveyData(this.draftId, 'family_data', {
       [field]: text
     })
 
@@ -58,21 +58,21 @@ export class FamilyMembersNames extends Component {
       familyMembersList.push({ firstName: '' })
     }
 
-    this.props.addSurveyData(this.draft_id, 'family_data', {
+    this.props.addSurveyData(this.draftId, 'family_data', {
       familyMembersList: familyMembersList
     })
   }
 
   addFamilyMemberName(name, list, i) {
     list[i].firstName = name
-    this.props.addSurveyData(this.draft_id, 'family_data', {
+    this.props.addSurveyData(this.draftId, 'family_data', {
       familyMembersList: list
     })
   }
 
   render() {
     const draft = this.props.drafts.filter(
-      draft => draft.draft_id === this.draft_id
+      draft => draft.draftId === this.draftId
     )[0]
 
     const emptyRequiredFields =

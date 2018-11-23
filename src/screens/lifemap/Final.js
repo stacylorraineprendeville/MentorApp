@@ -30,7 +30,7 @@ export class Final extends Component {
     return Object.keys(answers).filter(key => answers[key] == 0)
   }
 
-  draft_id = this.props.navigation.getParam('draft_id')
+  draftId = this.props.navigation.getParam('draftId')
 
   survey = this.props.navigation.getParam('survey')
   indicatorsArray = this.survey.surveyStoplightQuestions.map(
@@ -50,7 +50,7 @@ export class Final extends Component {
 
   render() {
     const draft = this.props.drafts.filter(
-      item => item.draft_id === this.draft_id
+      item => item.draftId === this.draftId
     )[0]
     const skippedQuestions = this.getSkippedQuestions(draft)
 
@@ -79,7 +79,7 @@ export class Final extends Component {
                   onIconPress={() => this.toggleCheckbox(item)}
                   handleClick={() =>
                     this.props.navigation.push('Question', {
-                      draft_id: this.draft_id,
+                      draftId: this.draftId,
                       survey: this.survey,
                       step: this.indicatorsArray.indexOf(item),
                       skipped: true

@@ -15,7 +15,7 @@ export class SocioEconomicQuestion extends Component {
     super(props)
 
     this.draft = props.drafts.filter(
-      draft => draft.draft_id === this.props.navigation.getParam('draft_id')
+      draft => draft.draftId === this.props.navigation.getParam('draftId')
     )[0]
 
     // If this is the first socio economics screen set the whole process
@@ -165,11 +165,11 @@ export class SocioEconomicQuestion extends Component {
             handleClick={() =>
               socioEconomics.currentScreen === socioEconomics.totalScreens
                 ? this.props.navigation.navigate('BeginLifemap', {
-                    draft_id: this.props.navigation.getParam('draft_id'),
+                    draftId: this.props.navigation.getParam('draftId'),
                     survey: this.props.navigation.getParam('survey')
                   })
                 : this.props.navigation.push('SocioEconomicQuestion', {
-                    draft_id: this.props.navigation.getParam('draft_id'),
+                    draftId: this.props.navigation.getParam('draftId'),
                     survey: this.props.navigation.getParam('survey'),
                     socioEconomics: {
                       currentScreen: socioEconomics.currentScreen + 1,

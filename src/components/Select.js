@@ -121,7 +121,6 @@ const styles = StyleSheet.create({
   },
   label: {
     ...globalStyles.subline,
-
     paddingHorizontal: 25,
     marginTop: 25,
     marginBottom: -25,

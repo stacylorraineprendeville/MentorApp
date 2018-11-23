@@ -10,14 +10,14 @@ import Button from '../../components/Button'
 import Select from '../../components/Select'
 
 export class FamilyMembersGender extends Component {
-  draft_id = this.props.navigation.getParam('draft_id')
+  draftId = this.props.navigation.getParam('draftId')
   survey = this.props.navigation.getParam('survey')
 
   state = { errorsDetected: [] }
 
   handleClick() {
     this.props.navigation.navigate('FamilyMembersBirthdates', {
-      draft_id: this.draft_id,
+      draftId: this.draftId,
       survey: this.survey
     })
   }
@@ -41,7 +41,7 @@ export class FamilyMembersGender extends Component {
 
   addFamilyMemberGender(gender, list, i) {
     list[i].gender = gender
-    this.props.addSurveyData(this.draft_id, 'family_data', {
+    this.props.addSurveyData(this.draftId, 'family_data', {
       familyMembersList: list
     })
   }
@@ -49,7 +49,7 @@ export class FamilyMembersGender extends Component {
   gender = this.survey.surveyPersonalQuestions.filter(item => item.id === 22)[0]
   render() {
     const draft = this.props.drafts.filter(
-      draft => draft.draft_id === this.draft_id
+      draft => draft.draftId === this.draftId
     )[0]
 
     return (

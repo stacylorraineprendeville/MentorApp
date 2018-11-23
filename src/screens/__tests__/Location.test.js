@@ -26,15 +26,15 @@ global.fetch = () => new Promise(() => {})
 const createTestProps = props => ({
   navigation: {
     navigate: jest.fn(),
-    getParam: param => (param === 'draft_id' ? 2 : { survey_id: 100 })
+    getParam: param => (param === 'draftId' ? 2 : { surveyId: 100 })
   },
   addSurveyData: jest.fn(),
   drafts: [
     {
-      draft_id: 1
+      draftId: 1
     },
     {
-      draft_id: 2,
+      draftId: 2,
       personal_survey_data: {}
     }
   ],
@@ -137,7 +137,7 @@ describe('Family Location component', () => {
 
     expect(wrapper.instance().props.navigation.navigate).toHaveBeenCalledWith(
       'SocioEconomicQuestion',
-      { draft_id: 2, survey: { survey_id: 100 } }
+      { draftId: 2, survey: { surveyId: 100 } }
     )
   })
   it('detects errors', () => {
