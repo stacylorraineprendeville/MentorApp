@@ -4,7 +4,7 @@ import { SocioEconomicQuestion } from '../lifemap/SocioEconomicQuestion'
 import Select from '../../components/Select'
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
-import data from '../../fake-socio-economic-data.json'
+import data from '../__mocks__/fake-socio-economic-data.json'
 
 const createTestProps = props => ({
   navigation: {
