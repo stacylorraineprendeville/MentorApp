@@ -14,10 +14,6 @@ export class SocioEconomicQuestion extends Component {
   constructor(props) {
     super(props)
 
-    this.draft = props.drafts.filter(
-      draft => draft.draftId === this.props.navigation.getParam('draftId')
-    )[0]
-
     // If this is the first socio economics screen set the whole process
     // in the navigation. On every next screen it will know which questions
     // to ask and if it is done.
@@ -62,6 +58,12 @@ export class SocioEconomicQuestion extends Component {
   }
 
   render() {
+    const draft = this.props.drafts.filter(
+      draft => draft.draftId === this.props.navigation.getParam('draftId')
+    )[0]
+
+    console.log(draft)
+
     const socioEconomics = this.props.navigation.getParam('socioEconomics')
     return (
       <ScrollView
@@ -81,10 +83,9 @@ export class SocioEconomicQuestion extends Component {
               question.answerType === 'select' ? (
                 <View key={question.questionText}>
                   {question.forFamilyMember &&
-                    parseInt(this.draft.familyData.countFamilyMembers) >
-                      1 && (
+                    draft.familyData.countFamilyMembers > 1 && (
                       <Text style={styles.memberName}>
-                        {this.draft.personal_survey_data.firstName}
+                        {draft.personal_survey_data.firstName}
                       </Text>
                     )}
                   <Select
@@ -98,8 +99,8 @@ export class SocioEconomicQuestion extends Component {
                     data={question.options}
                   />
                   {question.forFamilyMember &&
-                    parseInt(this.draft.familyData.countFamilyMembers) > 1 &&
-                    this.draft.familyData.familyMembersList.map(member => (
+                    draft.familyData.countFamilyMembers > 1 &&
+                    draft.familyData.familyMembersList.map(member => (
                       <View key={member.firstName}>
                         <Text style={styles.memberName}>
                           {member.firstName}
@@ -120,10 +121,9 @@ export class SocioEconomicQuestion extends Component {
               ) : (
                 <View key={question.questionText}>
                   {question.forFamilyMember &&
-                    parseInt(this.draft.familyData.countFamilyMembers) >
-                      1 && (
+                    draft.familyData.countFamilyMembers > 1 && (
                       <Text style={styles.memberName}>
-                        {this.draft.personal_survey_data.firstName}
+                        {draft.personal_survey_data.firstName}
                       </Text>
                     )}
                   <TextInput
@@ -135,8 +135,8 @@ export class SocioEconomicQuestion extends Component {
                     detectError={this.detectError}
                   />
                   {question.forFamilyMember &&
-                    parseInt(this.draft.familyData.countFamilyMembers) > 1 &&
-                    this.draft.familyData.familyMembersList.map(member => (
+                    draft.familyData.countFamilyMembers > 1 &&
+                    draft.familyData.familyMembersList.map(member => (
                       <View key={member.firstName}>
                         <Text style={styles.memberName}>
                           {member.firstName}

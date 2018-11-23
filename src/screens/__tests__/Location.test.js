@@ -35,7 +35,23 @@ const createTestProps = props => ({
     },
     {
       draftId: 2,
-      personal_survey_data: {}
+      surveyId: 1,
+      economicSurveyDataList: [],
+      indicatorSurveyDataList: [],
+      familyData: {
+        countFamilyMembers: 2,
+        familyMembersList: [
+          {
+            firstName: 'Juan',
+            lastName: 'Perez'
+          },
+          {
+            firstName: 'Ana',
+            gender: 'F',
+            birthDate: 1515708000
+          }
+        ]
+      }
     }
   ],
   ...props
@@ -99,9 +115,9 @@ describe('Family Location component', () => {
   })
   it('edits draft in field change', () => {
     wrapper
-      .find('#postcode')
+      .find('#postalCode')
       .props()
-      .onChangeText('123', 'postcode')
+      .onChangeText('123', 'postalCode')
 
     wrapper
       .find('#houseDescription')

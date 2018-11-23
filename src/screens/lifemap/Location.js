@@ -21,15 +21,13 @@ export class Location extends Component {
     latitude: null,
     longitude: null,
     accuracy: null,
-    postcode: '',
-    houseDescription: '',
     searchAddress: '',
     errorsDetected: []
   }
   addSurveyData = (text, field) => {
     this.props.addSurveyData(
       this.props.navigation.getParam('draftId'),
-      'personal_survey_data',
+      'familyData',
       {
         [field]: text
       }
@@ -39,7 +37,7 @@ export class Location extends Component {
     if (!draft) {
       return
     }
-    return draft.personal_survey_data[field]
+    return draft.familyData[field]
   }
   getDeviceLocation() {
     navigator.geolocation.getCurrentPosition(
@@ -96,6 +94,17 @@ export class Location extends Component {
       })
     }
   }
+  handleClick = () => {
+    this.addSurveyData(this.state.latitude, 'latitude')
+    this.addSurveyData(this.state.longitude, 'longitude')
+    this.addSurveyData(this.state.accuracy, 'accuracy')
+
+    this.props.navigation.navigate('SocioEconomicQuestion', {
+      draftId: this.props.navigation.getParam('draftId'),
+      survey: this.props.navigation.getParam('survey')
+    })
+  }
+
   render() {
     const {
       latitude,
@@ -172,10 +181,10 @@ export class Location extends Component {
             detectError={this.detectError}
           />
           <TextInput
-            id="postcode"
+            id="postalCode"
             onChangeText={this.addSurveyData}
-            field="postcode"
-            value={this.getFieldValue(draft, 'postcode') || ''}
+            field="postalCode"
+            value={this.getFieldValue(draft, 'postalCode') || ''}
             placeholder="Postcode"
             detectError={this.detectError}
           />
@@ -195,12 +204,7 @@ export class Location extends Component {
             disabled={!!errorsDetected.length}
             colored
             text="Continue"
-            handleClick={() =>
-              this.props.navigation.navigate('SocioEconomicQuestion', {
-                draftId: this.props.navigation.getParam('draftId'),
-                survey: this.props.navigation.getParam('survey')
-              })
-            }
+            handleClick={this.handleClick}
           />
         </View>
       </ScrollView>
