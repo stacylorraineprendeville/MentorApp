@@ -38,10 +38,7 @@ class Select extends Component {
     const { errorMsg } = this.state
     return (
       <View>
-        <Text
-          numberOfLines={2}
-          style={this.props.value ? styles.label : styles.labelNoValue}
-        >
+        <Text style={this.props.value ? styles.label : styles.labelNoValue}>
           {`${this.props.label} ${this.props.required ? '*' : ''}`}
         </Text>
         <View

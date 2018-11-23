@@ -1,4 +1,3 @@
-import DraftView from '../../screens/lifemap/Draft'
 import TermsView from '../../screens/lifemap/Terms'
 import SocioEconomicQuestionView from '../../screens/lifemap/SocioEconomicQuestion'
 import FinalView from '../../screens/lifemap/Final'
@@ -13,13 +12,6 @@ import { generateNavOptions } from './helpers'
 
 // Reusable object for all screens related to a draft
 export default {
-  Draft: {
-    screen: DraftView,
-    navigationOptions: ({ navigation }) => ({
-      title: 'Your Life Map',
-      ...generateNavOptions({ navigation, headerLeft: false })
-    })
-  },
   Terms: {
     screen: TermsView,
     navigationOptions: ({ navigation }) => ({
