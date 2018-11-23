@@ -26,7 +26,7 @@ export class FamilyMembersBirthdates extends Component {
     if (!draft) {
       return
     }
-    return draft.family_data[field]
+    return draft.familyData[field]
   }
 
   detectError = (error, field) => {
@@ -41,7 +41,7 @@ export class FamilyMembersBirthdates extends Component {
 
   addFamilyMemberBirthdate(birthDate, list, i) {
     list[i].birthDate = birthDate
-    this.props.addSurveyData(this.draftId, 'family_data', {
+    this.props.addSurveyData(this.draftId, 'familyData', {
       familyMembersList: list
     })
   }
@@ -57,7 +57,7 @@ export class FamilyMembersBirthdates extends Component {
         contentContainerStyle={styles.contentContainer}
       >
         <View style={{ ...globalStyles.container, padding: 0 }}>
-          {draft.family_data.familyMembersList.map((item, i) => (
+          {draft.familyData.familyMembersList.map((item, i) => (
             <View key={i}>
               <Text
                 style={{
@@ -75,7 +75,7 @@ export class FamilyMembersBirthdates extends Component {
                 onValidDate={date =>
                   this.addFamilyMemberBirthdate(
                     date,
-                    draft.family_data.familyMembersList,
+                    draft.familyData.familyMembersList,
                     i
                   )
                 }

@@ -81,7 +81,7 @@ export class SocioEconomicQuestion extends Component {
               question.answerType === 'select' ? (
                 <View key={question.questionText}>
                   {question.forFamilyMember &&
-                    parseInt(this.draft.family_data.countFamilyMembers) >
+                    parseInt(this.draft.familyData.countFamilyMembers) >
                       1 && (
                       <Text style={styles.memberName}>
                         {this.draft.personal_survey_data.firstName}
@@ -98,8 +98,8 @@ export class SocioEconomicQuestion extends Component {
                     data={question.options}
                   />
                   {question.forFamilyMember &&
-                    parseInt(this.draft.family_data.countFamilyMembers) > 1 &&
-                    this.draft.family_data.familyMembersList.map(member => (
+                    parseInt(this.draft.familyData.countFamilyMembers) > 1 &&
+                    this.draft.familyData.familyMembersList.map(member => (
                       <View key={member.firstName}>
                         <Text style={styles.memberName}>
                           {member.firstName}
@@ -120,7 +120,7 @@ export class SocioEconomicQuestion extends Component {
               ) : (
                 <View key={question.questionText}>
                   {question.forFamilyMember &&
-                    parseInt(this.draft.family_data.countFamilyMembers) >
+                    parseInt(this.draft.familyData.countFamilyMembers) >
                       1 && (
                       <Text style={styles.memberName}>
                         {this.draft.personal_survey_data.firstName}
@@ -135,8 +135,8 @@ export class SocioEconomicQuestion extends Component {
                     detectError={this.detectError}
                   />
                   {question.forFamilyMember &&
-                    parseInt(this.draft.family_data.countFamilyMembers) > 1 &&
-                    this.draft.family_data.familyMembersList.map(member => (
+                    parseInt(this.draft.familyData.countFamilyMembers) > 1 &&
+                    this.draft.familyData.familyMembersList.map(member => (
                       <View key={member.firstName}>
                         <Text style={styles.memberName}>
                           {member.firstName}

@@ -22,7 +22,7 @@ const createTestProps = props => ({
       economic_survey_data: {},
       indicator_survey_data: {},
       status: 'In progress',
-      family_data: {
+      familyData: {
         countFamilyMembers: '2',
         familyMembersList: [
           {

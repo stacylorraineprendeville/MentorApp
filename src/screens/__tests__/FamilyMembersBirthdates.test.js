@@ -29,7 +29,7 @@ const createTestProps = props => ({
       indicator_survey_data: {
         income: 'GREEN'
       },
-      family_data: {
+      familyData: {
         countFamilyMembers: 2,
         familyMembersList: [{ firstName: 'Demo', birthDate: 1515708000 }]
       }
