@@ -60,14 +60,17 @@ describe('Select dropdown', () => {
   it('shows a list of items from data prop if not a country select', () => {
     props = createTestProps({
       countrySelect: false,
-      data: ['item1', 'item2']
+      data: [
+        { text: 'Item 1', value: 'item1' },
+        { text: 'Item 2', value: 'item2' }
+      ]
     })
     wrapper = shallow(<Select {...props} />)
 
     expect(wrapper.find(Picker.Item)).toHaveLength(3)
     expect(wrapper.find(Picker.Item).last()).toHaveProp({
       value: 'item2',
-      label: 'item2'
+      label: 'Item 2'
     })
   })
 })

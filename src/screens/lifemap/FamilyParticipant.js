@@ -90,6 +90,12 @@ export class FamilyParticipant extends Component {
     })
   }
 
+  gender = this.survey.surveyPersonalQuestions.filter(item => item.id === 22)[0]
+
+  documentType = this.survey.surveyPersonalQuestions.filter(
+    item => item.id === 29
+  )[0]
+
   render() {
     const draft = this.props.drafts.filter(
       draft => draft.draft_id === this.draft_id
@@ -105,6 +111,7 @@ export class FamilyParticipant extends Component {
 
     const isButtonEnabled =
       !emptyRequiredFields.length && !this.state.errorsDetected.length
+
     return (
       <ScrollView
         style={globalStyles.background}
@@ -144,7 +151,7 @@ export class FamilyParticipant extends Component {
             field="gender"
             value={this.getFieldValue(draft, 'gender') || ''}
             detectError={this.detectError}
-            data={this.survey.survey_schema.properties.gender.enumNames}
+            data={this.gender.options}
           />
 
           <DateInput
@@ -163,19 +170,11 @@ export class FamilyParticipant extends Component {
             field="document"
             value={this.getFieldValue(draft, 'document') || ''}
             detectError={this.detectError}
-            data={[
-              'Passport',
-              'Driver license',
-              'National ID card',
-              'State ID card',
-              'Permanent resident card number',
-              'Organization-assigned number'
-            ]}
+            data={this.documentType.options}
           />
           <TextInput
             onChangeText={this.addSurveyData}
             field="documentNumber"
-            validation="string"
             required
             value={this.getFieldValue(draft, 'documentNumber')}
             placeholder="Document number"

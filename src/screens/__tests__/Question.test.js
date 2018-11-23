@@ -27,7 +27,7 @@ describe('Question View', () => {
   beforeEach(() => {
     const props = createTestProps()
     wrapper = shallow(<Question {...props} />)
-    survey.survey_schema.required = []
+    survey.surveyStoplightQuestions[0].required = false
   })
   describe('rendering', () => {
     it('renders ScrollView', () => {
@@ -63,13 +63,13 @@ describe('Question View', () => {
         .onIconPress()
 
       expect(spy).toHaveBeenCalledTimes(1)
-      expect(spy).toHaveBeenCalledWith('NONE')
+      expect(spy).toHaveBeenCalledWith(0)
     })
     it('renders CheckBox when indicator is not required', () => {
       expect(wrapper.find(Checkbox)).toHaveLength(1)
     })
     it('renders Text when indicator is required', () => {
-      survey.survey_schema.required = ['phone']
+      survey.surveyStoplightQuestions[0].required = true
       const props = createTestProps()
       wrapper = shallow(<Question {...props} />)
       expect(wrapper.find(Checkbox)).toHaveLength(0)
@@ -80,42 +80,5 @@ describe('Question View', () => {
 const survey = {
   id: 1,
   title: 'Test survey 1',
-  survey_ui_schema: { 'ui:group:indicators': ['phone'] },
-  survey_schema: {
-    properties: {
-      phone: {
-        title: {
-          es: 'Cuenta con teléfono o celular?'
-        },
-        items: {
-          enum: [
-            {
-              url: 'https://s3.us-east-2.amazonaws.com/fp-psp-images/25-3.jpg',
-              value: 'GREEN',
-              description:
-                'La familia cuenta con servicio de telefonía fija o celular disponible de manera constante.'
-            },
-            {
-              url: 'https://s3.us-east-2.amazonaws.com/fp-psp-images/25-2.jpg',
-              value: 'YELLOW',
-              description:
-                'La familia cuenta con servicio de telefonía fija o celular, pero puede utilizarlo solamente parte del tiempo.'
-            },
-            {
-              url: 'https://s3.us-east-2.amazonaws.com/fp-psp-images/25-1.jpg',
-              value: 'RED',
-              description:
-                'La familia no cuenta con servicio de telefonía (ni celular ni fija).'
-            },
-            {
-              url: 'NONE',
-              value: 'NONE',
-              description: ''
-            }
-          ]
-        }
-      }
-    },
-    required: []
-  }
+  surveyStoplightQuestions: [{ stoplightColors: [], required: false }]
 }
