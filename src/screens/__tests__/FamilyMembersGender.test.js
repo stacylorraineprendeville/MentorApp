@@ -42,7 +42,6 @@ const createTestProps = props => ({
       draftId: 4,
       surveyId: 1,
       economicSurveyDataList: [],
-
       indicatorSurveyDataList: [],
       familyData: {
         countFamilyMembers: 2,

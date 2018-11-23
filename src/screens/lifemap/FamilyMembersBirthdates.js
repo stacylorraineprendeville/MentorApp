@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { addSurveyData } from '../../redux/actions'
+import { addSurveyFamilyMemberData } from '../../redux/actions'
 
 import globalStyles from '../../globalStyles'
 import Button from '../../components/Button'
@@ -39,10 +39,13 @@ export class FamilyMembersBirthdates extends Component {
     }
   }
 
-  addFamilyMemberBirthdate(birthDate, list, i) {
-    list[i].birthDate = birthDate
-    this.props.addSurveyData(this.draftId, 'familyData', {
-      familyMembersList: list
+  addFamilyMemberBirthdate(birthDate, index) {
+    this.props.addSurveyFamilyMemberData({
+      id: this.draftId,
+      index,
+      payload: {
+        birthDate
+      }
     })
   }
 
@@ -57,7 +60,7 @@ export class FamilyMembersBirthdates extends Component {
         contentContainerStyle={styles.contentContainer}
       >
         <View style={{ ...globalStyles.container, padding: 0 }}>
-          {draft.familyData.familyMembersList.map((item, i) => (
+          {draft.familyData.familyMembersList.slice(1).map((item, i) => (
             <View key={i}>
               <Text
                 style={{
@@ -72,15 +75,9 @@ export class FamilyMembersBirthdates extends Component {
               <DateInput
                 field={i.toString()}
                 detectError={this.detectError}
-                onValidDate={date =>
-                  this.addFamilyMemberBirthdate(
-                    date,
-                    draft.familyData.familyMembersList,
-                    i
-                  )
-                }
+                onValidDate={date => this.addFamilyMemberBirthdate(date, i + 1)}
                 value={
-                  (this.getFieldValue(draft, 'familyMembersList')[i] || {})
+                  (this.getFieldValue(draft, 'familyMembersList')[i + 1] || {})
                     .birthDate
                 }
               />
@@ -111,11 +108,11 @@ const styles = StyleSheet.create({
 FamilyMembersBirthdates.propTypes = {
   drafts: PropTypes.array,
   navigation: PropTypes.object.isRequired,
-  addSurveyData: PropTypes.func.isRequired
+  addSurveyFamilyMemberData: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = {
-  addSurveyData
+  addSurveyFamilyMemberData
 }
 
 const mapStateToProps = ({ drafts }) => ({
