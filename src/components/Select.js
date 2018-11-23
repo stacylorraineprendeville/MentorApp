@@ -38,7 +38,10 @@ class Select extends Component {
     const { errorMsg } = this.state
     return (
       <View>
-        <Text style={this.props.value ? styles.label : styles.labelNoValue}>
+        <Text
+          numberOfLines={2}
+          style={this.props.value ? styles.label : styles.labelNoValue}
+        >
           {`${this.props.label} ${this.props.required ? '*' : ''}`}
         </Text>
         <View
@@ -58,19 +61,19 @@ class Select extends Component {
 
             {this.props.countrySelect
               ? countryList
-                .array()
-                .map(country => (
-                  <Picker.Item
-                    key={country.code}
-                    label={country.label}
-                    value={country.code}
-                    color={colors.grey}
-                  />
-                ))
+                  .array()
+                  .map(country => (
+                    <Picker.Item
+                      key={country.code}
+                      label={country.label}
+                      value={country.code}
+                      color={colors.grey}
+                    />
+                  ))
               : this.props.data.map(item => (
-                <Picker.Item
-                  key={item}
-                  label={item.text}
+                  <Picker.Item
+                    key={item}
+                    label={item.text}
                     value={item.value}
                     color={colors.grey}
                   />

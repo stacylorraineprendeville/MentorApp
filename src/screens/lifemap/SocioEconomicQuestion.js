@@ -6,10 +6,8 @@ import TextInput from '../../components/TextInput'
 import Select from '../../components/Select'
 import Button from '../../components/Button'
 import globalStyles from '../../globalStyles'
-import data from '../../fake-socio-economic-data.json'
 
 export class SocioEconomicQuestion extends Component {
-  data = data
   state = {
     errorsDetected: []
   }
@@ -27,18 +25,21 @@ export class SocioEconomicQuestion extends Component {
       let currentDimension = ''
       let questionsPerScreen = []
       let totalScreens = 0
-      data.surveyEconomicQuestions.forEach(question => {
-        if (question.dimension !== currentDimension) {
-          currentDimension = question.dimension
-          totalScreens += 1
-        }
 
-        if (!questionsPerScreen[totalScreens - 1]) {
-          questionsPerScreen[totalScreens - 1] = []
-        }
+      props.navigation
+        .getParam('survey')
+        .surveyEconomicQuestions.forEach(question => {
+          if (question.dimension !== currentDimension) {
+            currentDimension = question.dimension
+            totalScreens += 1
+          }
 
-        questionsPerScreen[totalScreens - 1].push(question)
-      })
+          if (!questionsPerScreen[totalScreens - 1]) {
+            questionsPerScreen[totalScreens - 1] = []
+          }
+
+          questionsPerScreen[totalScreens - 1].push(question)
+        })
 
       props.navigation.setParams({
         socioEconomics: {

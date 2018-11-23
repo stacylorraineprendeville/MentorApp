@@ -4,12 +4,13 @@ import { SocioEconomicQuestion } from '../lifemap/SocioEconomicQuestion'
 import Select from '../../components/Select'
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
+import data from '../../fake-socio-economic-data.json'
 
 const createTestProps = props => ({
   navigation: {
     navigate: jest.fn(),
     push: jest.fn(),
-    getParam: () => null,
+    getParam: param => (param === 'survey' ? data : null),
     setParams: jest.fn()
   },
   drafts: [

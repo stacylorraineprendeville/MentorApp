@@ -39,8 +39,8 @@ export class Dashboard extends Component {
       title: this.props.t('views.dashboard')
     })
   componentDidMount() {
-    AsyncStorage.getItem('userVisitedDashboard').then(
-      value => (value === 'false' ? this.loadData() : null)
+    AsyncStorage.getItem('userVisitedDashboard').then(value =>
+      value === 'false' ? this.loadData() : null
     )
     AsyncStorage.setItem('userVisitedDashboard', 'true')
     this.detectSlowLoading()
@@ -118,14 +118,10 @@ export class Dashboard extends Component {
                 renderItem={({ item }) => (
                   <DraftListItem
                     item={item}
-                    handleClick={
-                      () =>
-                      navigation.navigate('SocioEconomicQuestion', {
-                        draft_id: item.draft_id
-                      })
-                      // navigation.navigate('FamilyParticipant', {
-                    //   draft: item.draft_id
-                    // })
+                    handleClick={() =>
+                      navigation.navigate('FamilyParticipant', {
+                        draft: item.draft_id
+                    })
                   }
                 />
               )}
