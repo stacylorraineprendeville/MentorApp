@@ -57,7 +57,7 @@ const createTestProps = props => ({
         income: 'GREEN'
       },
       family_data: {
-        count_family_members: 2,
+        countFamilyMembers: 2,
         familyMembersList: [{ firstName: 'Demo', gender: 'Male' }]
       }
     }

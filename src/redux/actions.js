@@ -111,7 +111,7 @@ export const deleteDraft = id => ({
   id
 })
 
-export const addSurveyFamilyMembeData = ({
+export const addSurveyFamilyMemberData = ({
   id,
   index,
   payload,

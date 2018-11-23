@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { ScrollView, Text } from 'react-native'
+import { ScrollView } from 'react-native'
 import { FamilyMembersNames } from '../lifemap/FamilyMembersNames'
 
 import Button from '../../components/Button'
@@ -16,27 +16,34 @@ const createTestProps = props => ({
     {
       draftId: 4,
       surveyId: 1,
-      personal_survey_data: {
-        firstName: 'Jane',
-        lastName: 'Doe',
-        documentNumber: '5468568',
-        email: 'jane@doe.com',
-        phone: '40965035',
-        gender: 'F'
-      },
-      economic_survey_data: {
-        familyCar: 'Yes'
-      },
-      indicator_survey_data: {
-        income: 'GREEN'
-      },
-      family_data: {
-        count_family_members: 2,
-        familyMembersList: [{ firstName: 'Demo' }]
+      economicSurveyDataList: [
+        { key: 'educationPersonMostStudied', value: 'SCHOOL-COMPLETE' },
+        { key: 'receiveStateIncome', value: 'NO' },
+        { key: 'currency', value: 'GBP/Pound Sterling' },
+        { key: 'areaOfResidence', value: 'URBAN' }
+      ],
+
+      indicatorSurveyDataList: [
+        { key: 'insurance', value: 1 },
+        { key: 'entertainmentAndRecreation', value: 3 },
+        { key: 'stableHousing', value: 2 }
+      ],
+      familyData: {
+        countFamilyMembers: 2,
+        familyMembersList: [
+          {
+            firstName: 'Juan',
+            lastName: 'Perez'
+          },
+          {
+            firstName: 'Ana'
+          }
+        ]
       }
     }
   ],
   addSurveyData: jest.fn(),
+  addSurveyFamilyMemberData: jest.fn(),
   ...props
 })
 
@@ -75,7 +82,7 @@ describe('FamilyMembersNames View', () => {
     })
   })
   it('gives Select the proper value', () => {
-    expect(wrapper.find(Select).props().value).toBe('2')
+    expect(wrapper.find(Select).props().value).toBe(2)
   })
   it('makes first TextInput is readonly', () => {
     expect(
@@ -91,7 +98,7 @@ describe('FamilyMembersNames View', () => {
         .find(TextInput)
         .first()
         .props().value
-    ).toBe('Jane')
+    ).toBe('Juan')
   })
   it('gets second Input value from draft', () => {
     expect(
@@ -99,7 +106,7 @@ describe('FamilyMembersNames View', () => {
         .find(TextInput)
         .last()
         .props().value
-    ).toBe('Demo')
+    ).toBe('Ana')
   })
 
   it('calls addFamilyMemberName on input change', () => {
@@ -121,18 +128,25 @@ describe('FamilyMembersNames View', () => {
         .props().disabled
     ).toBe(false)
   })
-  it('disables Button when to count is selected', () => {
+  it('disables Button when no count is selected', () => {
     const props = createTestProps({
       drafts: [
         {
           draftId: 4,
-          personal_survey_data: {
-            firstName: 'Jane'
-          },
-
-          family_data: {
-            count_family_members: '',
-            familyMembersList: [{ firstName: 'Demo' }]
+          familyData: {
+            familyMembersList: [
+              {
+                firstName: 'Juan',
+                lastName: 'Perez',
+                socioEconomicAnswers: [
+                  {
+                    key: 'educationPersonMostStudied',
+                    value: 'SCHOOL-COMPLETE'
+                  },
+                  { key: 'receiveStateIncome', value: 'NO' }
+                ]
+              }
+            ]
           }
         }
       ]
@@ -153,9 +167,16 @@ describe('FamilyMembersNames View', () => {
           personal_survey_data: {
             firstName: 'Jane'
           },
-          family_data: {
-            count_family_members: 2,
-            familyMembersList: [{ firstName: '' }]
+          familyData: {
+            countFamilyMembers: 2,
+            familyMembersList: [
+              {
+                firstName: 'Juan'
+              },
+              {
+                firstName: ''
+              }
+            ]
           }
         }
       ]

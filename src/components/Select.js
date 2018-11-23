@@ -94,7 +94,7 @@ Select.propTypes = {
   onChange: PropTypes.func.isRequired,
   data: PropTypes.array,
   label: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   placeholder: PropTypes.string.isRequired,
   field: PropTypes.string,
   countrySelect: PropTypes.bool,

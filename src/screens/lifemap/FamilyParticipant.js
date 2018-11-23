@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView, View } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import uuid from 'uuid/v1'
-import { createDraft, addSurveyFamilyMembeData } from '../../redux/actions'
+import { createDraft, addSurveyFamilyMemberData } from '../../redux/actions'
 
 import Select from '../../components/Select'
 import Button from '../../components/Button'
@@ -88,7 +88,7 @@ export class FamilyParticipant extends Component {
   }
 
   addSurveyData = (text, field) => {
-    this.props.addSurveyFamilyMembeData({
+    this.props.addSurveyFamilyMemberData({
       id: this.draftId,
       index: 0,
       payload: {
@@ -242,12 +242,12 @@ FamilyParticipant.propTypes = {
   drafts: PropTypes.array.isRequired,
   navigation: PropTypes.object.isRequired,
   createDraft: PropTypes.func.isRequired,
-  addSurveyFamilyMembeData: PropTypes.func.isRequired
+  addSurveyFamilyMemberData: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = {
   createDraft,
-  addSurveyFamilyMembeData
+  addSurveyFamilyMemberData
 }
 
 const mapStateToProps = ({ surveys, drafts }) => ({
