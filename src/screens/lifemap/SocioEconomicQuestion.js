@@ -117,8 +117,6 @@ export class SocioEconomicQuestion extends Component {
       draft => draft.draftId === this.props.navigation.getParam('draftId')
     )[0]
 
-    console.log(draft)
-
     const socioEconomics = this.props.navigation.getParam('socioEconomics')
 
     return (

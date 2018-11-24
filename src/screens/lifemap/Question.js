@@ -25,7 +25,7 @@ export class Question extends Component {
   slides = this.indicator.stoplightColors
 
   selectAnswer(answer) {
-    this.props.addSurveyData(this.draftId, 'indicator_survey_data', {
+    this.props.addSurveyData(this.draftId, 'indicatorSurveyDataList', {
       [this.indicator.questionText]: answer
     })
 
@@ -95,9 +95,7 @@ Question.propTypes = {
   navigation: PropTypes.object.isRequired
 }
 
-const mapStateToProps = ({ drafts }) => ({
-  drafts
-})
+const mapStateToProps = () => ({})
 
 const mapDispatchToProps = {
   addSurveyData

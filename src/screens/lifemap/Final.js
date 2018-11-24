@@ -26,7 +26,7 @@ export class Final extends Component {
     checkedBoxes: []
   }
   getSkippedQuestions = draft => {
-    const answers = draft.indicator_survey_data
+    const answers = draft.indicatorSurveyDataList
     return Object.keys(answers).filter(key => answers[key] == 0)
   }
 
@@ -114,7 +114,7 @@ export class Final extends Component {
                 You have completed the lifemap
               </Text>
               <RoundImage source="partner" />
-              <LifemapVisual data={draft.indicator_survey_data} />
+              <LifemapVisual data={draft.indicatorSurveyDataList} />
             </View>
             <View style={{ height: 50 }}>
               <Button

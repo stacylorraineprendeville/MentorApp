@@ -37,7 +37,7 @@ describe('Skipped Questions View when questions are skipped', () => {
       drafts: [
         {
           draftId: 1,
-          indicator_survey_data: { phone: 0, education: 3 }
+          indicatorSurveyDataList: { phone: 0, education: 3 }
         }
       ]
     })
@@ -86,7 +86,7 @@ describe('Final Lifemap View when no questions are skipped', () => {
       drafts: [
         {
           draftId: 1,
-          indicator_survey_data: { phone: 3, education: 1 }
+          indicatorSurveyDataList: { phone: 3, education: 1 }
         }
       ]
     })
