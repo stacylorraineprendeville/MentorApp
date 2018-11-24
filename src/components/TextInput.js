@@ -18,7 +18,10 @@ class TextInput extends Component {
 
   onChangeText(text) {
     this.setState({ text })
-    this.props.onChangeText(text, this.props.field)
+  }
+
+  onEndEditing = () => {
+    this.props.onChangeText(this.state.text, this.props.field)
   }
 
   onFocus() {
@@ -132,6 +135,7 @@ class TextInput extends Component {
               : ''
           }
           onChangeText={text => this.onChangeText(text)}
+          onEndEditing={this.onEndEditing}
           inputStyle={{
             ...styles.inputStyle,
             ...styles[status],

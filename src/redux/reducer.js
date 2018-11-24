@@ -89,7 +89,7 @@ export const drafts = (state = [], action) => {
           if (Array.isArray(draftCategory)) {
             // if category is an Array
             const item = draftCategory.filter(
-              item => item.key === action.payload.key
+              item => item.key === Object.keys(action.payload)[0]
             )[0]
 
             if (item) {
@@ -143,7 +143,7 @@ export const drafts = (state = [], action) => {
             if (familyMember.socioEconomicAnswers) {
               // if its a socio economic edition
               const item = familyMember.socioEconomicAnswers.filter(
-                item => item.key === action.payload.key
+                item => item.key === Object.keys(action.payload)[0]
               )[0]
 
               if (item) {

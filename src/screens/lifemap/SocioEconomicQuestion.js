@@ -77,16 +77,30 @@ export class SocioEconomicQuestion extends Component {
     })
   }
   getFieldValue = (draft, field) => {
-    if (!draft) {
+    if (
+      !draft ||
+      !draft.economicSurveyDataList.filter(item => item.key === field)[0]
+    ) {
       return
     }
-    return draft.familyData[field]
+
+    return draft.economicSurveyDataList.filter(item => item.key === field)[0]
+      .value
   }
   getFamilyMemberFieldValue = (draft, field, index) => {
-    if (!draft) {
+    if (
+      !draft ||
+      !draft.familyData.familyMembersList[index].socioEconomicAnswers ||
+      !draft.familyData.familyMembersList[index].socioEconomicAnswers.filter(
+        item => item.key === field
+      )[0]
+    ) {
       return
     }
-    return draft.familyData.familyMembersList[index][field]
+
+    return draft.familyData.familyMembersList[
+      index
+    ].socioEconomicAnswers.filter(item => item.key === field)[0].value
   }
   detectError = (error, field) => {
     if (error && !this.state.errorsDetected.includes(field)) {
@@ -102,6 +116,8 @@ export class SocioEconomicQuestion extends Component {
     const draft = this.props.drafts.filter(
       draft => draft.draftId === this.props.navigation.getParam('draftId')
     )[0]
+
+    console.log(draft)
 
     const socioEconomics = this.props.navigation.getParam('socioEconomics')
 
