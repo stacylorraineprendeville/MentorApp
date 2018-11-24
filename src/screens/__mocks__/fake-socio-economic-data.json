@@ -6,6 +6,7 @@
       "dimension": "Family details",
       "required": true,
       "forFamilyMember": false,
+      "codeName": 1,
       "options": [
         { "value": "PHYSICAL", "text": "Phisical" },
         { "value": "MENTAL", "text": "Mental" },
@@ -21,6 +22,7 @@
       "answerType": "select",
       "dimension": "Family details",
       "required": false,
+      "codeName": 2,
       "forFamilyMember": false,
       "options": [
         { "value": "OWNER", "text": "Owner" },
@@ -37,6 +39,7 @@
       "questionText": "What is your highest educational level?",
       "answerType": "select",
       "dimension": "Education",
+      "codeName": 3,
       "required": true,
       "forFamilyMember": true,
       "options": [
@@ -52,6 +55,7 @@
       "answerType": "select",
       "dimension": "Income",
       "required": true,
+      "codeName": 4,
       "forFamilyMember": false,
       "options": [
         { "value": "EMPLOYED", "text": "Employed" },
@@ -65,6 +69,7 @@
       "questionText": "Please estimate your gross monthly household income (i.e, before taxes National Insurance contributions or other deductions)",
       "answerType": "text",
       "dimension": "Income",
+      "codeName": 5,
       "required": true,
       "forFamilyMember": false,
       "options": []
@@ -73,6 +78,7 @@
       "questionText": "Do you receive any state income. (e.g. allowances, benefits, disability, pension)?",
       "answerType": "select",
       "dimension": "Income",
+      "codeName": 6,
       "required": false,
       "forFamilyMember": false,
       "options": [

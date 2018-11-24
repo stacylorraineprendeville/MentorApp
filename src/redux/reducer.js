@@ -140,43 +140,72 @@ export const drafts = (state = [], action) => {
           const familyMember = draft.familyData.familyMembersList[action.index]
 
           if (action.isSocioEconomicAnswer) {
-            // if its a socio economic edition
-            const item = familyMember.socioEconomicAnswers.filter(
-              item => item.key === action.payload.key
-            )[0]
+            if (familyMember.socioEconomicAnswers) {
+              // if its a socio economic edition
+              const item = familyMember.socioEconomicAnswers.filter(
+                item => item.key === action.payload.key
+              )[0]
 
-            if (item) {
-              // if updating an existing answer
-              const index = familyMember.socioEconomicAnswers.indexOf(item)
+              if (item) {
+                // if updating an existing answer
+                const index = familyMember.socioEconomicAnswers.indexOf(item)
 
-              return {
-                ...draft,
-                familyData: {
-                  ...draft.familyData,
-                  familyMembersList: [
-                    ...draft.familyData.familyMembersList.slice(
-                      0,
-                      action.index
-                    ),
-                    {
-                      ...familyMember,
-                      socioEconomicAnswers: [
-                        ...familyMember.socioEconomicAnswers.slice(0, index),
-                        {
-                          key: Object.keys(action.payload)[0],
-                          value: Object.values(action.payload)[0]
-                        },
-                        ...familyMember.socioEconomicAnswers.slice(index + 1)
-                      ]
-                    },
-                    ...draft.familyData.familyMembersList.slice(
-                      action.index + 1
-                    )
-                  ]
+                return {
+                  ...draft,
+                  familyData: {
+                    ...draft.familyData,
+                    familyMembersList: [
+                      ...draft.familyData.familyMembersList.slice(
+                        0,
+                        action.index
+                      ),
+                      {
+                        ...familyMember,
+                        socioEconomicAnswers: [
+                          ...familyMember.socioEconomicAnswers.slice(0, index),
+                          {
+                            key: Object.keys(action.payload)[0],
+                            value: Object.values(action.payload)[0]
+                          },
+                          ...familyMember.socioEconomicAnswers.slice(index + 1)
+                        ]
+                      },
+                      ...draft.familyData.familyMembersList.slice(
+                        action.index + 1
+                      )
+                    ]
+                  }
+                }
+              } else {
+                // if adding a new answer
+                return {
+                  ...draft,
+                  familyData: {
+                    ...draft.familyData,
+                    familyMembersList: [
+                      ...draft.familyData.familyMembersList.slice(
+                        0,
+                        action.index
+                      ),
+                      {
+                        ...familyMember,
+                        socioEconomicAnswers: [
+                          ...familyMember.socioEconomicAnswers,
+                          {
+                            key: Object.keys(action.payload)[0],
+                            value: Object.values(action.payload)[0]
+                          }
+                        ]
+                      },
+                      ...draft.familyData.familyMembersList.slice(
+                        action.index + 1
+                      )
+                    ]
+                  }
                 }
               }
             } else {
-              // if adding a new answer
+              // adding socioEconomicAnswers for the first time
               return {
                 ...draft,
                 familyData: {
@@ -189,7 +218,6 @@ export const drafts = (state = [], action) => {
                     {
                       ...familyMember,
                       socioEconomicAnswers: [
-                        ...familyMember.socioEconomicAnswers,
                         {
                           key: Object.keys(action.payload)[0],
                           value: Object.values(action.payload)[0]

@@ -13,34 +13,30 @@ const createTestProps = props => ({
     getParam: param => (param === 'survey' ? data : null),
     setParams: jest.fn()
   },
+  addSurveyData: jest.fn(),
+  addSurveyFamilyMemberData: jest.fn(),
   drafts: [
     {
+      draftId: 1
+    },
+    {
+      draftId: 2,
       surveyId: 1,
-      survey_version_id: 19,
-      created: 1542801890805,
-      draftId: 1,
-      economic_survey_data: {},
-      indicator_survey_data: {},
-      status: 'In progress',
+      economicSurveyDataList: [],
+      indicatorSurveyDataList: [],
       familyData: {
-        countFamilyMembers: '2',
+        countFamilyMembers: 2,
         familyMembersList: [
           {
-            firstName: 'man',
-            gender: 'Male',
-            birthDate: 418078800
+            firstName: 'Juan',
+            lastName: 'Perez'
+          },
+          {
+            firstName: 'Ana',
+            gender: 'F',
+            birthDate: 1515708000
           }
         ]
-      },
-      personal_survey_data: {
-        firstName: 'dan',
-        lastName: 'man',
-        gender: 'Male',
-        dateOfBirth: 324334800,
-        document: 'Permanent resident card number',
-        documentNumber: 'asdggasddsa',
-        countryOfBirth: 'DZ',
-        country: 'DZ'
       }
     }
   ],
@@ -77,28 +73,33 @@ describe('SocioEconomicQuestion screens', () => {
             currentScreen: 1,
             totalScreens: 3,
             questionsPerScreen: [
-              [
-                {
-                  questionText:
-                    'Is there any member with disabilities in your household? Please indicate the disability type',
-                  answerType: 'select',
-                  required: true,
-                  options: [
-                    { value: 'PHYSICAL', text: 'Phisical' },
-                    { value: 'MENTAL', text: 'Mental' },
-                    { value: 'LEARNING', text: 'Learning' },
-                    {
-                      value: 'NO-MEMBER-DISABILITIES',
-                      text: 'No member with disabilities'
-                    }
-                  ]
-                },
-                {
-                  questionText:
-                    'What is the property title situation of your household?',
-                  answerType: 'select'
-                }
-              ]
+              {
+                forFamily: [
+                  {
+                    questionText:
+                      'Is there any member with disabilities in your household? Please indicate the disability type',
+                    answerType: 'select',
+                    required: true,
+                    codeName: '1',
+                    options: [
+                      { value: 'PHYSICAL', text: 'Phisical' },
+                      { value: 'MENTAL', text: 'Mental' },
+                      { value: 'LEARNING', text: 'Learning' },
+                      {
+                        value: 'NO-MEMBER-DISABILITIES',
+                        text: 'No member with disabilities'
+                      }
+                    ]
+                  },
+                  {
+                    questionText:
+                      'What is the property title situation of your household?',
+                    answerType: 'select',
+                    codeName: '2'
+                  }
+                ],
+                forFamilyMember: []
+              }
             ]
           }),
           setParams: jest.fn()
@@ -164,22 +165,26 @@ describe('SocioEconomicQuestion screens', () => {
                   currentScreen: 3,
                   totalScreens: 3,
                   questionsPerScreen: [
-                    [],
-                    [],
-                    [
-                      {
-                        questionText:
-                          'Please estimate your gross monthly household income (i.e, before taxes National Insurance contributions or other deductions)',
-                        answerType: 'text',
-                        dimension: 'Income',
-                        required: true,
-                        forFamilyMember: true,
-                        options: []
-                      }
-                    ]
+                    {},
+                    {},
+                    {
+                      forFamilyMember: [
+                        {
+                          questionText:
+                            'Please estimate your gross monthly household income (i.e, before taxes National Insurance contributions or other deductions)',
+                          answerType: 'text',
+                          dimension: 'Income',
+                          required: true,
+                          codeName: '3',
+                          forFamilyMember: true,
+                          options: []
+                        }
+                      ],
+                      forFamily: []
+                    }
                   ]
                 }
-              : 1,
+              : 2,
           setParams: jest.fn()
         }
       })
