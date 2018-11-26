@@ -8,6 +8,7 @@ This is the moblie app for the Poverty Stoplight platform. It is a native, not a
 - [Simulation on OSX](#running-the-simulation-on-osx)
 - [Running on actual device](#running-the-app-on-a-real-device)
 - [Debugging](#debugging)
+- [Deploying on Play Store](#deploying)
 
 
 ## Prerequisites
@@ -139,3 +140,28 @@ In case you get an `failed to connect to dev server` error, most probably your d
 4. Enter your IP, including the `:8081` port otherwise it's likely not to work.
 
 To find your IP address on a Mac, open Settings > Network > Advanced (while your active connection is selected) > TCP/IP tab. Your local IP should be next to IPv4 Address.
+
+## Deploying
+
+To deploy the app on the Play Store, you need access to it on the Google Play Console. If you don't have access ask the product owner. If you have access follow these steps:
+
+1. Open `/android/app/build.gradle`, find the lines with `versionCode` ane `versionName` and bump up both versions with one. For example:
+```
+versionCode 3 // becomes versionCode 4
+versionName "3.0" // becomes versionName "4.0"
+```
+2. Open Android Studio on your dev machine.
+3. Open the MentorApp project in it. If this is the first time you are opening this project in Android Studio you will have to select `Open existing project` and then browse to `project_folder/android` and selecting it.
+4. From the top menu select `Build > Generate Signed Bundle / APK`
+5. Select APK in the next screen. Click Next.
+6. In the following screen enter the full path to the `mentorapp.keystore`. It is located in the repo folder, should be in `/android/app/mentorapp.keystore`. Below that enter your credentials for all 3 fields. If you don't have credentials ask the dev team. Click Next.
+7. In the next screen make sure you take a not of the destination folder, which should be `/android/app` in most cases. The build will generate in a `release` folder in the above directory. Check both checkboxes at the bottom of this screen. Click Finish.
+8. Wait for the build to finish and then check the contents of the destination folder from the previous step. If there were no errors there should be a `app-release.apk` file in the release folder. We will try to add any possible build errors to this file as we encounter them.
+9. Go to [Google Play Console](https://play.google.com/apps/publish/).
+10. Select Poverty Stoplight Mentor App.
+11. Select Release Management > App Releases.
+12. Scroll down to Internal Test Track and click Manage on the right.
+13. Click Create Release at the top (it may be displayed as Edit Release).
+14. In the next screen click Browse Files and navigate to the `app-release.apk` file in the release folder you saw at step 8.
+15. After the file is selected on the same screen make sure that in the section at the bottom labeled `What's new in this release?` you change up the text a bit. You can do any small change. Aslo check if the `Release name` is the version you put in step 1.
+16. Finaly, hit Review.
