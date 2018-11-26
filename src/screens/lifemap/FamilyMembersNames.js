@@ -75,9 +75,11 @@ export class FamilyMembersNames extends Component {
     const isButtonEnabled =
       !emptyRequiredFields && !this.state.errorsDetected.length
 
-    const familyMembersCount = Array.from(
-      Array(draft.familyData.countFamilyMembers - 1 || 0).keys()
-    )
+    const familyMembersCount = draft.familyData.countFamilyMembers
+      ? Array(draft.familyData.countFamilyMembers - 1)
+          .fill()
+          .map((item, index) => index)
+      : []
 
     return (
       <ScrollView
@@ -93,18 +95,12 @@ export class FamilyMembersNames extends Component {
             field="countFamilyMembers"
             value={this.getFieldValue(draft, 'countFamilyMembers') || ''}
             detectError={this.detectError}
-            data={[
-              { text: '1', value: 1 },
-              { text: '2', value: 2 },
-              { text: '3', value: 3 },
-              { text: '4', value: 4 },
-              { text: '5', value: 5 },
-              { text: '6', value: 6 },
-              { text: '7', value: 7 },
-              { text: '8', value: 8 },
-              { text: '9', value: 9 },
-              { text: '10', value: 10 }
-            ]}
+            data={Array(10)
+              .fill()
+              .map((item, index) => ({
+                text: `${index + 1}`,
+                value: index + 1
+              }))}
           />
           <TextInput
             validation="string"
