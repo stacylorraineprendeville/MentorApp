@@ -25,10 +25,6 @@ export class Final extends Component {
   state = {
     checkedBoxes: []
   }
-  getSkippedQuestions = draft => {
-    const answers = draft.indicatorSurveyDataList
-    return Object.keys(answers).filter(key => answers[key] == 0)
-  }
 
   draftId = this.props.navigation.getParam('draftId')
 
@@ -52,7 +48,10 @@ export class Final extends Component {
     const draft = this.props.drafts.filter(
       item => item.draftId === this.draftId
     )[0]
-    const skippedQuestions = this.getSkippedQuestions(draft)
+
+    const skippedQuestions = draft.indicatorSurveyDataList.filter(
+      question => question.value === 0
+    )
 
     return (
       <ScrollView
@@ -60,29 +59,29 @@ export class Final extends Component {
         contentContainerStyle={styles.contentContainer}
       >
         {skippedQuestions.length > 0 &&
-        skippedQuestions.length !== this.state.checkedBoxes.length ? (
-          <View>
-            <View style={globalStyles.container}>
-              <Image
-                style={styles.image}
-                source={require('../../../assets/images/skipped.png')}
-              />
-            </View>
-            <Divider style={{ backgroundColor: colors.lightgrey }} />
-            <FlatList
-              style={{ ...styles.background, paddingLeft: 25 }}
-              data={skippedQuestions}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item, i }) => (
-                <SkippedListItem
-                  item={item}
-                  onIconPress={() => this.toggleCheckbox(item)}
-                  handleClick={() =>
-                    this.props.navigation.push('Question', {
-                      draftId: this.draftId,
-                      survey: this.survey,
-                      step: this.indicatorsArray.indexOf(item),
-                      skipped: true
+          skippedQuestions.length !== this.state.checkedBoxes.length ? (
+            <View>
+              <View style={globalStyles.container}>
+                <Image
+                  style={styles.image}
+                  source={require('../../../assets/images/skipped.png')}
+                />
+              </View>
+              <Divider style={{ backgroundColor: colors.lightgrey }} />
+              <FlatList
+                style={{ ...styles.background, paddingLeft: 25 }}
+                data={skippedQuestions}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={({ item }) => (
+                  <SkippedListItem
+                    item={item.key}
+                    onIconPress={() => this.toggleCheckbox(item)}
+                    handleClick={() =>
+                      this.props.navigation.push('Question', {
+                        draftId: this.draftId,
+                        survey: this.survey,
+                        step: this.indicatorsArray.indexOf(item.key),
+                        skipped: true
                     })
                   }
                 />

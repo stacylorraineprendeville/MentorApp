@@ -118,6 +118,9 @@ export class SocioEconomicQuestion extends Component {
     )[0]
 
     const socioEconomics = this.props.navigation.getParam('socioEconomics')
+    const questionsForThisScreen = socioEconomics
+      ? socioEconomics.questionsPerScreen[socioEconomics.currentScreen - 1]
+      : []
 
     return (
       <ScrollView
@@ -132,9 +135,7 @@ export class SocioEconomicQuestion extends Component {
         >
           {/* questions for entire family */}
           {!!socioEconomics &&
-            socioEconomics.questionsPerScreen[
-              socioEconomics.currentScreen - 1
-            ].forFamily.map(question =>
+            questionsForThisScreen.forFamily.map(question =>
               question.answerType === 'select' ? (
                 <Select
                   key={question.codeName}
@@ -162,14 +163,11 @@ export class SocioEconomicQuestion extends Component {
 
           {/* questions for family members */}
           {!!socioEconomics &&
-            socioEconomics.questionsPerScreen[socioEconomics.currentScreen - 1]
-              .forFamilyMember.length &&
+            questionsForThisScreen.forFamilyMember.length &&
             draft.familyData.familyMembersList.map((member, i) => (
               <View key={member.firstName}>
                 <Text style={styles.memberName}>{member.firstName}</Text>
-                {socioEconomics.questionsPerScreen[
-                  socioEconomics.currentScreen - 1
-                ].forFamilyMember.map(question =>
+                {questionsForThisScreen.forFamilyMember.map(question =>
                   question.answerType === 'select' ? (
                     <Select
                       key={question.codeName}

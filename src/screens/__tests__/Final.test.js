@@ -37,7 +37,10 @@ describe('Skipped Questions View when questions are skipped', () => {
       drafts: [
         {
           draftId: 1,
-          indicatorSurveyDataList: { phone: 0, education: 3 }
+          indicatorSurveyDataList: [
+            { key: 'phone', value: 0 },
+            { key: 'education', value: 3 }
+          ]
         }
       ]
     })
@@ -62,7 +65,9 @@ describe('Skipped Questions View when questions are skipped', () => {
   })
   describe('functionality', () => {
     it('passess the correct data to FlatList', () => {
-      expect(wrapper.find(FlatList).props().data).toEqual(['phone'])
+      expect(wrapper.find(FlatList).props().data).toEqual([
+        { key: 'phone', value: 0 }
+      ])
     })
     it('has correct initial state', () => {
       expect(wrapper.instance().state).toEqual({ checkedBoxes: [] })
@@ -86,7 +91,10 @@ describe('Final Lifemap View when no questions are skipped', () => {
       drafts: [
         {
           draftId: 1,
-          indicatorSurveyDataList: { phone: 3, education: 1 }
+          indicatorSurveyDataList: [
+            { key: 'phone', value: 3 },
+            { key: 'education', value: 1 }
+          ]
         }
       ]
     })

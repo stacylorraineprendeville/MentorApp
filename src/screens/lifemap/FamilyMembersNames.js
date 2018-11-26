@@ -69,7 +69,7 @@ export class FamilyMembersNames extends Component {
       draft.familyData.familyMembersList.filter(item => item.firstName === '')
         .length !== 0 ||
       !draft.familyData.countFamilyMembers ||
-      draft.familyData.countFamilyMembers !==
+      draft.familyData.countFamilyMembers >
         draft.familyData.familyMembersList.length
 
     const isButtonEnabled =
