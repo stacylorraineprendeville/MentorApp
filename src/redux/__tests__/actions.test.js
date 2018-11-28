@@ -37,7 +37,7 @@ describe('login actions', () => {
     )
     const expectedAction = [
       {
-        type: action.SET_LOGIN_SUCCESS,
+        type: action.SET_LOGIN_STATE,
         token: 'token',
         status: 200,
         username: 'username'
@@ -60,7 +60,7 @@ describe('login actions', () => {
     )
     const expectedAction = [
       {
-        type: action.SET_LOGIN_ERROR,
+        type: action.SET_LOGIN_STATE,
         token: null,
         status: 401,
         username: null

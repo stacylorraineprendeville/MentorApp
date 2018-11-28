@@ -13,12 +13,12 @@ describe('environment reducer', () => {
 })
 
 describe('login reducer', () => {
-  it('should handle SET_LOGIN_SUCCESS', () => {
+  it('should handle SET_LOGIN_STATE success', () => {
     expect(
       reducer.user(
         { token: null, status: null, username: null },
         {
-          type: action.SET_LOGIN_SUCCESS,
+          type: action.SET_LOGIN_STATE,
           token: 'token',
           username: 'user',
           status: 200
@@ -27,12 +27,12 @@ describe('login reducer', () => {
     ).toEqual({ token: 'token', status: 200, username: 'user' })
   })
 
-  it('should handle SET_LOGIN_ERROR', () => {
+  it('should handle SET_LOGIN_STATE on error', () => {
     expect(
       reducer.user(
         { token: null, status: null, username: null },
         {
-          type: action.SET_LOGIN_ERROR,
+          type: action.SET_LOGIN_STATE,
           token: null,
           status: 401,
           username: null
