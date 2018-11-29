@@ -75,29 +75,14 @@ describe('Family Location component', () => {
       longitude: 45
     })
   })
-  it('shows a Marker at the user location', () => {
-    expect(wrapper.find(Marker)).toHaveLength(1)
-    expect(wrapper.find(Marker)).toHaveProp('coordinate', {
-      latitude: 44,
-      longitude: 45
-    })
-  })
-  it('allows dragging of the Marker', () => {
-    expect(wrapper.find(Marker)).toHaveProp('draggable')
-    expect(wrapper.find(Marker)).toHaveProp('onDragEnd')
-  })
   it('updates Marker state after draging has finished', () => {
     wrapper
-      .find(Marker)
+      .find(MapView)
       .first()
       .props()
-      .onDragEnd({
-        nativeEvent: {
-          coordinate: {
-            latitude: 50,
-            longitude: 50
-          }
-        }
+      .onRegionChangeComplete({
+        latitude: 50,
+        longitude: 50
       })
 
     expect(wrapper).toHaveState({

@@ -4,14 +4,16 @@ import {
   View,
   StyleSheet,
   ActivityIndicator,
-  Text
+  Text,
+  Image
 } from 'react-native'
 import { connect } from 'react-redux'
 import { addSurveyData } from '../../redux/actions'
 import PropTypes from 'prop-types'
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
-import MapView, { Marker } from 'react-native-maps'
+import MapView from 'react-native-maps'
+import marker from '../../../assets/images/marker.png'
 import globalStyles from '../../globalStyles'
 import SearchBar from '../../components/SearchBar'
 import Select from '../../components/Select'
@@ -87,6 +89,13 @@ export class Location extends Component {
       )
       .catch()
   }
+  onDragMap = region => {
+    const { latitude, longitude } = region
+    this.setState({
+      latitude,
+      longitude
+    })
+  }
   getDraft = () =>
     this.props.drafts.filter(
       draft => draft.draftId === this.props.navigation.getParam('draftId')
@@ -120,8 +129,6 @@ export class Location extends Component {
       errorsDetected
     } = this.state
 
-    console.log(mapsError)
-
     const draft = this.getDraft()
 
     return (
@@ -133,6 +140,9 @@ export class Location extends Component {
           <View>
             {latitude ? (
               <View>
+                <View pointerEvents="none" style={styles.fakeMarker}>
+                  <Image source={marker} />
+                </View>
                 <SearchBar
                   id="searchAddress"
                   style={styles.search}
@@ -157,19 +167,8 @@ export class Location extends Component {
                     latitudeDelta: 0.005,
                     longitudeDelta: 0.005
                   }}
-                >
-                  <Marker
-                    draggable
-                    coordinate={{ latitude, longitude }}
-                    onDragEnd={e =>
-                      this.setState({
-                        latitude: e.nativeEvent.coordinate.latitude,
-                        longitude: e.nativeEvent.coordinate.longitude
-                      })
-                    }
-                    title="You are here"
-                  />
-                </MapView>
+                  onRegionChangeComplete={this.onDragMap}
+                />
               </View>
             ) : (
               <View style={[styles.placeholder, styles.map]}>
@@ -179,7 +178,9 @@ export class Location extends Component {
             )}
           </View>
         ) : (
-          <Text>{mapsError}</Text>
+          <View style={styles.placeholder}>
+            <Text>{mapsError}</Text>
+          </View>
         )}
 
         <View>
@@ -264,6 +265,16 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: 16
+  },
+  fakeMarker: {
+    zIndex: 2,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   search: {
     zIndex: 2,
