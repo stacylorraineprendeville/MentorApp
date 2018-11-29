@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import { ScrollView } from 'react-native'
-import MapView, { Marker } from 'react-native-maps'
+import MapView from 'react-native-maps'
 import { Location } from '../lifemap/Location'
 import SearchBar from '../../components/SearchBar'
 

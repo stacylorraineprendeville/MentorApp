@@ -1,4 +1,5 @@
 import React from 'react'
+import { TouchableOpacity, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import colors from '../../theme.json'
 
@@ -24,14 +25,22 @@ export const generateNavOptions = ({ navigation, headerLeft = true }) => {
       marginLeft: 19
     }
     options.headerLeft = (
-      <Icon
-        name="menu"
-        size={30}
-        color={colors.lightdark}
-        onTouchEnd={() => navigation.toggleDrawer()}
-      />
+      <TouchableOpacity
+        style={styles.touchable}
+        onPress={() => navigation.toggleDrawer()}
+      >
+        <Icon name="menu" size={30} color={colors.lightdark} />
+      </TouchableOpacity>
     )
   }
 
   return options
 }
+
+const styles = StyleSheet.create({
+  touchable: {
+    justifyContent: 'center',
+    width: 60,
+    height: 60
+  }
+})
