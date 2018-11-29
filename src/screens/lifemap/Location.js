@@ -22,7 +22,8 @@ export class Location extends Component {
     longitude: null,
     accuracy: null,
     searchAddress: '',
-    errorsDetected: []
+    errorsDetected: [],
+    mapsError: ''
   }
   addSurveyData = (text, field) => {
     this.props.addSurveyData(
@@ -48,8 +49,12 @@ export class Location extends Component {
           accuracy: position.coords.accuracy
         })
       },
-      error => this.setState({ error: error.message }),
-      { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 }
+      error => this.setState({ mapsError: error.message }),
+      {
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 0
+      }
     )
   }
   detectError = (error, field) => {
@@ -107,12 +112,15 @@ export class Location extends Component {
 
   render() {
     const {
+      mapsError,
       latitude,
       longitude,
       accuracy,
       searchAddress,
       errorsDetected
     } = this.state
+
+    console.log(mapsError)
 
     const draft = this.getDraft()
 
@@ -121,50 +129,59 @@ export class Location extends Component {
         style={globalStyles.background}
         contentContainerStyle={styles.contentContainer}
       >
-        {latitude ? (
+        {!mapsError ? (
           <View>
-            <SearchBar
-              id="searchAddress"
-              style={styles.search}
-              placeholder="Search by street or postal code"
-              onChangeText={searchAddress => this.setState({ searchAddress })}
-              onSubmit={this.searcForAddress}
-              value={searchAddress}
-            />
-            <MapView
-              style={styles.map}
-              initialRegion={{
-                latitude,
-                longitude,
-                latitudeDelta: 0.005,
-                longitudeDelta: 0.005
-              }}
-              region={{
-                latitude,
-                longitude,
-                latitudeDelta: 0.005,
-                longitudeDelta: 0.005
-              }}
-            >
-              <Marker
-                draggable
-                coordinate={{ latitude, longitude }}
-                onDragEnd={e =>
-                  this.setState({
-                    latitude: e.nativeEvent.coordinate.latitude,
-                    longitude: e.nativeEvent.coordinate.longitude
-                  })
-                }
-                title="You are here"
-              />
-            </MapView>
+            {latitude ? (
+              <View>
+                <SearchBar
+                  id="searchAddress"
+                  style={styles.search}
+                  placeholder="Search by street or postal code"
+                  onChangeText={searchAddress =>
+                    this.setState({ searchAddress })
+                  }
+                  onSubmit={this.searcForAddress}
+                  value={searchAddress}
+                />
+                <MapView
+                  style={styles.map}
+                  initialRegion={{
+                    latitude,
+                    longitude,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005
+                  }}
+                  region={{
+                    latitude,
+                    longitude,
+                    latitudeDelta: 0.005,
+                    longitudeDelta: 0.005
+                  }}
+                >
+                  <Marker
+                    draggable
+                    coordinate={{ latitude, longitude }}
+                    onDragEnd={e =>
+                      this.setState({
+                        latitude: e.nativeEvent.coordinate.latitude,
+                        longitude: e.nativeEvent.coordinate.longitude
+                      })
+                    }
+                    title="You are here"
+                  />
+                </MapView>
+              </View>
+            ) : (
+              <View style={[styles.placeholder, styles.map]}>
+                <ActivityIndicator size="large" />
+                <Text style={globalStyles.h3}>Getting your location…</Text>
+              </View>
+            )}
           </View>
         ) : (
-          <View style={[styles.placeholder, styles.map]}>
-            <ActivityIndicator size="large" />
-            <Text style={globalStyles.h3}>Getting your location…</Text>
-          </View>
+          <Text>{mapsError}</Text>
         )}
+
         <View>
           <Text id="accuracy" style={styles.container}>
             {accuracy ? `GPS: Accurate to ${Math.round(accuracy)}m` : ' '}

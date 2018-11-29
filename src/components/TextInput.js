@@ -47,7 +47,6 @@ class TextInput extends Component {
   }
 
   validateInput() {
-    this.props.detectError(false, this.props.field)
     if (this.props.required && !this.state.text) {
       return this.handleError('This field is required')
     }
@@ -73,14 +72,16 @@ class TextInput extends Component {
 
     if (
       this.props.validation === 'string' &&
-      !/^[a-zA-Z]([\w -]*[a-zA-Z])?$/.test(this.state.text) &&
+      !/^[a-zA-Z\u0080-\uFFFF]([\w -]*[a-zA-Z\u0080-\uFFFF])?$/.test(
+        this.state.text
+      ) &&
       !validator.isEmpty(this.state.text)
     ) {
       return this.handleError('Please enter alphabetic characters')
     }
     if (
       this.props.validation === 'phone' &&
-      !/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/.test(this.state.text) &&
+      !/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/.test(this.state.text) &&
       !validator.isEmpty(this.state.text)
     ) {
       return this.handleError('Please enter a valid phone number')
@@ -92,6 +93,8 @@ class TextInput extends Component {
     ) {
       return this.handleError('Please enter a valid number')
     }
+
+    this.props.detectError(false, this.props.field)
   }
 
   defineTextColor = status => {
