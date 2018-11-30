@@ -3,26 +3,12 @@ import { shallow } from 'enzyme'
 import { Image } from 'react-native'
 import { AppStack } from '../navigation'
 import { DrawerContent } from '../navigation/DrawerContent'
-import { generateNavOptions } from '../navigation/helpers'
 
 describe('Navigation', () => {
   describe('Drawer', () => {
     const wrapper = shallow(<AppStack />)
     it('contains all links', () => {
       expect(wrapper.instance().state.nav.routes[0].routes).toHaveLength(4)
-    })
-    it('renders burger menu icon', () => {
-      expect(
-        generateNavOptions({
-          navigation: {
-            toggleDrawer: jest.fn()
-          }
-        })
-      ).toEqual(
-        expect.objectContaining({
-          headerLeft: expect.any(Object)
-        })
-      )
     })
     it('can navigate to all views', () => {
       expect(wrapper.instance()._navigation.navigate('Families')).toBe(true)

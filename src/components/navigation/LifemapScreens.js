@@ -16,77 +16,77 @@ export default {
     screen: TermsView,
     navigationOptions: ({ navigation }) => ({
       title: 'Terms & Conditions',
-      ...generateNavOptions({ navigation, headerLeft: false })
+      ...generateNavOptions({ navigation, burgerMenu: false })
     })
   },
   Privacy: {
     screen: TermsView,
     navigationOptions: ({ navigation }) => ({
       title: 'Privacy Policy',
-      ...generateNavOptions({ navigation, headerLeft: false })
+      ...generateNavOptions({ navigation, burgerMenu: false })
     })
   },
   Location: {
     screen: LocationView,
     navigationOptions: ({ navigation }) => ({
       title: 'Location',
-      ...generateNavOptions({ navigation, headerLeft: false })
+      ...generateNavOptions({ navigation, burgerMenu: false })
     })
   },
   SocioEconomicQuestion: {
     screen: SocioEconomicQuestionView,
     navigationOptions: ({ navigation }) => ({
       title: 'Socio Economic',
-      ...generateNavOptions({ navigation, headerLeft: false })
+      ...generateNavOptions({ navigation, burgerMenu: false })
     })
   },
   BeginLifemap: {
     screen: BeginLifemapView,
     navigationOptions: ({ navigation }) => ({
       title: 'Your Life Map',
-      ...generateNavOptions({ navigation, headerLeft: false })
+      ...generateNavOptions({ navigation, burgerMenu: false })
     })
   },
   Question: {
     screen: QuestionView,
     navigationOptions: ({ navigation }) => ({
       title: 'Your Life Map',
-      ...generateNavOptions({ navigation, headerLeft: false })
+      ...generateNavOptions({ navigation, burgerMenu: false })
     })
   },
   Final: {
     screen: FinalView,
     navigationOptions: ({ navigation }) => ({
       title: 'Thank you!',
-      ...generateNavOptions({ navigation, headerLeft: false })
+      ...generateNavOptions({ navigation, burgerMenu: false })
     })
   },
   FamilyParticipant: {
     screen: FamilyParticipantView,
     navigationOptions: ({ navigation }) => ({
       title: 'Primary participant',
-      ...generateNavOptions({ navigation, headerLeft: false })
+      ...generateNavOptions({ navigation, burgerMenu: false })
     })
   },
   FamilyMembersNames: {
     screen: FamilyMembersNamesView,
     navigationOptions: ({ navigation }) => ({
       title: 'Family members',
-      ...generateNavOptions({ navigation, headerLeft: false })
+      ...generateNavOptions({ navigation, burgerMenu: false })
     })
   },
   FamilyMembersGender: {
     screen: FamilyMembersGenderView,
     navigationOptions: ({ navigation }) => ({
       title: 'Gender',
-      ...generateNavOptions({ navigation, headerLeft: false })
+      ...generateNavOptions({ navigation, burgerMenu: false })
     })
   },
   FamilyMembersBirthdates: {
     screen: FamilyMembersBirthdatesView,
     navigationOptions: ({ navigation }) => ({
       title: 'Birth dates',
-      ...generateNavOptions({ navigation, headerLeft: false })
+      ...generateNavOptions({ navigation, burgerMenu: false })
     })
   }
 }

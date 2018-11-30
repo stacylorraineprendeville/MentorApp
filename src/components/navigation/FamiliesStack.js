@@ -15,7 +15,7 @@ export default createStackNavigator({
     screen: FamilyView,
     navigationOptions: ({ navigation }) => ({
       title: `Family ${navigation.state.params.family}`,
-      ...generateNavOptions({ navigation, headerLeft: false })
+      ...generateNavOptions({ navigation, burgerMenu: false })
     })
   }
 })
