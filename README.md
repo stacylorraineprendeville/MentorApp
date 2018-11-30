@@ -152,7 +152,7 @@ versionName "3.0" // becomes versionName "4.0"
 ```
 2. Open Android Studio on your dev machine.
 3. Open the MentorApp project in it. If this is the first time you are opening this project in Android Studio you will have to select `Open existing project` and then browse to `project_folder/android` and selecting it.
-4. From the top menu select `Build > Generate Signed Bundle / APK`
+4. From the top menu select `Build > Generate Signed Bundle / APK`. If it's greyed out, checkout the bottom status bar. Are there any processes runing or is Android Studio indexing? Wait for these to finish.
 5. Select APK in the next screen. Click Next.
 6. In the following screen enter the full path to the `mentorapp.keystore`. It is located in the repo folder, should be in `/android/app/mentorapp.keystore`. Below that enter your credentials for all 3 fields. If you don't have credentials ask the dev team. Click Next.
 7. In the next screen make sure you take a not of the destination folder, which should be `/android/app` in most cases. The build will generate in a `release` folder in the above directory. Check both checkboxes at the bottom of this screen. Click Finish.
