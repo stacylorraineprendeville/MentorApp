@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   },
   label: {
     ...globalStyles.subline,
-    paddingHorizontal: 25,
+    paddingHorizontal: 30,
     marginTop: 25,
     marginBottom: -25,
     color: colors.palegrey,
@@ -130,8 +130,8 @@ const styles = StyleSheet.create({
   labelNoValue: {
     ...globalStyles.subline,
     zIndex: 100,
-    paddingHorizontal: 25,
-    fontSize: 16,
+    paddingHorizontal: 30,
+    fontSize: 14,
     marginTop: 40,
     marginBottom: -40,
     color: colors.grey
