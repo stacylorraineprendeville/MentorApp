@@ -1,8 +1,7 @@
 import React from 'react'
-
 import { shallow } from 'enzyme'
+import { TouchableOpacity } from 'react-native'
 import { CheckBox } from 'react-native-elements'
-
 import Checkbox from '../Checkbox'
 
 const createTestProps = props => ({
@@ -30,9 +29,9 @@ describe('Checkbox Component', () => {
 
     it('calls onPress when icon is pressed', () => {
       wrapper
-        .find(CheckBox)
+        .find(TouchableOpacity)
         .props()
-        .onIconPress()
+        .onPress()
 
       expect(wrapper.instance().props.onIconPress).toHaveBeenCalledTimes(1)
     })
