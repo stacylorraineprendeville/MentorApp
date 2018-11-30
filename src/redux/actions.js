@@ -1,21 +1,6 @@
 // Login
 
-export const SET_LOGIN_SUCCESS = 'SET_LOGIN_SUCCESS'
-export const SET_LOGIN_ERROR = 'SET_LOGIN_ERROR'
-
-const setLoginSuccess = (token, status, username) => ({
-  type: SET_LOGIN_SUCCESS,
-  token,
-  status,
-  username
-})
-
-const setLoginError = (token, status, username) => ({
-  type: SET_LOGIN_ERROR,
-  token,
-  status,
-  username
-})
+export const SET_LOGIN_STATE = 'SET_LOGIN_STATE'
 
 export const login = (username, password, env) => dispatch =>
   fetch(
@@ -29,13 +14,38 @@ export const login = (username, password, env) => dispatch =>
   )
     .then(data => {
       if (data.status !== 200) {
-        dispatch(setLoginError(null, data.status, null))
+        dispatch({
+          type: SET_LOGIN_STATE,
+          token: null,
+          status: data.status,
+          username: null
+        })
         throw new Error()
       } else return data.json()
     })
     .then(data =>
-      dispatch(setLoginSuccess(data.access_token, 200, data.user.username))
+      dispatch({
+        type: SET_LOGIN_STATE,
+        token: data.access_token,
+        status: 200,
+        username: data.user.username
+      })
     )
+    .catch(e => e)
+
+export const logout = (env, token) => dispatch =>
+  fetch(`${env}/oauth/revoke-token`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` }
+  })
+    .then(() => {
+      dispatch({
+        type: SET_LOGIN_STATE,
+        token: null,
+        status: null,
+        username: null
+      })
+    })
     .catch(e => e)
 
 // Environment

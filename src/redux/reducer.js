@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux'
 import {
-  SET_LOGIN_SUCCESS,
-  SET_LOGIN_ERROR,
+  SET_LOGIN_STATE,
   SET_ENV,
   LOAD_SURVEYS,
   LOAD_FAMILIES,
@@ -23,13 +22,7 @@ export const user = (
   action
 ) => {
   switch (action.type) {
-    case SET_LOGIN_SUCCESS:
-      return {
-        status: action.status,
-        token: action.token,
-        username: action.username
-      }
-    case SET_LOGIN_ERROR:
+    case SET_LOGIN_STATE:
       return {
         status: action.status,
         token: action.token,

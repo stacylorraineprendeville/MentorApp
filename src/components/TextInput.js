@@ -47,7 +47,6 @@ class TextInput extends Component {
   }
 
   validateInput() {
-    this.props.detectError(false, this.props.field)
     if (this.props.required && !this.state.text) {
       return this.handleError('This field is required')
     }
@@ -73,14 +72,16 @@ class TextInput extends Component {
 
     if (
       this.props.validation === 'string' &&
-      !/^[a-zA-Z]([\w -]*[a-zA-Z])?$/.test(this.state.text) &&
+      !/^[a-zA-Z\u0080-\uFFFF]([\w -]*[a-zA-Z\u0080-\uFFFF])?$/.test(
+        this.state.text
+      ) &&
       !validator.isEmpty(this.state.text)
     ) {
       return this.handleError('Please enter alphabetic characters')
     }
     if (
       this.props.validation === 'phone' &&
-      !/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/.test(this.state.text) &&
+      !/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/.test(this.state.text) &&
       !validator.isEmpty(this.state.text)
     ) {
       return this.handleError('Please enter a valid phone number')
@@ -92,6 +93,8 @@ class TextInput extends Component {
     ) {
       return this.handleError('Please enter a valid number')
     }
+
+    this.props.detectError(false, this.props.field)
   }
 
   defineTextColor = status => {
@@ -109,43 +112,44 @@ class TextInput extends Component {
 
   render() {
     const { text, errorMsg } = this.state
+    const { label, placeholder, required, readonly } = this.props
     const status = this.props.status || this.state.status
+
     let showPlaceholder = status === 'blur' && !text
+
     return (
       <View>
-        <FormLabel>{this.props.label}</FormLabel>
-        {!showPlaceholder && (
-          <Text
-            style={{
-              ...styles.text,
-              color: this.defineTextColor(status)
-            }}
+        <FormLabel>{label}</FormLabel>
+        <View style={[styles.container, styles[status]]}>
+          {!showPlaceholder && (
+            <Text
+              style={{
+                ...styles.text,
+                color: this.defineTextColor(status)
+              }}
+            >
+              {`${placeholder} ${required ? '*' : ''}`}
+              {'\n'}
+            </Text>
+          )}
+          <FormInput
+            autoCapitalize="none"
+            onFocus={() => this.onFocus()}
+            onBlur={() => this.onBlur(text)}
+            placeholder={
+              showPlaceholder ? `${placeholder} ${required ? '*' : ''}` : ''
+            }
+            onChangeText={text => this.onChangeText(text)}
+            onEndEditing={this.onEndEditing}
+            inputStyle={[
+              styles.inputStyle,
+              !showPlaceholder ? styles.activeInput : {}
+            ]}
+            editable={!readonly}
           >
-            {`${this.props.placeholder} ${this.props.required ? '*' : ''}`}
-            {'\n'}
-          </Text>
-        )}
-        <FormInput
-          autoCapitalize="none"
-          onFocus={() => this.onFocus()}
-          onBlur={() => this.onBlur(text)}
-          placeholder={
-            showPlaceholder
-              ? `${this.props.placeholder} ${this.props.required ? '*' : ''}`
-              : ''
-          }
-          onChangeText={text => this.onChangeText(text)}
-          onEndEditing={this.onEndEditing}
-          inputStyle={{
-            ...styles.inputStyle,
-            ...styles[status],
-            fontSize: 14,
-            paddingTop: !showPlaceholder ? 30 : 10
-          }}
-          editable={!this.props.readonly}
-        >
-          <Text style={{ fontSize: 14, margin: 10 }}>{text}</Text>
-        </FormInput>
+            <Text style={{ fontSize: 14, margin: 10 }}>{text}</Text>
+          </FormInput>
+        </View>
         {status === 'error' && errorMsg && (
           <FormValidationMessage style={{ color: colors.red }}>
             {errorMsg}
@@ -156,14 +160,23 @@ class TextInput extends Component {
   }
 }
 
+/* eslint-disable react-native/no-unused-styles */
 const styles = StyleSheet.create({
-  inputStyle: {
+  container: {
     color: colors.grey,
     borderBottomWidth: 1,
-    paddingLeft: 10,
-    paddingRight: 10,
-    height: 60,
-    width: '100%'
+    marginHorizontal: 15,
+    justifyContent: 'center',
+    height: 60
+  },
+  inputStyle: {
+    marginVertical: 0,
+    marginLeft: -4,
+    width: '100%',
+    fontSize: 14
+  },
+  activeInput: {
+    marginTop: -25
   },
   blur: {
     backgroundColor: colors.beige,
@@ -182,8 +195,8 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.red
   },
   text: {
-    marginBottom: -30,
-    marginLeft: 25,
+    marginLeft: 15,
+    marginTop: 15,
     zIndex: 100
   }
 })

@@ -17,9 +17,6 @@ describe('Loading Component', () => {
     wrapper = shallow(<Loading {...props} />)
   })
   describe('rendering', () => {
-    it('renders <View />', () => {
-      expect(wrapper.find(View)).toHaveLength(1)
-    })
     it('renders <Text />', () => {
       expect(wrapper.find(Text)).toHaveLength(3)
     })

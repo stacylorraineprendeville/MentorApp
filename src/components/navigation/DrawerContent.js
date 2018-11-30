@@ -12,18 +12,11 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { DrawerItems } from 'react-navigation'
 import CommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { url } from '../../config'
 import globalStyles from '../../globalStyles'
 import i18n from '../../i18n'
 import colors from '../../theme.json'
-import { switchLanguage } from '../../redux/actions'
-
-const mapStateToProps = ({ user }) => ({
-  user
-})
-
-const mapDispatchToProps = {
-  switchLanguage
-}
+import { switchLanguage, logout } from '../../redux/actions'
 
 // Component that renders the drawer menu content. DrawerItems are the links to
 // the given views.
@@ -33,6 +26,14 @@ export class DrawerContent extends Component {
     this.props.switchLanguage(lng)
     this.props.navigation.toggleDrawer()
   }
+
+  logout = () => {
+    this.props.logout(url[this.props.env], this.props.user.token).then(() => {
+      this.setState({ error: false })
+      this.props.navigation.navigate('Login')
+    })
+  }
+
   render() {
     const { lng, user } = this.props
     return (
@@ -75,7 +76,11 @@ export class DrawerContent extends Component {
           </Text>
           <DrawerItems {...this.props} />
         </View>
-        <TouchableOpacity id="logout" style={styles.logout} onPress={() => {}}>
+        <TouchableOpacity
+          id="logout"
+          style={styles.logout}
+          onPress={this.logout}
+        >
           <CommunityIcon name="logout" size={20} color={colors.palegreen} />
           <Text style={styles.logoutLabel}>Logout</Text>
         </TouchableOpacity>
@@ -89,6 +94,16 @@ DrawerContent.propTypes = {
   switchLanguage: PropTypes.func.isRequired,
   navigation: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired
+}
+
+const mapStateToProps = ({ env, user }) => ({
+  env,
+  user
+})
+
+const mapDispatchToProps = {
+  switchLanguage,
+  logout
 }
 
 export default withNamespaces()(
