@@ -39,7 +39,7 @@ export class Question extends Component {
         step: this.step + 1
       })
     } else
-      this.props.navigation.navigate('Final', {
+      this.props.navigation.navigate('Overview', {
         draftId: this.draftId,
         survey: this.survey
       })
