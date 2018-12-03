@@ -76,6 +76,14 @@ describe('Family Location component', () => {
     })
   })
   it('updates Marker state after draging has finished', () => {
+    // initial map load
+    wrapper
+      .find(MapView)
+      .first()
+      .props()
+      .onRegionChangeComplete()
+
+    // actual drag
     wrapper
       .find(MapView)
       .first()

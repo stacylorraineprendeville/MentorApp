@@ -25,7 +25,8 @@ export class Location extends Component {
     accuracy: null,
     searchAddress: '',
     errorsDetected: [],
-    mapsError: ''
+    mapsError: '',
+    mapReady: false
   }
   addSurveyData = (text, field) => {
     this.props.addSurveyData(
@@ -90,10 +91,18 @@ export class Location extends Component {
       .catch()
   }
   onDragMap = region => {
+    if (!this.state.mapReady) {
+      return this.setState({
+        mapReady: true
+      })
+    }
+
     const { latitude, longitude } = region
+
     this.setState({
       latitude,
-      longitude
+      longitude,
+      accuracy: 0
     })
   }
   getDraft = () =>
@@ -101,8 +110,17 @@ export class Location extends Component {
       draft => draft.draftId === this.props.navigation.getParam('draftId')
     )[0]
   componentDidMount() {
-    this.getDeviceLocation()
-    if (!this.getFieldValue(this.getDraft(), 'country')) {
+    const draft = this.getDraft()
+
+    if (!this.getFieldValue(draft, 'latitude')) {
+      this.getDeviceLocation()
+    } else {
+      this.setState({
+        latitude: this.getFieldValue(draft, 'latitude'),
+        longitude: this.getFieldValue(draft, 'longitude')
+      })
+    }
+    if (!this.getFieldValue(draft, 'country')) {
       this.setState({
         errorsDetected: ['country']
       })
