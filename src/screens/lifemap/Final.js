@@ -7,7 +7,6 @@ import {
   FlatList,
   Text
 } from 'react-native'
-import { Divider } from 'react-native-elements'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -23,7 +22,7 @@ import colors from '../../theme.json'
 
 export class Final extends Component {
   state = {
-    checkedBoxes: []
+    continueIsClicked: false
   }
 
   draftId = this.props.navigation.getParam('draftId')
@@ -32,17 +31,6 @@ export class Final extends Component {
   indicatorsArray = this.survey.surveyStoplightQuestions.map(
     item => item.questionText
   )
-
-  toggleCheckbox = question => {
-    if (this.state.checkedBoxes.includes(question)) {
-      this.setState({
-        checkedBoxes: this.state.checkedBoxes.filter(item => item !== question)
-      })
-    } else
-      this.setState({
-        checkedBoxes: [...this.state.checkedBoxes, question]
-      })
-  }
 
   render() {
     const draft = this.props.drafts.filter(
@@ -58,40 +46,46 @@ export class Final extends Component {
         style={globalStyles.background}
         contentContainerStyle={styles.contentContainer}
       >
-        {skippedQuestions.length > 0 &&
-          skippedQuestions.length !== this.state.checkedBoxes.length ? (
-            <View>
-              <View style={globalStyles.container}>
-                <Image
-                  style={styles.image}
-                  source={require('../../../assets/images/skipped.png')}
-                />
-              </View>
-              <Divider style={{ backgroundColor: colors.lightgrey }} />
-              <FlatList
-                style={{ ...styles.background, paddingLeft: 25 }}
-                data={skippedQuestions}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => (
-                  <SkippedListItem
-                    item={item.key}
-                    onIconPress={() => this.toggleCheckbox(item)}
-                    handleClick={() =>
-                      this.props.navigation.push('Question', {
-                        draftId: this.draftId,
-                        survey: this.survey,
-                        step: this.indicatorsArray.indexOf(item.key),
-                        skipped: true
+        {skippedQuestions.length > 0 && !this.state.continueIsClicked ? (
+          <ScrollView
+            style={globalStyles.background}
+            contentContainerStyle={styles.contentContainer}
+          >
+            <Image
+              style={styles.image}
+              source={require('../../../assets/images/skipped.png')}
+            />
+
+            <FlatList
+              style={{ ...styles.background, paddingLeft: 25 }}
+              data={skippedQuestions}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <SkippedListItem
+                  item={item.key}
+                  handleClick={() =>
+                    this.props.navigation.push('Question', {
+                      draftId: this.draftId,
+                      survey: this.survey,
+                      step: this.indicatorsArray.indexOf(item.key),
+                      skipped: true
                     })
                   }
                 />
               )}
             />
+            <View style={{ height: 50, marginTop: 20 }}>
+              <Button
+                colored
+                text="Continue"
+                handleClick={() => this.setState({ continueIsClicked: true })}
+              />
+            </View>
             <Tip
-              title={'You skipped the following questions'}
-              description={'Click on the question to answer it now!'}
+              title={'You skipped these indicators'}
+              description={'Why not try again to answer these now!'}
             />
-          </View>
+          </ScrollView>
         ) : (
           <ScrollView
             style={globalStyles.background}
@@ -129,7 +123,7 @@ export class Final extends Component {
   }
 }
 const styles = StyleSheet.create({
-  image: { alignSelf: 'center' },
+  image: { alignSelf: 'center', marginVertical: 50 },
   contentContainer: {
     flexGrow: 1,
     flexDirection: 'column',
