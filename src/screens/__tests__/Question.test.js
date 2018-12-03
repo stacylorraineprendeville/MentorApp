@@ -1,9 +1,13 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { ScrollView, Text, ProgressBarAndroid } from 'react-native'
+import {
+  ScrollView,
+  Text,
+  ProgressBarAndroid,
+  TouchableOpacity
+} from 'react-native'
 import { Question } from '../lifemap/Question'
 import Slider from '../../components/Slider'
-import Checkbox from '../../components/Checkbox'
 
 const createTestProps = props => ({
   navigation: {
@@ -34,7 +38,7 @@ describe('Question View', () => {
       expect(wrapper.find(ScrollView)).toHaveLength(1)
     })
     it('renders Text', () => {
-      expect(wrapper.find(Text)).toHaveLength(2)
+      expect(wrapper.find(Text)).toHaveLength(3)
     })
     it('renders ProgressBarAndroid', () => {
       expect(wrapper.find(ProgressBarAndroid)).toHaveLength(1)
@@ -55,25 +59,24 @@ describe('Question View', () => {
       expect(spy).toHaveBeenCalledTimes(1)
     })
 
-    it('calls selectAnswer with argument NONE when checkbox is checked', () => {
+    it('calls selectAnswer with argument 0 when checkbox is checked', () => {
       const spy = jest.spyOn(wrapper.instance(), 'selectAnswer')
       wrapper
-        .find(Checkbox)
+        .find(TouchableOpacity)
         .props()
-        .onIconPress()
+        .onPress()
 
       expect(spy).toHaveBeenCalledTimes(1)
       expect(spy).toHaveBeenCalledWith(0)
     })
-    it('renders CheckBox when indicator is not required', () => {
-      expect(wrapper.find(Checkbox)).toHaveLength(1)
+    it('renders TouchableOpacity when indicator is not required', () => {
+      expect(wrapper.find(TouchableOpacity)).toHaveLength(1)
     })
     it('renders Text when indicator is required', () => {
       survey.surveyStoplightQuestions[0].required = true
       const props = createTestProps()
       wrapper = shallow(<Question {...props} />)
-      expect(wrapper.find(Checkbox)).toHaveLength(0)
-      expect(wrapper.find(Text)).toHaveLength(3)
+      expect(wrapper.find(TouchableOpacity)).toHaveLength(0)
     })
   })
 })

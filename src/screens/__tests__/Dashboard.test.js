@@ -41,8 +41,8 @@ describe('Dashboard View', () => {
     it('renders <ScrollView />', () => {
       expect(wrapper.find(ScrollView)).toHaveLength(1)
     })
-    it('renders <Button />', () => {
-      expect(wrapper.find(Button)).toHaveLength(3)
+    it('renders Button', () => {
+      expect(wrapper.find(Button)).toHaveLength(1)
     })
     it('renders <RoundImage />', () => {
       expect(wrapper.find(RoundImage)).toHaveLength(1)
