@@ -51,7 +51,7 @@ export class DrawerContent extends Component {
                   lng === 'en' ? styles.whiteText : styles.greyText
                 ]}
               >
-                EN
+                ENG
               </Text>
             </TouchableOpacity>
             <Text style={[globalStyles.h3, styles.whiteText]}>
@@ -81,7 +81,11 @@ export class DrawerContent extends Component {
           style={styles.logout}
           onPress={this.logout}
         >
-          <CommunityIcon name="logout" size={20} color={colors.palegreen} />
+          <CommunityIcon
+            name="login-variant"
+            size={20}
+            color={colors.palegreen}
+          />
           <Text style={styles.logoutLabel}>Logout</Text>
         </TouchableOpacity>
       </ScrollView>
