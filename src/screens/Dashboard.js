@@ -39,8 +39,8 @@ export class Dashboard extends Component {
       title: this.props.t('views.dashboard')
     })
   componentDidMount() {
-    AsyncStorage.getItem('userVisitedDashboard').then(value =>
-      value === 'false' ? this.loadData() : null
+    AsyncStorage.getItem('userVisitedDashboard').then(
+      value => (value === 'false' ? this.loadData() : null)
     )
     AsyncStorage.setItem('userVisitedDashboard', 'true')
     this.detectSlowLoading()
@@ -97,14 +97,6 @@ export class Dashboard extends Component {
                 colored
                 handleClick={() => navigation.navigate('Surveys')}
               />
-              <View style={styles.columns}>
-                <Button
-                  text="Find a family"
-                  icon="search"
-                  handleClick={() => {}}
-                />
-                <Button text="Add a family" icon="add" handleClick={() => {}} />
-              </View>
             </View>
             <View style={styles.borderBottom}>
               <Text style={{ ...globalStyles.subline, ...styles.listTitle }}>
@@ -145,14 +137,6 @@ export class Dashboard extends Component {
   }
 }
 const styles = StyleSheet.create({
-  columns: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    flex: 1,
-    marginTop: 13,
-    marginBottom: -13
-  },
   listTitle: {
     backgroundColor: colors.beige,
     height: 41,
@@ -161,6 +145,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   borderBottom: {
+    marginTop: 20,
     borderBottomColor: colors.lightgrey,
     borderBottomWidth: 1
   }
