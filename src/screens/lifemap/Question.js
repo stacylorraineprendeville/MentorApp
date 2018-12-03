@@ -4,7 +4,8 @@ import {
   ScrollView,
   Text,
   ProgressBarAndroid,
-  View
+  View,
+  TouchableOpacity
 } from 'react-native'
 
 import { connect } from 'react-redux'
@@ -13,7 +14,6 @@ import { addSurveyData } from '../../redux/actions'
 import globalStyles from '../../globalStyles'
 import colors from '../../theme.json'
 import Slider from '../../components/Slider'
-import Checkbox from '../../components/Checkbox'
 
 export class Question extends Component {
   step = this.props.navigation.getParam('step')
@@ -68,12 +68,11 @@ export class Question extends Component {
         />
         <View style={styles.skip}>
           {this.indicator.required ? (
-            <Text style={globalStyles.tag}> *Response required </Text>
+            <Text> *Response required </Text>
           ) : (
-            <Checkbox
-              onIconPress={() => this.selectAnswer(0)}
-              title="Skip this question"
-            />
+            <TouchableOpacity onPress={() => this.selectAnswer(0)}>
+              <Text style={styles.link}> Skip this question </Text>
+            </TouchableOpacity>
           )}
         </View>
       </ScrollView>
@@ -87,6 +86,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 30,
     paddingBottom: 30
+  },
+  link: {
+    color: colors.green
   }
 })
 
