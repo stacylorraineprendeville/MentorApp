@@ -19,6 +19,12 @@ class LifemapOverview extends Component {
                 <LifemapOverviewListItem
                   key={indicator.questionText}
                   name={indicator.questionText}
+                  code={indicator.codeName}
+                  color={
+                    this.props.draftData.filter(
+                      item => item.key === indicator.codeName
+                    )[0].value
+                  }
                   handleClick={() => {}}
                 />
               ))}

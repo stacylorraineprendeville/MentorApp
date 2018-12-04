@@ -26,7 +26,7 @@ export class Question extends Component {
 
   selectAnswer(answer) {
     this.props.addSurveyData(this.draftId, 'indicatorSurveyDataList', {
-      [this.indicator.questionText]: answer
+      [this.indicator.codeName]: answer
     })
 
     if (

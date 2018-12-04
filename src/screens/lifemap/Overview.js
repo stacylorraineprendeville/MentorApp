@@ -40,9 +40,8 @@ export class Overview extends Component {
     const skippedQuestions = draft.indicatorSurveyDataList.filter(
       question => question.value === 0
     )
-    console.log(this.survey)
     console.log(draft)
-
+    console.log(this.survey)
     return (
       <ScrollView
         style={globalStyles.background}
@@ -64,7 +63,11 @@ export class Overview extends Component {
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item }) => (
                 <SkippedListItem
-                  item={item.key}
+                  item={
+                    this.survey.surveyStoplightQuestions.filter(
+                      question => question.codeName === item.key
+                    )[0].questionText
+                  }
                   handleClick={() =>
                     this.props.navigation.push('Question', {
                       draftId: this.draftId,
@@ -96,7 +99,8 @@ export class Overview extends Component {
             <View>
               <View
                 style={{
-                  ...globalStyles.container
+                  ...globalStyles.container,
+                  paddingTop: 20
                 }}
               >
                 <LifemapVisual data={draft.indicatorSurveyDataList} />
@@ -141,8 +145,8 @@ const styles = StyleSheet.create({
   },
   listTitle: {
     backgroundColor: colors.beige,
-    height: 41,
-    lineHeight: 41,
+    height: 45,
+    lineHeight: 45,
     flex: 1,
     textAlign: 'center'
   }
