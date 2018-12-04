@@ -47,7 +47,6 @@ class LifemapOverviewListItem extends Component {
 
 LifemapOverviewListItem.propTypes = {
   name: PropTypes.string.isRequired,
-  code: PropTypes.string.isRequired,
   color: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired
 }

@@ -31,7 +31,10 @@ export class Overview extends Component {
   indicatorsArray = this.survey.surveyStoplightQuestions.map(
     item => item.questionText
   )
-
+  clickContinue = () => {
+    this.scroll.scrollTo({ x: 0, y: 0, animated: false })
+    this.setState({ continueIsClicked: true })
+  }
   render() {
     const draft = this.props.drafts.filter(
       item => item.draftId === this.draftId
@@ -40,12 +43,13 @@ export class Overview extends Component {
     const skippedQuestions = draft.indicatorSurveyDataList.filter(
       question => question.value === 0
     )
-    console.log(draft)
-    console.log(this.survey)
     return (
       <ScrollView
         style={globalStyles.background}
         contentContainerStyle={styles.contentContainer}
+        ref={c => {
+          this.scroll = c
+        }}
       >
         {skippedQuestions.length > 0 && !this.state.continueIsClicked ? (
           <ScrollView
@@ -83,7 +87,7 @@ export class Overview extends Component {
               <Button
                 colored
                 text="Continue"
-                handleClick={() => this.setState({ continueIsClicked: true })}
+                handleClick={() => this.clickContinue()}
               />
             </View>
             <Tip

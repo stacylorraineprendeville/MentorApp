@@ -6,6 +6,7 @@ import RoundImage from '../../components/RoundImage'
 import Button from '../../components/Button'
 import Tip from '../../components/Tip'
 import LifemapVisual from '../../components/LifemapVisual'
+import LifemapOverview from '../../components/LifemapOverview'
 
 const createTestProps = props => ({
   navigation: {
@@ -75,6 +76,7 @@ describe('Skipped Questions View when questions are skipped', () => {
     })
 
     it('changes state when contunue is clicked', () => {
+      wrapper.instance().scroll = { scrollTo: jest.fn() }
       wrapper
         .find(Button)
         .props()
@@ -107,7 +109,9 @@ describe('Overview Lifemap View when no questions are skipped', () => {
     it('renders LifemapVisual', () => {
       expect(wrapper.find(LifemapVisual)).toHaveLength(1)
     })
-
+    it('renders LifemapOverview', () => {
+      expect(wrapper.find(LifemapOverview)).toHaveLength(1)
+    })
     it('renders Button', () => {
       expect(wrapper.find(Button)).toHaveLength(1)
     })
@@ -122,6 +126,19 @@ describe('Overview Lifemap View when no questions are skipped', () => {
       expect(
         wrapper.instance().props.navigation.navigate
       ).toHaveBeenCalledTimes(1)
+    })
+    it('passes the correct survey data to lifemap overview', () => {
+      expect(wrapper.find(LifemapOverview).props().surveyData).toEqual([
+        { phone: 'phone' },
+        { education: 'education' },
+        { c: 'c' }
+      ])
+    })
+    it('passes the correct draft data to lifemap overview', () => {
+      expect(wrapper.find(LifemapOverview).props().draftData).toEqual([
+        { key: 'phone', value: 3 },
+        { key: 'education', value: 1 }
+      ])
     })
   })
 })
