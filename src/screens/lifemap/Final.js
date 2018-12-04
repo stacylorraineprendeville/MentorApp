@@ -39,7 +39,7 @@ export class Final extends Component {
             You have completed the lifemap
           </Text>
           <RoundImage source="partner" />
-          <LifemapVisual data={draft.indicatorSurveyDataList} />
+          <LifemapVisual bigMargin data={draft.indicatorSurveyDataList} />
         </View>
         <View style={{ height: 50 }}>
           <Button

@@ -16,7 +16,7 @@ import SkippedListItem from '../../components/SkippedListItem'
 import RoundImage from '../../components/RoundImage'
 import LifemapVisual from '../../components/LifemapVisual'
 import Button from '../../components/Button'
-
+import LifemapOverview from '../../components/LifemapOverview'
 import globalStyles from '../../globalStyles'
 import colors from '../../theme.json'
 
@@ -40,6 +40,8 @@ export class Overview extends Component {
     const skippedQuestions = draft.indicatorSurveyDataList.filter(
       question => question.value === 0
     )
+    console.log(this.survey)
+    console.log(draft)
 
     return (
       <ScrollView
@@ -91,12 +93,23 @@ export class Overview extends Component {
             style={globalStyles.background}
             contentContainerStyle={styles.contentContainer}
           >
-            <View
-              style={{
-                ...globalStyles.container
-              }}
-            >
-              <LifemapVisual data={draft.indicatorSurveyDataList} />
+            <View>
+              <View
+                style={{
+                  ...globalStyles.container
+                }}
+              >
+                <LifemapVisual data={draft.indicatorSurveyDataList} />
+              </View>
+              <View>
+                <Text style={{ ...globalStyles.subline, ...styles.listTitle }}>
+                  All indicators
+                </Text>
+                <LifemapOverview
+                  surveyData={this.survey.surveyStoplightQuestions}
+                  draftData={draft.indicatorSurveyDataList}
+                />
+              </View>
             </View>
             <View style={{ height: 50 }}>
               <Button
@@ -124,6 +137,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   text: {
+    textAlign: 'center'
+  },
+  listTitle: {
+    backgroundColor: colors.beige,
+    height: 41,
+    lineHeight: 41,
+    flex: 1,
     textAlign: 'center'
   }
 })
