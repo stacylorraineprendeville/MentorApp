@@ -204,6 +204,7 @@ export class Location extends Component {
               />
             ) : (
               <TouchableOpacity
+                id="centerMap"
                 style={styles.center}
                 onPress={this.getDeviceLocation}
               >
@@ -250,7 +251,10 @@ export class Location extends Component {
             countrySelect
             placeholder="Select a country"
             field="country"
-            value={this.getFieldValue(draft, 'country') || ''}
+            value={
+              this.getFieldValue(draft, 'country') ||
+              draft.familyData.familyMembersList[0].countryOfBirth
+            }
             detectError={this.detectError}
           />
           <TextInput
