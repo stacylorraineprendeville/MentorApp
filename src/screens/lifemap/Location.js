@@ -5,7 +5,8 @@ import {
   StyleSheet,
   ActivityIndicator,
   Text,
-  Image
+  Image,
+  TouchableOpacity
 } from 'react-native'
 import { connect } from 'react-redux'
 import { addSurveyData } from '../../redux/actions'
@@ -13,11 +14,12 @@ import PropTypes from 'prop-types'
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
 import MapView from 'react-native-maps'
-import marker from '../../../assets/images/marker.png'
 import globalStyles from '../../globalStyles'
 import colors from '../../theme.json'
 import SearchBar from '../../components/SearchBar'
 import Select from '../../components/Select'
+import marker from '../../../assets/images/marker.png'
+import center from '../../../assets/images/centerMap.png'
 
 export class Location extends Component {
   state = {
@@ -27,7 +29,8 @@ export class Location extends Component {
     searchAddress: '',
     errorsDetected: [],
     mapsError: false,
-    mapReady: false
+    mapReady: false,
+    centeringMap: false
   }
   addSurveyData = (text, field) => {
     this.props.addSurveyData(
@@ -44,10 +47,15 @@ export class Location extends Component {
     }
     return draft.familyData[field]
   }
-  getDeviceLocation() {
+  getDeviceLocation = () => {
+    this.setState({
+      centeringMap: true
+    })
     navigator.geolocation.getCurrentPosition(
       position => {
         this.setState({
+          centeringMap: false,
+          mapReady: false,
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
           accuracy: position.coords.accuracy
@@ -61,7 +69,7 @@ export class Location extends Component {
           }, 5000)
         }
 
-        this.setState({ mapsError: error.code })
+        this.setState({ centeringMap: false, mapsError: error.code })
       },
       {
         enableHighAccuracy: true,
@@ -154,7 +162,8 @@ export class Location extends Component {
       longitude,
       accuracy,
       searchAddress,
-      errorsDetected
+      errorsDetected,
+      centeringMap
     } = this.state
 
     const draft = this.getDraft()
@@ -179,12 +188,6 @@ export class Location extends Component {
             />
             <MapView
               style={styles.map}
-              initialRegion={{
-                latitude,
-                longitude,
-                latitudeDelta: 0.005,
-                longitudeDelta: 0.005
-              }}
               region={{
                 latitude,
                 longitude,
@@ -193,6 +196,20 @@ export class Location extends Component {
               }}
               onRegionChangeComplete={this.onDragMap}
             />
+            {centeringMap ? (
+              <ActivityIndicator
+                style={styles.center}
+                size={54}
+                color={colors.palegreen}
+              />
+            ) : (
+              <TouchableOpacity
+                style={styles.center}
+                onPress={this.getDeviceLocation}
+              >
+                <Image source={center} style={{ width: 21, height: 21 }} />
+              </TouchableOpacity>
+            )}
           </View>
         ) : (
           <View style={[styles.placeholder, styles.map]}>
@@ -320,6 +337,20 @@ const styles = StyleSheet.create({
     top: 7.5,
     right: 7.5,
     left: 7.5
+  },
+  center: {
+    zIndex: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    width: 54,
+    height: 54,
+    bottom: 25,
+    right: 15,
+    backgroundColor: colors.white,
+    borderRadius: 54,
+    borderWidth: 1,
+    borderColor: colors.palegreen
   },
   spinner: {
     marginBottom: 15
