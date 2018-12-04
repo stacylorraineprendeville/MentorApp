@@ -20,6 +20,19 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
   headerLeftContainerStyle: {
     marginLeft: 19
   },
+  headerRightContainerStyle: {
+    marginRight: -16
+  },
+  headerRight: !burgerMenu ? (
+    <TouchableOpacity
+      style={styles.touchable}
+      onPress={() => navigation.navigate('Dashboard')}
+    >
+      <Icon name="close" size={25} color={colors.lightdark} />
+    </TouchableOpacity>
+  ) : (
+    ''
+  ),
   headerLeft: burgerMenu ? (
     <TouchableOpacity
       style={styles.touchable}
