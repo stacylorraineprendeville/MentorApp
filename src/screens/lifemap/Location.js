@@ -15,6 +15,7 @@ import TextInput from '../../components/TextInput'
 import MapView from 'react-native-maps'
 import marker from '../../../assets/images/marker.png'
 import globalStyles from '../../globalStyles'
+import colors from '../../theme.json'
 import SearchBar from '../../components/SearchBar'
 import Select from '../../components/Select'
 
@@ -25,7 +26,7 @@ export class Location extends Component {
     accuracy: null,
     searchAddress: '',
     errorsDetected: [],
-    mapsError: '',
+    mapsError: false,
     mapReady: false
   }
   addSurveyData = (text, field) => {
@@ -52,11 +53,21 @@ export class Location extends Component {
           accuracy: position.coords.accuracy
         })
       },
-      error => this.setState({ mapsError: error.message }),
+      error => {
+        // if error, try getting position after timeout
+        if (error.code === 2) {
+          setTimeout(() => {
+            this.getDeviceLocation()
+          }, 5000)
+        }
+
+        this.setState({ mapsError: error.code })
+      },
       {
         enableHighAccuracy: true,
         timeout: 20000,
-        maximumAge: 0
+        maximumAge: 1000,
+        distanceFilter: 1000
       }
     )
   }
@@ -136,7 +147,6 @@ export class Location extends Component {
       survey: this.props.navigation.getParam('survey')
     })
   }
-
   render() {
     const {
       mapsError,
@@ -154,50 +164,60 @@ export class Location extends Component {
         style={globalStyles.background}
         contentContainerStyle={styles.contentContainer}
       >
-        {!mapsError ? (
+        {latitude ? (
           <View>
-            {latitude ? (
-              <View>
-                <View pointerEvents="none" style={styles.fakeMarker}>
-                  <Image source={marker} />
-                </View>
-                <SearchBar
-                  id="searchAddress"
-                  style={styles.search}
-                  placeholder="Search by street or postal code"
-                  onChangeText={searchAddress =>
-                    this.setState({ searchAddress })
-                  }
-                  onSubmit={this.searcForAddress}
-                  value={searchAddress}
-                />
-                <MapView
-                  style={styles.map}
-                  initialRegion={{
-                    latitude,
-                    longitude,
-                    latitudeDelta: 0.005,
-                    longitudeDelta: 0.005
-                  }}
-                  region={{
-                    latitude,
-                    longitude,
-                    latitudeDelta: 0.005,
-                    longitudeDelta: 0.005
-                  }}
-                  onRegionChangeComplete={this.onDragMap}
-                />
-              </View>
-            ) : (
-              <View style={[styles.placeholder, styles.map]}>
-                <ActivityIndicator size="large" />
-                <Text style={globalStyles.h3}>Getting your location…</Text>
-              </View>
-            )}
+            <View pointerEvents="none" style={styles.fakeMarker}>
+              <Image source={marker} />
+            </View>
+            <SearchBar
+              id="searchAddress"
+              style={styles.search}
+              placeholder="Search by street or postal code"
+              onChangeText={searchAddress => this.setState({ searchAddress })}
+              onSubmit={this.searcForAddress}
+              value={searchAddress}
+            />
+            <MapView
+              style={styles.map}
+              initialRegion={{
+                latitude,
+                longitude,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005
+              }}
+              region={{
+                latitude,
+                longitude,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005
+              }}
+              onRegionChangeComplete={this.onDragMap}
+            />
           </View>
         ) : (
-          <View style={styles.placeholder}>
-            <Text>{mapsError}</Text>
+          <View style={[styles.placeholder, styles.map]}>
+            <ActivityIndicator
+              style={styles.spinner}
+              size={80}
+              color={colors.palered}
+            />
+            {!mapsError ? (
+              <Text style={globalStyles.h2}>Getting your location...</Text>
+            ) : (
+              <View>
+                <Text style={[globalStyles.h2, styles.centerText]}>Hmmm!</Text>
+                <Text style={[styles.errorMsg, styles.centerText]}>
+                  {mapsError === 2
+                    ? 'Something is not working…'
+                    : 'Maps cannot find the current location…'}
+                </Text>
+                <Text style={[styles.errorSubMsg, styles.centerText]}>
+                  {mapsError === 2
+                    ? 'Check that location services are turned on in your device settings!'
+                    : 'Alternatively give as much detail as you can regarding the location in the form below!'}
+                </Text>
+              </View>
+            )}
           </View>
         )}
 
@@ -290,7 +310,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0,
+    bottom: 10, //raise the marker so it's point, not center, marks the location
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -300,5 +320,22 @@ const styles = StyleSheet.create({
     top: 7.5,
     right: 7.5,
     left: 7.5
+  },
+  spinner: {
+    marginBottom: 15
+  },
+  centerText: {
+    textAlign: 'center'
+  },
+  errorMsg: {
+    marginTop: 15,
+    color: colors.palegrey
+  },
+  errorSubMsg: {
+    marginTop: 20,
+    fontWeight: '500',
+    fontSize: 14,
+    lineHeight: 20,
+    color: colors.palered
   }
 })
