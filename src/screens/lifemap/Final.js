@@ -18,7 +18,6 @@ import LifemapVisual from '../../components/LifemapVisual'
 import Button from '../../components/Button'
 
 import globalStyles from '../../globalStyles'
-import colors from '../../theme.json'
 
 export class Final extends Component {
   state = {
