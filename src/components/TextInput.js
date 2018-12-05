@@ -17,7 +17,7 @@ class TextInput extends Component {
   }
 
   onEndEditing = () => {
-    this.props.onChangeText(this.state.text, this.props.field)
+    this.props.onChangeText(this.state.text.trim(), this.props.field)
   }
 
   onFocus() {
@@ -27,10 +27,13 @@ class TextInput extends Component {
   }
 
   onBlur() {
+    const { text } = this.state
+
     this.setState({
-      status: this.state.text ? 'filled' : 'blur'
+      text: text.trim(),
+      status: text ? 'filled' : 'blur'
     })
-    this.props.validation ? this.validateInput() : ''
+    this.props.validation ? this.validateInput(text.trim()) : ''
   }
 
   handleError(errorMsg) {
@@ -42,50 +45,42 @@ class TextInput extends Component {
     })
   }
 
-  validateInput() {
-    if (this.props.required && !this.state.text) {
+  validateInput(text) {
+    if (this.props.required && !text) {
       return this.handleError('This field is required')
     }
-    if (
-      this.props.validation === 'long-string' &&
-      this.state.text.length > 250
-    ) {
+    if (this.props.validation === 'long-string' && text.length > 250) {
       return this.handleError('Value must be less than 250 characters')
     }
-    if (
-      this.props.validation !== 'long-string' &&
-      this.state.text.length > 50
-    ) {
+    if (this.props.validation !== 'long-string' && text.length > 50) {
       return this.handleError('Value must be less than 50 characters')
     }
     if (
       this.props.validation === 'email' &&
-      !validator.isEmail(this.state.text) &&
-      !validator.isEmpty(this.state.text)
+      !validator.isEmail(text) &&
+      !validator.isEmpty(text)
     ) {
       return this.handleError('Please enter a valid email address')
     }
 
     if (
       this.props.validation === 'string' &&
-      !/^[a-zA-Z\u0080-\uFFFF]([\w -]*[a-zA-Z\u0080-\uFFFF])?$/.test(
-        this.state.text
-      ) &&
-      !validator.isEmpty(this.state.text)
+      !/^[a-zA-Z\u0080-\uFFFF]([\w -]*[a-zA-Z\u0080-\uFFFF])?$/.test(text) &&
+      !validator.isEmpty(text)
     ) {
       return this.handleError('Please enter alphabetic characters')
     }
     if (
       this.props.validation === 'phone' &&
-      !/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/.test(this.state.text) &&
-      !validator.isEmpty(this.state.text)
+      !/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/.test(text) &&
+      !validator.isEmpty(text)
     ) {
       return this.handleError('Please enter a valid phone number')
     }
     if (
       this.props.validation === 'number' &&
-      !validator.isNumeric(this.state.text) &&
-      !validator.isEmpty(this.state.text)
+      !validator.isNumeric(text) &&
+      !validator.isEmpty(text)
     ) {
       return this.handleError('Please enter a valid number')
     }
