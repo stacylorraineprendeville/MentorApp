@@ -97,11 +97,9 @@ export class FamilyParticipant extends Component {
     })
   }
 
-  gender = this.survey.surveyPersonalQuestions.filter(item => item.id === 22)[0]
+  gender = this.survey.surveyConfig.gender
 
-  documentType = this.survey.surveyPersonalQuestions.filter(
-    item => item.id === 29
-  )[0]
+  documentType = this.survey.surveyConfig.documentType
 
   render() {
     const draft = this.props.drafts.filter(
@@ -158,7 +156,7 @@ export class FamilyParticipant extends Component {
             field="gender"
             value={this.getFieldValue(draft, 'gender') || ''}
             detectError={this.detectError}
-            data={this.gender.options}
+            data={this.gender}
           />
 
           <DateInput
@@ -177,7 +175,7 @@ export class FamilyParticipant extends Component {
             field="document"
             value={this.getFieldValue(draft, 'document') || ''}
             detectError={this.detectError}
-            data={this.documentType.options}
+            data={this.documentType}
           />
           <TextInput
             onChangeText={this.addSurveyData}
