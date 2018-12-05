@@ -36,10 +36,11 @@ export class Overview extends Component {
     this.setState({ continueIsClicked: true })
   }
 
-  navigateToScreen = screen =>
+  navigateToScreen = (screen, indicator) =>
     this.props.navigation.navigate(screen, {
       draftId: this.draftId,
-      survey: this.survey
+      survey: this.survey,
+      indicator
     })
 
   render() {

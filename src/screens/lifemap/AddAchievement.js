@@ -12,6 +12,12 @@ import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
 
 export class AddAchievement extends Component {
+  state = {
+    reason: '',
+    roadmap: ''
+  }
+  indicator = this.props.navigation.getParam('indicator')
+
   render() {
     return (
       <ScrollView
@@ -35,18 +41,18 @@ export class AddAchievement extends Component {
           </View>
           <TextInput
             field=""
-            onChangeText={() => {}}
+            onChangeText={text => this.setState({ reason: text })}
             placeholder="Write your answer here..."
             label="How did you get it?"
             value={''}
-            detectError={() => {}}
+            multiline
           />
           <TextInput
             label="What did it take to achieve this?"
-            onChangeText={() => {}}
+            onChangeText={text => this.setState({ roadmap: text })}
             placeholder="Write your answer here..."
             value={''}
-            detectError={() => {}}
+            multiline
           />
         </View>
         <View style={{ height: 50 }}>
@@ -64,7 +70,10 @@ const styles = StyleSheet.create({
   }
 })
 
-AddAchievement.propTypes = {}
+AddAchievement.propTypes = {
+  navigation: PropTypes.object.isRequired,
+  addSurveyData: PropTypes.func.isRequired
+}
 
 const mapDispatchToProps = {
   addSurveyData

@@ -79,7 +79,8 @@ describe('LifemapOverview Component', () => {
         .handleClick()
       expect(wrapper.instance().props.navigateToScreen).toHaveBeenCalledTimes(1)
       expect(wrapper.instance().props.navigateToScreen).toHaveBeenCalledWith(
-        'AddPriority'
+        'AddPriority',
+        'FamilySavings'
       )
     })
 
@@ -91,7 +92,8 @@ describe('LifemapOverview Component', () => {
         .handleClick()
       expect(wrapper.instance().props.navigateToScreen).toHaveBeenCalledTimes(1)
       expect(wrapper.instance().props.navigateToScreen).toHaveBeenCalledWith(
-        'AddAchievement'
+        'AddAchievement',
+        'FamilyIncome'
       )
     })
   })

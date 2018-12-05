@@ -108,7 +108,7 @@ class TextInput extends Component {
 
   render() {
     const { text, errorMsg } = this.state
-    const { label, placeholder, required, readonly } = this.props
+    const { label, placeholder, required, readonly, multiline } = this.props
     const status = this.props.status || this.state.status
 
     let showPlaceholder = status === 'blur' && !text
@@ -142,7 +142,7 @@ class TextInput extends Component {
               !showPlaceholder ? styles.activeInput : {}
             ]}
             editable={!readonly}
-            multiline
+            multiline={multiline}
           >
             <Text style={{ fontSize: 14, margin: 10 }}>{text}</Text>
           </FormInput>

@@ -14,6 +14,8 @@ import Counter from '../../components/Counter'
 
 export class AddPriority extends Component {
   state = {
+    reason: '',
+    action: '',
     estimatedDate: 0
   }
 
@@ -24,6 +26,7 @@ export class AddPriority extends Component {
       return this.setState({ estimatedDate: this.state.estimatedDate + 1 })
     }
   }
+  indicator = this.props.navigation.getParam('indicator')
 
   render() {
     return (
@@ -48,18 +51,18 @@ export class AddPriority extends Component {
           </View>
           <TextInput
             field=""
-            onChangeText={() => {}}
+            onChangeText={text => this.setState({ reason: text })}
             placeholder="Write your answer here..."
             label="Why don't you have it?"
             value={''}
-            detectError={() => {}}
+            multiline
           />
           <TextInput
             label="What will you do to get it?"
-            onChangeText={() => {}}
+            onChangeText={text => this.setState({ action: text })}
             placeholder="Write your answer here..."
             value={''}
-            detectError={() => {}}
+            multiline
           />
           <View style={{ padding: 15 }}>
             <Counter
@@ -84,7 +87,10 @@ const styles = StyleSheet.create({
   }
 })
 
-AddPriority.propTypes = {}
+AddPriority.propTypes = {
+  navigation: PropTypes.object.isRequired,
+  addSurveyData: PropTypes.func.isRequired
+}
 
 const mapDispatchToProps = {
   addSurveyData

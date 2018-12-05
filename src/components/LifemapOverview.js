@@ -11,11 +11,11 @@ class LifemapOverview extends Component {
   getColor = color =>
     this.props.draftData.filter(item => item.key === color)[0].value
 
-  handleClick(color) {
+  handleClick(color, indicator) {
     if (color === 3) {
-      return this.props.navigateToScreen('AddAchievement')
+      return this.props.navigateToScreen('AddAchievement', indicator)
     } else if (color === 2 || color === 1) {
-      return this.props.navigateToScreen('AddPriority')
+      return this.props.navigateToScreen('AddPriority', indicator)
     }
   }
 
@@ -33,7 +33,10 @@ class LifemapOverview extends Component {
                   name={indicator.questionText}
                   color={this.getColor(indicator.codeName)}
                   handleClick={() =>
-                    this.handleClick(this.getColor(indicator.codeName))
+                    this.handleClick(
+                      this.getColor(indicator.codeName),
+                      indicator.codeName
+                    )
                   }
                 />
               ))}
