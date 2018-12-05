@@ -36,7 +36,13 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
     <View>
       <TouchableOpacity
         style={styles.touchable}
-        onPress={() => navigation.setParams({ modalOpen: true })}
+        onPress={() => {
+          if (navigation.state.routeName === 'Terms') {
+            navigation.navigate('Dashboard')
+          } else {
+            navigation.setParams({ modalOpen: true })
+          }
+        }}
       >
         <Icon name="close" size={25} color={colors.lightdark} />
       </TouchableOpacity>
