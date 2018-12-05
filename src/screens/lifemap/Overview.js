@@ -29,7 +29,7 @@ export class Overview extends Component {
 
   survey = this.props.navigation.getParam('survey')
   indicatorsArray = this.survey.surveyStoplightQuestions.map(
-    item => item.questionText
+    item => item.codeName
   )
   clickContinue = () => {
     this.scroll.scrollTo({ x: 0, y: 0, animated: false })

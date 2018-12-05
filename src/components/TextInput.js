@@ -200,7 +200,6 @@ const styles = StyleSheet.create({
   },
   text: {
     marginLeft: 15,
-    marginTop: 15,
     zIndex: 100
   }
 })

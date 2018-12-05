@@ -12,8 +12,16 @@ import Counter from '../../components/Counter'
 const createTestProps = props => ({
   navigation: {
     navigate: jest.fn(),
-    getParam: jest.fn(() => 'income')
+    getParam: jest.fn(param => (param === 'indicator' ? 'income' : 2))
   },
+  addSurveyPriorityAcheivementData: jest.fn(),
+  drafts: [
+    {
+      draftId: 2,
+      surveyId: 1,
+      achievements: []
+    }
+  ],
   ...props
 })
 
@@ -42,7 +50,8 @@ describe('AddAchievement View', () => {
     it('has correct initial state', () => {
       expect(wrapper.instance().state).toEqual({
         reason: '',
-        roadmap: ''
+        roadmap: '',
+        indicator: 'income'
       })
     })
 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import { addSurveyData } from '../../redux/actions'
+import { addSurveyPriorityAcheivementData } from '../../redux/actions'
 
 import globalStyles from '../../globalStyles'
 import colors from '../../theme.json'
@@ -16,7 +16,8 @@ export class AddPriority extends Component {
   state = {
     reason: '',
     action: '',
-    estimatedDate: 0
+    estimatedDate: 0,
+    indicator: this.props.navigation.getParam('indicator')
   }
 
   editCounter = action => {
@@ -26,9 +27,29 @@ export class AddPriority extends Component {
       return this.setState({ estimatedDate: this.state.estimatedDate + 1 })
     }
   }
-  indicator = this.props.navigation.getParam('indicator')
 
+  getDraft = () =>
+    this.props.drafts.filter(
+      draft => draft.draftId === this.props.navigation.getParam('draftId')
+    )[0]
+
+  addPriority = () =>
+    this.props.addSurveyPriorityAcheivementData({
+      id: this.props.navigation.getParam('draftId'),
+      category: 'priorities',
+      payload: this.state
+    })
+
+  getPriorityValue = draft => {
+    const priority = draft.priorities.filter(
+      priority =>
+        priority.indicator === this.props.navigation.getParam('indicator')
+    )
+    return priority[0] ? priority[0] : {}
+  }
   render() {
+    const draft = this.getDraft()
+
     return (
       <ScrollView
         style={globalStyles.background}
@@ -54,26 +75,38 @@ export class AddPriority extends Component {
             onChangeText={text => this.setState({ reason: text })}
             placeholder="Write your answer here..."
             label="Why don't you have it?"
-            value={''}
+            value={
+              this.getPriorityValue(draft)
+                ? this.getPriorityValue(draft).reason
+                : ''
+            }
             multiline
           />
           <TextInput
             label="What will you do to get it?"
             onChangeText={text => this.setState({ action: text })}
             placeholder="Write your answer here..."
-            value={''}
+            value={
+              this.getPriorityValue(draft)
+                ? this.getPriorityValue(draft).action
+                : ''
+            }
             multiline
           />
           <View style={{ padding: 15 }}>
             <Counter
               editCounter={this.editCounter}
-              count={this.state.estimatedDate}
+              count={
+                this.getPriorityValue(draft)
+                  ? this.getPriorityValue(draft).estimatedDate
+                  : 0
+              }
               text={'How many months will it take?'}
             />
           </View>
         </View>
         <View style={{ height: 50 }}>
-          <Button colored text="Save" handleClick={() => {}} />
+          <Button colored text="Save" handleClick={() => this.addPriority()} />
         </View>
       </ScrollView>
     )
@@ -89,11 +122,12 @@ const styles = StyleSheet.create({
 
 AddPriority.propTypes = {
   navigation: PropTypes.object.isRequired,
-  addSurveyData: PropTypes.func.isRequired
+  drafts: PropTypes.array.isRequired,
+  addSurveyPriorityAcheivementData: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = {
-  addSurveyData
+  addSurveyPriorityAcheivementData
 }
 
 const mapStateToProps = ({ drafts }) => ({
