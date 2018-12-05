@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     minHeight: 60
   },
   label: {
-    paddingHorizontal: 25,
+    paddingHorizontal: 15,
     paddingVertical: 10,
 
     ...globalStyles.subline

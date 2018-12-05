@@ -29,7 +29,7 @@ export class AddAchievement extends Component {
               name="stars"
               color={colors.blue}
               size={17}
-              style={{ marginRight: 10 }}
+              style={{ marginRight: 10, marginLeft: -10 }}
             />
             <Text style={globalStyles.h3}>Achievement</Text>
           </View>
