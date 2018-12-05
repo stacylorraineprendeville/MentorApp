@@ -29,6 +29,7 @@ const createTestProps = props => ({
       value: 3
     }
   ],
+  navigateToScreen: jest.fn(),
   ...props
 })
 
@@ -41,10 +42,10 @@ describe('LifemapOverview Component', () => {
   })
 
   describe('rendering', () => {
-    it('renders <View />', () => {
+    it('renders View', () => {
       expect(wrapper.find(View)).toHaveLength(3)
     })
-    it('renders <Text />', () => {
+    it('renders Text', () => {
       expect(wrapper.find(Text)).toHaveLength(2)
     })
     it('renders LifemapOverviewListItem', () => {
@@ -68,6 +69,30 @@ describe('LifemapOverview Component', () => {
           .first()
           .props().color
       ).toEqual(2)
+    })
+
+    it('calls navigateToScreen with the correct arg for priority', () => {
+      wrapper
+        .find(LifemapOverviewListItem)
+        .first()
+        .props()
+        .handleClick()
+      expect(wrapper.instance().props.navigateToScreen).toHaveBeenCalledTimes(1)
+      expect(wrapper.instance().props.navigateToScreen).toHaveBeenCalledWith(
+        'AddPriority'
+      )
+    })
+
+    it('calls navigateToScreen with the correct arg for achievement', () => {
+      wrapper
+        .find(LifemapOverviewListItem)
+        .last()
+        .props()
+        .handleClick()
+      expect(wrapper.instance().props.navigateToScreen).toHaveBeenCalledTimes(1)
+      expect(wrapper.instance().props.navigateToScreen).toHaveBeenCalledWith(
+        'AddAchievement'
+      )
     })
   })
 })

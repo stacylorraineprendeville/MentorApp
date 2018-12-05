@@ -35,6 +35,7 @@ export class Overview extends Component {
     this.scroll.scrollTo({ x: 0, y: 0, animated: false })
     this.setState({ continueIsClicked: true })
   }
+
   navigateToScreen = screen =>
     this.props.navigation.navigate(screen, {
       draftId: this.draftId,
@@ -130,12 +131,7 @@ export class Overview extends Component {
               <Button
                 colored
                 text="Continue"
-                handleClick={() =>
-                  this.props.navigation.navigate('Final', {
-                    draftId: this.draftId,
-                    survey: this.survey
-                  })
-                }
+                handleClick={() => this.navigateToScreen('Final')}
               />
             </View>
           </ScrollView>

@@ -16,16 +16,39 @@ export class AddPriority extends Component {
         style={globalStyles.background}
         contentContainerStyle={styles.contentContainer}
       >
-        <View
-          style={{
-            ...globalStyles.container,
-            padding: 0
-          }}
-        >
-          <Text>Priority</Text>
+        <View>
+          <View
+            style={{
+              ...globalStyles.container,
+              flexDirection: 'row'
+            }}
+          >
+            <Icon
+              name="stars"
+              color={colors.blue}
+              size={17}
+              style={{ marginRight: 10 }}
+            />
+            <Text style={globalStyles.h3}>Achievement</Text>
+          </View>
+          <TextInput
+            field=""
+            onChangeText={() => {}}
+            placeholder="Write your answer here..."
+            label="How did you get it?"
+            value={''}
+            detectError={() => {}}
+          />
+          <TextInput
+            label="What did it take to achieve this?"
+            onChangeText={() => {}}
+            placeholder="Write your answer here..."
+            value={''}
+            detectError={() => {}}
+          />
         </View>
         <View style={{ height: 50 }}>
-          <Button colored text="Continue" handleClick={() => {}} />
+          <Button colored text="Save" handleClick={() => {}} />
         </View>
       </ScrollView>
     )
