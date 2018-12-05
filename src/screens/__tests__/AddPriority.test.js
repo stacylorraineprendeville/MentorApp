@@ -96,5 +96,15 @@ describe('AddPriority View', () => {
         .onChangeText('Some action')
       expect(wrapper.instance().state.action).toEqual('Some action')
     })
+    it('saves the priority', () => {
+      wrapper
+        .find(Button)
+        .props()
+        .handleClick()
+
+      expect(
+        wrapper.instance().props.addSurveyPriorityAcheivementData
+      ).toHaveBeenCalledTimes(1)
+    })
   })
 })

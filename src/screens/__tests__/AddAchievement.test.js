@@ -71,5 +71,16 @@ describe('AddAchievement View', () => {
         .onChangeText('Some roadmap')
       expect(wrapper.instance().state.roadmap).toEqual('Some roadmap')
     })
+
+    it('saves the achievement', () => {
+      wrapper
+        .find(Button)
+        .props()
+        .handleClick()
+
+      expect(
+        wrapper.instance().props.addSurveyPriorityAcheivementData
+      ).toHaveBeenCalledTimes(1)
+    })
   })
 })
