@@ -43,7 +43,8 @@ const createTestProps = props => ({
         familyMembersList: [
           {
             firstName: 'Juan',
-            lastName: 'Perez'
+            lastName: 'Perez',
+            countryOfBirth: 'Brazil'
           },
           {
             firstName: 'Ana',
@@ -76,6 +77,14 @@ describe('Family Location component', () => {
     })
   })
   it('updates Marker state after draging has finished', () => {
+    // initial map load
+    wrapper
+      .find(MapView)
+      .first()
+      .props()
+      .onRegionChangeComplete()
+
+    // actual drag
     wrapper
       .find(MapView)
       .first()
@@ -97,6 +106,9 @@ describe('Family Location component', () => {
     expect(wrapper).toHaveState({
       accuracy: 15
     })
+  })
+  it('sets countryOfBirth as default country', () => {
+    expect(wrapper.find('#countrySelect')).toHaveProp('value', 'Brazil')
   })
   it('edits draft in field change', () => {
     wrapper
@@ -145,19 +157,69 @@ describe('Family Location component', () => {
     wrapper
       .find('#countrySelect')
       .props()
-      .detectError('Test error', 'select')
+      .detectError(true, 'select')
 
     expect(wrapper).toHaveState({
-      errorsDetected: ['country', 'select']
+      errorsDetected: ['select']
     })
 
     wrapper
       .find('#countrySelect')
       .props()
-      .detectError('', 'select')
+      .detectError(false, 'select')
 
     expect(wrapper).toHaveState({
-      errorsDetected: ['country']
+      errorsDetected: []
+    })
+  })
+
+  describe('with saved location', () => {
+    beforeEach(() => {
+      const props = createTestProps({
+        drafts: [
+          {
+            draftId: 1
+          },
+          {
+            draftId: 2,
+            surveyId: 1,
+            economicSurveyDataList: [],
+            indicatorSurveyDataList: [],
+            familyData: {
+              latitude: 30,
+              longitude: 30,
+              countFamilyMembers: 2,
+              familyMembersList: [{}]
+            }
+          }
+        ]
+      })
+      wrapper = shallow(<Location {...props} />)
+    })
+
+    it('sets proper state', () => {
+      expect(wrapper).toHaveState({
+        latitude: 30,
+        longitude: 30
+      })
+    })
+
+    it('doesn\'t look for device location if there is one from draft', () => {
+      const spy = jest.spyOn(wrapper.instance(), 'getDeviceLocation')
+
+      expect(spy).toHaveBeenCalledTimes(0)
+    })
+
+    it('centers the map on device location', () => {
+      wrapper
+        .find('#centerMap')
+        .props()
+        .onPress()
+
+      expect(wrapper).toHaveState({
+        latitude: 44,
+        longitude: 45
+      })
     })
   })
 })

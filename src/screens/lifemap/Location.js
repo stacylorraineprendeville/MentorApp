@@ -5,7 +5,8 @@ import {
   StyleSheet,
   ActivityIndicator,
   Text,
-  Image
+  Image,
+  TouchableOpacity
 } from 'react-native'
 import { connect } from 'react-redux'
 import { addSurveyData } from '../../redux/actions'
@@ -13,10 +14,12 @@ import PropTypes from 'prop-types'
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
 import MapView from 'react-native-maps'
-import marker from '../../../assets/images/marker.png'
 import globalStyles from '../../globalStyles'
+import colors from '../../theme.json'
 import SearchBar from '../../components/SearchBar'
 import Select from '../../components/Select'
+import marker from '../../../assets/images/marker.png'
+import center from '../../../assets/images/centerMap.png'
 
 export class Location extends Component {
   state = {
@@ -25,7 +28,9 @@ export class Location extends Component {
     accuracy: null,
     searchAddress: '',
     errorsDetected: [],
-    mapsError: ''
+    mapsError: false,
+    mapReady: false,
+    centeringMap: false
   }
   addSurveyData = (text, field) => {
     this.props.addSurveyData(
@@ -42,20 +47,39 @@ export class Location extends Component {
     }
     return draft.familyData[field]
   }
-  getDeviceLocation() {
+  getDeviceLocation = () => {
+    this.setState({
+      centeringMap: true
+    })
     navigator.geolocation.getCurrentPosition(
       position => {
         this.setState({
+          centeringMap: false,
+          mapReady: false,
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
           accuracy: position.coords.accuracy
         })
       },
-      error => this.setState({ mapsError: error.message }),
+      error => {
+        // if error, try getting position after timeout
+        if (error.code === 2) {
+          setTimeout(() => {
+            this.getDeviceLocation()
+          }, 5000)
+        } else if (error.code === 3) {
+          setTimeout(() => {
+            this.getDeviceLocation()
+          }, 30000)
+        }
+
+        this.setState({ centeringMap: false, mapsError: error.code })
+      },
       {
         enableHighAccuracy: true,
-        timeout: 20000,
-        maximumAge: 0
+        timeout: 30000,
+        maximumAge: 1000,
+        distanceFilter: 1000
       }
     )
   }
@@ -90,10 +114,18 @@ export class Location extends Component {
       .catch()
   }
   onDragMap = region => {
+    if (!this.state.mapReady) {
+      return this.setState({
+        mapReady: true
+      })
+    }
+
     const { latitude, longitude } = region
+
     this.setState({
       latitude,
-      longitude
+      longitude,
+      accuracy: 0
     })
   }
   getDraft = () =>
@@ -101,10 +133,14 @@ export class Location extends Component {
       draft => draft.draftId === this.props.navigation.getParam('draftId')
     )[0]
   componentDidMount() {
-    this.getDeviceLocation()
-    if (!this.getFieldValue(this.getDraft(), 'country')) {
+    const draft = this.getDraft()
+
+    if (!this.getFieldValue(draft, 'latitude')) {
+      this.getDeviceLocation()
+    } else {
       this.setState({
-        errorsDetected: ['country']
+        latitude: this.getFieldValue(draft, 'latitude'),
+        longitude: this.getFieldValue(draft, 'longitude')
       })
     }
   }
@@ -118,7 +154,6 @@ export class Location extends Component {
       survey: this.props.navigation.getParam('survey')
     })
   }
-
   render() {
     const {
       mapsError,
@@ -126,7 +161,8 @@ export class Location extends Component {
       longitude,
       accuracy,
       searchAddress,
-      errorsDetected
+      errorsDetected,
+      centeringMap
     } = this.state
 
     const draft = this.getDraft()
@@ -136,50 +172,69 @@ export class Location extends Component {
         style={globalStyles.background}
         contentContainerStyle={styles.contentContainer}
       >
-        {!mapsError ? (
+        {latitude ? (
           <View>
-            {latitude ? (
-              <View>
-                <View pointerEvents="none" style={styles.fakeMarker}>
-                  <Image source={marker} />
-                </View>
-                <SearchBar
-                  id="searchAddress"
-                  style={styles.search}
-                  placeholder="Search by street or postal code"
-                  onChangeText={searchAddress =>
-                    this.setState({ searchAddress })
-                  }
-                  onSubmit={this.searcForAddress}
-                  value={searchAddress}
-                />
-                <MapView
-                  style={styles.map}
-                  initialRegion={{
-                    latitude,
-                    longitude,
-                    latitudeDelta: 0.005,
-                    longitudeDelta: 0.005
-                  }}
-                  region={{
-                    latitude,
-                    longitude,
-                    latitudeDelta: 0.005,
-                    longitudeDelta: 0.005
-                  }}
-                  onRegionChangeComplete={this.onDragMap}
-                />
-              </View>
+            <View pointerEvents="none" style={styles.fakeMarker}>
+              <Image source={marker} />
+            </View>
+            <SearchBar
+              id="searchAddress"
+              style={styles.search}
+              placeholder="Search by street or postal code"
+              onChangeText={searchAddress => this.setState({ searchAddress })}
+              onSubmit={this.searcForAddress}
+              value={searchAddress}
+            />
+            <MapView
+              style={styles.map}
+              region={{
+                latitude,
+                longitude,
+                latitudeDelta: 0.005,
+                longitudeDelta: 0.005
+              }}
+              onRegionChangeComplete={this.onDragMap}
+            />
+            {centeringMap ? (
+              <ActivityIndicator
+                style={styles.center}
+                size={54}
+                color={colors.palegreen}
+              />
             ) : (
-              <View style={[styles.placeholder, styles.map]}>
-                <ActivityIndicator size="large" />
-                <Text style={globalStyles.h3}>Getting your location…</Text>
-              </View>
+              <TouchableOpacity
+                id="centerMap"
+                style={styles.center}
+                onPress={this.getDeviceLocation}
+              >
+                <Image source={center} style={{ width: 21, height: 21 }} />
+              </TouchableOpacity>
             )}
           </View>
         ) : (
-          <View style={styles.placeholder}>
-            <Text>{mapsError}</Text>
+          <View style={[styles.placeholder, styles.map]}>
+            <ActivityIndicator
+              style={styles.spinner}
+              size={80}
+              color={colors.palered}
+            />
+            {!mapsError ? (
+              <Text style={globalStyles.h2}>Getting your location...</Text>
+            ) : (
+              <View>
+                <Text style={[globalStyles.h2, styles.centerText]}>Hmmm!</Text>
+                <Text style={[styles.errorMsg, styles.centerText]}>
+                  {mapsError === 2
+                    ? 'Something is not working…'
+                    : 'Maps cannot find the current location…'}
+                </Text>
+                <Text style={[styles.errorSubMsg, styles.centerText]}>
+                  {mapsError === 2
+                    ? 'Check that location services are turned on in your device settings!'
+                    : 'Alternatively give as much detail as you can regarding the location in the form below!'}
+                </Text>
+              </View>
+            )}
           </View>
         )}
 
@@ -195,7 +250,10 @@ export class Location extends Component {
             countrySelect
             placeholder="Select a country"
             field="country"
-            value={this.getFieldValue(draft, 'country') || ''}
+            value={
+              this.getFieldValue(draft, 'country') ||
+              draft.familyData.familyMembersList[0].countryOfBirth
+            }
             detectError={this.detectError}
           />
           <TextInput
@@ -273,7 +331,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0,
+    bottom: 10, //raise the marker so it's point, not center, marks the location
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -283,5 +341,36 @@ const styles = StyleSheet.create({
     top: 7.5,
     right: 7.5,
     left: 7.5
+  },
+  center: {
+    zIndex: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    width: 54,
+    height: 54,
+    bottom: 25,
+    right: 15,
+    backgroundColor: colors.white,
+    borderRadius: 54,
+    borderWidth: 1,
+    borderColor: colors.palegreen
+  },
+  spinner: {
+    marginBottom: 15
+  },
+  centerText: {
+    textAlign: 'center'
+  },
+  errorMsg: {
+    marginTop: 15,
+    color: colors.palegrey
+  },
+  errorSubMsg: {
+    marginTop: 20,
+    fontWeight: '500',
+    fontSize: 14,
+    lineHeight: 20,
+    color: colors.palered
   }
 })
