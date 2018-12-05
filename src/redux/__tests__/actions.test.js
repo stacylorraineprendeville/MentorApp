@@ -176,6 +176,25 @@ describe('drafts actions', () => {
     expect(action.addSurveyData(id, category, payload)).toEqual(expectedAction)
   })
 
+  it('should create an action to add priority or achievement to draft', () => {
+    const id = 1
+    const category = 'priority'
+    const payload = {
+      reason: 'reason',
+      action: 'action',
+      indicator: 'indicator'
+    }
+    const expectedAction = {
+      type: action.ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA,
+      id,
+      category,
+      payload
+    }
+    expect(
+      action.addSurveyPriorityAcheivementData({ id, category, payload })
+    ).toEqual(expectedAction)
+  })
+
   it('should create an action to post a draft', () => {
     const env = 'https://mock/env'
     const token = 'token'
