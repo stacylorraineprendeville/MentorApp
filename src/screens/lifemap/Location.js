@@ -214,6 +214,7 @@ export class Location extends Component {
             placeholder="Street or house description"
             validation="long-string"
             detectError={this.detectError}
+            multiline
           />
         </View>
         <View style={{ marginTop: 15 }}>

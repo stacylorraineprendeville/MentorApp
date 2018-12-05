@@ -48,6 +48,8 @@ export class FamilyParticipant extends Component {
         draftId: this.draftId,
         economicSurveyDataList: [],
         indicatorSurveyDataList: [],
+        priorities: [],
+        achievements: [],
         familyData: {
           familyMembersList: [
             {

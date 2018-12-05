@@ -114,7 +114,8 @@ describe('drafts reducer', () => {
     },
     {
       draftId: 2,
-      status: 'In progress'
+      status: 'In progress',
+      priorities: [{ indicator: 'phone', action: 'Action', reason: 'reason' }]
     }
   ]
   it('should handle CREATE_DRAFT', () => {
@@ -136,7 +137,8 @@ describe('drafts reducer', () => {
       },
       {
         draftId: 2,
-        status: 'In progress'
+        status: 'In progress',
+        priorities: [{ indicator: 'phone', action: 'Action', reason: 'reason' }]
       }
     ]
     expect(
@@ -154,7 +156,8 @@ describe('drafts reducer', () => {
       },
       {
         draftId: 2,
-        status: 'Success'
+        status: 'Success',
+        priorities: [{ indicator: 'phone', action: 'Action', reason: 'reason' }]
       }
     ]
     expect(
@@ -172,7 +175,8 @@ describe('drafts reducer', () => {
       },
       {
         draftId: 2,
-        status: 'Error'
+        status: 'Error',
+        priorities: [{ indicator: 'phone', action: 'Action', reason: 'reason' }]
       }
     ]
     expect(
@@ -191,7 +195,8 @@ describe('drafts reducer', () => {
       {
         draftId: 2,
         personal_survey_data: { name: 'Name' },
-        status: 'In progress'
+        status: 'In progress',
+        priorities: [{ indicator: 'phone', action: 'Action', reason: 'reason' }]
       }
     ]
     expect(
@@ -200,6 +205,61 @@ describe('drafts reducer', () => {
         id: 2,
         category: 'personal_survey_data',
         payload: { name: 'Name' }
+      })
+    ).toEqual(expectedStore)
+  })
+  it('should handle ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA', () => {
+    const expectedStore = [
+      {
+        draftId: 1,
+        status: 'Success'
+      },
+      {
+        draftId: 2,
+        status: 'In progress',
+        priorities: [
+          { indicator: 'phone', action: 'Action', reason: 'reason' },
+          { indicator: 'Income', action: 'Some action' }
+        ]
+      }
+    ]
+    expect(
+      reducer.drafts(initialStore, {
+        type: action.ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA,
+        id: 2,
+        category: 'priorities',
+        payload: { indicator: 'Income', action: 'Some action' }
+      })
+    ).toEqual(expectedStore)
+  })
+  it('should update existing priority via ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA', () => {
+    const expectedStore = [
+      {
+        draftId: 1,
+        status: 'Success'
+      },
+      {
+        draftId: 2,
+        status: 'In progress',
+        priorities: [
+          {
+            indicator: 'phone',
+            action: 'Changed action',
+            reason: 'Changed reason'
+          }
+        ]
+      }
+    ]
+    expect(
+      reducer.drafts(initialStore, {
+        type: action.ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA,
+        id: 2,
+        category: 'priorities',
+        payload: {
+          indicator: 'phone',
+          action: 'Changed action',
+          reason: 'Changed reason'
+        }
       })
     ).toEqual(expectedStore)
   })

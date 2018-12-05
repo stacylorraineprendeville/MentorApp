@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { View, Text, StyleSheet } from 'react-native'
-import {
-  FormLabel,
-  FormInput,
-  FormValidationMessage
-} from 'react-native-elements'
+import { FormInput, FormValidationMessage } from 'react-native-elements'
 import colors from '../theme.json'
 import validator from 'validator'
-
+import globalStyles from '../globalStyles'
 class TextInput extends Component {
   state = {
     status: this.props.value ? 'filled' : 'blur',
@@ -112,14 +108,14 @@ class TextInput extends Component {
 
   render() {
     const { text, errorMsg } = this.state
-    const { label, placeholder, required, readonly } = this.props
+    const { label, placeholder, required, readonly, multiline } = this.props
     const status = this.props.status || this.state.status
 
     let showPlaceholder = status === 'blur' && !text
 
     return (
       <View>
-        <FormLabel>{label}</FormLabel>
+        <Text style={styles.label}>{label}</Text>
         <View style={[styles.container, styles[status]]}>
           {!showPlaceholder && (
             <Text
@@ -146,15 +142,17 @@ class TextInput extends Component {
               !showPlaceholder ? styles.activeInput : {}
             ]}
             editable={!readonly}
+            multiline={multiline}
           >
             <Text style={{ fontSize: 14, margin: 10 }}>{text}</Text>
           </FormInput>
         </View>
-        {status === 'error' && errorMsg && (
-          <FormValidationMessage style={{ color: colors.red }}>
-            {errorMsg}
-          </FormValidationMessage>
-        )}
+        {status === 'error' &&
+          errorMsg && (
+            <FormValidationMessage style={{ color: colors.red }}>
+              {errorMsg}
+            </FormValidationMessage>
+          )}
       </View>
     )
   }
@@ -167,7 +165,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginHorizontal: 15,
     justifyContent: 'center',
-    height: 60
+    minHeight: 60
+  },
+  label: {
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+
+    ...globalStyles.subline
   },
   inputStyle: {
     marginVertical: 0,
@@ -196,7 +200,6 @@ const styles = StyleSheet.create({
   },
   text: {
     marginLeft: 15,
-    marginTop: 15,
     zIndex: 100
   }
 })
