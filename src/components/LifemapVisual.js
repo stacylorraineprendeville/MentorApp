@@ -30,7 +30,7 @@ class LifemapVisual extends Component {
             color={item}
             key={i}
             size={17}
-            style={styles.icon}
+            style={{ margin: this.props.bigMargin ? 7 : 4 }}
           />
         ))}
       </View>
@@ -39,12 +39,12 @@ class LifemapVisual extends Component {
 }
 
 LifemapVisual.propTypes = {
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
+  bigMargin: PropTypes.bool
 }
 
 const styles = StyleSheet.create({
-  container: { flexDirection: 'row', flexWrap: 'wrap' },
-  icon: { margin: 7 }
+  container: { flexDirection: 'row', flexWrap: 'wrap' }
 })
 
 export default LifemapVisual

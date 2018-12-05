@@ -112,7 +112,7 @@ describe('surveys actions', () => {
             headers: { Authorization: `Bearer ${token}` },
             body: JSON.stringify({
               query:
-                'query { surveysByUser { title id surveyPersonalQuestions { id questionText answerType options { text value  } } surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value} } surveyStoplightQuestions { questionText dimension id stoplightColors { url value description } required } } }'
+                'query { surveysByUser { title id minimumPriorities surveyConfig { documentType {text value} gender { text value}}  surveyEconomicQuestions { questionText codeName answerType  required forFamilyMember options {text value} } surveyStoplightQuestions { questionText codeName dimension id stoplightColors { url value description } required } } }'
             })
           },
           commit: { type: action.LOAD_SURVEYS }
@@ -174,6 +174,25 @@ describe('drafts actions', () => {
       payload
     }
     expect(action.addSurveyData(id, category, payload)).toEqual(expectedAction)
+  })
+
+  it('should create an action to add priority or achievement to draft', () => {
+    const id = 1
+    const category = 'priority'
+    const payload = {
+      reason: 'reason',
+      action: 'action',
+      indicator: 'indicator'
+    }
+    const expectedAction = {
+      type: action.ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA,
+      id,
+      category,
+      payload
+    }
+    expect(
+      action.addSurveyPriorityAcheivementData({ id, category, payload })
+    ).toEqual(expectedAction)
   })
 
   it('should create an action to post a draft', () => {

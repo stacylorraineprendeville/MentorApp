@@ -73,7 +73,7 @@ export const loadSurveys = (env, token) => ({
         headers: { Authorization: `Bearer ${token}` },
         body: JSON.stringify({
           query:
-            'query { surveysByUser { title id surveyPersonalQuestions { id questionText answerType options { text value  } } surveyEconomicQuestions { questionText codeName answerType topic required forFamilyMember options {text value} } surveyStoplightQuestions { questionText dimension id stoplightColors { url value description } required } } }'
+            'query { surveysByUser { title id minimumPriorities surveyConfig { documentType {text value} gender { text value}}  surveyEconomicQuestions { questionText codeName answerType  required forFamilyMember options {text value} } surveyStoplightQuestions { questionText codeName dimension id stoplightColors { url value description } required } } }'
         })
       },
       commit: { type: LOAD_SURVEYS }
@@ -106,6 +106,8 @@ export const loadFamilies = (env, token) => ({
 export const CREATE_DRAFT = 'CREATE_DRAFT'
 export const DELETE_DRAFT = 'DELETE_DRAFT'
 export const ADD_SURVEY_DATA = 'ADD_SURVEY_DATA'
+export const ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA =
+  'ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA'
 export const ADD_SURVEY_FAMILY_MEMBER_DATA = 'ADD_SURVEY_FAMILY_MEMBER_DATA'
 export const SUBMIT_DRAFT = 'SUBMIT_DRAFT'
 export const SUBMIT_DRAFT_COMMIT = 'SUBMIT_DRAFT_COMMIT'
@@ -119,6 +121,17 @@ export const createDraft = payload => ({
 export const deleteDraft = id => ({
   type: DELETE_DRAFT,
   id
+})
+
+export const addSurveyPriorityAcheivementData = ({
+  id,
+  category,
+  payload
+}) => ({
+  type: ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA,
+  id,
+  category,
+  payload
 })
 
 export const addSurveyFamilyMemberData = ({

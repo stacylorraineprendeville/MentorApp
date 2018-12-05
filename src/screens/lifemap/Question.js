@@ -26,7 +26,7 @@ export class Question extends Component {
 
   selectAnswer(answer) {
     this.props.addSurveyData(this.draftId, 'indicatorSurveyDataList', {
-      [this.indicator.questionText]: answer
+      [this.indicator.codeName]: answer
     })
 
     if (
@@ -39,7 +39,7 @@ export class Question extends Component {
         step: this.step + 1
       })
     } else
-      this.props.navigation.navigate('Final', {
+      this.props.navigation.navigate('Overview', {
         draftId: this.draftId,
         survey: this.survey
       })

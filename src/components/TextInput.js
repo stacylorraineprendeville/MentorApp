@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { View, Text, StyleSheet } from 'react-native'
-import {
-  FormLabel,
-  FormInput,
-  FormValidationMessage
-} from 'react-native-elements'
+import { FormInput, FormValidationMessage } from 'react-native-elements'
 import colors from '../theme.json'
 import validator from 'validator'
-
+import globalStyles from '../globalStyles'
 class TextInput extends Component {
   state = {
     status: this.props.value ? 'filled' : 'blur',
@@ -21,7 +17,7 @@ class TextInput extends Component {
   }
 
   onEndEditing = () => {
-    this.props.onChangeText(this.state.text, this.props.field)
+    this.props.onChangeText(this.state.text.trim(), this.props.field)
   }
 
   onFocus() {
@@ -31,10 +27,13 @@ class TextInput extends Component {
   }
 
   onBlur() {
+    const { text } = this.state
+
     this.setState({
-      status: this.state.text ? 'filled' : 'blur'
+      text: text.trim(),
+      status: text ? 'filled' : 'blur'
     })
-    this.props.validation ? this.validateInput() : ''
+    this.props.validation ? this.validateInput(text.trim()) : ''
   }
 
   handleError(errorMsg) {
@@ -46,50 +45,42 @@ class TextInput extends Component {
     })
   }
 
-  validateInput() {
-    if (this.props.required && !this.state.text) {
+  validateInput(text) {
+    if (this.props.required && !text) {
       return this.handleError('This field is required')
     }
-    if (
-      this.props.validation === 'long-string' &&
-      this.state.text.length > 250
-    ) {
+    if (this.props.validation === 'long-string' && text.length > 250) {
       return this.handleError('Value must be less than 250 characters')
     }
-    if (
-      this.props.validation !== 'long-string' &&
-      this.state.text.length > 50
-    ) {
+    if (this.props.validation !== 'long-string' && text.length > 50) {
       return this.handleError('Value must be less than 50 characters')
     }
     if (
       this.props.validation === 'email' &&
-      !validator.isEmail(this.state.text) &&
-      !validator.isEmpty(this.state.text)
+      !validator.isEmail(text) &&
+      !validator.isEmpty(text)
     ) {
       return this.handleError('Please enter a valid email address')
     }
 
     if (
       this.props.validation === 'string' &&
-      !/^[a-zA-Z\u0080-\uFFFF]([\w -]*[a-zA-Z\u0080-\uFFFF])?$/.test(
-        this.state.text
-      ) &&
-      !validator.isEmpty(this.state.text)
+      !/^[a-zA-Z\u0080-\uFFFF]([\w -]*[a-zA-Z\u0080-\uFFFF])?$/.test(text) &&
+      !validator.isEmpty(text)
     ) {
       return this.handleError('Please enter alphabetic characters')
     }
     if (
       this.props.validation === 'phone' &&
-      !/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/.test(this.state.text) &&
-      !validator.isEmpty(this.state.text)
+      !/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/.test(text) &&
+      !validator.isEmpty(text)
     ) {
       return this.handleError('Please enter a valid phone number')
     }
     if (
       this.props.validation === 'number' &&
-      !validator.isNumeric(this.state.text) &&
-      !validator.isEmpty(this.state.text)
+      !validator.isNumeric(text) &&
+      !validator.isEmpty(text)
     ) {
       return this.handleError('Please enter a valid number')
     }
@@ -112,14 +103,14 @@ class TextInput extends Component {
 
   render() {
     const { text, errorMsg } = this.state
-    const { label, placeholder, required, readonly } = this.props
+    const { label, placeholder, required, readonly, multiline } = this.props
     const status = this.props.status || this.state.status
 
     let showPlaceholder = status === 'blur' && !text
 
     return (
       <View>
-        <FormLabel>{label}</FormLabel>
+        <Text style={styles.label}>{label}</Text>
         <View style={[styles.container, styles[status]]}>
           {!showPlaceholder && (
             <Text
@@ -146,15 +137,17 @@ class TextInput extends Component {
               !showPlaceholder ? styles.activeInput : {}
             ]}
             editable={!readonly}
+            multiline={multiline}
           >
             <Text style={{ fontSize: 14, margin: 10 }}>{text}</Text>
           </FormInput>
         </View>
-        {status === 'error' && errorMsg && (
-          <FormValidationMessage style={{ color: colors.red }}>
-            {errorMsg}
-          </FormValidationMessage>
-        )}
+        {status === 'error' &&
+          errorMsg && (
+            <FormValidationMessage style={{ color: colors.red }}>
+              {errorMsg}
+            </FormValidationMessage>
+          )}
       </View>
     )
   }
@@ -167,7 +160,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginHorizontal: 15,
     justifyContent: 'center',
-    height: 60
+    minHeight: 60
+  },
+  label: {
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+
+    ...globalStyles.subline
   },
   inputStyle: {
     marginVertical: 0,
@@ -196,7 +195,6 @@ const styles = StyleSheet.create({
   },
   text: {
     marginLeft: 15,
-    marginTop: 15,
     zIndex: 100
   }
 })

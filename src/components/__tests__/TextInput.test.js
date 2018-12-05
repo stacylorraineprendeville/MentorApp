@@ -1,10 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import {
-  FormLabel,
-  FormInput,
-  FormValidationMessage
-} from 'react-native-elements'
+import { Text } from 'react-native'
+import { FormInput, FormValidationMessage } from 'react-native-elements'
 
 import TextInput from '../TextInput'
 
@@ -25,11 +22,11 @@ describe('TextInput Component', () => {
     wrapper = shallow(<TextInput {...props} />)
   })
   describe('rendering', () => {
-    it('renders FormLabel', () => {
-      expect(wrapper.find(FormLabel)).toHaveLength(1)
-    })
     it('renders FormInput', () => {
       expect(wrapper.find(FormInput)).toHaveLength(1)
+    })
+    it('renders Text', () => {
+      expect(wrapper.find(Text)).toHaveLength(2)
     })
     it('renders FormValidationMessage when there is an error', () => {
       wrapper.setState({ status: 'error', errorMsg: 'error' })
@@ -40,7 +37,8 @@ describe('TextInput Component', () => {
     it('has the correct label', () => {
       expect(
         wrapper
-          .find(FormLabel)
+          .find(Text)
+          .first()
           .render()
           .text()
       ).toBe('Some label')
