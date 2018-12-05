@@ -7,6 +7,18 @@ import globalStyles from '../globalStyles'
 
 class LifemapOverview extends Component {
   dimensions = this.props.surveyData.map(item => item.dimension)
+
+  getColor = color =>
+    this.props.draftData.filter(item => item.key === color)[0].value
+
+  handleClick(color) {
+    if (color === 3) {
+      return this.props.navigateToScreen('AddAchievement')
+    } else if (color === 2 || color === 1) {
+      return this.props.navigateToScreen('AddPriority')
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -19,12 +31,10 @@ class LifemapOverview extends Component {
                 <LifemapOverviewListItem
                   key={indicator.questionText}
                   name={indicator.questionText}
-                  color={
-                    this.props.draftData.filter(
-                      item => item.key === indicator.codeName
-                    )[0].value
+                  color={this.getColor(indicator.codeName)}
+                  handleClick={() =>
+                    this.handleClick(this.getColor(indicator.codeName))
                   }
-                  handleClick={() => {}}
                 />
               ))}
           </View>
@@ -36,7 +46,8 @@ class LifemapOverview extends Component {
 
 LifemapOverview.propTypes = {
   surveyData: PropTypes.array.isRequired,
-  draftData: PropTypes.array.isRequired
+  draftData: PropTypes.array.isRequired,
+  navigateToScreen: PropTypes.func.isRequired
 }
 
 const styles = StyleSheet.create({

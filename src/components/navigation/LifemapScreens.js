@@ -9,6 +9,8 @@ import QuestionView from '../../screens/lifemap/Question'
 import BeginLifemapView from '../../screens/lifemap/BeginLifemap'
 import LocationView from '../../screens/lifemap/Location'
 import OverviewView from '../../screens/lifemap/Overview'
+import AddPriorityView from '../../screens/lifemap/AddPriority'
+import AddAchievementView from '../../screens/lifemap/AddAchievement'
 import { generateNavOptions } from './helpers'
 
 // Reusable object for all screens related to a draft
@@ -57,6 +59,20 @@ export default {
   },
   Overview: {
     screen: OverviewView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Your Life Map',
+      ...generateNavOptions({ navigation, burgerMenu: false })
+    })
+  },
+  AddPriority: {
+    screen: AddPriorityView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Your Life Map',
+      ...generateNavOptions({ navigation, burgerMenu: false })
+    })
+  },
+  AddAchievement: {
+    screen: AddAchievementView,
     navigationOptions: ({ navigation }) => ({
       title: 'Your Life Map',
       ...generateNavOptions({ navigation, burgerMenu: false })

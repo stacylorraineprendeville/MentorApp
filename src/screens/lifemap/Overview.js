@@ -35,6 +35,12 @@ export class Overview extends Component {
     this.scroll.scrollTo({ x: 0, y: 0, animated: false })
     this.setState({ continueIsClicked: true })
   }
+  navigateToScreen = screen =>
+    this.props.navigation.navigate(screen, {
+      draftId: this.draftId,
+      survey: this.survey
+    })
+
   render() {
     const draft = this.props.drafts.filter(
       item => item.draftId === this.draftId
@@ -116,6 +122,7 @@ export class Overview extends Component {
                 <LifemapOverview
                   surveyData={this.survey.surveyStoplightQuestions}
                   draftData={draft.indicatorSurveyDataList}
+                  navigateToScreen={this.navigateToScreen}
                 />
               </View>
             </View>
