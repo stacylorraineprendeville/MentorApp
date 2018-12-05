@@ -28,6 +28,13 @@ export class AddPriority extends Component {
     }
   }
 
+  componentDidMount() {
+    const draft = this.getDraft()
+    const priority = this.getPriorityValue(draft)
+    console.log(priority)
+    this.setState(priority)
+  }
+
   getDraft = () =>
     this.props.drafts.filter(
       draft => draft.draftId === this.props.navigation.getParam('draftId')
@@ -45,11 +52,13 @@ export class AddPriority extends Component {
       priority =>
         priority.indicator === this.props.navigation.getParam('indicator')
     )
-    return priority[0] ? priority[0] : {}
+    return priority[0] ? priority[0] : this.state
   }
+
   render() {
     const draft = this.getDraft()
-
+    const priority = this.getPriorityValue(draft)
+    console.log(this.state)
     return (
       <ScrollView
         style={globalStyles.background}
@@ -71,36 +80,23 @@ export class AddPriority extends Component {
             <Text style={globalStyles.h3}>Priority</Text>
           </View>
           <TextInput
-            field=""
             onChangeText={text => this.setState({ reason: text })}
             placeholder="Write your answer here..."
             label="Why don't you have it?"
-            value={
-              this.getPriorityValue(draft)
-                ? this.getPriorityValue(draft).reason
-                : ''
-            }
+            value={priority ? priority.reason : ''}
             multiline
           />
           <TextInput
             label="What will you do to get it?"
             onChangeText={text => this.setState({ action: text })}
             placeholder="Write your answer here..."
-            value={
-              this.getPriorityValue(draft)
-                ? this.getPriorityValue(draft).action
-                : ''
-            }
+            value={priority ? priority.action : ''}
             multiline
           />
           <View style={{ padding: 15 }}>
             <Counter
               editCounter={this.editCounter}
-              count={
-                this.getPriorityValue(draft)
-                  ? this.getPriorityValue(draft).estimatedDate
-                  : 0
-              }
+              count={this.state.estimatedDate}
               text={'How many months will it take?'}
             />
           </View>

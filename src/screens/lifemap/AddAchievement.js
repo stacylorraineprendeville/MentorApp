@@ -17,6 +17,12 @@ export class AddAchievement extends Component {
     roadmap: '',
     indicator: this.props.navigation.getParam('indicator')
   }
+  componentDidMount() {
+    const draft = this.getDraft()
+    const achievement = this.getAchievementValue(draft)
+    console.log(achievement)
+    this.setState(achievement)
+  }
 
   getDraft = () =>
     this.props.drafts.filter(
@@ -40,6 +46,8 @@ export class AddAchievement extends Component {
 
   render() {
     const draft = this.getDraft()
+    const achievement = this.getAchievementValue(draft)
+
     return (
       <ScrollView
         style={globalStyles.background}
@@ -65,22 +73,14 @@ export class AddAchievement extends Component {
             onChangeText={text => this.setState({ reason: text })}
             placeholder="Write your answer here..."
             label="How did you get it?"
-            value={
-              this.getAchievementValue(draft)
-                ? this.getAchievementValue(draft).reason
-                : ''
-            }
+            value={achievement ? achievement.reason : ''}
             multiline
           />
           <TextInput
             label="What did it take to achieve this?"
             onChangeText={text => this.setState({ roadmap: text })}
             placeholder="Write your answer here..."
-            value={
-              this.getAchievementValue(draft)
-                ? this.getAchievementValue(draft).roadmap
-                : ''
-            }
+            value={achievement ? achievement.roadmap : ''}
             multiline
           />
         </View>
