@@ -66,7 +66,7 @@ export class FamilyParticipant extends Component {
   }
 
   handleClick() {
-    this.props.navigation.navigate('Overview', {
+    this.props.navigation.navigate('FamilyMembersNames', {
       draftId: this.draftId,
       survey: this.survey
     })
