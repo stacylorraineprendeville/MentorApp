@@ -21,46 +21,36 @@ const createTestProps = props => ({
       id: 1,
       title: 'Dev Demo',
       survey_version_id: 2,
-      surveyPersonalQuestions: [
-        {
-          id: 22,
-          questionText: 'Enter your gender',
-          answerType: 'select',
-          options: [
-            {
-              text: 'Female',
-              value: 'F'
-            },
-            {
-              text: 'Male',
-              value: 'M'
-            },
-            {
-              text: 'Prefer not to disclose',
-              value: 'O'
-            }
-          ]
-        },
-        {
-          id: 29,
-          questionText: 'Personal Reference',
-          answerType: 'select',
-          options: [
-            {
-              text: 'National Insurance Number',
-              value: 'NATIONALINSURANCE'
-            },
-            {
-              text: 'Organisation Reference Number',
-              value: 'ORGANISATIONALREFERENCENUMBER'
-            },
-            {
-              text: 'Other identification',
-              value: 'OTHER'
-            }
-          ]
-        }
-      ]
+      surveyConfig: {
+        gender: [
+          {
+            text: 'Female',
+            value: 'F'
+          },
+          {
+            text: 'Male',
+            value: 'M'
+          },
+          {
+            text: 'Prefer not to disclose',
+            value: 'O'
+          }
+        ],
+        documentType: [
+          {
+            text: 'National Insurance Number',
+            value: 'NATIONALINSURANCE'
+          },
+          {
+            text: 'Organisation Reference Number',
+            value: 'ORGANISATIONALREFERENCENUMBER'
+          },
+          {
+            text: 'Other identification',
+            value: 'OTHER'
+          }
+        ]
+      }
     }
   ],
   env: 'development',
@@ -89,11 +79,11 @@ describe('Family Participant View', () => {
         expect(wrapper.instance().surveyId).toBe(1)
       })
 
-      it('sets survey with surveyPersonalQuestions', () => {
+      it('sets survey with surveyConfig', () => {
         expect(wrapper.instance().survey.id).toBe(1)
         expect(wrapper.instance().survey.title).toBe('Dev Demo')
-        expect(wrapper.instance().survey.surveyPersonalQuestions).toEqual(
-          expect.any(Array)
+        expect(wrapper.instance().survey.surveyConfig).toEqual(
+          expect.any(Object)
         )
       })
 
