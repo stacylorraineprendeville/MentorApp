@@ -12,13 +12,20 @@ class Button extends Component {
     if (this.props.colored) {
       return styles.colored
     }
+    if (this.props.outlined) {
+      return styles.outlined
+    }
     return styles.transparent
   }
 
   render() {
     return (
       <TouchableOpacity
-        style={{ ...styles.buttonStyle, ...this.defineButtonStyle() }}
+        style={{
+          ...styles.buttonStyle,
+          ...this.defineButtonStyle(),
+          ...this.props.style
+        }}
         onPress={this.props.handleClick}
         disabled={this.props.disabled}
       >
@@ -49,8 +56,10 @@ Button.propTypes = {
   handleClick: PropTypes.func.isRequired,
   colored: PropTypes.bool,
   underlined: PropTypes.bool,
+  outlined: PropTypes.bool,
   icon: PropTypes.string,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  style: PropTypes.object
 }
 
 const styles = StyleSheet.create({
@@ -80,6 +89,15 @@ const styles = StyleSheet.create({
   },
   colored: {
     backgroundColor: colors.palegreen
+  },
+  outlined: {
+    flex: 0,
+    color: colors.palegreen,
+    fontSize: 14,
+    borderColor: colors.palegreen,
+    borderRadius: 4,
+    borderWidth: 1.5,
+    padding: 15
   },
   transparent: {
     backgroundColor: colors.palebeige

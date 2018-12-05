@@ -104,5 +104,8 @@ export default StyleSheet.create({
   tag: {
     fontFamily: 'Roboto',
     fontSize: 12
+  },
+  centerText: {
+    textAlign: 'center'
   }
 })
