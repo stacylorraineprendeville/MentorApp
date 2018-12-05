@@ -81,7 +81,7 @@ export class AddPriority extends Component {
           </View>
           <TextInput
             onChangeText={text => this.setState({ reason: text })}
-            placeholder="Write your answer here..."
+            placeholder={this.state.reason ? '' : 'Write your answer here...'}
             label="Why don't you have it?"
             value={priority ? priority.reason : ''}
             multiline
@@ -89,7 +89,7 @@ export class AddPriority extends Component {
           <TextInput
             label="What will you do to get it?"
             onChangeText={text => this.setState({ action: text })}
-            placeholder="Write your answer here..."
+            placeholder={this.state.action ? '' : 'Write your answer here...'}
             value={priority ? priority.action : ''}
             multiline
           />

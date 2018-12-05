@@ -71,7 +71,7 @@ export class AddAchievement extends Component {
           <TextInput
             field=""
             onChangeText={text => this.setState({ reason: text })}
-            placeholder="Write your answer here..."
+            placeholder={this.state.reason ? '' : 'Write your answer here...'}
             label="How did you get it?"
             value={achievement ? achievement.reason : ''}
             multiline
@@ -79,7 +79,7 @@ export class AddAchievement extends Component {
           <TextInput
             label="What did it take to achieve this?"
             onChangeText={text => this.setState({ roadmap: text })}
-            placeholder="Write your answer here..."
+            placeholder={this.state.roadmap ? '' : 'Write your answer here...'}
             value={achievement ? achievement.roadmap : ''}
             multiline
           />
