@@ -67,13 +67,17 @@ export class Location extends Component {
           setTimeout(() => {
             this.getDeviceLocation()
           }, 5000)
+        } else if (error.code === 3) {
+          setTimeout(() => {
+            this.getDeviceLocation()
+          }, 30000)
         }
 
         this.setState({ centeringMap: false, mapsError: error.code })
       },
       {
         enableHighAccuracy: true,
-        timeout: 20000,
+        timeout: 30000,
         maximumAge: 1000,
         distanceFilter: 1000
       }
@@ -137,11 +141,6 @@ export class Location extends Component {
       this.setState({
         latitude: this.getFieldValue(draft, 'latitude'),
         longitude: this.getFieldValue(draft, 'longitude')
-      })
-    }
-    if (!this.getFieldValue(draft, 'country')) {
-      this.setState({
-        errorsDetected: ['country']
       })
     }
   }

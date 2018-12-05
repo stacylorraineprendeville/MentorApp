@@ -157,19 +157,19 @@ describe('Family Location component', () => {
     wrapper
       .find('#countrySelect')
       .props()
-      .detectError('Test error', 'select')
+      .detectError(true, 'select')
 
     expect(wrapper).toHaveState({
-      errorsDetected: ['country', 'select']
+      errorsDetected: ['select']
     })
 
     wrapper
       .find('#countrySelect')
       .props()
-      .detectError('', 'select')
+      .detectError(false, 'select')
 
     expect(wrapper).toHaveState({
-      errorsDetected: ['country']
+      errorsDetected: []
     })
   })
 
