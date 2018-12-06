@@ -2,6 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { Image } from 'react-native'
 import { AppStack } from '../navigation'
+import Popup from '../Popup'
 import { DrawerContent } from '../navigation/DrawerContent'
 
 describe('Navigation', () => {
@@ -22,9 +23,14 @@ describe('Navigation', () => {
   describe('DrawerContent', () => {
     const wrapper = shallow(
       <DrawerContent
-        navigation={{ toggleDrawer: jest.fn() }}
+        navigation={{
+          toggleDrawer: jest.fn(),
+          getParam: () => false,
+          setParams: jest.fn()
+        }}
         switchLanguage={jest.fn()}
         user={{ username: 'test' }}
+        drafts={[]}
       />
     )
     it('renders nav image', () => {
@@ -43,6 +49,27 @@ describe('Navigation', () => {
         .onPress()
       expect(spy).toHaveBeenCalledTimes(1)
       expect(spy).toHaveBeenCalledWith('en')
+    })
+    it('opens logout modal on clicking logout', () => {
+      const wrapper = shallow(
+        <DrawerContent
+          navigation={{
+            toggleDrawer: jest.fn(),
+            getParam: () => true,
+            setParams: jest.fn()
+          }}
+          switchLanguage={jest.fn()}
+          user={{ username: 'test' }}
+          drafts={[]}
+        />
+      )
+
+      wrapper
+        .find('#logout')
+        .props()
+        .onPress()
+
+      expect(wrapper.find(Popup)).toHaveProp('isOpen', true)
     })
   })
 })
