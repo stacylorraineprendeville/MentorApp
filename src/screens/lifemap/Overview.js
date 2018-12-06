@@ -18,11 +18,12 @@ export class Overview extends Component {
     item => item.codeName
   )
 
-  navigateToScreen = (screen, indicator) =>
+  navigateToScreen = (screen, indicator, indicatorText) =>
     this.props.navigation.navigate(screen, {
       draftId: this.draftId,
       survey: this.survey,
-      indicator
+      indicator,
+      indicatorText
     })
 
   getMandatoryPrioritiesCount(draft) {

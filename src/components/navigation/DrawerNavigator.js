@@ -45,19 +45,19 @@ export default createDrawerNavigator(
         drawerLabel: 'Create a Life Map',
         drawerIcon: <DrawerIcon name="swap-calls" rotate={true} />
       }
-    },
-    Families: {
-      screen: FamiliesStack,
-      navigationOptions: {
-        drawerIcon: <Image source={familyNavIcon} />
-      }
-    },
-    Sync: {
-      screen: SyncStack,
-      navigationOptions: {
-        drawerIcon: <DrawerIcon name="sync" />
-      }
     }
+    // Families: {
+    //   screen: FamiliesStack,
+    //   navigationOptions: {
+    //     drawerIcon: <Image source={familyNavIcon} />
+    //   }
+    // },
+    // Sync: {
+    //   screen: SyncStack,
+    //   navigationOptions: {
+    //     drawerIcon: <DrawerIcon name="sync" />
+    //   }
+    // }
   },
   {
     contentComponent: DrawerContentComponent,
