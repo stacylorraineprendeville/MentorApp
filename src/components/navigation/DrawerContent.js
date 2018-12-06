@@ -32,11 +32,9 @@ export class DrawerContent extends Component {
   }
 
   logout = () => {
-    AsyncStorage.clear(() =>
-      this.props.logout(url[this.props.env], this.props.user.token).then(() => {
-        this.props.navigation.navigate('Login')
-      })
-    )
+    this.props.logout(url[this.props.env], this.props.user.token).then(() => {
+      AsyncStorage.clear()
+    })
   }
 
   render() {

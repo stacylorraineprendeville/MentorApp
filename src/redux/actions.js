@@ -1,6 +1,7 @@
 // Login
 
 export const SET_LOGIN_STATE = 'SET_LOGIN_STATE'
+export const USER_LOGOUT = 'USER_LOGOUT'
 
 export const login = (username, password, env) => dispatch =>
   fetch(
@@ -40,10 +41,7 @@ export const logout = (env, token) => dispatch =>
   })
     .then(() => {
       dispatch({
-        type: SET_LOGIN_STATE,
-        token: null,
-        status: null,
-        username: null
+        type: USER_LOGOUT
       })
     })
     .catch(e => e)
