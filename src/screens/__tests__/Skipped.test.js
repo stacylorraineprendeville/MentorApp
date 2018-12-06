@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import { ScrollView, Image, FlatList, Text } from 'react-native'
-import { Overview } from '../lifemap/Overview'
+import { Skipped } from '../lifemap/Skipped'
 import RoundImage from '../../components/RoundImage'
 import Button from '../../components/Button'
 import Tip from '../../components/Tip'
@@ -31,7 +31,7 @@ const createTestProps = props => ({
   ...props
 })
 
-describe('Overview Lifemap View when no questions are skipped', () => {
+describe('Skipped Questions View when questions are skipped', () => {
   let wrapper
   beforeEach(() => {
     const props = createTestProps({
@@ -39,31 +39,40 @@ describe('Overview Lifemap View when no questions are skipped', () => {
         {
           draftId: 1,
           indicatorSurveyDataList: [
-            { key: 'phone', value: 3 },
-            { key: 'education', value: 1 }
+            { key: 'phone', value: 0 },
+            { key: 'education', value: 3 }
           ]
         }
       ]
     })
-    wrapper = shallow(<Overview {...props} />)
+    wrapper = shallow(<Skipped {...props} />)
   })
   describe('rendering', () => {
     it('renders ScrollView', () => {
       expect(wrapper.find(ScrollView)).toHaveLength(1)
     })
-    it('renders LifemapVisual', () => {
-      expect(wrapper.find(LifemapVisual)).toHaveLength(1)
+    it('renders Image', () => {
+      expect(wrapper.find(Image)).toHaveLength(1)
     })
-    it('renders LifemapOverview', () => {
-      expect(wrapper.find(LifemapOverview)).toHaveLength(1)
+
+    it('rendersFlatList', () => {
+      expect(wrapper.find(FlatList)).toHaveLength(1)
+    })
+    it('renders Tip', () => {
+      expect(wrapper.find(Tip)).toHaveLength(1)
     })
     it('renders Button', () => {
       expect(wrapper.find(Button)).toHaveLength(1)
     })
   })
-
   describe('functionality', () => {
-    it('calls handleClick function when Button is clicked', () => {
+    it('passess the correct data to FlatList', () => {
+      expect(wrapper.find(FlatList).props().data).toEqual([
+        { key: 'phone', value: 0 }
+      ])
+    })
+
+    it('calls navigation', () => {
       wrapper
         .find(Button)
         .props()
@@ -71,19 +80,6 @@ describe('Overview Lifemap View when no questions are skipped', () => {
       expect(
         wrapper.instance().props.navigation.navigate
       ).toHaveBeenCalledTimes(1)
-    })
-    it('passes the correct survey data to lifemap overview', () => {
-      expect(wrapper.find(LifemapOverview).props().surveyData).toEqual([
-        { phone: 'phone' },
-        { education: 'education' },
-        { c: 'c' }
-      ])
-    })
-    it('passes the correct draft data to lifemap overview', () => {
-      expect(wrapper.find(LifemapOverview).props().draftData).toEqual([
-        { key: 'phone', value: 3 },
-        { key: 'education', value: 1 }
-      ])
     })
   })
 })

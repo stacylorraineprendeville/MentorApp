@@ -8,6 +8,7 @@ import FamilyMembersBirthdatesView from '../../screens/lifemap/FamilyMembersBirt
 import QuestionView from '../../screens/lifemap/Question'
 import BeginLifemapView from '../../screens/lifemap/BeginLifemap'
 import LocationView from '../../screens/lifemap/Location'
+import SkippedView from '../../screens/lifemap/Skipped'
 import OverviewView from '../../screens/lifemap/Overview'
 import AddPriorityView from '../../screens/lifemap/AddPriority'
 import AddAchievementView from '../../screens/lifemap/AddAchievement'
@@ -54,6 +55,13 @@ export default {
     screen: QuestionView,
     navigationOptions: ({ navigation }) => ({
       title: 'Your Life Map',
+      ...generateNavOptions({ navigation, burgerMenu: false })
+    })
+  },
+  Skipped: {
+    screen: SkippedView,
+    navigationOptions: ({ navigation }) => ({
+      title: 'Skipped indicators',
       ...generateNavOptions({ navigation, burgerMenu: false })
     })
   },
