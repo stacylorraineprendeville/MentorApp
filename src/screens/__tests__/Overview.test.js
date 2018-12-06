@@ -19,6 +19,7 @@ const createTestProps = props => ({
         return {
           id: 2,
           title: 'Other survey',
+          minimumPriorities: 5,
           surveyStoplightQuestions: [
             { phone: 'phone' },
             { education: 'education' },
@@ -38,9 +39,12 @@ describe('Overview Lifemap View when no questions are skipped', () => {
       drafts: [
         {
           draftId: 1,
+          priorities: [{ action: 'Some action' }],
           indicatorSurveyDataList: [
             { key: 'phone', value: 3 },
-            { key: 'education', value: 1 }
+            { key: 'education', value: 1 },
+            { key: 'ind', value: 1 },
+            { key: 'Other ind', value: 2 }
           ]
         }
       ]
@@ -60,6 +64,22 @@ describe('Overview Lifemap View when no questions are skipped', () => {
     it('renders Button', () => {
       expect(wrapper.find(Button)).toHaveLength(1)
     })
+    it('renders Tip', () => {
+      expect(wrapper.find(Tip)).toHaveLength(1)
+    })
+    it('does not render Tip when no priorities can be added (all indicators are green)', () => {
+      const props = createTestProps({
+        drafts: [
+          {
+            draftId: 1,
+            priorities: [{ action: 'Some action' }],
+            indicatorSurveyDataList: [{ key: 'phone', value: 3 }]
+          }
+        ]
+      })
+      wrapper = shallow(<Overview {...props} />)
+      expect(wrapper.find(Tip)).toHaveLength(0)
+    })
   })
 
   describe('functionality', () => {
@@ -72,6 +92,25 @@ describe('Overview Lifemap View when no questions are skipped', () => {
         wrapper.instance().props.navigation.navigate
       ).toHaveBeenCalledTimes(1)
     })
+    it('button is enabled when enough priorities', () => {
+      const props = createTestProps({
+        drafts: [
+          {
+            draftId: 1,
+            priorities: [{ action: 'Some action' }],
+            indicatorSurveyDataList: [
+              { key: 'phone', value: 3 },
+              { key: 'education', value: 1 }
+            ]
+          }
+        ]
+      })
+      wrapper = shallow(<Overview {...props} />)
+      expect(wrapper.find(Button).props().disabled).toBe(false)
+    })
+    it('button is disabled when not enough priorities', () => {
+      expect(wrapper.find(Button).props().disabled).toBe(true)
+    })
     it('passes the correct survey data to lifemap overview', () => {
       expect(wrapper.find(LifemapOverview).props().surveyData).toEqual([
         { phone: 'phone' },
@@ -82,7 +121,9 @@ describe('Overview Lifemap View when no questions are skipped', () => {
     it('passes the correct draft data to lifemap overview', () => {
       expect(wrapper.find(LifemapOverview).props().draftData).toEqual([
         { key: 'phone', value: 3 },
-        { key: 'education', value: 1 }
+        { key: 'education', value: 1 },
+        { key: 'ind', value: 1 },
+        { key: 'Other ind', value: 2 }
       ])
     })
   })

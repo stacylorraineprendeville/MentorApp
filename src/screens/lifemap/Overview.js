@@ -25,11 +25,20 @@ export class Overview extends Component {
       indicator
     })
 
+  getMandatoryPrioritiesCount(draft) {
+    const potentialPrioritiesCount = draft.indicatorSurveyDataList.filter(
+      question => question.value === 1 || question.value === 2
+    ).length
+    return potentialPrioritiesCount > this.survey.minimumPriorities
+      ? this.survey.minimumPriorities
+      : potentialPrioritiesCount
+  }
+
   render() {
     const draft = this.props.drafts.filter(
       item => item.draftId === this.draftId
     )[0]
-
+    const mandatoryPrioritiesCount = this.getMandatoryPrioritiesCount(draft)
     return (
       <ScrollView
         style={globalStyles.background}
@@ -60,8 +69,19 @@ export class Overview extends Component {
             colored
             text="Continue"
             handleClick={() => this.navigateToScreen('Final')}
+            disabled={mandatoryPrioritiesCount > draft.priorities.length}
           />
         </View>
+        {mandatoryPrioritiesCount ? (
+          <Tip
+            title={'Before the Life Map is completed...'}
+            description={`You need to add ${mandatoryPrioritiesCount} ${
+              mandatoryPrioritiesCount === 1 ? 'priotity' : 'priorities'
+            }`}
+          />
+        ) : (
+          <View />
+        )}
       </ScrollView>
     )
   }
