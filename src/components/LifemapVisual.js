@@ -21,19 +21,17 @@ class LifemapVisual extends Component {
       }
     })
 
-  prioritiesAndAchievements = [
-    ...this.props.priorities.map(priority => priority.indicator),
-    ...this.props.achievements.map(priority => priority.indicator)
-  ]
-
   render() {
+    const prioritiesAndAchievements = [
+      ...this.props.priorities.map(priority => priority.indicator),
+      ...this.props.achievements.map(priority => priority.indicator)
+    ]
     return (
       <View style={styles.container}>
         {this.getColors().map((item, i) => (
           <View key={i}>
-            {this.prioritiesAndAchievements.includes(
-              this.props.questions[i].key
-            ) && this.props.questions[i].value ? (
+            {prioritiesAndAchievements.includes(this.props.questions[i].key) &&
+            this.props.questions[i].value ? (
               <Icon
                 name="brightness-1"
                 color={colors.blue}
