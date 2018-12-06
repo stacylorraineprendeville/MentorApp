@@ -143,6 +143,7 @@ describe('LifemapOverview Component', () => {
           .props().achievement
       ).toEqual(true)
     })
+
     it('calls navigateToScreen with the correct arg for priority', () => {
       wrapper
         .find(LifemapOverviewListItem)
@@ -152,7 +153,8 @@ describe('LifemapOverview Component', () => {
       expect(wrapper.instance().props.navigateToScreen).toHaveBeenCalledTimes(1)
       expect(wrapper.instance().props.navigateToScreen).toHaveBeenCalledWith(
         'AddPriority',
-        'FamilySavings'
+        'FamilySavings',
+        'Family Savings'
       )
     })
 
@@ -165,7 +167,8 @@ describe('LifemapOverview Component', () => {
       expect(wrapper.instance().props.navigateToScreen).toHaveBeenCalledTimes(1)
       expect(wrapper.instance().props.navigateToScreen).toHaveBeenCalledWith(
         'AddAchievement',
-        'FamilyIncome'
+        'FamilyIncome',
+        'Family Income'
       )
     })
   })
