@@ -7,10 +7,10 @@ import LifemapVisual from '../LifemapVisual'
 const createTestProps = props => ({
   ...props,
   questions: [
-    { key: 'phone', value: 1 },
+    { key: 'phone', value: 0 },
     { key: 'income', value: 3 },
     { key: 'electricity', value: 2 },
-    { key: 'water', value: 0 }
+    { key: 'water', value: 1 }
   ],
   priorities: [{ indicator: 'water' }],
   achievements: [{ indicator: 'income' }]
@@ -33,7 +33,7 @@ describe('LifemapVisual Component', () => {
           .find(Icon)
           .at(0)
           .props().color
-      ).toEqual(colors.red)
+      ).toEqual(colors.palegrey)
     })
     it('renders green color', () => {
       expect(
@@ -59,7 +59,7 @@ describe('LifemapVisual Component', () => {
           .find(Icon)
           .at(5)
           .props().color
-      ).toEqual(colors.palegrey)
+      ).toEqual(colors.red)
     })
   })
 })

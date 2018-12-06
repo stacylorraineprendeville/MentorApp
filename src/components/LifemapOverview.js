@@ -9,7 +9,9 @@ class LifemapOverview extends Component {
   dimensions = this.props.surveyData.map(item => item.dimension)
 
   getColor = color =>
-    this.props.draftData.filter(item => item.key === color)[0].value
+    this.props.draftData.indicatorSurveyDataList.filter(
+      item => item.key === color
+    )[0].value
 
   handleClick(color, indicator) {
     if (color === 3) {
@@ -20,6 +22,12 @@ class LifemapOverview extends Component {
   }
 
   render() {
+    const priorities = this.props.draftData.priorities.map(
+      priority => priority.indicator
+    )
+    const achievements = this.props.draftData.achievements.map(
+      priority => priority.indicator
+    )
     return (
       <View style={styles.container}>
         {[...new Set(this.dimensions)].map(item => (
@@ -32,6 +40,8 @@ class LifemapOverview extends Component {
                   key={indicator.questionText}
                   name={indicator.questionText}
                   color={this.getColor(indicator.codeName)}
+                  priority={priorities.includes(indicator.codeName)}
+                  achievement={achievements.includes(indicator.codeName)}
                   handleClick={() =>
                     this.handleClick(
                       this.getColor(indicator.codeName),
@@ -49,7 +59,7 @@ class LifemapOverview extends Component {
 
 LifemapOverview.propTypes = {
   surveyData: PropTypes.array.isRequired,
-  draftData: PropTypes.array.isRequired,
+  draftData: PropTypes.object.isRequired,
   navigateToScreen: PropTypes.func.isRequired
 }
 

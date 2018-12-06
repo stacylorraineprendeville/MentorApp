@@ -63,7 +63,7 @@ export class Overview extends Component {
             </Text>
             <LifemapOverview
               surveyData={this.survey.surveyStoplightQuestions}
-              draftData={draft.indicatorSurveyDataList}
+              draftData={draft}
               navigateToScreen={this.navigateToScreen}
             />
           </View>

@@ -20,7 +20,7 @@ export class AddAchievement extends Component {
   componentDidMount() {
     const draft = this.getDraft()
     const achievement = this.getAchievementValue(draft)
-    console.log(achievement)
+
     this.setState(achievement)
   }
 

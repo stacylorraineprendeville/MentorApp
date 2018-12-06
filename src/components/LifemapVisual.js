@@ -33,22 +33,12 @@ class LifemapVisual extends Component {
           <View key={i}>
             {this.prioritiesAndAchievements.includes(
               this.props.questions[i].key
-            ) ? (
+            ) && this.props.questions[i].value ? (
               <Icon
                 name="brightness-1"
                 color={colors.blue}
                 size={10}
-                style={{
-                  right: 4,
-                  top: -2,
-                  position: 'absolute',
-                  width: 10,
-                  height: 10,
-                  zIndex: 10,
-                  borderColor: '#FFFFFF',
-                  borderWidth: 2,
-                  borderRadius: 5
-                }}
+                style={styles.iconBlue}
               />
             ) : (
               <View />
@@ -74,7 +64,18 @@ LifemapVisual.propTypes = {
 }
 
 const styles = StyleSheet.create({
-  container: { flexDirection: 'row', flexWrap: 'wrap' }
+  container: { flexDirection: 'row', flexWrap: 'wrap' },
+  iconBlue: {
+    right: 4,
+    top: -2,
+    position: 'absolute',
+    width: 10,
+    height: 10,
+    zIndex: 10,
+    borderColor: '#FFFFFF',
+    borderWidth: 2,
+    borderRadius: 5
+  }
 })
 
 export default LifemapVisual

@@ -120,12 +120,16 @@ describe('Overview Lifemap View when no questions are skipped', () => {
       ])
     })
     it('passes the correct draft data to lifemap overview', () => {
-      expect(wrapper.find(LifemapOverview).props().draftData).toEqual([
-        { key: 'phone', value: 3 },
-        { key: 'education', value: 1 },
-        { key: 'ind', value: 1 },
-        { key: 'Other ind', value: 2 }
-      ])
+      expect(wrapper.find(LifemapOverview).props().draftData).toEqual({
+        draftId: 1,
+        priorities: [{ action: 'Some action' }],
+        indicatorSurveyDataList: [
+          { key: 'phone', value: 3 },
+          { key: 'education', value: 1 },
+          { key: 'ind', value: 1 },
+          { key: 'Other ind', value: 2 }
+        ]
+      })
     })
   })
 })

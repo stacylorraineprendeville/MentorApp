@@ -31,7 +31,7 @@ export class AddPriority extends Component {
   componentDidMount() {
     const draft = this.getDraft()
     const priority = this.getPriorityValue(draft)
-    console.log(priority)
+
     this.setState(priority)
   }
 
@@ -58,7 +58,7 @@ export class AddPriority extends Component {
   render() {
     const draft = this.getDraft()
     const priority = this.getPriorityValue(draft)
-    console.log(this.state)
+
     return (
       <ScrollView
         style={globalStyles.background}
