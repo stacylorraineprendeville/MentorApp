@@ -51,7 +51,11 @@ export class Overview extends Component {
               paddingTop: 20
             }}
           >
-            <LifemapVisual data={draft.indicatorSurveyDataList} />
+            <LifemapVisual
+              questions={draft.indicatorSurveyDataList}
+              priorities={draft.priorities}
+              achievements={draft.achievements}
+            />
           </View>
           <View>
             <Text style={{ ...globalStyles.subline, ...styles.listTitle }}>

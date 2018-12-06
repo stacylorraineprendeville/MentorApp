@@ -29,6 +29,7 @@ const createTestProps = props => ({
       }
     })
   },
+  drafts: [],
   ...props
 })
 

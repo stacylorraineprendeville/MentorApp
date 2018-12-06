@@ -113,7 +113,8 @@ const styles = StyleSheet.create({
 
 Question.propTypes = {
   addSurveyData: PropTypes.func.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  drafts: PropTypes.array.isRequired
 }
 
 const mapStateToProps = ({ drafts }) => ({
