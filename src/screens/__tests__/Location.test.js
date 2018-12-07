@@ -44,7 +44,7 @@ const createTestProps = props => ({
           {
             firstName: 'Juan',
             lastName: 'Perez',
-            countryOfBirth: 'Brazil'
+            birthCountry: 'Brazil'
           },
           {
             firstName: 'Ana',
@@ -107,7 +107,7 @@ describe('Family Location component', () => {
       accuracy: 15
     })
   })
-  it('sets countryOfBirth as default country', () => {
+  it('sets birthCountry as default country', () => {
     expect(wrapper.find('#countrySelect')).toHaveProp('value', 'Brazil')
   })
   it('edits draft in field change', () => {

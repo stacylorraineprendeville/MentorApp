@@ -29,11 +29,11 @@ export class FamilyParticipant extends Component {
   requiredFields = [
     'firstName',
     'lastName',
-    'document',
+    'documentType',
     'documentNumber',
     'gender',
-    'countryOfBirth',
-    'dateOfBirth'
+    'birthCountry',
+    'birthDate'
   ]
 
   state = { errorsDetected: [] }
@@ -53,7 +53,7 @@ export class FamilyParticipant extends Component {
         familyData: {
           familyMembersList: [
             {
-              primary: true
+              firstParticipant: true
             }
           ]
         }
@@ -163,10 +163,10 @@ export class FamilyParticipant extends Component {
 
           <DateInput
             label="Date of birth *"
-            field="dateOfBirth"
+            field="birthDate"
             detectError={this.detectError}
             onValidDate={this.addSurveyData}
-            value={this.getFieldValue(draft, 'dateOfBirth')}
+            value={this.getFieldValue(draft, 'birthDate')}
           />
 
           <Select
@@ -174,8 +174,8 @@ export class FamilyParticipant extends Component {
             onChange={this.addSurveyData}
             label="Document type"
             placeholder="Document type"
-            field="document"
-            value={this.getFieldValue(draft, 'document') || ''}
+            field="documentType"
+            value={this.getFieldValue(draft, 'documentType') || ''}
             detectError={this.detectError}
             data={this.documentType}
           />
@@ -193,8 +193,8 @@ export class FamilyParticipant extends Component {
             label="Country of birth"
             countrySelect
             placeholder="Select a country"
-            field="countryOfBirth"
-            value={this.getFieldValue(draft, 'countryOfBirth') || ''}
+            field="birthCountry"
+            value={this.getFieldValue(draft, 'birthCountry') || ''}
             detectError={this.detectError}
           />
           <TextInput

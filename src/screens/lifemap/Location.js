@@ -252,7 +252,7 @@ export class Location extends Component {
             field="country"
             value={
               this.getFieldValue(draft, 'country') ||
-              draft.familyData.familyMembersList[0].countryOfBirth
+              draft.familyData.familyMembersList[0].birthCountry
             }
             detectError={this.detectError}
           />

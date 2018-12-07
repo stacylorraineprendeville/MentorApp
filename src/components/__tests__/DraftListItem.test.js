@@ -26,7 +26,7 @@ const createTestProps = props => ({
           birthCountry: 'Paraguay',
           gender: 'F',
           birthDate: 12345,
-          primary: true,
+          firstParticipant: true,
           socioEconomicAnswers: [
             { key: 'educationPersonMostStudied', value: 'SCHOOL-COMPLETE' },
             { key: 'receiveStateIncome', value: 'NO' }
@@ -40,7 +40,7 @@ const createTestProps = props => ({
           birthCountry: 'Paraguay',
           gender: 'F',
           birthDate: 12345,
-          primary: false,
+          firstParticipant: false,
           socioEconomicAnswers: [
             {
               key: 'familyUbication',
