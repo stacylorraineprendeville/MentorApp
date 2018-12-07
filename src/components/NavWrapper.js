@@ -13,13 +13,16 @@ export class NavWrapper extends Component {
     rehydrated: false
   }
   slowLoadingTimer
+  checkHydrationTimer
   clearTimers = () => {
     clearTimeout(this.slowLoadingTimer)
     this.slowLoadingTimer = null
+    clearTimeout(this.checkHydrationTimer)
+    this.checkHydrationTimer = null
   }
   checkHydration = () => {
     if (getHydrationState() === false) {
-      setTimeout(() => {
+      this.checkHydrationTimer = setTimeout(() => {
         this.checkHydration()
       }, 1000)
     } else {
