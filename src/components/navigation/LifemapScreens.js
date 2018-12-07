@@ -96,7 +96,7 @@ export default {
   FamilyParticipant: {
     screen: FamilyParticipantView,
     navigationOptions: ({ navigation }) => ({
-      title: 'firstParticipant participant',
+      title: 'Family participant',
       ...generateNavOptions({ navigation, burgerMenu: false })
     })
   },

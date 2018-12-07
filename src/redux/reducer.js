@@ -331,7 +331,7 @@ export const drafts = (state = [], action) => {
           draft.draftId === action.meta.id
             ? {
                 ...draft,
-                status: 'Successfully synced'
+                status: 'Synced'
               }
             : draft
       )

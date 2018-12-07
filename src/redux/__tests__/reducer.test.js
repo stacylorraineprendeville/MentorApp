@@ -110,7 +110,7 @@ describe('drafts reducer', () => {
   const initialStore = [
     {
       draftId: 1,
-      status: 'Successfully synced'
+      status: 'Synced'
     },
     {
       draftId: 2,
@@ -158,11 +158,11 @@ describe('drafts reducer', () => {
     const expectedStore = [
       {
         draftId: 1,
-        status: 'Successfully synced'
+        status: 'Synced'
       },
       {
         draftId: 2,
-        status: 'Successfully synced',
+        status: 'Synced',
         priorities: [
           { indicator: 'phone', action: 'Action', reason: 'reason' }
         ],
@@ -182,7 +182,7 @@ describe('drafts reducer', () => {
     const expectedStore = [
       {
         draftId: 1,
-        status: 'Successfully synced'
+        status: 'Synced'
       },
       {
         draftId: 2,
@@ -206,7 +206,7 @@ describe('drafts reducer', () => {
     const expectedStore = [
       {
         draftId: 1,
-        status: 'Successfully synced'
+        status: 'Synced'
       },
       {
         draftId: 2,
@@ -233,7 +233,7 @@ describe('drafts reducer', () => {
     const expectedStore = [
       {
         draftId: 1,
-        status: 'Successfully synced'
+        status: 'Synced'
       },
       {
         draftId: 2,
@@ -258,7 +258,7 @@ describe('drafts reducer', () => {
     const expectedStore = [
       {
         draftId: 1,
-        status: 'Successfully synced'
+        status: 'Synced'
       },
       {
         draftId: 2,
@@ -285,7 +285,7 @@ describe('drafts reducer', () => {
     const expectedStore = [
       {
         draftId: 1,
-        status: 'Successfully synced'
+        status: 'Synced'
       },
       {
         draftId: 2,
@@ -319,7 +319,7 @@ describe('drafts reducer', () => {
     const expectedStore = [
       {
         draftId: 1,
-        status: 'Successfully synced'
+        status: 'Synced'
       }
     ]
     expect(
