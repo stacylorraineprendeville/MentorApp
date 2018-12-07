@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import { Divider } from 'react-native-elements'
 
 import { addSurveyPriorityAcheivementData } from '../../redux/actions'
 
@@ -20,7 +21,7 @@ export class AddAchievement extends Component {
   componentDidMount() {
     const draft = this.getDraft()
     const achievement = this.getAchievementValue(draft)
-    console.log(achievement)
+
     this.setState(achievement)
   }
 
@@ -53,10 +54,15 @@ export class AddAchievement extends Component {
         style={globalStyles.background}
         contentContainerStyle={styles.contentContainer}
       >
-        <View>
+        <View style={globalStyles.container}>
+          <Text style={globalStyles.h2}>
+            {this.props.navigation.getParam('indicatorText')}
+          </Text>
+          <Divider
+            style={{ backgroundColor: colors.palegrey, marginVertical: 10 }}
+          />
           <View
             style={{
-              ...globalStyles.container,
               flexDirection: 'row'
             }}
           >

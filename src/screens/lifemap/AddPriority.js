@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-
+import { Divider } from 'react-native-elements'
 import { addSurveyPriorityAcheivementData } from '../../redux/actions'
 
 import globalStyles from '../../globalStyles'
@@ -31,7 +31,7 @@ export class AddPriority extends Component {
   componentDidMount() {
     const draft = this.getDraft()
     const priority = this.getPriorityValue(draft)
-    console.log(priority)
+
     this.setState(priority)
   }
 
@@ -58,16 +58,21 @@ export class AddPriority extends Component {
   render() {
     const draft = this.getDraft()
     const priority = this.getPriorityValue(draft)
-    console.log(this.state)
+
     return (
       <ScrollView
         style={globalStyles.background}
         contentContainerStyle={styles.contentContainer}
       >
-        <View>
+        <View style={globalStyles.container}>
+          <Text style={globalStyles.h2}>
+            {this.props.navigation.getParam('indicatorText')}
+          </Text>
+          <Divider
+            style={{ backgroundColor: colors.palegrey, marginVertical: 10 }}
+          />
           <View
             style={{
-              ...globalStyles.container,
               flexDirection: 'row'
             }}
           >

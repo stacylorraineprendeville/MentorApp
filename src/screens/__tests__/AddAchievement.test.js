@@ -7,7 +7,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import { AddAchievement } from '../lifemap/AddAchievement'
 import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
-import Counter from '../../components/Counter'
 
 const createTestProps = props => ({
   navigation: {
@@ -39,7 +38,7 @@ describe('AddAchievement View', () => {
       expect(wrapper.find(Icon)).toHaveLength(1)
     })
     it('renders Text', () => {
-      expect(wrapper.find(Text)).toHaveLength(1)
+      expect(wrapper.find(Text)).toHaveLength(2)
     })
     it('renders Button', () => {
       expect(wrapper.find(Button)).toHaveLength(1)
