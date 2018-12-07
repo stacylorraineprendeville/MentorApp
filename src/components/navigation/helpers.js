@@ -60,7 +60,7 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
           <Button
             outlined
             text="Yes"
-            style={styles.button}
+            style={{ width: 107 }}
             handleClick={() => {
               navigation.popToTop()
             }}
@@ -68,7 +68,7 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
           <Button
             outlined
             text="No"
-            style={styles.button}
+            style={{ width: 107 }}
             handleClick={() => navigation.setParams({ modalOpen: false })}
           />
         </View>
@@ -119,8 +119,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 33,
     justifyContent: 'space-between'
-  },
-  button: {
-    width: 107
   }
 })
