@@ -22,6 +22,7 @@ class DraftListItem extends Component {
             {this.props.item.familyData.familyMembersList[0].firstName}{' '}
             {this.props.item.familyData.familyMembersList[0].lastName}
           </Text>
+          <Text>{this.props.item.status}</Text>
         </View>
         <Icon name="navigate-next" size={23} color={colors.lightdark} />
       </TouchableOpacity>

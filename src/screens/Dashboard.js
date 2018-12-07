@@ -71,6 +71,8 @@ export class Dashboard extends Component {
   }
 
   render() {
+    console.log(this.props.offline)
+    JSON.stringify(this.props.drafts)
     const { t, navigation, drafts } = this.props
     return (
       <ScrollView style={globalStyles.background}>
@@ -100,7 +102,7 @@ export class Dashboard extends Component {
             </View>
             <View style={styles.borderBottom}>
               <Text style={{ ...globalStyles.subline, ...styles.listTitle }}>
-                Latest drafts
+                Latest snapshots
               </Text>
             </View>
             <FlatList

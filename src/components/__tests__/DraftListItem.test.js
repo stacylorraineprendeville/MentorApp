@@ -73,7 +73,7 @@ describe('DraftListItem Component', () => {
       expect(wrapper.find(View)).toHaveLength(1)
     })
     it('renders <Text />', () => {
-      expect(wrapper.find(Text)).toHaveLength(2)
+      expect(wrapper.find(Text)).toHaveLength(3)
     })
     it('renders <Icon />', () => {
       expect(wrapper.find(Icon)).toHaveLength(1)
@@ -90,7 +90,7 @@ describe('DraftListItem Component', () => {
       expect(
         wrapper
           .find(Text)
-          .last()
+          .at(1)
           .props().children
       ).toEqual(['Juan', ' ', 'Perez'])
     })

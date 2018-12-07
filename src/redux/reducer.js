@@ -309,25 +309,27 @@ export const drafts = (state = [], action) => {
             : draft
       )
     case SUBMIT_DRAFT_COMMIT:
-      return state.map(
-        draft =>
-          draft.draftId === action.meta.id
-            ? {
-                ...draft,
-                status: 'Success'
-              }
-            : draft
-      )
+      return state.map(draft => {
+        console.log('commit')
+        return draft.draftId === action.meta.id
+          ? {
+              ...draft,
+              status: 'Success',
+              success: action.payload
+            }
+          : draft
+      })
     case SUBMIT_DRAFT_ROLLBACK:
-      return state.map(
-        draft =>
-          draft.draftId === action.meta.id
-            ? {
-                ...draft,
-                status: 'Error'
-              }
-            : draft
-      )
+      return state.map(draft => {
+        console.log('rollback')
+        return draft.draftId === action.meta.id
+          ? {
+              ...draft,
+              status: 'Error',
+              error: action.payload
+            }
+          : draft
+      })
     case DELETE_DRAFT:
       return state.filter(draft => draft.draftId !== action.id)
     default:

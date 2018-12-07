@@ -28,7 +28,10 @@ const createTestProps = props => ({
       }
     })
   },
+  submitDraft: jest.fn(),
   drafts: [],
+  user: { token: 'token' },
+  env: 'env',
   ...props
 })
 

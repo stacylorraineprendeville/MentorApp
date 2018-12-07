@@ -14,7 +14,7 @@ import TextInput from '../../components/TextInput'
 
 export class AddAchievement extends Component {
   state = {
-    reason: '',
+    action: '',
     roadmap: '',
     indicator: this.props.navigation.getParam('indicator')
   }
@@ -76,10 +76,10 @@ export class AddAchievement extends Component {
           </View>
           <TextInput
             field=""
-            onChangeText={text => this.setState({ reason: text })}
-            placeholder={this.state.reason ? '' : 'Write your answer here...'}
+            onChangeText={text => this.setState({ action: text })}
+            placeholder={this.state.action ? '' : 'Write your answer here...'}
             label="How did you get it?"
-            value={achievement ? achievement.reason : ''}
+            value={achievement ? achievement.action : ''}
             multiline
           />
           <TextInput

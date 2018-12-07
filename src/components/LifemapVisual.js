@@ -45,7 +45,10 @@ class LifemapVisual extends Component {
               name="brightness-1"
               color={item}
               size={17}
-              style={{ marginHorizontal: this.props.bigMargin ? 7 : 4 }}
+              style={{
+                marginHorizontal: this.props.bigMargin ? 8 : 4,
+                marginVertical: this.props.bigMargin ? 4 : 2
+              }}
             />
           </View>
         ))}
