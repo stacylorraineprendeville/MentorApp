@@ -33,7 +33,9 @@ class TextInput extends Component {
       text: text.trim(),
       status: text ? 'filled' : 'blur'
     })
-    this.props.validation ? this.validateInput(text.trim()) : ''
+    this.props.validation || this.props.required
+      ? this.validateInput(text.trim())
+      : ''
   }
 
   handleError(errorMsg) {
@@ -101,6 +103,13 @@ class TextInput extends Component {
     }
   }
 
+  componentDidMount() {
+    // on mount validate empty required fields without showing an errors message
+    if (this.props.required && !this.props.value) {
+      this.props.detectError(true, this.props.field)
+    }
+  }
+
   render() {
     const { text, errorMsg } = this.state
     const { label, placeholder, required, readonly, multiline } = this.props
@@ -142,12 +151,11 @@ class TextInput extends Component {
             <Text style={{ fontSize: 14, margin: 10 }}>{text}</Text>
           </FormInput>
         </View>
-        {status === 'error' &&
-          errorMsg && (
-            <FormValidationMessage style={{ color: colors.red }}>
-              {errorMsg}
-            </FormValidationMessage>
-          )}
+        {status === 'error' && errorMsg && (
+          <FormValidationMessage style={{ color: colors.red }}>
+            {errorMsg}
+          </FormValidationMessage>
+        )}
       </View>
     )
   }
@@ -207,6 +215,7 @@ TextInput.propTypes = {
   required: PropTypes.bool,
   readonly: PropTypes.bool,
   onChangeText: PropTypes.func.isRequired,
+  multiline: PropTypes.bool,
   validation: PropTypes.oneOf([
     'email',
     'string',

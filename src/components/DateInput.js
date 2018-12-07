@@ -83,6 +83,13 @@ class DateInput extends React.Component {
     }
   }
 
+  componentDidMount() {
+    // on mount validate empty required fields without showing an errors message
+    if (this.props.required && !this.props.value) {
+      this.props.detectError(true, this.props.field)
+    }
+  }
+
   render() {
     const validDate =
       moment.unix(this.props.value).format('YYYY MMMM D') !== 'Invalid date'

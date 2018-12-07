@@ -198,21 +198,15 @@ describe('Family Participant View', () => {
       ).toHaveBeenCalledTimes(1)
     })
 
-    it('has correct initial state', () => {
-      expect(wrapper.instance().state).toEqual({
-        errorsDetected: []
-      })
-    })
-
     it('detects an error', () => {
       wrapper.instance().detectError(true, 'phone')
-      expect(wrapper.instance().state.errorsDetected).toEqual(['phone'])
+      expect(wrapper.instance().errorsDetected).toEqual(['phone'])
     })
 
     it('detects when the error is corrected', () => {
       wrapper.setState({ errorsDetected: ['phone'] })
       wrapper.instance().detectError(false, 'phone')
-      expect(wrapper.instance().state.errorsDetected).toEqual([])
+      expect(wrapper.instance().errorsDetected).toEqual([])
     })
   })
 })
