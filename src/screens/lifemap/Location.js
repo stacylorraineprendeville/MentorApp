@@ -257,11 +257,11 @@ export class Location extends Component {
             detectError={this.detectError}
           />
           <TextInput
-            id="postalCode"
+            id="postCode"
             onChangeText={this.addSurveyData}
-            field="postalCode"
-            value={this.getFieldValue(draft, 'postalCode') || ''}
-            placeholder="Postcode"
+            field="postCode"
+            value={this.getFieldValue(draft, 'postCode') || ''}
+            placeholder="Post code"
             detectError={this.detectError}
           />
           <TextInput

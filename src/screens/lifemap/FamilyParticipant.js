@@ -207,10 +207,10 @@ export class FamilyParticipant extends Component {
           />
           <TextInput
             onChangeText={this.addSurveyData}
-            field="phone"
-            value={this.getFieldValue(draft, 'phone')}
-            placeholder="Phone"
-            validation="phone"
+            field="phoneNumber"
+            value={this.getFieldValue(draft, 'phoneNumber')}
+            placeholder="Phone number"
+            validation="phoneNumber"
             detectError={this.detectError}
           />
         </View>

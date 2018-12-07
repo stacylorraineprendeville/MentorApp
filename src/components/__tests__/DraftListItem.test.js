@@ -84,7 +84,6 @@ describe('DraftListItem Component', () => {
         }
       })
       wrapper = shallow(<DraftListItem {...props} />)
-
       expect(wrapper.find(TouchableOpacity).props().disabled).toBe(true)
       expect(wrapper.find(Icon)).toHaveLength(0)
     })
@@ -104,7 +103,6 @@ describe('DraftListItem Component', () => {
         }
       })
       wrapper = shallow(<DraftListItem {...props} />)
-
       expect(wrapper.find(TouchableOpacity).props().disabled).toBe(true)
       expect(wrapper.find(Icon)).toHaveLength(0)
     })

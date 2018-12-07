@@ -20,7 +20,7 @@ const createTestProps = props => ({
           title: 'Other survey',
           minimumPriorities: 5,
           surveyStoplightQuestions: [
-            { phone: 'phone' },
+            { phoneNumber: 'phoneNumber' },
             { education: 'education' },
             { c: 'c' }
           ]
@@ -44,7 +44,7 @@ describe('Overview Lifemap View when no questions are skipped', () => {
           draftId: 1,
           priorities: [{ action: 'Some action' }],
           indicatorSurveyDataList: [
-            { key: 'phone', value: 3 },
+            { key: 'phoneNumber', value: 3 },
             { key: 'education', value: 1 },
             { key: 'ind', value: 1 },
             { key: 'Other ind', value: 2 }
@@ -76,7 +76,7 @@ describe('Overview Lifemap View when no questions are skipped', () => {
           {
             draftId: 1,
             priorities: [{ action: 'Some action' }],
-            indicatorSurveyDataList: [{ key: 'phone', value: 3 }]
+            indicatorSurveyDataList: [{ key: 'phoneNumber', value: 3 }]
           }
         ]
       })
@@ -102,7 +102,7 @@ describe('Overview Lifemap View when no questions are skipped', () => {
             draftId: 1,
             priorities: [{ action: 'Some action' }],
             indicatorSurveyDataList: [
-              { key: 'phone', value: 3 },
+              { key: 'phoneNumber', value: 3 },
               { key: 'education', value: 1 }
             ]
           }
@@ -116,7 +116,7 @@ describe('Overview Lifemap View when no questions are skipped', () => {
     })
     it('passes the correct survey data to lifemap overview', () => {
       expect(wrapper.find(LifemapOverview).props().surveyData).toEqual([
-        { phone: 'phone' },
+        { phoneNumber: 'phoneNumber' },
         { education: 'education' },
         { c: 'c' }
       ])
@@ -126,7 +126,7 @@ describe('Overview Lifemap View when no questions are skipped', () => {
         draftId: 1,
         priorities: [{ action: 'Some action' }],
         indicatorSurveyDataList: [
-          { key: 'phone', value: 3 },
+          { key: 'phoneNumber', value: 3 },
           { key: 'education', value: 1 },
           { key: 'ind', value: 1 },
           { key: 'Other ind', value: 2 }

@@ -7,7 +7,7 @@ import LifemapVisual from '../LifemapVisual'
 const createTestProps = props => ({
   ...props,
   questions: [
-    { key: 'phone', value: 0 },
+    { key: 'phoneNumber', value: 0 },
     { key: 'income', value: 3 },
     { key: 'electricity', value: 2 },
     { key: 'water', value: 1 }

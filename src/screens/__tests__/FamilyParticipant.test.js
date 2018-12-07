@@ -205,13 +205,13 @@ describe('Family Participant View', () => {
     })
 
     it('detects an error', () => {
-      wrapper.instance().detectError(true, 'phone')
-      expect(wrapper.instance().state.errorsDetected).toEqual(['phone'])
+      wrapper.instance().detectError(true, 'phoneNumber')
+      expect(wrapper.instance().state.errorsDetected).toEqual(['phoneNumber'])
     })
 
     it('detects when the error is corrected', () => {
-      wrapper.setState({ errorsDetected: ['phone'] })
-      wrapper.instance().detectError(false, 'phone')
+      wrapper.setState({ errorsDetected: ['phoneNumber'] })
+      wrapper.instance().detectError(false, 'phoneNumber')
       expect(wrapper.instance().state.errorsDetected).toEqual([])
     })
   })

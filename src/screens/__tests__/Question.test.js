@@ -27,7 +27,7 @@ const createTestProps = props => ({
     {
       draftId: 1,
       indicatorSurveyDataList: [
-        { key: 'phone', value: 3 },
+        { key: 'phoneNumber', value: 3 },
         { key: 'education', value: 1 }
       ]
     }
