@@ -18,7 +18,7 @@ describe('environment actions', () => {
   })
 })
 
-describe('login actions', () => {
+describe('login/logout actions', () => {
   afterEach(() => {
     fetchMock.reset()
     fetchMock.restore()
@@ -70,6 +70,13 @@ describe('login actions', () => {
     return store.dispatch(action.login(user, pass, env)).then(() => {
       expect(store.getActions()).toEqual(expectedAction)
     })
+  })
+
+  it('should create an action to log the user out of the app', () => {
+    const expectedAction = {
+      type: action.USER_LOGOUT
+    }
+    expect(action.logout()).toEqual(expectedAction)
   })
 })
 
@@ -203,6 +210,32 @@ describe('drafts actions', () => {
     }
     expect(
       action.addSurveyPriorityAcheivementData({ id, category, payload })
+    ).toEqual(expectedAction)
+  })
+
+  it('should create an action to add surcey data to a family member', () => {
+    const id = 1
+    const index = 2
+    const payload = {
+      reason: 'reason',
+      action: 'action',
+      indicator: 'indicator'
+    }
+    const isSocioEconomicAnswer = false
+    const expectedAction = {
+      type: action.ADD_SURVEY_FAMILY_MEMBER_DATA,
+      id,
+      index,
+      payload,
+      isSocioEconomicAnswer
+    }
+    expect(
+      action.addSurveyFamilyMemberData({
+        id,
+        index,
+        payload,
+        isSocioEconomicAnswer
+      })
     ).toEqual(expectedAction)
   })
 

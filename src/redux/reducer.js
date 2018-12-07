@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import {
   SET_LOGIN_STATE,
+  USER_LOGOUT,
   SET_ENV,
   LOAD_SURVEYS,
   LOAD_FAMILIES,
@@ -29,6 +30,12 @@ export const user = (
         status: action.status,
         token: action.token,
         username: action.username
+      }
+    case USER_LOGOUT:
+      return {
+        status: null,
+        token: null,
+        username: null
       }
     default:
       return state
@@ -369,7 +376,7 @@ export const language = (state = false, action) => {
   }
 }
 
-export const rootReducer = combineReducers({
+const appReducer = combineReducers({
   env,
   user,
   surveys,
@@ -378,3 +385,11 @@ export const rootReducer = combineReducers({
   snapshots,
   language
 })
+
+export const rootReducer = (state, action) => {
+  if (action.type === USER_LOGOUT) {
+    state = undefined
+  }
+
+  return appReducer(state, action)
+}

@@ -1,6 +1,7 @@
 // Login
 
 export const SET_LOGIN_STATE = 'SET_LOGIN_STATE'
+export const USER_LOGOUT = 'USER_LOGOUT'
 
 export const login = (username, password, env) => dispatch =>
   fetch(
@@ -33,20 +34,9 @@ export const login = (username, password, env) => dispatch =>
     )
     .catch(e => e)
 
-export const logout = (env, token) => dispatch =>
-  fetch(`${env}/oauth/revoke-token`, {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${token}` }
-  })
-    .then(() => {
-      dispatch({
-        type: SET_LOGIN_STATE,
-        token: null,
-        status: null,
-        username: null
-      })
-    })
-    .catch(e => e)
+export const logout = () => ({
+  type: USER_LOGOUT
+})
 
 // Environment
 

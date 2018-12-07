@@ -40,6 +40,40 @@ describe('login reducer', () => {
       )
     ).toEqual({ token: null, status: 401, username: null })
   })
+
+  it('should handle USER_LOGOUT', () => {
+    expect(
+      reducer.user(
+        { token: '2525', status: 'test', username: 'test' },
+        {
+          type: action.USER_LOGOUT
+        }
+      )
+    ).toEqual({
+      token: null,
+      username: null,
+      status: null
+    })
+  })
+
+  it('should reset rootReducer state on USER_LOGOUT', () => {
+    expect(
+      reducer.rootReducer(
+        { token: '2525', status: 'test', username: 'test' },
+        {
+          type: action.USER_LOGOUT
+        }
+      )
+    ).toEqual({
+      drafts: [],
+      env: 'production',
+      families: [],
+      language: false,
+      snapshots: [],
+      surveys: [],
+      user: { status: null, token: null, username: null }
+    })
+  })
 })
 
 describe('surveys reducer', () => {
@@ -116,7 +150,11 @@ describe('drafts reducer', () => {
       draftId: 2,
       status: 'In progress',
       priorities: [{ indicator: 'phone', action: 'Action', reason: 'reason' }],
-      familyData: { familyMembersList: [({ name: 'Joan' }, { name: 'Jane' })] }
+      familyData: {
+        familyMembersList: [
+          ({ name: 'Joan', socioEconomicAnswers: [] }, { name: 'Jane' })
+        ]
+      }
     }
   ]
   it('should handle CREATE_DRAFT', () => {
@@ -315,6 +353,93 @@ describe('drafts reducer', () => {
       })
     ).toEqual(expectedStore)
   })
+  it('should handle ADD_SURVEY_FAMILY_MEMBER_DATA when adding data to an existing family member', () => {
+    let expectedStore = [
+      { draftId: 1, status: 'Success' },
+      {
+        draftId: 2,
+        familyData: { familyMembersList: [{ name: 'Jane' }, { gender: 'F' }] },
+        priorities: [
+          { action: 'Action', indicator: 'phone', reason: 'reason' }
+        ],
+        status: 'In progress'
+      }
+    ]
+
+    expect(
+      reducer.drafts(initialStore, {
+        type: action.ADD_SURVEY_FAMILY_MEMBER_DATA,
+        id: 2,
+        index: 2,
+        isSocioEconomicAnswer: false,
+        payload: {
+          gender: 'F'
+        }
+      })
+    ).toEqual(expectedStore)
+  })
+
+  it('should handle ADD_SURVEY_FAMILY_MEMBER_DATA when adding data to a new family member', () => {
+    const expectedStore = [
+      { draftId: 1, status: 'Success' },
+      {
+        draftId: 2,
+        familyData: {
+          familyMembersList: [{ name: 'Jane' }, { name: 'Miguel' }]
+        },
+        priorities: [
+          { action: 'Action', indicator: 'phone', reason: 'reason' }
+        ],
+        status: 'In progress'
+      }
+    ]
+
+    expect(
+      reducer.drafts(initialStore, {
+        type: action.ADD_SURVEY_FAMILY_MEMBER_DATA,
+        id: 2,
+        index: 3,
+        isSocioEconomicAnswer: false,
+        payload: {
+          name: 'Miguel'
+        }
+      })
+    ).toEqual(expectedStore)
+  })
+
+  it('should handle ADD_SURVEY_FAMILY_MEMBER_DATA when adding socio-economic data to a family member', () => {
+    const expectedStore = [
+      { draftId: 1, status: 'Success' },
+      {
+        draftId: 2,
+        familyData: {
+          familyMembersList: [
+            {
+              name: 'Jane',
+              socioEconomicAnswers: [{ key: 'income', value: 300 }]
+            }
+          ]
+        },
+        priorities: [
+          { action: 'Action', indicator: 'phone', reason: 'reason' }
+        ],
+        status: 'In progress'
+      }
+    ]
+
+    expect(
+      reducer.drafts(initialStore, {
+        type: action.ADD_SURVEY_FAMILY_MEMBER_DATA,
+        id: 2,
+        index: 0,
+        isSocioEconomicAnswer: true,
+        payload: {
+          income: 300
+        }
+      })
+    ).toEqual(expectedStore)
+  })
+
   it('should handle DELETE_DRAFT', () => {
     const expectedStore = [
       {
