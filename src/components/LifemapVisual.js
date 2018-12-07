@@ -36,7 +36,11 @@ class LifemapVisual extends Component {
                 name="brightness-1"
                 color={colors.blue}
                 size={10}
-                style={styles.iconBlue}
+                style={{
+                  ...styles.iconBlue,
+                  top: this.props.bigMargin ? 2 : 0,
+                  right: this.props.bigMargin ? 6 : 3
+                }}
               />
             ) : (
               <View />
@@ -67,8 +71,7 @@ LifemapVisual.propTypes = {
 const styles = StyleSheet.create({
   container: { flexDirection: 'row', flexWrap: 'wrap' },
   iconBlue: {
-    right: 4,
-    top: -2,
+    right: 3,
     position: 'absolute',
     width: 10,
     height: 10,
