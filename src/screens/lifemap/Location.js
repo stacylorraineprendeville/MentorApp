@@ -267,7 +267,7 @@ export class Location extends Component {
             countrySelect
             placeholder="Select a country"
             field="country"
-            value={this.getFieldValue(draft, 'country')}
+            value={this.getFieldValue(draft, 'country') || ''}
             detectError={this.detectError}
           />
           <TextInput

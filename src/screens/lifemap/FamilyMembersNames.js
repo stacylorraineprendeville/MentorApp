@@ -59,8 +59,23 @@ export class FamilyMembersNames extends Component {
 
   addFamilyCount = (text, field) => {
     // if reducing the number of family members remove the rest
-    if (this.getFieldValue('countFamilyMembers') > text) {
+    if (text !== '' && this.getFieldValue('countFamilyMembers') > text) {
       this.props.removeFamilyMembers(this.draftId, text)
+
+      // also remove these from the errors array
+      for (
+        var i = text - 1;
+        i < this.getFieldValue('countFamilyMembers') - 1;
+        i++
+      ) {
+        this.errorsDetected = this.errorsDetected.filter(
+          item => item !== `${i}`
+        )
+      }
+
+      this.setState({
+        errorsDetected: this.errorsDetected
+      })
     }
 
     this.props.addSurveyData(this.draftId, 'familyData', {
