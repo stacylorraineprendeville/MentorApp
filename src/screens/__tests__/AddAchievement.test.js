@@ -11,6 +11,7 @@ import Button from '../../components/Button'
 const createTestProps = props => ({
   navigation: {
     navigate: jest.fn(),
+    goBack: jest.fn(),
     getParam: jest.fn(param => (param === 'indicator' ? 'income' : 2))
   },
   addSurveyPriorityAcheivementData: jest.fn(),

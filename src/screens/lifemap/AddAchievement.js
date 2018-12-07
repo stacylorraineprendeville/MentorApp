@@ -30,12 +30,14 @@ export class AddAchievement extends Component {
       draft => draft.draftId === this.props.navigation.getParam('draftId')
     )[0]
 
-  addAchievement = () =>
+  addAchievement = () => {
     this.props.addSurveyPriorityAcheivementData({
       id: this.props.navigation.getParam('draftId'),
       category: 'achievements',
       payload: this.state
     })
+    this.props.navigation.goBack()
+  }
 
   getAchievementValue = draft => {
     const achievement = draft.achievements.filter(

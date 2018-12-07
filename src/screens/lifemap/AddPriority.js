@@ -40,12 +40,14 @@ export class AddPriority extends Component {
       draft => draft.draftId === this.props.navigation.getParam('draftId')
     )[0]
 
-  addPriority = () =>
+  addPriority = () => {
     this.props.addSurveyPriorityAcheivementData({
       id: this.props.navigation.getParam('draftId'),
       category: 'priorities',
       payload: this.state
     })
+    this.props.navigation.goBack()
+  }
 
   getPriorityValue = draft => {
     const priority = draft.priorities.filter(
