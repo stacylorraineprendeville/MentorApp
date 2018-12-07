@@ -8,6 +8,20 @@ import colors from '../theme.json'
 import globalStyles from '../globalStyles'
 
 class DraftListItem extends Component {
+  getColor = status => {
+    switch (status) {
+      case 'In progress':
+        return colors.palegrey
+      case 'Successfully synced':
+        return colors.palegreen
+      case 'Pending sync':
+        return colors.gold
+      case 'Sync error':
+        return colors.palered
+      default:
+        return colors.palegrey
+    }
+  }
   render() {
     return (
       <TouchableOpacity
@@ -22,7 +36,14 @@ class DraftListItem extends Component {
             {this.props.item.familyData.familyMembersList[0].firstName}{' '}
             {this.props.item.familyData.familyMembersList[0].lastName}
           </Text>
-          <Text>{this.props.item.status}</Text>
+          <Text
+            style={{
+              ...styles.label,
+              backgroundColor: this.getColor(this.props.item.status)
+            }}
+          >
+            {this.props.item.status}
+          </Text>
         </View>
         <Icon name="navigate-next" size={23} color={colors.lightdark} />
       </TouchableOpacity>
@@ -49,6 +70,15 @@ const styles = StyleSheet.create({
   borderBottom: {
     borderBottomColor: colors.lightgrey,
     borderBottomWidth: 1
+  },
+  label: {
+    color: colors.white,
+    borderRadius: 5,
+    width: 100,
+    height: 25,
+    lineHeight: 25,
+    textAlign: 'center',
+    marginTop: 5
   }
 })
 

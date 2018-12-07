@@ -321,7 +321,7 @@ export const drafts = (state = [], action) => {
           draft.draftId === action.id
             ? {
                 ...draft,
-                status: 'Pending'
+                status: 'Pending sync'
               }
             : draft
       )
@@ -331,7 +331,7 @@ export const drafts = (state = [], action) => {
           draft.draftId === action.meta.id
             ? {
                 ...draft,
-                status: 'Success'
+                status: 'Successfully synced'
               }
             : draft
       )
@@ -341,7 +341,7 @@ export const drafts = (state = [], action) => {
           draft.draftId === action.meta.id
             ? {
                 ...draft,
-                status: 'Error'
+                status: 'Sync error'
               }
             : draft
       )
