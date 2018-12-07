@@ -81,7 +81,9 @@ export class Login extends Component {
 
   render() {
     return this.state.loading ? (
-      <Loading />
+      <View style={globalStyles.container}>
+        <Loading />
+      </View>
     ) : (
       <View style={globalStyles.container}>
         <ScrollView style={globalStyles.content}>
