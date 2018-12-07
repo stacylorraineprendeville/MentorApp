@@ -34,6 +34,13 @@ class Select extends Component {
     }
   }
 
+  componentDidMount() {
+    // on mount validate empty required fields without showing an errors message
+    if (this.props.required && !this.props.value) {
+      this.props.detectError(true, this.props.field)
+    }
+  }
+
   render() {
     const { errorMsg } = this.state
     return (

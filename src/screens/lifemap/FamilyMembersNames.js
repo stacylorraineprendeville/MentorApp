@@ -18,7 +18,21 @@ export class FamilyMembersNames extends Component {
   draftId = this.props.navigation.getParam('draftId')
   survey = this.props.navigation.getParam('survey')
 
+  errorsDetected = []
+
   state = { errorsDetected: [] }
+
+  detectError = (error, field) => {
+    if (error && !this.errorsDetected.includes(field)) {
+      this.errorsDetected.push(field)
+    } else if (!error) {
+      this.errorsDetected = this.errorsDetected.filter(item => item !== field)
+    }
+
+    this.setState({
+      errorsDetected: this.errorsDetected
+    })
+  }
 
   handleClick() {
     this.getFieldValue('countFamilyMembers') > 1
@@ -42,20 +56,26 @@ export class FamilyMembersNames extends Component {
 
     return draft.familyData[field]
   }
-  detectError = (error, field) => {
-    if (error && !this.state.errorsDetected.includes(field)) {
-      this.setState({ errorsDetected: [...this.state.errorsDetected, field] })
-    } else if (!error) {
-      this.setState({
-        errorsDetected: this.state.errorsDetected.filter(item => item !== field)
-      })
-    }
-  }
 
   addFamilyCount = (text, field) => {
     // if reducing the number of family members remove the rest
-    if (this.getFieldValue('countFamilyMembers') > text) {
+    if (text !== '' && this.getFieldValue('countFamilyMembers') > text) {
       this.props.removeFamilyMembers(this.draftId, text)
+
+      // also remove these from the errors array
+      for (
+        var i = text - 1;
+        i < this.getFieldValue('countFamilyMembers') - 1;
+        i++
+      ) {
+        this.errorsDetected = this.errorsDetected.filter(
+          item => item !== `${i}`
+        )
+      }
+
+      this.setState({
+        errorsDetected: this.errorsDetected
+      })
     }
 
     this.props.addSurveyData(this.draftId, 'familyData', {
@@ -76,16 +96,6 @@ export class FamilyMembersNames extends Component {
 
   render() {
     const draft = this.getDraft()
-
-    const emptyRequiredFields =
-      draft.familyData.familyMembersList.filter(item => item.firstName === '')
-        .length !== 0 ||
-      !draft.familyData.countFamilyMembers ||
-      draft.familyData.countFamilyMembers >
-        draft.familyData.familyMembersList.length
-
-    const isButtonEnabled =
-      !emptyRequiredFields && !this.state.errorsDetected.length
 
     const familyMembersCount = draft.familyData.countFamilyMembers
       ? Array(draft.familyData.countFamilyMembers - 1)
@@ -146,8 +156,8 @@ export class FamilyMembersNames extends Component {
           <Button
             colored
             text="Continue"
-            disabled={!isButtonEnabled}
-            handleClick={() => this.handleClick()}
+            disabled={!!this.errorsDetected.length}
+            handleClick={() => this.handleClick(draft)}
           />
         </View>
       </ScrollView>
