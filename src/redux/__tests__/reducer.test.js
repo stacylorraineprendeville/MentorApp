@@ -115,7 +115,8 @@ describe('drafts reducer', () => {
     {
       draftId: 2,
       status: 'In progress',
-      priorities: [{ indicator: 'phone', action: 'Action', reason: 'reason' }]
+      priorities: [{ indicator: 'phone', action: 'Action', reason: 'reason' }],
+      familyData: { familyMembersList: [({ name: 'Joan' }, { name: 'Jane' })] }
     }
   ]
   it('should handle CREATE_DRAFT', () => {
@@ -138,7 +139,12 @@ describe('drafts reducer', () => {
       {
         draftId: 2,
         status: 'In progress',
-        priorities: [{ indicator: 'phone', action: 'Action', reason: 'reason' }]
+        priorities: [
+          { indicator: 'phone', action: 'Action', reason: 'reason' }
+        ],
+        familyData: {
+          familyMembersList: [({ name: 'Joan' }, { name: 'Jane' })]
+        }
       }
     ]
     expect(
@@ -157,7 +163,12 @@ describe('drafts reducer', () => {
       {
         draftId: 2,
         status: 'Success',
-        priorities: [{ indicator: 'phone', action: 'Action', reason: 'reason' }]
+        priorities: [
+          { indicator: 'phone', action: 'Action', reason: 'reason' }
+        ],
+        familyData: {
+          familyMembersList: [({ name: 'Joan' }, { name: 'Jane' })]
+        }
       }
     ]
     expect(
@@ -176,7 +187,12 @@ describe('drafts reducer', () => {
       {
         draftId: 2,
         status: 'Error',
-        priorities: [{ indicator: 'phone', action: 'Action', reason: 'reason' }]
+        priorities: [
+          { indicator: 'phone', action: 'Action', reason: 'reason' }
+        ],
+        familyData: {
+          familyMembersList: [({ name: 'Joan' }, { name: 'Jane' })]
+        }
       }
     ]
     expect(
@@ -196,7 +212,12 @@ describe('drafts reducer', () => {
         draftId: 2,
         personal_survey_data: { name: 'Name' },
         status: 'In progress',
-        priorities: [{ indicator: 'phone', action: 'Action', reason: 'reason' }]
+        priorities: [
+          { indicator: 'phone', action: 'Action', reason: 'reason' }
+        ],
+        familyData: {
+          familyMembersList: [({ name: 'Joan' }, { name: 'Jane' })]
+        }
       }
     ]
     expect(
@@ -205,6 +226,31 @@ describe('drafts reducer', () => {
         id: 2,
         category: 'personal_survey_data',
         payload: { name: 'Name' }
+      })
+    ).toEqual(expectedStore)
+  })
+  it('should handle REMOVE_FAMILY_MEMBERS', () => {
+    const expectedStore = [
+      {
+        draftId: 1,
+        status: 'Success'
+      },
+      {
+        draftId: 2,
+        status: 'In progress',
+        priorities: [
+          { indicator: 'phone', action: 'Action', reason: 'reason' }
+        ],
+        familyData: {
+          familyMembersList: [{ name: 'Jane' }]
+        }
+      }
+    ]
+    expect(
+      reducer.drafts(initialStore, {
+        type: action.REMOVE_FAMILY_MEMBERS,
+        id: 2,
+        afterIndex: 1
       })
     ).toEqual(expectedStore)
   })
@@ -220,7 +266,10 @@ describe('drafts reducer', () => {
         priorities: [
           { indicator: 'phone', action: 'Action', reason: 'reason' },
           { indicator: 'Income', action: 'Some action' }
-        ]
+        ],
+        familyData: {
+          familyMembersList: [({ name: 'Joan' }, { name: 'Jane' })]
+        }
       }
     ]
     expect(
@@ -247,7 +296,10 @@ describe('drafts reducer', () => {
             action: 'Changed action',
             reason: 'Changed reason'
           }
-        ]
+        ],
+        familyData: {
+          familyMembersList: [({ name: 'Joan' }, { name: 'Jane' })]
+        }
       }
     ]
     expect(

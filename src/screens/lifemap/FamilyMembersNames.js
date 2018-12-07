@@ -99,6 +99,7 @@ export class FamilyMembersNames extends Component {
       >
         <View style={{ ...globalStyles.container, padding: 0 }}>
           <Select
+            id="familyMembersCount"
             required
             onChange={this.addFamilyCount}
             label="Number of people living in this household"
