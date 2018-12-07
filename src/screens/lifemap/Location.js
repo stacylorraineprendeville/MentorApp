@@ -265,10 +265,10 @@ export class Location extends Component {
             detectError={this.detectError}
           />
           <TextInput
-            id="houseDescription"
+            id="address"
             onChangeText={this.addSurveyData}
-            field="houseDescription"
-            value={this.getFieldValue(draft, 'houseDescription') || ''}
+            field="address"
+            value={this.getFieldValue(draft, 'address') || ''}
             placeholder="Street or house description"
             validation="long-string"
             detectError={this.detectError}

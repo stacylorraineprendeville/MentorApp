@@ -117,9 +117,9 @@ describe('Family Location component', () => {
       .onChangeText('123', 'postCode')
 
     wrapper
-      .find('#houseDescription')
+      .find('#address')
       .props()
-      .onChangeText('Foo', 'houseDescription')
+      .onChangeText('Foo', 'address')
 
     expect(wrapper.instance().props.addSurveyData).toHaveBeenCalledTimes(2)
   })

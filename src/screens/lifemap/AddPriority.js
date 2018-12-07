@@ -64,25 +64,27 @@ export class AddPriority extends Component {
         style={globalStyles.background}
         contentContainerStyle={styles.contentContainer}
       >
-        <View style={globalStyles.container}>
-          <Text style={globalStyles.h2}>
-            {this.props.navigation.getParam('indicatorText')}
-          </Text>
-          <Divider
-            style={{ backgroundColor: colors.palegrey, marginVertical: 10 }}
-          />
-          <View
-            style={{
-              flexDirection: 'row'
-            }}
-          >
-            <Icon
-              name="pin"
-              color={colors.blue}
-              size={17}
-              style={{ marginRight: 10, marginLeft: -10 }}
+        <View>
+          <View style={globalStyles.container}>
+            <Text style={globalStyles.h2}>
+              {this.props.navigation.getParam('indicatorText')}
+            </Text>
+            <Divider
+              style={{ backgroundColor: colors.palegrey, marginVertical: 10 }}
             />
-            <Text style={globalStyles.h3}>Priority</Text>
+            <View
+              style={{
+                flexDirection: 'row'
+              }}
+            >
+              <Icon
+                name="pin"
+                color={colors.blue}
+                size={17}
+                style={{ marginRight: 10, marginLeft: -10 }}
+              />
+              <Text style={globalStyles.h3}>Priority</Text>
+            </View>
           </View>
           <TextInput
             onChangeText={text => this.setState({ reason: text })}
