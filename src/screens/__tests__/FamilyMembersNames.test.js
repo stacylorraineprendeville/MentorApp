@@ -152,6 +152,8 @@ describe('FamilyMembersNames View', () => {
       ]
     })
     wrapper = shallow(<FamilyMembersNames {...props} />)
+    wrapper.instance().errorsDetected = ['error']
+    wrapper.setState({ errorsDetected: ['error'] })
     expect(
       wrapper
         .find(Button)
@@ -182,6 +184,8 @@ describe('FamilyMembersNames View', () => {
       ]
     })
     wrapper = shallow(<FamilyMembersNames {...props} />)
+    wrapper.instance().errorsDetected = ['error']
+    wrapper.setState({ errorsDetected: ['error'] })
     expect(
       wrapper
         .find(Button)

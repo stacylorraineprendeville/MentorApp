@@ -27,6 +27,20 @@ export class FamilyParticipant extends Component {
 
   errorsDetected = []
 
+  state = { errorsDetected: [] }
+
+  detectError = (error, field) => {
+    if (error && !this.errorsDetected.includes(field)) {
+      this.errorsDetected.push(field)
+    } else if (!error) {
+      this.errorsDetected = this.errorsDetected.filter(item => item !== field)
+    }
+
+    this.setState({
+      errorsDetected: this.errorsDetected
+    })
+  }
+
   getDraftFromRedux() {
     //Get draft  from Redux store if it exists else create new draft
     if (!this.props.navigation.getParam('draft')) {
@@ -66,14 +80,6 @@ export class FamilyParticipant extends Component {
       return
     }
     return draft.familyData.familyMembersList[0][field]
-  }
-
-  detectError = (error, field) => {
-    if (error && !this.errorsDetected.includes(field)) {
-      this.errorsDetected.push(field)
-    } else if (!error) {
-      this.errorsDetected = this.errorsDetected.filter(item => item !== field)
-    }
   }
 
   addSurveyData = (text, field) => {

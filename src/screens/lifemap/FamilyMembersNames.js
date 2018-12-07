@@ -14,7 +14,21 @@ export class FamilyMembersNames extends Component {
   draftId = this.props.navigation.getParam('draftId')
   survey = this.props.navigation.getParam('survey')
 
+  errorsDetected = []
+
   state = { errorsDetected: [] }
+
+  detectError = (error, field) => {
+    if (error && !this.errorsDetected.includes(field)) {
+      this.errorsDetected.push(field)
+    } else if (!error) {
+      this.errorsDetected = this.errorsDetected.filter(item => item !== field)
+    }
+
+    this.setState({
+      errorsDetected: this.errorsDetected
+    })
+  }
 
   handleClick(draft) {
     this.getFieldValue(draft, 'countFamilyMembers') > 1
@@ -33,15 +47,6 @@ export class FamilyMembersNames extends Component {
     }
 
     return draft.familyData[field]
-  }
-  detectError = (error, field) => {
-    if (error && !this.state.errorsDetected.includes(field)) {
-      this.setState({ errorsDetected: [...this.state.errorsDetected, field] })
-    } else if (!error) {
-      this.setState({
-        errorsDetected: this.state.errorsDetected.filter(item => item !== field)
-      })
-    }
   }
 
   addFamilyCount = (text, field) => {
@@ -64,16 +69,6 @@ export class FamilyMembersNames extends Component {
     const draft = this.props.drafts.filter(
       draft => draft.draftId === this.draftId
     )[0]
-
-    const emptyRequiredFields =
-      draft.familyData.familyMembersList.filter(item => item.firstName === '')
-        .length !== 0 ||
-      !draft.familyData.countFamilyMembers ||
-      draft.familyData.countFamilyMembers >
-        draft.familyData.familyMembersList.length
-
-    const isButtonEnabled =
-      !emptyRequiredFields && !this.state.errorsDetected.length
 
     const familyMembersCount = draft.familyData.countFamilyMembers
       ? Array(draft.familyData.countFamilyMembers - 1)
@@ -133,7 +128,7 @@ export class FamilyMembersNames extends Component {
           <Button
             colored
             text="Continue"
-            disabled={!isButtonEnabled}
+            disabled={!!this.errorsDetected.length}
             handleClick={() => this.handleClick(draft)}
           />
         </View>
