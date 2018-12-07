@@ -31,10 +31,9 @@ export class DrawerContent extends Component {
     this.props.navigation.toggleDrawer() // close drawer
   }
 
-  logout = () => {
-    this.props.logout(url[this.props.env], this.props.user.token).then(() => {
-      AsyncStorage.clear()
-    })
+  logUserOut = () => {
+    AsyncStorage.clear()
+    this.props.logout(url[this.props.env], this.props.user.token)
   }
 
   render() {
@@ -142,7 +141,7 @@ export class DrawerContent extends Component {
                   this.props.drafts.length ? colors.palered : colors.palegreen
                 }
                 style={{ width: 107, alignSelf: 'flex-start' }}
-                handleClick={this.logout}
+                handleClick={this.logUserOut}
               />
               <Button
                 outlined
