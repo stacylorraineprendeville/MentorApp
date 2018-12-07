@@ -25,18 +25,21 @@ export class FamilyParticipant extends Component {
   //Get survey by id
   survey = this.props.surveys.filter(survey => survey.id === this.surveyId)[0]
 
-  //Required fields
-  requiredFields = [
-    'firstName',
-    'lastName',
-    'document',
-    'documentNumber',
-    'gender',
-    'countryOfBirth',
-    'dateOfBirth'
-  ]
+  errorsDetected = []
 
   state = { errorsDetected: [] }
+
+  detectError = (error, field) => {
+    if (error && !this.errorsDetected.includes(field)) {
+      this.errorsDetected.push(field)
+    } else if (!error) {
+      this.errorsDetected = this.errorsDetected.filter(item => item !== field)
+    }
+
+    this.setState({
+      errorsDetected: this.errorsDetected
+    })
+  }
 
   getDraftFromRedux() {
     //Get draft  from Redux store if it exists else create new draft
@@ -79,16 +82,6 @@ export class FamilyParticipant extends Component {
     return draft.familyData.familyMembersList[0][field]
   }
 
-  detectError = (error, field) => {
-    if (error && !this.state.errorsDetected.includes(field)) {
-      this.setState({ errorsDetected: [...this.state.errorsDetected, field] })
-    } else if (!error) {
-      this.setState({
-        errorsDetected: this.state.errorsDetected.filter(item => item !== field)
-      })
-    }
-  }
-
   addSurveyData = (text, field) => {
     this.props.addSurveyFamilyMemberData({
       id: this.draftId,
@@ -107,17 +100,6 @@ export class FamilyParticipant extends Component {
     const draft = this.props.drafts.filter(
       draft => draft.draftId === this.draftId
     )[0]
-
-    const emptyRequiredFields = draft
-      ? this.requiredFields.filter(
-          item =>
-            !draft.familyData.familyMembersList[0][item] ||
-            draft.familyData.familyMembersList[0][item].length === 0
-        )
-      : []
-
-    const isButtonEnabled =
-      !emptyRequiredFields.length && !this.state.errorsDetected.length
 
     return (
       <ScrollView
@@ -162,6 +144,7 @@ export class FamilyParticipant extends Component {
           />
 
           <DateInput
+            required
             label="Date of birth *"
             field="dateOfBirth"
             detectError={this.detectError}
@@ -216,7 +199,7 @@ export class FamilyParticipant extends Component {
         </View>
         <View style={{ height: 50, marginTop: 50 }}>
           <Button
-            disabled={!isButtonEnabled}
+            disabled={!!this.errorsDetected.length}
             colored
             text="Continue"
             handleClick={() => this.handleClick()}
