@@ -38,13 +38,18 @@ export class Final extends Component {
             You have completed the lifemap
           </Text>
           <RoundImage source="partner" />
-          <LifemapVisual bigMargin data={draft.indicatorSurveyDataList} />
+          <LifemapVisual
+            bigMargin
+            questions={draft.indicatorSurveyDataList}
+            priorities={draft.priorities}
+            achievements={draft.achievements}
+          />
         </View>
         <View style={{ height: 50 }}>
           <Button
             colored
             text="Close"
-            handleClick={() => this.props.navigation.navigate('Dashboard')}
+            handleClick={() => this.props.navigation.popToTop()}
           />
         </View>
       </ScrollView>

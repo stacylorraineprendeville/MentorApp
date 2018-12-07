@@ -38,7 +38,7 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
         style={styles.touchable}
         onPress={() => {
           if (navigation.state.routeName === 'Terms') {
-            navigation.navigate('Dashboard')
+            navigation.popToTop()
           } else {
             navigation.setParams({ modalOpen: true })
           }
@@ -61,7 +61,9 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
             outlined
             text="Yes"
             style={{ width: 107 }}
-            handleClick={() => navigation.navigate('Dashboard')}
+            handleClick={() => {
+              navigation.popToTop()
+            }}
           />
           <Button
             outlined

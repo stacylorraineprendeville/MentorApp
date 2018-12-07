@@ -9,6 +9,7 @@ import LifemapVisual from '../../components/LifemapVisual'
 const createTestProps = props => ({
   navigation: {
     navigate: jest.fn(),
+    popToTop: jest.fn(),
     getParam: jest.fn(param => {
       if (param === 'draftId') {
         return 1
@@ -59,11 +60,8 @@ describe('Final Lifemap View when no questions are skipped', () => {
         .props()
         .handleClick()
       expect(
-        wrapper.instance().props.navigation.navigate
+        wrapper.instance().props.navigation.popToTop
       ).toHaveBeenCalledTimes(1)
-      expect(wrapper.instance().props.navigation.navigate).toHaveBeenCalledWith(
-        'Dashboard'
-      )
     })
   })
 })

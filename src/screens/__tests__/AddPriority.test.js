@@ -39,7 +39,7 @@ describe('AddPriority View', () => {
       expect(wrapper.find(Icon)).toHaveLength(1)
     })
     it('renders Text', () => {
-      expect(wrapper.find(Text)).toHaveLength(1)
+      expect(wrapper.find(Text)).toHaveLength(2)
     })
     it('renders Counter', () => {
       expect(wrapper.find(Counter)).toHaveLength(1)
