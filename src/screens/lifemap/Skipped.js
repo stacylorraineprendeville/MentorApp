@@ -83,9 +83,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexDirection: 'column',
     justifyContent: 'space-between'
-  },
-  text: {
-    textAlign: 'center'
   }
 })
 

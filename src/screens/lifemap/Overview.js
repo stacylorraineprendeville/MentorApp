@@ -97,9 +97,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between'
   },
-  text: {
-    textAlign: 'center'
-  },
   listTitle: {
     backgroundColor: colors.beige,
     height: 45,

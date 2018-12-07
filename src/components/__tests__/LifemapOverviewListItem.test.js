@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { shallow } from 'enzyme'
-import { Text, TouchableOpacity, StyleSheet, View } from 'react-native'
+import { Text, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons'
 import colors from '../../theme.json'

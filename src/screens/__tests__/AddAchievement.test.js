@@ -7,7 +7,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import { AddAchievement } from '../lifemap/AddAchievement'
 import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
-import Counter from '../../components/Counter'
 
 const createTestProps = props => ({
   navigation: {

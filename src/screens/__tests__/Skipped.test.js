@@ -1,12 +1,9 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { ScrollView, Image, FlatList, Text } from 'react-native'
+import { ScrollView, Image, FlatList } from 'react-native'
 import { Skipped } from '../lifemap/Skipped'
-import RoundImage from '../../components/RoundImage'
 import Button from '../../components/Button'
 import Tip from '../../components/Tip'
-import LifemapVisual from '../../components/LifemapVisual'
-import LifemapOverview from '../../components/LifemapOverview'
 
 const createTestProps = props => ({
   navigation: {
