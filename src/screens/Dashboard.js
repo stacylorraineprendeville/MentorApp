@@ -95,7 +95,7 @@ export class Dashboard extends Component {
               <Button
                 text="Create a lifemap"
                 colored
-                handleClick={() => navigation.navigate('Surveys')}
+                handleClick={() => this.props.navigation.navigate('Surveys')}
               />
             </View>
             <View style={styles.borderBottom}>

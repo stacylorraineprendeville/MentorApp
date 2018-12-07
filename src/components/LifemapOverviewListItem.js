@@ -30,6 +30,7 @@ class LifemapOverviewListItem extends Component {
       <TouchableOpacity
         onPress={this.props.handleClick}
         style={styles.container}
+        disabled={!this.props.color}
       >
         <View>
           {this.props.achievement &&
@@ -69,7 +70,11 @@ class LifemapOverviewListItem extends Component {
         </View>
         <View style={[styles.listItem, styles.borderBottom]}>
           <Text style={{ ...globalStyles.p }}>{this.props.name}</Text>
-          <Icon name="navigate-next" size={23} color={colors.lightdark} />
+          {this.props.color ? (
+            <Icon name="navigate-next" size={23} color={colors.lightdark} />
+          ) : (
+            <View />
+          )}
         </View>
       </TouchableOpacity>
     )

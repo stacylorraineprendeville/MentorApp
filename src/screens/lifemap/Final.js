@@ -49,7 +49,7 @@ export class Final extends Component {
           <Button
             colored
             text="Close"
-            handleClick={() => this.props.navigation.navigate('Dashboard')}
+            handleClick={() => this.props.navigation.popToTop()}
           />
         </View>
       </ScrollView>
