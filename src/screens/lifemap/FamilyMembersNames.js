@@ -3,7 +3,11 @@ import { ScrollView, StyleSheet, View } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { addSurveyData, addSurveyFamilyMemberData } from '../../redux/actions'
+import {
+  addSurveyData,
+  addSurveyFamilyMemberData,
+  removeFamilyMembers
+} from '../../redux/actions'
 
 import globalStyles from '../../globalStyles'
 import Button from '../../components/Button'
@@ -16,8 +20,8 @@ export class FamilyMembersNames extends Component {
 
   state = { errorsDetected: [] }
 
-  handleClick(draft) {
-    this.getFieldValue(draft, 'countFamilyMembers') > 1
+  handleClick() {
+    this.getFieldValue('countFamilyMembers') > 1
       ? this.props.navigation.navigate('FamilyMembersGender', {
           draftId: this.draftId,
           survey: this.survey
@@ -27,7 +31,11 @@ export class FamilyMembersNames extends Component {
           survey: this.survey
         })
   }
-  getFieldValue = (draft, field) => {
+  getDraft = () =>
+    this.props.drafts.filter(draft => draft.draftId === this.draftId)[0]
+
+  getFieldValue = field => {
+    const draft = this.getDraft()
     if (!draft) {
       return
     }
@@ -45,6 +53,11 @@ export class FamilyMembersNames extends Component {
   }
 
   addFamilyCount = (text, field) => {
+    // if reducing the number of family members remove the rest
+    if (this.getFieldValue('countFamilyMembers') > text) {
+      this.props.removeFamilyMembers(this.draftId, text)
+    }
+
     this.props.addSurveyData(this.draftId, 'familyData', {
       [field]: text
     })
@@ -61,9 +74,7 @@ export class FamilyMembersNames extends Component {
   }
 
   render() {
-    const draft = this.props.drafts.filter(
-      draft => draft.draftId === this.draftId
-    )[0]
+    const draft = this.getDraft()
 
     const emptyRequiredFields =
       draft.familyData.familyMembersList.filter(item => item.firstName === '')
@@ -88,12 +99,13 @@ export class FamilyMembersNames extends Component {
       >
         <View style={{ ...globalStyles.container, padding: 0 }}>
           <Select
+            id="familyMembersCount"
             required
             onChange={this.addFamilyCount}
             label="Number of people living in this household"
             placeholder="Number of people living in this household"
             field="countFamilyMembers"
-            value={this.getFieldValue(draft, 'countFamilyMembers') || ''}
+            value={this.getFieldValue('countFamilyMembers') || ''}
             detectError={this.detectError}
             data={Array(10)
               .fill()
@@ -120,7 +132,7 @@ export class FamilyMembersNames extends Component {
               onChangeText={text => this.addFamilyMemberName(text, i + 1)}
               placeholder="Name"
               value={
-                (this.getFieldValue(draft, 'familyMembersList')[i + 1] || {})
+                (this.getFieldValue('familyMembersList')[i + 1] || {})
                   .firstName || ''
               }
               required
@@ -134,7 +146,7 @@ export class FamilyMembersNames extends Component {
             colored
             text="Continue"
             disabled={!isButtonEnabled}
-            handleClick={() => this.handleClick(draft)}
+            handleClick={() => this.handleClick()}
           />
         </View>
       </ScrollView>
@@ -153,12 +165,14 @@ FamilyMembersNames.propTypes = {
   drafts: PropTypes.array,
   navigation: PropTypes.object.isRequired,
   addSurveyData: PropTypes.func.isRequired,
-  addSurveyFamilyMemberData: PropTypes.func.isRequired
+  addSurveyFamilyMemberData: PropTypes.func.isRequired,
+  removeFamilyMembers: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = {
   addSurveyData,
-  addSurveyFamilyMemberData
+  addSurveyFamilyMemberData,
+  removeFamilyMembers
 }
 
 const mapStateToProps = ({ drafts }) => ({

@@ -8,6 +8,7 @@ import {
   ADD_SURVEY_DATA,
   ADD_SURVEY_PRIORITY_ACHEIVEMENT_DATA,
   ADD_SURVEY_FAMILY_MEMBER_DATA,
+  REMOVE_FAMILY_MEMBERS,
   DELETE_DRAFT,
   LOAD_SNAPSHOTS,
   SUBMIT_DRAFT,
@@ -298,6 +299,22 @@ export const drafts = (state = [], action) => {
         }
       })
 
+    case REMOVE_FAMILY_MEMBERS:
+      return state.map(
+        draft =>
+          draft.draftId === action.id
+            ? {
+                ...draft,
+                familyData: {
+                  ...draft.familyData,
+                  familyMembersList: draft.familyData.familyMembersList.filter(
+                    (item, index) => index < action.afterIndex
+                  )
+                }
+              }
+            : draft
+      )
+
     case SUBMIT_DRAFT:
       return state.map(
         draft =>
@@ -309,27 +326,25 @@ export const drafts = (state = [], action) => {
             : draft
       )
     case SUBMIT_DRAFT_COMMIT:
-      return state.map(draft => {
-        console.log('commit')
-        return draft.draftId === action.meta.id
-          ? {
-              ...draft,
-              status: 'Success',
-              success: action.payload
-            }
-          : draft
-      })
+      return state.map(
+        draft =>
+          draft.draftId === action.meta.id
+            ? {
+                ...draft,
+                status: 'Success'
+              }
+            : draft
+      )
     case SUBMIT_DRAFT_ROLLBACK:
-      return state.map(draft => {
-        console.log('rollback')
-        return draft.draftId === action.meta.id
-          ? {
-              ...draft,
-              status: 'Error',
-              error: action.payload
-            }
-          : draft
-      })
+      return state.map(
+        draft =>
+          draft.draftId === action.meta.id
+            ? {
+                ...draft,
+                status: 'Error'
+              }
+            : draft
+      )
     case DELETE_DRAFT:
       return state.filter(draft => draft.draftId !== action.id)
     default:

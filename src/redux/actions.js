@@ -112,6 +112,7 @@ export const ADD_SURVEY_FAMILY_MEMBER_DATA = 'ADD_SURVEY_FAMILY_MEMBER_DATA'
 export const SUBMIT_DRAFT = 'SUBMIT_DRAFT'
 export const SUBMIT_DRAFT_COMMIT = 'SUBMIT_DRAFT_COMMIT'
 export const SUBMIT_DRAFT_ROLLBACK = 'SUBMIT_DRAFT_ROLLBACK'
+export const REMOVE_FAMILY_MEMBERS = 'REMOVE_FAMILY_MEMBERS'
 
 export const createDraft = payload => ({
   type: CREATE_DRAFT,
@@ -145,6 +146,12 @@ export const addSurveyFamilyMemberData = ({
   index,
   isSocioEconomicAnswer,
   payload
+})
+
+export const removeFamilyMembers = (id, afterIndex) => ({
+  type: REMOVE_FAMILY_MEMBERS,
+  id,
+  afterIndex
 })
 
 export const addSurveyData = (id, category, payload) => ({

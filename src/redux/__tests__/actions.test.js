@@ -163,6 +163,17 @@ describe('drafts actions', () => {
     }
     expect(action.deleteDraft(id)).toEqual(expectedAction)
   })
+  it('should create an action to remove family memvers from draft', () => {
+    const id = 1
+    const afterIndex = 2
+
+    const expectedAction = {
+      type: action.REMOVE_FAMILY_MEMBERS,
+      id,
+      afterIndex
+    }
+    expect(action.removeFamilyMembers(id, afterIndex)).toEqual(expectedAction)
+  })
   it('should create an action to add survey data to draft', () => {
     const id = 1
     const category = 'category'
