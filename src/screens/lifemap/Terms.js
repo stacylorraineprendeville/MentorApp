@@ -34,11 +34,13 @@ export class Terms extends Component {
         </Text>
         <View style={styles.buttonsBar}>
           <Button
+            id="dissagree"
             text="Disagree"
             underlined
-            handleClick={() => navigation.goBack()}
+            handleClick={() => navigation.setParams({ modalOpen: true })}
           />
           <Button
+            id="agree"
             colored
             text="Agree"
             handleClick={() =>

@@ -38,11 +38,7 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
       <TouchableOpacity
         style={styles.touchable}
         onPress={() => {
-          if (navigation.state.routeName === 'Terms') {
-            navigation.popToTop()
-          } else {
-            navigation.setParams({ modalOpen: true })
-          }
+          navigation.setParams({ modalOpen: true })
         }}
       >
         <Icon name="close" size={25} color={colors.lightdark} />
@@ -51,12 +47,27 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
         isOpen={navigation.getParam('modalOpen')}
         onClose={() => navigation.setParams({ modalOpen: false })}
       >
-        <Text style={[globalStyles.centerText, globalStyles.h3]}>
-          Your lifemap is not complete Are you sure you want to exit?
-        </Text>
-        <Text style={[globalStyles.centerText, styles.subline]}>
-          This will be saved as a draft.
-        </Text>
+        {navigation.state.routeName === 'Terms' ||
+          navigation.state.routeName === 'Privacy' ? (
+            <View>
+              <Text style={[globalStyles.centerText, globalStyles.h3]}>
+                If you do not agree we cannot continue to create the Life Map!
+              </Text>
+              <Text style={[globalStyles.centerText, styles.subline]}>
+                Are you sure you want to exit?
+              </Text>
+          </View>
+        ) : (
+          <View>
+            <Text style={[globalStyles.centerText, globalStyles.h3]}>
+              Your lifemap is not complete Are you sure you want to exit?
+            </Text>
+            <Text style={[globalStyles.centerText, styles.subline]}>
+              This will be saved as a draft.
+            </Text>
+          </View>
+        )}
+
         <View style={styles.buttonBar}>
           <Button
             outlined
