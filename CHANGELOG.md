@@ -1,7 +1,37 @@
 # Change Log
 
-## [v0.9.1](https://github.com/FundacionParaguaya/MentorApp/tree/v0.9.1) (2018-12-05)
+## [v0.9.2](https://github.com/FundacionParaguaya/MentorApp/tree/v0.9.2) (2018-12-08)
+[Full Changelog](https://github.com/FundacionParaguaya/MentorApp/compare/v0.9.1...v0.9.2)
 
+**Implemented enhancements:**
+
+- Resize/compress cached survey images [\#38](https://github.com/FundacionParaguaya/MentorApp/issues/38)
+- Mutation [\#135](https://github.com/FundacionParaguaya/MentorApp/pull/135) ([IvaKop](https://github.com/IvaKop))
+- Socio economic validation [\#134](https://github.com/FundacionParaguaya/MentorApp/pull/134) ([Danman7](https://github.com/Danman7))
+- Logout modal and clear storage on logout - fix \#69 [\#127](https://github.com/FundacionParaguaya/MentorApp/pull/127) ([Danman7](https://github.com/Danman7))
+
+**Fixed bugs:**
+
+- Closing lifemap screens should redirect to Dashboar [\#133](https://github.com/FundacionParaguaya/MentorApp/issues/133)
+- Saving of non-existent drafts + Linked Bug with retaking the lifemap [\#131](https://github.com/FundacionParaguaya/MentorApp/issues/131)
+- Lifemap not completed loop [\#125](https://github.com/FundacionParaguaya/MentorApp/issues/125)
+- Bug when changing number of family members [\#118](https://github.com/FundacionParaguaya/MentorApp/issues/118)
+- Socio economic screens don't validate required fields [\#111](https://github.com/FundacionParaguaya/MentorApp/issues/111)
+- Cant Logout [\#69](https://github.com/FundacionParaguaya/MentorApp/issues/69)
+- Lifemap fixes [\#137](https://github.com/FundacionParaguaya/MentorApp/pull/137) ([Danman7](https://github.com/Danman7))
+
+**Closed issues:**
+
+- Android Header elements styling [\#76](https://github.com/FundacionParaguaya/MentorApp/issues/76)
+
+**Merged pull requests:**
+
+- Change App Display Name [\#136](https://github.com/FundacionParaguaya/MentorApp/pull/136) ([pA1nD](https://github.com/pA1nD))
+- Status bar and family member count fixes [\#132](https://github.com/FundacionParaguaya/MentorApp/pull/132) ([Danman7](https://github.com/Danman7))
+- Show loader when loging in [\#130](https://github.com/FundacionParaguaya/MentorApp/pull/130) ([Danman7](https://github.com/Danman7))
+- Mandatory priorities [\#128](https://github.com/FundacionParaguaya/MentorApp/pull/128) ([IvaKop](https://github.com/IvaKop))
+
+## [v0.9.1](https://github.com/FundacionParaguaya/MentorApp/tree/v0.9.1) (2018-12-05)
 [Full Changelog](https://github.com/FundacionParaguaya/MentorApp/compare/v0.9.0...v0.9.1)
 
 **Implemented enhancements:**
@@ -25,7 +55,6 @@
 - Missing Close Icon in Life Map Creation [\#92](https://github.com/FundacionParaguaya/MentorApp/issues/92)
 - Remove elements from Dashboard [\#88](https://github.com/FundacionParaguaya/MentorApp/issues/88)
 - Fonts: Usage of Poppins [\#77](https://github.com/FundacionParaguaya/MentorApp/issues/77)
-- Android Header elements styling [\#76](https://github.com/FundacionParaguaya/MentorApp/issues/76)
 
 **Merged pull requests:**
 
@@ -33,7 +62,6 @@
 - Fonts, navigation icon, dashboard changes and skipped screen [\#113](https://github.com/FundacionParaguaya/MentorApp/pull/113) ([IvaKop](https://github.com/IvaKop))
 
 ## [v0.9.0](https://github.com/FundacionParaguaya/MentorApp/tree/v0.9.0) (2018-11-30)
-
 **Implemented enhancements:**
 
 - Switch survey endpoint to graphql [\#64](https://github.com/FundacionParaguaya/MentorApp/issues/64)
@@ -99,9 +127,9 @@
 
 **Merged pull requests:**
 
-- Update bug_report.md [\#102](https://github.com/FundacionParaguaya/MentorApp/pull/102) ([gigerbytes](https://github.com/gigerbytes))
-- Update bug_report.md [\#101](https://github.com/FundacionParaguaya/MentorApp/pull/101) ([gigerbytes](https://github.com/gigerbytes))
-- Create CODE_OF_CONDUCT.md [\#100](https://github.com/FundacionParaguaya/MentorApp/pull/100) ([gigerbytes](https://github.com/gigerbytes))
+- Update bug\_report.md [\#102](https://github.com/FundacionParaguaya/MentorApp/pull/102) ([gigerbytes](https://github.com/gigerbytes))
+- Update bug\_report.md [\#101](https://github.com/FundacionParaguaya/MentorApp/pull/101) ([gigerbytes](https://github.com/gigerbytes))
+- Create CODE\_OF\_CONDUCT.md [\#100](https://github.com/FundacionParaguaya/MentorApp/pull/100) ([gigerbytes](https://github.com/gigerbytes))
 - Update issue templates [\#99](https://github.com/FundacionParaguaya/MentorApp/pull/99) ([gigerbytes](https://github.com/gigerbytes))
 - Add demo env [\#60](https://github.com/FundacionParaguaya/MentorApp/pull/60) ([IvaKop](https://github.com/IvaKop))
 - Splashscreen [\#51](https://github.com/FundacionParaguaya/MentorApp/pull/51) ([IvaKop](https://github.com/IvaKop))
@@ -115,3 +143,7 @@
 - Splashscreen [\#21](https://github.com/FundacionParaguaya/MentorApp/pull/21) ([IvaKop](https://github.com/IvaKop))
 - Implement login screen [\#17](https://github.com/FundacionParaguaya/MentorApp/pull/17) ([IvaKop](https://github.com/IvaKop))
 - Increase android AsyncStorage limit to 50mb [\#12](https://github.com/FundacionParaguaya/MentorApp/pull/12) ([IvaKop](https://github.com/IvaKop))
+
+
+
+\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
