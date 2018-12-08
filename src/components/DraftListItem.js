@@ -26,7 +26,6 @@ class DraftListItem extends Component {
     this.props.item.status === 'Synced' ||
     this.props.item.status === 'Pending sync'
   render() {
-    console.log(this.linkDisabled)
     return (
       <TouchableOpacity
         style={{ ...styles.listItem, ...styles.borderBottom }}

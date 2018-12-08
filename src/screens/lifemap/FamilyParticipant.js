@@ -101,7 +101,6 @@ export class FamilyParticipant extends Component {
     const draft = this.props.drafts.filter(
       draft => draft.draftId === this.draftId
     )[0]
-
     return (
       <ScrollView
         style={globalStyles.background}

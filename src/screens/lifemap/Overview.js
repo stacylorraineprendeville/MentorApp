@@ -43,7 +43,6 @@ export class Overview extends Component {
       item => item.draftId === this.draftId
     )[0]
     const mandatoryPrioritiesCount = this.getMandatoryPrioritiesCount(draft)
-    console.log(draft)
     return (
       <ScrollView
         style={globalStyles.background}

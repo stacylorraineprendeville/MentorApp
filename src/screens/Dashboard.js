@@ -74,8 +74,6 @@ export class Dashboard extends Component {
   }
 
   render() {
-    console.log(this.props.offline)
-    console.log(JSON.stringify(this.props.drafts))
     const { t, navigation, drafts } = this.props
     return (
       <ScrollView style={globalStyles.background}>
