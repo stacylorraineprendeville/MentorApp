@@ -14,7 +14,7 @@ import TextInput from '../../components/TextInput'
 
 export class AddAchievement extends Component {
   state = {
-    reason: '',
+    action: '',
     roadmap: '',
     indicator: this.props.navigation.getParam('indicator')
   }
@@ -30,12 +30,14 @@ export class AddAchievement extends Component {
       draft => draft.draftId === this.props.navigation.getParam('draftId')
     )[0]
 
-  addAchievement = () =>
+  addAchievement = () => {
     this.props.addSurveyPriorityAcheivementData({
       id: this.props.navigation.getParam('draftId'),
       category: 'achievements',
       payload: this.state
     })
+    this.props.navigation.goBack()
+  }
 
   getAchievementValue = draft => {
     const achievement = draft.achievements.filter(
@@ -54,32 +56,34 @@ export class AddAchievement extends Component {
         style={globalStyles.background}
         contentContainerStyle={styles.contentContainer}
       >
-        <View style={globalStyles.container}>
-          <Text style={globalStyles.h2}>
-            {this.props.navigation.getParam('indicatorText')}
-          </Text>
-          <Divider
-            style={{ backgroundColor: colors.palegrey, marginVertical: 10 }}
-          />
-          <View
-            style={{
-              flexDirection: 'row'
-            }}
-          >
-            <Icon
-              name="stars"
-              color={colors.blue}
-              size={17}
-              style={{ marginRight: 10, marginLeft: -10 }}
+        <View>
+          <View style={globalStyles.container}>
+            <Text style={globalStyles.h2}>
+              {this.props.navigation.getParam('indicatorText')}
+            </Text>
+            <Divider
+              style={{ backgroundColor: colors.palegrey, marginVertical: 10 }}
             />
-            <Text style={globalStyles.h3}>Achievement</Text>
+            <View
+              style={{
+                flexDirection: 'row'
+              }}
+            >
+              <Icon
+                name="stars"
+                color={colors.blue}
+                size={17}
+                style={{ marginRight: 10, marginLeft: -10 }}
+              />
+              <Text style={globalStyles.h3}>Achievement</Text>
+            </View>
           </View>
           <TextInput
             field=""
-            onChangeText={text => this.setState({ reason: text })}
-            placeholder={this.state.reason ? '' : 'Write your answer here...'}
+            onChangeText={text => this.setState({ action: text })}
+            placeholder={this.state.action ? '' : 'Write your answer here...'}
             label="How did you get it?"
-            value={achievement ? achievement.reason : ''}
+            value={achievement ? achievement.action : ''}
             multiline
           />
           <TextInput

@@ -11,7 +11,7 @@ const createTestProps = props => ({
   detectError: jest.fn(),
   label: 'Some label',
   value: '',
-  field: 'phone'
+  field: 'phoneNumber'
 })
 
 describe('TextInput Component', () => {
@@ -127,10 +127,10 @@ describe('TextInput Component', () => {
     ).toBe('Please enter a valid email address')
   })
 
-  it('shows correct error message when validation is phone', () => {
-    props = createTestProps({ required: true, validation: 'phone' })
+  it('shows correct error message when validation is phoneNumber', () => {
+    props = createTestProps({ required: true, validation: 'phoneNumber' })
     wrapper = shallow(<TextInput {...props} />)
-    wrapper.setState({ status: 'error', text: 'not a phone' })
+    wrapper.setState({ status: 'error', text: 'not a phoneNumber' })
 
     wrapper
       .find(FormInput)
@@ -142,7 +142,7 @@ describe('TextInput Component', () => {
         .find(FormValidationMessage)
         .render()
         .text()
-    ).toBe('Please enter a valid phone number')
+    ).toBe('Please enter a valid phoneNumber number')
   })
 
   it('shows correct error message when validation is number', () => {

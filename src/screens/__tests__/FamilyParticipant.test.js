@@ -206,13 +206,13 @@ describe('Family Participant View', () => {
     })
 
     it('detects an error', () => {
-      wrapper.instance().detectError(true, 'phone')
-      expect(wrapper.instance().errorsDetected).toEqual(['phone'])
+      wrapper.instance().detectError(true, 'phoneNumber')
+      expect(wrapper.instance().errorsDetected).toEqual(['phoneNumber'])
     })
 
     it('detects when the error is corrected', () => {
-      wrapper.setState({ errorsDetected: ['phone'] })
-      wrapper.instance().detectError(false, 'phone')
+      wrapper.setState({ errorsDetected: ['phoneNumber'] })
+      wrapper.instance().detectError(false, 'phoneNumber')
       expect(wrapper.instance().errorsDetected).toEqual([])
     })
     it('deletes draft if first time in participant screen', () => {

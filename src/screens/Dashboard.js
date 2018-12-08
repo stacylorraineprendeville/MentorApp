@@ -103,7 +103,7 @@ export class Dashboard extends Component {
             </View>
             <View style={styles.borderBottom}>
               <Text style={{ ...globalStyles.subline, ...styles.listTitle }}>
-                Latest drafts
+                Latest snapshots
               </Text>
             </View>
             <FlatList

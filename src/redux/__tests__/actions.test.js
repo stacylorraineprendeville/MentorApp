@@ -254,21 +254,27 @@ describe('drafts actions', () => {
       meta: {
         offline: {
           effect: {
-            url: `${env}/api/v1/snapshots`,
+            url: `${env}/graphql`,
             method: 'POST',
-            body: JSON.stringify(payload),
-            headers: { Authorization: `Bearer ${token}` }
+            headers: { Authorization: `Bearer ${token}` },
+            body: JSON.stringify({
+              query:
+                'mutation addSnapshot($newSnapshot: NewSnapshotInput) {addSnapshot(newSnapshot: $newSnapshot)  { surveyId surveyVersionId snapshotStoplightAchievements { action indicator roadmap } snapshotStoplightPriorities { reason action indicator estimatedDate } family { familyId } user { userId  username } indicatorSurveyDataList {key value} economicSurveyDataList {key value} familyDataDTO { latitude longitude accuracy familyMemberDTOList { firstName lastName socioEconomicAnswers {key value} } } } }',
+              variables: { newSnapshot: payload }
+            })
           },
           commit: {
             type: action.SUBMIT_DRAFT_COMMIT,
             meta: {
-              id
+              id,
+              payload
             }
           },
           rollback: {
             type: action.SUBMIT_DRAFT_ROLLBACK,
             meta: {
-              id
+              id,
+              payload
             }
           }
         }

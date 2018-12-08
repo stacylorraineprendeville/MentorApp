@@ -17,7 +17,7 @@ const createTestProps = props => ({
           id: 2,
           title: 'Other survey',
           surveyStoplightQuestions: [
-            { phone: 'phone' },
+            { phoneNumber: 'phoneNumber' },
             { education: 'education' },
             { c: 'c' }
           ]
@@ -36,7 +36,7 @@ describe('Skipped Questions View when questions are skipped', () => {
         {
           draftId: 1,
           indicatorSurveyDataList: [
-            { key: 'phone', value: 0 },
+            { key: 'phoneNumber', value: 0 },
             { key: 'education', value: 3 }
           ]
         }
@@ -65,7 +65,7 @@ describe('Skipped Questions View when questions are skipped', () => {
   describe('functionality', () => {
     it('passess the correct data to FlatList', () => {
       expect(wrapper.find(FlatList).props().data).toEqual([
-        { key: 'phone', value: 0 }
+        { key: 'phoneNumber', value: 0 }
       ])
     })
 

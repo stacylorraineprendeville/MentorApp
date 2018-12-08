@@ -144,12 +144,14 @@ describe('drafts reducer', () => {
   const initialStore = [
     {
       draftId: 1,
-      status: 'Success'
+      status: 'Synced'
     },
     {
       draftId: 2,
       status: 'In progress',
-      priorities: [{ indicator: 'phone', action: 'Action', reason: 'reason' }],
+      priorities: [
+        { indicator: 'phoneNumber', action: 'Action', reason: 'reason' }
+      ],
       familyData: {
         familyMembersList: [
           ({ name: 'Joan', socioEconomicAnswers: [] }, { name: 'Jane' })
@@ -172,13 +174,13 @@ describe('drafts reducer', () => {
     const expectedStore = [
       {
         draftId: 1,
-        status: 'Pending'
+        status: 'Pending sync'
       },
       {
         draftId: 2,
         status: 'In progress',
         priorities: [
-          { indicator: 'phone', action: 'Action', reason: 'reason' }
+          { indicator: 'phoneNumber', action: 'Action', reason: 'reason' }
         ],
         familyData: {
           familyMembersList: [({ name: 'Joan' }, { name: 'Jane' })]
@@ -196,13 +198,13 @@ describe('drafts reducer', () => {
     const expectedStore = [
       {
         draftId: 1,
-        status: 'Success'
+        status: 'Synced'
       },
       {
         draftId: 2,
-        status: 'Success',
+        status: 'Synced',
         priorities: [
-          { indicator: 'phone', action: 'Action', reason: 'reason' }
+          { indicator: 'phoneNumber', action: 'Action', reason: 'reason' }
         ],
         familyData: {
           familyMembersList: [({ name: 'Joan' }, { name: 'Jane' })]
@@ -220,13 +222,13 @@ describe('drafts reducer', () => {
     const expectedStore = [
       {
         draftId: 1,
-        status: 'Success'
+        status: 'Synced'
       },
       {
         draftId: 2,
-        status: 'Error',
+        status: 'Sync error',
         priorities: [
-          { indicator: 'phone', action: 'Action', reason: 'reason' }
+          { indicator: 'phoneNumber', action: 'Action', reason: 'reason' }
         ],
         familyData: {
           familyMembersList: [({ name: 'Joan' }, { name: 'Jane' })]
@@ -244,14 +246,14 @@ describe('drafts reducer', () => {
     const expectedStore = [
       {
         draftId: 1,
-        status: 'Success'
+        status: 'Synced'
       },
       {
         draftId: 2,
         personal_survey_data: { name: 'Name' },
         status: 'In progress',
         priorities: [
-          { indicator: 'phone', action: 'Action', reason: 'reason' }
+          { indicator: 'phoneNumber', action: 'Action', reason: 'reason' }
         ],
         familyData: {
           familyMembersList: [({ name: 'Joan' }, { name: 'Jane' })]
@@ -271,13 +273,13 @@ describe('drafts reducer', () => {
     const expectedStore = [
       {
         draftId: 1,
-        status: 'Success'
+        status: 'Synced'
       },
       {
         draftId: 2,
         status: 'In progress',
         priorities: [
-          { indicator: 'phone', action: 'Action', reason: 'reason' }
+          { indicator: 'phoneNumber', action: 'Action', reason: 'reason' }
         ],
         familyData: {
           familyMembersList: [{ name: 'Jane' }]
@@ -296,13 +298,13 @@ describe('drafts reducer', () => {
     const expectedStore = [
       {
         draftId: 1,
-        status: 'Success'
+        status: 'Synced'
       },
       {
         draftId: 2,
         status: 'In progress',
         priorities: [
-          { indicator: 'phone', action: 'Action', reason: 'reason' },
+          { indicator: 'phoneNumber', action: 'Action', reason: 'reason' },
           { indicator: 'Income', action: 'Some action' }
         ],
         familyData: {
@@ -323,14 +325,14 @@ describe('drafts reducer', () => {
     const expectedStore = [
       {
         draftId: 1,
-        status: 'Success'
+        status: 'Synced'
       },
       {
         draftId: 2,
         status: 'In progress',
         priorities: [
           {
-            indicator: 'phone',
+            indicator: 'phoneNumber',
             action: 'Changed action',
             reason: 'Changed reason'
           }
@@ -346,7 +348,7 @@ describe('drafts reducer', () => {
         id: 2,
         category: 'priorities',
         payload: {
-          indicator: 'phone',
+          indicator: 'phoneNumber',
           action: 'Changed action',
           reason: 'Changed reason'
         }
@@ -355,12 +357,12 @@ describe('drafts reducer', () => {
   })
   it('should handle ADD_SURVEY_FAMILY_MEMBER_DATA when adding data to an existing family member', () => {
     let expectedStore = [
-      { draftId: 1, status: 'Success' },
+      { draftId: 1, status: 'Synced' },
       {
         draftId: 2,
         familyData: { familyMembersList: [{ name: 'Jane' }, { gender: 'F' }] },
         priorities: [
-          { action: 'Action', indicator: 'phone', reason: 'reason' }
+          { action: 'Action', indicator: 'phoneNumber', reason: 'reason' }
         ],
         status: 'In progress'
       }
@@ -381,14 +383,14 @@ describe('drafts reducer', () => {
 
   it('should handle ADD_SURVEY_FAMILY_MEMBER_DATA when adding data to a new family member', () => {
     const expectedStore = [
-      { draftId: 1, status: 'Success' },
+      { draftId: 1, status: 'Synced' },
       {
         draftId: 2,
         familyData: {
           familyMembersList: [{ name: 'Jane' }, { name: 'Miguel' }]
         },
         priorities: [
-          { action: 'Action', indicator: 'phone', reason: 'reason' }
+          { action: 'Action', indicator: 'phoneNumber', reason: 'reason' }
         ],
         status: 'In progress'
       }
@@ -409,7 +411,7 @@ describe('drafts reducer', () => {
 
   it('should handle ADD_SURVEY_FAMILY_MEMBER_DATA when adding socio-economic data to a family member', () => {
     const expectedStore = [
-      { draftId: 1, status: 'Success' },
+      { draftId: 1, status: 'Synced' },
       {
         draftId: 2,
         familyData: {
@@ -421,7 +423,7 @@ describe('drafts reducer', () => {
           ]
         },
         priorities: [
-          { action: 'Action', indicator: 'phone', reason: 'reason' }
+          { action: 'Action', indicator: 'phoneNumber', reason: 'reason' }
         ],
         status: 'In progress'
       }
@@ -444,7 +446,7 @@ describe('drafts reducer', () => {
     const expectedStore = [
       {
         draftId: 1,
-        status: 'Success'
+        status: 'Synced'
       }
     ]
     expect(

@@ -73,11 +73,11 @@ class TextInput extends Component {
       return this.handleError('Please enter alphabetic characters')
     }
     if (
-      this.props.validation === 'phone' &&
+      this.props.validation === 'phoneNumber' &&
       !/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/.test(text) &&
       !validator.isEmpty(text)
     ) {
-      return this.handleError('Please enter a valid phone number')
+      return this.handleError('Please enter a valid phoneNumber number')
     }
     if (
       this.props.validation === 'number' &&
@@ -219,7 +219,7 @@ TextInput.propTypes = {
   validation: PropTypes.oneOf([
     'email',
     'string',
-    'phone',
+    'phoneNumber',
     'number',
     'long-string'
   ]),

@@ -11,6 +11,7 @@ import Button from '../../components/Button'
 const createTestProps = props => ({
   navigation: {
     navigate: jest.fn(),
+    goBack: jest.fn(),
     getParam: jest.fn(param => (param === 'indicator' ? 'income' : 2))
   },
   addSurveyPriorityAcheivementData: jest.fn(),
@@ -48,19 +49,19 @@ describe('AddAchievement View', () => {
   describe('functionality', () => {
     it('has correct initial state', () => {
       expect(wrapper.instance().state).toEqual({
-        reason: '',
+        action: '',
         roadmap: '',
         indicator: 'income'
       })
     })
 
-    it('records reason to state', () => {
+    it('records action to state', () => {
       wrapper
         .find(TextInput)
         .first()
         .props()
-        .onChangeText('Some reason')
-      expect(wrapper.instance().state.reason).toEqual('Some reason')
+        .onChangeText('Some action')
+      expect(wrapper.instance().state.action).toEqual('Some action')
     })
     it('records roadmap to state', () => {
       wrapper

@@ -44,7 +44,7 @@ const createTestProps = props => ({
           {
             firstName: 'Juan',
             lastName: 'Perez',
-            countryOfBirth: 'Brazil'
+            birthCountry: 'Brazil'
           },
           {
             firstName: 'Ana',
@@ -109,14 +109,14 @@ describe('Family Location component', () => {
   })
   it('edits draft in field change', () => {
     wrapper
-      .find('#postalCode')
+      .find('#postCode')
       .props()
-      .onChangeText('123', 'postalCode')
+      .onChangeText('123', 'postCode')
 
     wrapper
-      .find('#houseDescription')
+      .find('#address')
       .props()
-      .onChangeText('Foo', 'houseDescription')
+      .onChangeText('Foo', 'address')
 
     expect(wrapper.instance().props.addSurveyData).toHaveBeenCalledTimes(3)
   })
@@ -201,7 +201,7 @@ describe('Family Location component', () => {
       })
     })
 
-    it('doesn\'t look for device location if there is one from draft', () => {
+    it("doesn't look for device location if there is one from draft", () => {
       const spy = jest.spyOn(wrapper.instance(), 'getDeviceLocation')
 
       expect(spy).toHaveBeenCalledTimes(0)

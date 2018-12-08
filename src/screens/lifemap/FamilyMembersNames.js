@@ -88,7 +88,8 @@ export class FamilyMembersNames extends Component {
       id: this.draftId,
       index,
       payload: {
-        firstName: name
+        firstName: name,
+        firstParticipant: false
       }
     })
   }
@@ -128,7 +129,7 @@ export class FamilyMembersNames extends Component {
             validation="string"
             field=""
             onChangeText={() => {}}
-            placeholder="Primary participant"
+            placeholder="firstParticipant participant"
             value={draft.familyData.familyMembersList[0].firstName}
             required
             readonly

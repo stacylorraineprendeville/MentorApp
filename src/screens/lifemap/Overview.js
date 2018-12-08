@@ -11,6 +11,9 @@ import LifemapOverview from '../../components/LifemapOverview'
 import globalStyles from '../../globalStyles'
 import colors from '../../theme.json'
 
+import { submitDraft } from '../../redux/actions'
+import { url } from '../../config'
+
 export class Overview extends Component {
   draftId = this.props.navigation.getParam('draftId')
   survey = this.props.navigation.getParam('survey')
@@ -73,7 +76,15 @@ export class Overview extends Component {
           <Button
             colored
             text="Continue"
-            handleClick={() => this.navigateToScreen('Final')}
+            handleClick={() => {
+              this.props.submitDraft(
+                url[this.props.env],
+                this.props.user.token,
+                this.draftId,
+                draft
+              )
+              this.navigateToScreen('Final')
+            }}
             disabled={mandatoryPrioritiesCount > draft.priorities.length}
           />
         </View>
@@ -108,11 +119,23 @@ const styles = StyleSheet.create({
 
 Overview.propTypes = {
   drafts: PropTypes.array.isRequired,
-  navigation: PropTypes.object.isRequired
+  navigation: PropTypes.object.isRequired,
+  submitDraft: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  env: PropTypes.string.isRequired
 }
 
-const mapStateToProps = ({ drafts }) => ({
-  drafts
+const mapStateToProps = ({ drafts, env, user }) => ({
+  drafts,
+  env,
+  user
 })
 
-export default connect(mapStateToProps)(Overview)
+const mapDispatchToProps = {
+  submitDraft
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Overview)

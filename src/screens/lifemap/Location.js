@@ -153,7 +153,7 @@ export class Location extends Component {
     // country of birth
     if (!this.getFieldValue(draft, 'country')) {
       this.addSurveyData(
-        draft.familyData.familyMembersList[0].countryOfBirth,
+        draft.familyData.familyMembersList[0].birthCountry,
         'country'
       )
 
@@ -271,18 +271,18 @@ export class Location extends Component {
             detectError={this.detectError}
           />
           <TextInput
-            id="postalCode"
+            id="postCode"
             onChangeText={this.addSurveyData}
-            field="postalCode"
-            value={this.getFieldValue(draft, 'postalCode') || ''}
-            placeholder="Postcode"
+            field="postCode"
+            value={this.getFieldValue(draft, 'postCode') || ''}
+            placeholder="Post code"
             detectError={this.detectError}
           />
           <TextInput
-            id="houseDescription"
+            id="address"
             onChangeText={this.addSurveyData}
-            field="houseDescription"
-            value={this.getFieldValue(draft, 'houseDescription') || ''}
+            field="address"
+            value={this.getFieldValue(draft, 'address') || ''}
             placeholder="Street or house description"
             validation="long-string"
             detectError={this.detectError}
