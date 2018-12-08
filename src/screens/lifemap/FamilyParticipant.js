@@ -56,7 +56,8 @@ export class FamilyParticipant extends Component {
         familyData: {
           familyMembersList: [
             {
-              firstParticipant: true
+              firstParticipant: true,
+              socioEconomicAnswers: []
             }
           ]
         }
