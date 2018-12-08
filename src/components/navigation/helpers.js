@@ -6,6 +6,7 @@ import {
   Text,
   Platform
 } from 'react-native'
+import { NavigationActions } from 'react-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import colors from '../../theme.json'
 import Popup from '../Popup'
@@ -62,7 +63,9 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
             text="Yes"
             style={{ width: 107 }}
             handleClick={() => {
-              navigation.popToTop()
+              navigation.reset([
+                NavigationActions.navigate({ routeName: 'Dashboard' })
+              ])
             }}
           />
           <Button
