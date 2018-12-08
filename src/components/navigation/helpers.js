@@ -48,26 +48,26 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
         onClose={() => navigation.setParams({ modalOpen: false })}
       >
         {navigation.state.routeName === 'Terms' ||
-        navigation.state.routeName === 'Privacy' ||
-        (navigation.state.routeName === 'FamilyParticipant' &&
-          !navigation.getParam('draft')) ? (
-          <View>
-            <Text style={[globalStyles.centerText, globalStyles.h3]}>
-              {navigation.state.routeName === 'FamilyParticipant'
-                ? 'If you do not enter all details on this page the life map will not be saved!'
-                : 'If you do not agree we cannot continue to create the Life Map!'}
-            </Text>
-            <Text style={[globalStyles.centerText, styles.subline]}>
-              Are you sure you want to exit?
-            </Text>
-          </View>
-        ) : (
-          <View>
-            <Text style={[globalStyles.centerText, globalStyles.h3]}>
-              Your lifemap is not complete Are you sure you want to exit?
-            </Text>
-            <Text style={[globalStyles.centerText, styles.subline]}>
-              This will be saved as a draft.
+          navigation.state.routeName === 'Privacy' ||
+          (navigation.state.routeName === 'FamilyParticipant' &&
+            !navigation.getParam('draft')) ? (
+              <View>
+                <Text style={[globalStyles.centerText, globalStyles.h3]}>
+                  {navigation.state.routeName === 'FamilyParticipant'
+                    ? 'If you do not enter all details on this page the life map will not be saved!'
+                    : 'If you do not agree we cannot continue to create the Life Map!'}
+                </Text>
+                <Text style={[globalStyles.centerText, styles.subline]}>
+                  Are you sure you want to exit?
+                </Text>
+              </View>
+            ) : (
+              <View>
+                <Text style={[globalStyles.centerText, globalStyles.h3]}>
+                  Your lifemap is not complete. Are you sure you want to exit?
+                </Text>
+                <Text style={[globalStyles.centerText, styles.subline]}>
+                  This will be saved as a draft.
             </Text>
           </View>
         )}
