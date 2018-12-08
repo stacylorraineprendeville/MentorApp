@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, ScrollView, View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-
+import { NavigationActions } from 'react-navigation'
 import RoundImage from '../../components/RoundImage'
 import LifemapVisual from '../../components/LifemapVisual'
 import Button from '../../components/Button'
@@ -49,7 +49,11 @@ export class Final extends Component {
           <Button
             colored
             text="Close"
-            handleClick={() => this.props.navigation.popToTop()}
+            handleClick={() =>
+              this.props.navigation.reset([
+                NavigationActions.navigate({ routeName: 'Dashboard' })
+              ])
+            }
           />
         </View>
       </ScrollView>
