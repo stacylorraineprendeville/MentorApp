@@ -48,14 +48,18 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
         onClose={() => navigation.setParams({ modalOpen: false })}
       >
         {navigation.state.routeName === 'Terms' ||
-          navigation.state.routeName === 'Privacy' ? (
-            <View>
-              <Text style={[globalStyles.centerText, globalStyles.h3]}>
-                If you do not agree we cannot continue to create the Life Map!
-              </Text>
-              <Text style={[globalStyles.centerText, styles.subline]}>
-                Are you sure you want to exit?
-              </Text>
+        navigation.state.routeName === 'Privacy' ||
+        (navigation.state.routeName === 'FamilyParticipant' &&
+          !navigation.getParam('draft')) ? (
+          <View>
+            <Text style={[globalStyles.centerText, globalStyles.h3]}>
+              {navigation.state.routeName === 'FamilyParticipant'
+                ? 'If you do not enter all details on this page the life map will not be saved!'
+                : 'If you do not agree we cannot continue to create the Life Map!'}
+            </Text>
+            <Text style={[globalStyles.centerText, styles.subline]}>
+              Are you sure you want to exit?
+            </Text>
           </View>
         ) : (
           <View>
@@ -74,9 +78,18 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
             text="Yes"
             style={{ width: 107 }}
             handleClick={() => {
-              navigation.reset([
-                NavigationActions.navigate({ routeName: 'Dashboard' })
-              ])
+              // delete draft if first time visiting FamilyParticipant for
+              // this life map
+              if (
+                navigation.state.routeName === 'FamilyParticipant' &&
+                !navigation.getParam('draft')
+              ) {
+                navigation.setParams({ deleteDraft: true })
+              } else {
+                navigation.reset([
+                  NavigationActions.navigate({ routeName: 'Dashboard' })
+                ])
+              }
             }}
           />
           <Button
