@@ -18,6 +18,7 @@ const createTestProps = props => ({
     setParams: jest.fn(),
     reset: jest.fn()
   },
+  t: jest.fn(),
   drafts: [draft],
   surveys: [
     {
