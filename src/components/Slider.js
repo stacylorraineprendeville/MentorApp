@@ -22,7 +22,9 @@ class Slider extends Component {
   state = {
     selectedColor: colors.green
   }
+
   render() {
+    console.log(this.props.value)
     return (
       <View>
         <ScrollView
@@ -65,16 +67,22 @@ class Slider extends Component {
             </TouchableOpacity>
           ))}
         </ScrollView>
-        <View style={styles.nav}>
-          <View
-            style={{
-              ...styles.iconBig,
-              backgroundColor: this.state.selectedColor
-            }}
-          >
-            <Icon name="done" size={56} color={colors.white} />
+
+        {this.props.value ? (
+          <View style={styles.nav}>
+            <View
+              id="icon-view"
+              style={{
+                ...styles.iconBig,
+                backgroundColor: colors[slideColors[this.props.value]]
+              }}
+            >
+              <Icon name="done" size={56} color={colors.white} />
+            </View>
           </View>
-        </View>
+        ) : (
+          <View />
+        )}
       </View>
     )
   }
@@ -82,6 +90,7 @@ class Slider extends Component {
 
 Slider.propTypes = {
   slides: PropTypes.array.isRequired,
+  value: PropTypes.number,
   selectAnswer: PropTypes.func.isRequired
 }
 
@@ -101,7 +110,6 @@ const styles = StyleSheet.create({
     marginTop: 15
   },
   iconBig: {
-    backgroundColor: colors.green,
     borderRadius: 40,
     width: 80,
     height: 80,

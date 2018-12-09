@@ -24,6 +24,15 @@ export class Question extends Component {
   indicator = this.indicators[this.step]
   slides = this.indicator.stoplightColors
 
+  getFieldValue(draft, field) {
+    const indicatorObject = draft.indicatorSurveyDataList.filter(
+      item => item.key === field
+    )[0]
+    if (indicatorObject) {
+      return indicatorObject.value
+    }
+  }
+
   selectAnswer(answer) {
     this.props.addSurveyData(this.draftId, 'indicatorSurveyDataList', {
       [this.indicator.codeName]: answer
@@ -65,6 +74,9 @@ export class Question extends Component {
   }
 
   render() {
+    const draft = this.props.drafts.filter(
+      item => item.draftId === this.draftId
+    )[0]
     return (
       <ScrollView style={globalStyles.background}>
         <View style={{ ...globalStyles.container, paddingTop: 20 }}>
@@ -83,6 +95,7 @@ export class Question extends Component {
         </View>
         <Slider
           slides={this.slides}
+          value={this.getFieldValue(draft, this.indicator.codeName)}
           selectAnswer={answer => this.selectAnswer(answer)}
         />
         <View style={styles.skip}>
@@ -103,7 +116,7 @@ const styles = StyleSheet.create({
   skip: {
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 30,
+    paddingTop: 40,
     paddingBottom: 30
   },
   link: {

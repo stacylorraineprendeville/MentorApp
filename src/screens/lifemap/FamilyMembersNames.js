@@ -129,7 +129,7 @@ export class FamilyMembersNames extends Component {
             validation="string"
             field=""
             onChangeText={() => {}}
-            placeholder="firstParticipant participant"
+            placeholder="First participant"
             value={draft.familyData.familyMembersList[0].firstName}
             required
             readonly
