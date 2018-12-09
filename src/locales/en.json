@@ -103,7 +103,8 @@
       "great": "Great!",
       "youHaveCompletedTheLifemap": "You have completed the lifemap",
       "youNeedToAddPriotity": "You need to add one priotity",
-      "youNeedToAddPriorities": "You need to add %n priorities"
+      "youNeedToAddPriorities": "You need to add %n priorities",
+      "beforeTheLifeMapIsCompleted": "Before the Life Map is completed..."
     },
     "modals": {
       "lifeMapWillNotBeSaved": "If you do not enter all details on this page the life map will not be saved!",

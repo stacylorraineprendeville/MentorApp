@@ -152,7 +152,7 @@ export class DrawerContent extends Component {
               <Button
                 outlined
                 borderColor={colors.grey}
-                text={i18n.t('general.yes')}
+                text={i18n.t('general.no')}
                 style={{ width: 107, alignSelf: 'flex-end' }}
                 handleClick={() =>
                   navigation.setParams({ logoutModalOpen: false })
