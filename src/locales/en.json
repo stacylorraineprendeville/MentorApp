@@ -51,7 +51,7 @@
     "familyMembers": "Family members",
     "gender": "Gender",
     "birthDates": "Birth dates",
-    "readCarefully": "Please read carefully before creating the Life Map",
+    "readCarefully": "Please read carefully before creating the life map",
     "family": {
       "firstName": "First name",
       "lastName": "Last name",
@@ -72,7 +72,7 @@
       "primaryParticipant": "First participant",
       "gender": "Gender",
       "selectGender": "Select gender",
-      "country": "Country",
+      "country": "Country of residence",
       "selectACountry": "Select a country",
       "postcode": "Postcode",
       "streetOrHouseDescription": "Street or house description",
