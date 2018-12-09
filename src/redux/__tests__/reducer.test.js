@@ -71,6 +71,12 @@ describe('login reducer', () => {
       language: false,
       snapshots: [],
       surveys: [],
+      sync: {
+        drafts: { synced: 0, total: 0 },
+        images: { synced: 0, total: 0 },
+        snapshots: { synced: 0, total: 0 },
+        surveys: { synced: 0, total: 0 }
+      },
       user: { status: null, token: null, username: null }
     })
   })
@@ -466,5 +472,69 @@ describe('language reducer', () => {
         language: 'es'
       })
     ).toEqual('es')
+  })
+})
+
+describe('sync reducer', () => {
+  it('should handle SET_SYNCED_ITEM_TOTAL', () => {
+    expect(
+      reducer.sync(
+        {
+          surveys: {
+            total: 0,
+            synced: 0
+          },
+          drafts: {
+            total: 0,
+            synced: 0
+          }
+        },
+        {
+          type: action.SET_SYNCED_ITEM_TOTAL,
+          item: 'drafts',
+          amount: 10
+        }
+      )
+    ).toEqual({
+      surveys: {
+        total: 0,
+        synced: 0
+      },
+      drafts: {
+        total: 10,
+        synced: 0
+      }
+    })
+  })
+
+  it('should handle SET_SYNCED_ITEM_AMOUNT', () => {
+    expect(
+      reducer.sync(
+        {
+          surveys: {
+            total: 0,
+            synced: 0
+          },
+          drafts: {
+            total: 0,
+            synced: 0
+          }
+        },
+        {
+          type: action.SET_SYNCED_ITEM_AMOUNT,
+          item: 'drafts',
+          amount: 2
+        }
+      )
+    ).toEqual({
+      surveys: {
+        total: 0,
+        synced: 0
+      },
+      drafts: {
+        total: 0,
+        synced: 2
+      }
+    })
   })
 })

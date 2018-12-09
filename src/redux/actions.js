@@ -214,3 +214,19 @@ export const switchLanguage = language => ({
   type: SWITCH_LANGUAGE,
   language
 })
+
+// Sync
+export const SET_SYNCED_ITEM_TOTAL = 'SET_SYNCED_ITEM_TOTAL'
+export const SET_SYNCED_ITEM_AMOUNT = 'SET_SYNCED_ITEM_AMOUNT'
+
+export const setSyncedItemTotal = (item, amount) => ({
+  type: SET_SYNCED_ITEM_TOTAL,
+  item,
+  amount
+})
+
+export const setSyncedItemAmount = (item, amount) => ({
+  type: SET_SYNCED_ITEM_AMOUNT,
+  item,
+  amount
+})

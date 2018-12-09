@@ -292,4 +292,28 @@ describe('drafts actions', () => {
       expect(action.switchLanguage(language)).toEqual(expectedAction)
     })
   })
+
+  describe('sync actions', () => {
+    it('should create an action to set a synced item total amount to be synced', () => {
+      const item = 'drafts'
+      const amount = 10
+      const expectedAction = {
+        type: action.SET_SYNCED_ITEM_TOTAL,
+        item,
+        amount
+      }
+      expect(action.setSyncedItemTotal(item, amount)).toEqual(expectedAction)
+    })
+
+    it('should create an action to set current synced items amount', () => {
+      const item = 'drafts'
+      const amount = 2
+      const expectedAction = {
+        type: action.SET_SYNCED_ITEM_AMOUNT,
+        item,
+        amount
+      }
+      expect(action.setSyncedItemAmount(item, amount)).toEqual(expectedAction)
+    })
+  })
 })
