@@ -12,7 +12,6 @@ import PropTypes from 'prop-types'
 import Button from '../components/Button'
 import RoundImage from '../components/RoundImage'
 import DraftListItem from '../components/DraftListItem'
-import Loading from '../components/Loading'
 import globalStyles from '../globalStyles'
 import { connect } from 'react-redux'
 import { loadFamilies, loadSnapshots, loadSurveys } from '../redux/actions'
@@ -78,11 +77,9 @@ export class Dashboard extends Component {
     return (
       <ScrollView style={globalStyles.background}>
         {this.props.offline.outbox.length &&
-        navigation.getParam('firstTimeVisitor') ? (
-          <Loading time={this.state.loadingTime} />
-        ) : (
-          <View>
-            <View style={globalStyles.container}>
+          navigation.getParam('firstTimeVisitor') ? null : (
+            <View>
+              <View style={globalStyles.container}>
               <View>
                 <Text
                   style={{

@@ -3,7 +3,6 @@ import { shallow } from 'enzyme'
 import { StatusBar } from 'react-native'
 import { NavWrapper } from '../NavWrapper'
 import { LoginStack, AppStack } from '../navigation'
-import Loading from '../Loading'
 import * as store from '../../redux/store'
 import colors from '../../theme.json'
 
@@ -40,10 +39,6 @@ describe('Navigation Wrapper', () => {
       const spy = jest.spyOn(wrapper.instance(), 'checkHydration')
       wrapper.instance().componentDidMount()
       expect(spy).toHaveBeenCalledTimes(1)
-    })
-
-    it('renders ActivityIndicator if store is not hydrated', () => {
-      expect(wrapper.find(Loading)).toHaveLength(1)
     })
   })
 

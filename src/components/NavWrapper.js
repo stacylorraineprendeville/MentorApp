@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getHydrationState } from '../redux/store'
 import { LoginStack, AppStack } from './navigation'
-import Loading from './Loading'
 import colors from '../theme.json'
 
 export class NavWrapper extends Component {
@@ -53,9 +52,7 @@ export class NavWrapper extends Component {
           <View style={styles.container}>
             {this.props.user.token ? <AppStack /> : <LoginStack />}
           </View>
-        ) : (
-          <Loading time={this.state.loadingTime} />
-        )}
+        ) : null}
       </View>
     )
   }

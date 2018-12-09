@@ -16,7 +16,6 @@ import { url } from '../config'
 import globalStyles from '../globalStyles'
 import colors from '../theme.json'
 import Button from '../components/Button'
-import Loading from '../components/Loading'
 
 export class Login extends Component {
   state = {
@@ -81,9 +80,7 @@ export class Login extends Component {
 
   render() {
     return this.state.loading ? (
-      <View style={globalStyles.container}>
-        <Loading />
-      </View>
+      <View style={globalStyles.container} />
     ) : (
       <View style={globalStyles.container}>
         <ScrollView style={globalStyles.content}>
