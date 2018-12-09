@@ -71,10 +71,7 @@ describe('login reducer', () => {
       language: false,
       snapshots: [],
       surveys: [],
-      sync: {
-        fullySynced: false,
-        images: { synced: 0, total: 0 }
-      },
+      sync: { images: { synced: 0, total: 0 }, synced: 'no' },
       user: { status: null, token: null, username: null }
     })
   })
@@ -540,7 +537,7 @@ describe('sync reducer', () => {
     expect(
       reducer.sync(
         {
-          fullySynced: false
+          synced: false
         },
         {
           type: action.SET_SYNCED_STATE,
@@ -548,7 +545,7 @@ describe('sync reducer', () => {
         }
       )
     ).toEqual({
-      fullySynced: true
+      synced: true
     })
   })
 })

@@ -2,7 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { StatusBar } from 'react-native'
 import { NavWrapper } from '../NavWrapper'
-import { LoginStack, AppStack } from '../navigation'
+import { LoginStack, AppStack, LoadingStack } from '../navigation'
 
 import colors from '../../theme.json'
 
@@ -10,11 +10,7 @@ const createTestProps = props => ({
   user: { token: '' },
   setSyncedState: jest.fn(),
   sync: {
-    fullySynced: false,
-    images: {
-      total: 0,
-      synced: 0
-    }
+    synced: 'no'
   },
   ...props
 })
@@ -37,6 +33,30 @@ describe('Navigation Wrapper', () => {
         backgroundColor: colors.palebeige,
         barStyle: 'dark-content'
       })
+    })
+
+    it('display a lodaing screen if not synced', () => {
+      expect(wrapper.find(LoadingStack)).toHaveLength(1)
+    })
+
+    it('display the login screen if not logged in', () => {
+      props = createTestProps({
+        sync: {
+          synced: 'login'
+        }
+      })
+      wrapper = shallow(<NavWrapper {...props} />)
+      expect(wrapper.find(LoginStack)).toHaveLength(1)
+    })
+
+    it('display the dashboard screen if logged in and fully synced', () => {
+      props = createTestProps({
+        sync: {
+          synced: 'yes'
+        }
+      })
+      wrapper = shallow(<NavWrapper {...props} />)
+      expect(wrapper.find(AppStack)).toHaveLength(1)
     })
   })
 })

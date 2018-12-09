@@ -18,12 +18,14 @@ import { getHydrationState } from '../redux/store'
 import colors from '../theme.json'
 import globalStyles from '../globalStyles'
 import { url } from '../config'
+import { initImageCaching } from '../cache'
 
 export class Loading extends Component {
   checkHydrationTimer
   state = {
     loadingData: false, // know when to show that data is synced
-    querriesAreMade: false // know when actual querries are made, not the same as above
+    querriesAreMade: false, // know when actual querries are made, not the same as above
+    cachingImages: false
   }
   clearTimers = () => {
     clearTimeout(this.checkHydrationTimer)
@@ -46,8 +48,9 @@ export class Loading extends Component {
     } else {
       this.clearTimers()
       if (!this.props.user.token) {
-        this.props.setSyncedState(true)
+        this.props.setSyncedState('login')
       } else {
+        this.props.setSyncedState('no')
         this.loadData()
       }
     }
@@ -57,10 +60,23 @@ export class Loading extends Component {
   }
 
   componentDidUpdate() {
-    if (this.state.querriesAreMade && !this.props.offline.outbox.lenght) {
+    const { total, synced } = this.props.sync.images
+
+    if (
+      this.state.querriesAreMade &&
+      !this.props.offline.outbox.lenght &&
+      !this.state.cachingImages
+    ) {
+      this.setState({
+        cachingImages: true
+      })
       setTimeout(() => {
-        this.props.setSyncedState(true)
-      }, 500)
+        initImageCaching()
+      }, 1000)
+    }
+
+    if (this.state.cachingImages && total && total === synced) {
+      this.props.setSyncedState('yes')
     }
   }
 
@@ -92,6 +108,10 @@ export class Loading extends Component {
             <View style={styles.sync}>
               <Text>
                 Syncing surveys: {surveys.length} / {surveys.length}
+              </Text>
+              <Text>
+                Syncinc survey images: {sync.images.synced} /{' '}
+                {sync.images.total}
               </Text>
             </View>
           )}
@@ -132,7 +152,7 @@ const styles = StyleSheet.create({
   },
   sync: {
     marginTop: 10,
-    justifyContent: 'center'
+    alignItems: 'center'
   }
 })
 

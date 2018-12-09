@@ -11,11 +11,9 @@ export class NavWrapper extends Component {
     return (
       <View style={styles.container}>
         <StatusBar backgroundColor={colors.palebeige} barStyle="dark-content" />
-        {!this.props.sync.fullySynced && <LoadingStack />}
-        {!this.props.user.token && this.props.sync.fullySynced && (
-          <LoginStack />
-        )}
-        {this.props.user.token && this.props.sync.fullySynced && <AppStack />}
+        {this.props.sync.synced === 'no' && <LoadingStack />}
+        {this.props.sync.synced === 'login' && <LoginStack />}
+        {this.props.sync.synced === 'yes' && <AppStack />}
       </View>
     )
   }

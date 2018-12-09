@@ -382,7 +382,7 @@ export const language = (state = false, action) => {
 // Sync
 export const sync = (
   state = {
-    fullySynced: false,
+    synced: 'no',
     images: {
       total: 0,
       synced: 0
@@ -394,7 +394,7 @@ export const sync = (
     case SET_SYNCED_STATE:
       return {
         ...state,
-        fullySynced: action.value
+        synced: action.value
       }
     case SET_SYNCED_ITEM_TOTAL:
       return {

@@ -65,14 +65,13 @@ export class Login extends Component {
     this.props
       .login(this.state.username, this.state.password, url[this.props.env])
       .then(() => {
-        if (this.props.user.status === 200) {
-          this.setState({ error: false })
-          this.props.setSyncedState(false)
-        } else if (this.props.user.status === 401) {
+        if (this.props.user.status === 401) {
           this.setState({
             loading: false
           })
           this.setState({ error: 'Wrong username or password' })
+        } else {
+          this.props.setSyncedState('no')
         }
       })
   }

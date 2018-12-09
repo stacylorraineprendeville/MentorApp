@@ -14,7 +14,7 @@ const createTestProps = props => ({
   env: 'testing',
   user: { token: '' },
   sync: {
-    fullySynced: false,
+    synced: false,
     images: {
       total: 0,
       synced: 0
@@ -60,7 +60,9 @@ describe('Loading Component', () => {
     })
 
     it('hides immediately if no API token is detected', () => {
-      expect(wrapper.instance().props.setSyncedState).toHaveBeenCalledWith(true)
+      expect(wrapper.instance().props.setSyncedState).toHaveBeenCalledWith(
+        'login'
+      )
     })
   })
 })
