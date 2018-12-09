@@ -67,7 +67,7 @@ export class Skipped extends Component {
         <View style={{ height: 50, marginTop: 20 }}>
           <Button
             colored
-            text="Continue"
+            text={t('general.continue')}
             handleClick={() => this.handleClick()}
           />
         </View>

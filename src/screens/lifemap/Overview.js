@@ -65,7 +65,7 @@ export class Overview extends Component {
           </View>
           <View>
             <Text style={{ ...globalStyles.subline, ...styles.listTitle }}>
-              All indicators
+              {t('views.lifemap.allIndicators')}
             </Text>
             <LifemapOverview
               surveyData={this.survey.surveyStoplightQuestions}

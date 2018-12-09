@@ -67,7 +67,7 @@ export default {
   Skipped: {
     screen: SkippedView,
     navigationOptions: ({ navigation }) => ({
-      title: 'Skipped indicators',
+      title: i18n.t('views.skippedIndicators'),
       ...generateNavOptions({ navigation, burgerMenu: false })
     })
   },

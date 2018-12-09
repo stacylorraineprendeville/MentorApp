@@ -51,6 +51,7 @@
     "familyMembers": "Family members",
     "gender": "Gender",
     "birthDates": "Birth dates",
+    "skippedIndicators": "Skipped indicators",
     "readCarefully": "Please read carefully before creating the life map",
     "family": {
       "firstName": "First name",
