@@ -9,6 +9,7 @@ import TextInput from '../../components/TextInput'
 import Button from '../../components/Button'
 
 const createTestProps = props => ({
+  t: value => value,
   navigation: {
     navigate: jest.fn(),
     goBack: jest.fn(),

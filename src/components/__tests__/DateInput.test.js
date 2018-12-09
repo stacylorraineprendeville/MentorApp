@@ -9,7 +9,7 @@ const createTestProps = props => ({
   ...props,
   onValidDate: jest.fn(),
   detectError: jest.fn(),
-  t: jest.fn(),
+  t: value => value,
   label: 'Some label',
   field: 'birthDate'
 })

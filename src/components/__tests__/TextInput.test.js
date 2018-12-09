@@ -142,7 +142,7 @@ describe('TextInput Component', () => {
         .find(FormValidationMessage)
         .render()
         .text()
-    ).toBe('Please enter a valid phoneNumber number')
+    ).toBe('Please enter a valid phone number')
   })
 
   it('shows correct error message when validation is number', () => {

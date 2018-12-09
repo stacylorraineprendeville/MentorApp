@@ -3,6 +3,7 @@ import { StyleSheet, ScrollView, View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { NavigationActions } from 'react-navigation'
+import { withNamespaces } from 'react-i18next'
 import RoundImage from '../../components/RoundImage'
 import LifemapVisual from '../../components/LifemapVisual'
 import Button from '../../components/Button'
@@ -13,6 +14,7 @@ export class Final extends Component {
   draftId = this.props.navigation.getParam('draftId')
 
   render() {
+    const { t } = this.props
     const draft = this.props.drafts.filter(
       item => item.draftId === this.draftId
     )[0]
@@ -27,7 +29,9 @@ export class Final extends Component {
             ...globalStyles.container
           }}
         >
-          <Text style={{ ...globalStyles.h1, ...styles.text }}>Great!</Text>
+          <Text style={{ ...globalStyles.h1, ...styles.text }}>
+            {t('views.lifemap.great')}
+          </Text>
           <Text
             style={{
               ...globalStyles.h3,
@@ -35,7 +39,7 @@ export class Final extends Component {
               paddingBottom: 30
             }}
           >
-            You have completed the lifemap
+            {t('views.lifemap.youHaveCompletedTheLifemap')}
           </Text>
           <RoundImage source="partner" />
           <LifemapVisual
@@ -48,7 +52,7 @@ export class Final extends Component {
         <View style={{ height: 50 }}>
           <Button
             colored
-            text="Close"
+            text={t('general.close')}
             handleClick={() =>
               this.props.navigation.reset([
                 NavigationActions.navigate({ routeName: 'Dashboard' })
@@ -73,6 +77,7 @@ const styles = StyleSheet.create({
 })
 
 Final.propTypes = {
+  t: PropTypes.func.isRequired,
   drafts: PropTypes.array.isRequired,
   navigation: PropTypes.object.isRequired
 }
@@ -81,4 +86,4 @@ const mapStateToProps = ({ drafts }) => ({
   drafts
 })
 
-export default connect(mapStateToProps)(Final)
+export default withNamespaces()(connect(mapStateToProps)(Final))

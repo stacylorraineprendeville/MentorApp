@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, ScrollView, View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { withNamespaces } from 'react-i18next'
 
 import Tip from '../../components/Tip'
 import LifemapVisual from '../../components/LifemapVisual'
@@ -39,6 +40,7 @@ export class Overview extends Component {
   }
 
   render() {
+    const { t } = this.props
     const draft = this.props.drafts.filter(
       item => item.draftId === this.draftId
     )[0]
@@ -75,7 +77,7 @@ export class Overview extends Component {
         <View style={{ height: 50 }}>
           <Button
             colored
-            text="Continue"
+            text={t('general.continue')}
             handleClick={() => {
               this.props.submitDraft(
                 url[this.props.env],
@@ -90,10 +92,15 @@ export class Overview extends Component {
         </View>
         {mandatoryPrioritiesCount ? (
           <Tip
-            title={'Before the Life Map is completed...'}
-            description={`You need to add ${mandatoryPrioritiesCount} ${
-              mandatoryPrioritiesCount === 1 ? 'priotity' : 'priorities'
-            }`}
+            title={t('views.lifemap.beforeTheLifeMapIsCompleted')}
+            description={
+              mandatoryPrioritiesCount === 1
+                ? t('views.lifemap.youNeedToAddPriotity')
+                : t('views.lifemap.youNeedToAddPriorities').replace(
+                    '%n',
+                    mandatoryPrioritiesCount
+                  )
+            }
           />
         ) : (
           <View />
@@ -118,6 +125,7 @@ const styles = StyleSheet.create({
 })
 
 Overview.propTypes = {
+  t: PropTypes.func.isRequired,
   drafts: PropTypes.array.isRequired,
   navigation: PropTypes.object.isRequired,
   submitDraft: PropTypes.func.isRequired,
@@ -135,7 +143,9 @@ const mapDispatchToProps = {
   submitDraft
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Overview)
+export default withNamespaces()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Overview)
+)
