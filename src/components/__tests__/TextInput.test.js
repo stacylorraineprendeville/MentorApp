@@ -130,7 +130,7 @@ describe('TextInput Component', () => {
   it('shows correct error message when validation is phoneNumber', () => {
     props = createTestProps({ required: true, validation: 'phoneNumber' })
     wrapper = shallow(<TextInput {...props} />)
-    wrapper.setState({ status: 'error', text: 'not a phoneNumber' })
+    wrapper.setState({ status: 'error', text: 'not a phone number' })
 
     wrapper
       .find(FormInput)
