@@ -123,6 +123,7 @@ class DateInput extends React.Component {
               onChangeText={day => this.setDay(day)}
               value={day}
               placeholder="Day"
+              keyboardType="numeric"
             />
           </View>
           <View style={styles.year}>
@@ -130,6 +131,7 @@ class DateInput extends React.Component {
               onChangeText={year => this.setYear(year)}
               value={year}
               placeholder="Year"
+              keyboardType="numeric"
             />
           </View>
         </View>
