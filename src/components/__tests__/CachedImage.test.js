@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { Image, Platform, ActivityIndicator } from 'react-native'
+import { Image, Platform } from 'react-native'
 import { CachedImage } from '../CachedImage'
 
 const createTestProps = props => ({
@@ -16,20 +16,11 @@ describe('CachedImage', () => {
       props = createTestProps()
       wrapper = shallow(<CachedImage {...props} />)
     })
-    it('has proper initial state', () => {
-      expect(wrapper).toHaveState({
-        source: false
-      })
-    })
-    it('shows ActivityIndicator while loading state', () => {
-      expect(wrapper.find(ActivityIndicator)).toHaveLength(1)
-    })
   })
   describe('after net check', () => {
     beforeEach(async () => {
       props = createTestProps()
       wrapper = shallow(<CachedImage {...props} />)
-      await wrapper.instance().componentDidMount()
     })
 
     it('renders <Image />', () => {
@@ -41,15 +32,8 @@ describe('CachedImage', () => {
         Platform.OS === 'android' ? 'file://some.url.png' : 'some.url.png'
       )
       expect(wrapper.find(Image)).toHaveProp('source', {
-        uri: Platform.OS === 'android' ? 'file://some.url.png' : 'some.url.png'
-      })
-    })
-
-    it('applies cached url of image is in cache', async () => {
-      await wrapper.instance().updateSource(false)
-
-      expect(wrapper).toHaveState({
-        source: 'foo/some.url.png'
+        uri:
+          Platform.OS === 'android' ? 'file://some.url.png' : 'foo/some.url.png'
       })
     })
   })
