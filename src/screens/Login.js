@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
+  ActivityIndicator,
   ScrollView,
   Text,
   TextInput,
@@ -10,7 +11,7 @@ import {
   NetInfo
 } from 'react-native'
 import { connect } from 'react-redux'
-import { setEnv, login } from '../redux/actions'
+import { setEnv, login, setSyncedState } from '../redux/actions'
 import logo from '../../assets/images/logo.png'
 import { url } from '../config'
 import globalStyles from '../globalStyles'
@@ -66,9 +67,7 @@ export class Login extends Component {
       .then(() => {
         if (this.props.user.status === 200) {
           this.setState({ error: false })
-          this.props.navigation.navigate('Dashboard', {
-            firstTimeVisitor: true
-          })
+          this.props.setSyncedState(false)
         } else if (this.props.user.status === 401) {
           this.setState({
             loading: false
@@ -79,9 +78,7 @@ export class Login extends Component {
   }
 
   render() {
-    return this.state.loading ? (
-      <View style={globalStyles.container} />
-    ) : (
+    return (
       <View style={globalStyles.container}>
         <ScrollView style={globalStyles.content}>
           <Image style={styles.logo} source={logo} />
@@ -125,13 +122,17 @@ export class Login extends Component {
               {this.state.error}
             </Text>
           )}
-          <Button
-            id="login-button"
-            handleClick={() => this.onLogin()}
-            text="Login"
-            colored
-            disabled={this.state.error === 'No connection' ? true : false}
-          />
+          {this.state.loading ? (
+            <ActivityIndicator />
+          ) : (
+            <Button
+              id="login-button"
+              handleClick={() => this.onLogin()}
+              text="Login"
+              colored
+              disabled={this.state.error === 'No connection' ? true : false}
+            />
+          )}
         </ScrollView>
       </View>
     )
@@ -141,6 +142,7 @@ export class Login extends Component {
 Login.propTypes = {
   setEnv: PropTypes.func.isRequired,
   login: PropTypes.func.isRequired,
+  setSyncedState: PropTypes.func.isRequired,
   env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
   navigation: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired
@@ -169,7 +171,8 @@ const mapStateToProps = ({ env, user }) => ({
 
 const mapDispatchToProps = {
   setEnv,
-  login
+  login,
+  setSyncedState
 }
 
 export default connect(

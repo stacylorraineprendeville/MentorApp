@@ -17,7 +17,8 @@ import {
   SUBMIT_DRAFT_ROLLBACK,
   SWITCH_LANGUAGE,
   SET_SYNCED_ITEM_TOTAL,
-  SET_SYNCED_ITEM_AMOUNT
+  SET_SYNCED_ITEM_AMOUNT,
+  SET_SYNCED_STATE
 } from './actions'
 
 //Login
@@ -381,18 +382,7 @@ export const language = (state = false, action) => {
 // Sync
 export const sync = (
   state = {
-    surveys: {
-      total: 0,
-      synced: 0
-    },
-    drafts: {
-      total: 0,
-      synced: 0
-    },
-    snapshots: {
-      total: 0,
-      synced: 0
-    },
+    fullySynced: false,
     images: {
       total: 0,
       synced: 0
@@ -401,6 +391,11 @@ export const sync = (
   action
 ) => {
   switch (action.type) {
+    case SET_SYNCED_STATE:
+      return {
+        ...state,
+        fullySynced: action.value
+      }
     case SET_SYNCED_ITEM_TOTAL:
       return {
         ...state,

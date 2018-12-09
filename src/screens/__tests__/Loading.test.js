@@ -1,11 +1,27 @@
 import React from 'react'
-
+import * as store from '../../redux/store'
 import { shallow } from 'enzyme'
-import { Text, ActivityIndicator, View } from 'react-native'
-import Loading from '../Loading'
+import { Text, ActivityIndicator } from 'react-native'
+import { Loading } from '../Loading'
+
+jest.useFakeTimers()
 
 const createTestProps = props => ({
-  time: 'ok',
+  loadFamilies: jest.fn(),
+  loadSurveys: jest.fn(),
+  loadSnapshots: jest.fn(),
+  setSyncedState: jest.fn(),
+  env: 'testing',
+  user: { token: '' },
+  sync: {
+    fullySynced: false,
+    images: {
+      total: 0,
+      synced: 0
+    }
+  },
+  surveys: [],
+  offline: {},
   ...props
 })
 
@@ -16,51 +32,35 @@ describe('Loading Component', () => {
     props = createTestProps()
     wrapper = shallow(<Loading {...props} />)
   })
-  describe('rendering', () => {
-    it('renders <Text />', () => {
-      expect(wrapper.find(Text)).toHaveLength(3)
-    })
-    it('renders <ActivityIndicator />', () => {
-      expect(wrapper.find(ActivityIndicator)).toHaveLength(1)
-    })
+
+  it('renders <Text />', () => {
+    expect(wrapper.find(Text)).toHaveLength(3)
   })
-  describe('functionality', () => {
-    it('shows correct text when time property is set to ok', () => {
-      expect(
-        wrapper
-          .find(Text)
-          .at(1)
-          .render()
-          .text()
-      ).toBe('Yes!')
-
-      expect(
-        wrapper
-          .find(Text)
-          .at(2)
-          .render()
-          .text()
-      ).toBe('We will be ready soon.')
+  it('renders <ActivityIndicator />', () => {
+    expect(wrapper.find(ActivityIndicator)).toHaveLength(1)
+  })
+  it('checks for store hydration on mount', () => {
+    const spy = jest.spyOn(wrapper.instance(), 'checkHydration')
+    wrapper.instance().componentDidMount()
+    expect(spy).toHaveBeenCalledTimes(1)
+  })
+  describe('after rehydration', () => {
+    beforeEach(() => {
+      /* eslint-disable import/namespace */
+      store.getHydrationState = () => true
+      /* eslint-enable import/namespace */
+      props = createTestProps()
+      wrapper = shallow(<Loading {...props} />)
     })
 
-    it('shows correct text when time property is set to slow', () => {
-      props = createTestProps({ time: 'slow' })
-      wrapper = shallow(<Loading {...props} />)
-      expect(
-        wrapper
-          .find(Text)
-          .at(1)
-          .render()
-          .text()
-      ).toBe('Oops!')
+    it('clears timers', () => {
+      const spy = jest.spyOn(wrapper.instance(), 'clearTimers')
+      wrapper.instance().checkHydration()
+      expect(spy).toHaveBeenCalledTimes(1)
+    })
 
-      expect(
-        wrapper
-          .find(Text)
-          .at(2)
-          .render()
-          .text()
-      ).toBe('This might take a while...')
+    it('hides immediately if no API token is detected', () => {
+      expect(wrapper.instance().props.setSyncedState).toHaveBeenCalledWith(true)
     })
   })
 })

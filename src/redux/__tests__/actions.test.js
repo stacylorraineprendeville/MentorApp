@@ -315,5 +315,14 @@ describe('drafts actions', () => {
       }
       expect(action.setSyncedItemAmount(item, amount)).toEqual(expectedAction)
     })
+
+    it('should create an action to set synced state', () => {
+      const value = true
+      const expectedAction = {
+        type: action.SET_SYNCED_STATE,
+        value
+      }
+      expect(action.setSyncedState(value)).toEqual(expectedAction)
+    })
   })
 })

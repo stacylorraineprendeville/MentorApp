@@ -55,11 +55,6 @@ describe('Dashboard View', () => {
     })
   })
   describe('functionality', () => {
-    it('has proper initial state', () => {
-      expect(wrapper).toHaveState({
-        loadingTime: 'ok'
-      })
-    })
     it('passes the correct data to <FlatList />', () => {
       expect(wrapper.find(FlatList).props().data).toEqual(
         wrapper.instance().props.drafts

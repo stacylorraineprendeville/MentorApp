@@ -21,6 +21,9 @@ export default createStore(
         applyMiddleware(thunk),
         offline({
           ...offlineConfig,
+          persistOptions: {
+            blacklist: ['sync']
+          },
           persistCallback: () => {
             setLanguage()
             rehydrated = true
