@@ -61,7 +61,10 @@ describe('Slider Component', () => {
 
   describe('functionality', () => {
     it('has correct initial state', () => {
-      expect(wrapper.instance().state).toEqual({ selectedColor: colors.green })
+      expect(wrapper.instance().state).toEqual({
+        selectedColor: colors.green,
+        isPortrait: true
+      })
     })
     it('does not change state when user clicks on green slide', () => {
       wrapper
@@ -69,7 +72,7 @@ describe('Slider Component', () => {
         .at(0)
         .props()
         .onPress()
-      expect(wrapper.instance().state).toEqual({ selectedColor: colors.green })
+      expect(wrapper.instance().state.selectedColor).toEqual(colors.green)
     })
     it('does changes state to yellow when user clicks on yellow slide', () => {
       wrapper
@@ -77,7 +80,7 @@ describe('Slider Component', () => {
         .at(1)
         .props()
         .onPress()
-      expect(wrapper.instance().state).toEqual({ selectedColor: colors.gold })
+      expect(wrapper.instance().state.selectedColor).toEqual(colors.gold)
     })
   })
   it('does changes state to red when user clicks on red slide', () => {
@@ -86,7 +89,7 @@ describe('Slider Component', () => {
       .at(2)
       .props()
       .onPress()
-    expect(wrapper.instance().state).toEqual({ selectedColor: colors.red })
+    expect(wrapper.instance().state.selectedColor).toEqual(colors.red)
   })
   it('renders icon in correct color when value is 1', () => {
     expect(wrapper.find('#icon-view').props().style.backgroundColor).toBe(

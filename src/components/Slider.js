@@ -19,19 +19,37 @@ const slideColors = {
   3: 'green'
 }
 
+const isPortrait = () => {
+  const dim = Dimensions.get('screen')
+  return dim.height >= dim.width
+}
+
 class Slider extends Component {
   state = {
-    selectedColor: colors.green
+    selectedColor: colors.green,
+    isPortrait: true
+  }
+
+  componentDidMount() {
+    this.setState({
+      isPortrait: isPortrait()
+    })
+    Dimensions.addEventListener('change', () => {
+      this.setState({
+        isPortrait: isPortrait()
+      })
+    })
   }
 
   render() {
+    console.log(this.state)
     return (
       <View>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
-            width: '200%',
+            width: this.state.isPortrait ? '200%' : '100%',
             flexGrow: 1,
             flexDirection: 'row',
             justifyContent: 'space-between'
@@ -54,7 +72,15 @@ class Slider extends Component {
                 backgroundColor: colors[slideColors[slide.value]]
               }}
             >
-              <Image source={slide.url} style={styles.image} />
+              <Image
+                source={slide.url}
+                style={{
+                  ...styles.image,
+                  height: this.state.isPortrait
+                    ? Dimensions.get('screen').height / 3
+                    : Dimensions.get('screen').height / 2
+                }}
+              />
               <Text
                 style={{
                   ...globalStyles.p,
@@ -106,7 +132,6 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: Dimensions.get('window').height / 3,
     marginTop: 15
   },
   iconBig: {
