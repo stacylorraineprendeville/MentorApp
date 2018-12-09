@@ -17,9 +17,16 @@ import globalStyles from '../../globalStyles'
 // These options handle the header styles and menu icon.
 export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
   headerTitleStyle: {
-    fontFamily: 'Poppins',
+    ...Platform.select({
+      ios: {
+        fontFamily: 'Poppins'
+      },
+      android: {
+        fontFamily: 'Poppins SemiBold'
+      }
+    }),
     fontSize: 18,
-    fontWeight: '500',
+    fontWeight: '200',
     lineHeight: 26,
     marginLeft: 35
   },

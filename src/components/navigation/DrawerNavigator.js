@@ -1,6 +1,6 @@
 import React from 'react'
 import { createDrawerNavigator } from 'react-navigation'
-import { Image, StyleSheet } from 'react-native'
+import { Image, StyleSheet, Platform } from 'react-native'
 import PropTypes from 'prop-types'
 import DrawerContentComponent from './DrawerContent'
 // import SyncStack from './SyncStack'
@@ -63,9 +63,17 @@ export default createDrawerNavigator(
     contentComponent: DrawerContentComponent,
     contentOptions: {
       labelStyle: {
-        fontFamily: 'Poppins',
-        fontWeight: '600',
+        ...Platform.select({
+          ios: {
+            fontFamily: 'Poppins',
+            fontWeight: '600'
+          },
+          android: {
+            fontFamily: 'Poppins SemiBold'
+          }
+        }),
         fontSize: 14,
+        fontWeight: '200',
         color: colors.palegreen
       },
       iconContainerStyle: {

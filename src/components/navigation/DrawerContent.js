@@ -6,7 +6,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
-  AsyncStorage
+  AsyncStorage,
+  Platform
 } from 'react-native'
 import { withNamespaces } from 'react-i18next'
 import { connect } from 'react-redux'
@@ -216,8 +217,15 @@ const styles = StyleSheet.create({
   },
   logoutLabel: {
     marginLeft: 20,
-    fontFamily: 'Poppins',
-    fontWeight: '600',
+    ...Platform.select({
+      ios: {
+        fontFamily: 'Poppins',
+        fontWeight: '600'
+      },
+      android: {
+        fontFamily: 'Poppins SemiBold'
+      }
+    }),
     fontSize: 14,
     color: colors.palegreen
   },
@@ -225,7 +233,15 @@ const styles = StyleSheet.create({
     marginTop: 60
   },
   title: {
-    fontFamily: 'Poppins',
+    ...Platform.select({
+      ios: {
+        fontFamily: 'Poppins',
+        fontWeight: '600'
+      },
+      android: {
+        fontFamily: 'Poppins SemiBold'
+      }
+    }),
     fontWeight: 'normal',
     color: colors.lightdark,
     fontSize: 24,
