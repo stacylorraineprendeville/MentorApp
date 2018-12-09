@@ -9,6 +9,7 @@ import TextInput from '../../components/TextInput'
 import draft from '../__mocks__/draftMock.json'
 
 const createTestProps = props => ({
+  t: value => value,
   createDraft: jest.fn(),
   deleteDraft: jest.fn(),
   addSurveyFamilyMemberData: jest.fn(),

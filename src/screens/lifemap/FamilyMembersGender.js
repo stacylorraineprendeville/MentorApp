@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { ScrollView, StyleSheet, View, Text } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { withNamespaces } from 'react-i18next'
 
 import { addSurveyFamilyMemberData } from '../../redux/actions'
 
@@ -55,6 +56,7 @@ export class FamilyMembersGender extends Component {
 
   gender = this.survey.surveyConfig.gender
   render() {
+    const { t } = this.props
     const draft = this.props.drafts.filter(
       draft => draft.draftId === this.draftId
     )[0]
@@ -80,8 +82,8 @@ export class FamilyMembersGender extends Component {
               <Select
                 field={i.toString()}
                 onChange={text => this.addFamilyMemberGender(text, i + 1)}
-                label="Gender"
-                placeholder="Select gender"
+                label={t('general.gender')}
+                placeholder={t('general.selectGender')}
                 value={
                   (this.getFieldValue(draft, 'familyMembersList')[i + 1] || {})
                     .gender || ''
@@ -97,7 +99,7 @@ export class FamilyMembersGender extends Component {
           <Button
             disabled={!!this.errorsDetected.length}
             colored
-            text="Continue"
+            text={t('general.continue')}
             handleClick={() => this.handleClick()}
           />
         </View>
@@ -114,6 +116,7 @@ const styles = StyleSheet.create({
 })
 
 FamilyMembersGender.propTypes = {
+  t: PropTypes.func.isRequired,
   drafts: PropTypes.array,
   navigation: PropTypes.object.isRequired,
   addSurveyFamilyMemberData: PropTypes.func.isRequired
@@ -127,7 +130,9 @@ const mapStateToProps = ({ drafts }) => ({
   drafts
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FamilyMembersGender)
+export default withNamespaces()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(FamilyMembersGender)
+)

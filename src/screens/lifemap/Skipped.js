@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, ScrollView, Image, View, FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { withNamespaces } from 'react-i18next'
 
 import Tip from '../../components/Tip'
 import SkippedListItem from '../../components/SkippedListItem'
@@ -23,6 +24,7 @@ export class Skipped extends Component {
     })
 
   render() {
+    const { t } = this.props
     const draft = this.props.drafts.filter(
       item => item.draftId === this.draftId
     )[0]
@@ -65,13 +67,13 @@ export class Skipped extends Component {
         <View style={{ height: 50, marginTop: 20 }}>
           <Button
             colored
-            text="Continue"
+            text={t('general.continue')}
             handleClick={() => this.handleClick()}
           />
         </View>
         <Tip
-          title={'You skipped these indicators'}
-          description={'Why not try again to answer these now!'}
+          title={t('views.lifemap.youSkipped')}
+          description={t('views.lifemap.whyNotTryAgain')}
         />
       </ScrollView>
     )
@@ -87,6 +89,7 @@ const styles = StyleSheet.create({
 })
 
 Skipped.propTypes = {
+  t: PropTypes.func.isRequired,
   drafts: PropTypes.array.isRequired,
   navigation: PropTypes.object.isRequired
 }
@@ -94,5 +97,4 @@ Skipped.propTypes = {
 const mapStateToProps = ({ drafts }) => ({
   drafts
 })
-
-export default connect(mapStateToProps)(Skipped)
+export default withNamespaces()(connect(mapStateToProps)(Skipped))

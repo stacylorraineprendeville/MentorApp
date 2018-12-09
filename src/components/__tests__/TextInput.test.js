@@ -130,7 +130,7 @@ describe('TextInput Component', () => {
   it('shows correct error message when validation is phoneNumber', () => {
     props = createTestProps({ required: true, validation: 'phoneNumber' })
     wrapper = shallow(<TextInput {...props} />)
-    wrapper.setState({ status: 'error', text: 'not a phoneNumber' })
+    wrapper.setState({ status: 'error', text: 'not a phone number' })
 
     wrapper
       .find(FormInput)
@@ -142,7 +142,7 @@ describe('TextInput Component', () => {
         .find(FormValidationMessage)
         .render()
         .text()
-    ).toBe('Please enter a valid phoneNumber number')
+    ).toBe('Please enter a valid phone number')
   })
 
   it('shows correct error message when validation is number', () => {
