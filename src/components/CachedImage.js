@@ -62,7 +62,7 @@ export class CachedImage extends Component {
     const { style } = this.props
 
     return source ? (
-      <Image style={style} source={{ uri: source }} />
+      <Image style={style} source={{ uri: source }} resizeMode="cover" />
     ) : (
       <View style={[styles.placeholder, style]}>
         <ActivityIndicator size="large" />

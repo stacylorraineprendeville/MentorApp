@@ -5,7 +5,8 @@ import {
   ScrollView,
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from 'react-native'
 import Image from './CachedImage'
 import colors from '../theme.json'
@@ -24,14 +25,13 @@ class Slider extends Component {
   }
 
   render() {
-    console.log(this.props.value)
     return (
       <View>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
-            width: 850,
+            width: '200%',
             flexGrow: 1,
             flexDirection: 'row',
             justifyContent: 'space-between'
@@ -96,7 +96,7 @@ Slider.propTypes = {
 
 const styles = StyleSheet.create({
   slide: {
-    width: 270
+    width: '32%'
   },
   text: {
     color: colors.white,
@@ -105,8 +105,8 @@ const styles = StyleSheet.create({
     paddingBottom: 25
   },
   image: {
-    width: 270,
-    height: 180,
+    width: '100%',
+    height: Dimensions.get('window').height / 3,
     marginTop: 15
   },
   iconBig: {
