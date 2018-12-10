@@ -16,15 +16,13 @@ export class DateInput extends React.Component {
   }
 
   setDay = day => {
+    this.setState({ day })
     this.validateDate({ day })
     if (Number(day) < 1 || Number(day) > 31) {
       this.setState({ error: true })
-      this.props.detectError(true, this.props.field)
     } else {
       this.setState({ error: false })
-      this.props.detectError(false, this.props.field)
     }
-    this.setState({ day })
   }
 
   setMonth = month => {
@@ -33,16 +31,15 @@ export class DateInput extends React.Component {
   }
 
   setYear = year => {
+    this.setState({ year })
     this.validateDate({ year })
+
     let d = new Date()
     if (Number(year) < 1900 || Number(year) > d.getFullYear()) {
       this.setState({ error: true })
-      this.props.detectError(true, this.props.field)
     } else {
       this.setState({ error: false })
-      this.props.detectError(false, this.props.field)
     }
-    this.setState({ year })
   }
 
   validateDate({ day, month, year }) {
