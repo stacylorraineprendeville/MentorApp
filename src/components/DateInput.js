@@ -63,50 +63,46 @@ class DateInput extends React.Component {
     const validDate =
       moment.unix(this.props.value).format('YYYY MMMM D') !== 'Invalid date'
 
-    // When the year is set to empty string by the user rather than being undefined, this should be considered as user input and therefore yearValue should be true
-
-    const yearValue = year || year === '' ? year : false
     const yearInput =
-      yearValue ||
-      this.state.year ||
-      (validDate ? moment.unix(this.props.value).format('YYYY') : '')
+      typeof year === 'string'
+        ? year
+        : year ||
+          this.state.year ||
+          (validDate ? moment.unix(this.props.value).format('YYYY') : '')
 
     const monthInput =
       month ||
       this.state.month ||
       (validDate ? moment.unix(this.props.value).format('MMMM') : '')
 
-    // When the day is set to empty string by the user rather than being undefined, this should be considered as user input and therefore dayValue should be true
-
-    const dayValue = day || day === '' ? day : false
     const dayInput =
-      dayValue ||
-      this.state.day ||
-      (validDate ? moment.unix(this.props.value).format('D') : '')
+      typeof day === 'string'
+        ? day
+        : day ||
+          this.state.day ||
+          (validDate ? moment.unix(this.props.value).format('D') : '')
 
     const error = !moment(
       `${yearInput} ${monthInput} ${dayInput}`,
       'YYYY MMMM D',
       true
     ).isValid(dayInput)
+    console.log(`${yearInput} ${monthInput} ${dayInput}`)
+    console.log(error)
 
-    if (!!this.props.value || (!!yearInput && !!monthInput && !!dayInput)) {
-      console.log(year)
-      console.log(error)
-      this.setState({
-        error
-      })
-      if (error) {
-        this.props.detectError(true, this.props.field)
-      } else {
-        const unix = moment(
-          `${yearInput} ${monthInput} ${dayInput}`,
-          'YYYY MMMM D'
-        ).unix()
-        this.props.detectError(false, this.props.field)
-        this.props.onValidDate(unix, this.props.field)
-      }
+    if (error) {
+      this.props.detectError(true, this.props.field)
+    } else {
+      const unix = moment(
+        `${yearInput} ${monthInput} ${dayInput}`,
+        'YYYY MMMM D'
+      ).unix()
+      this.props.detectError(false, this.props.field)
+      this.props.onValidDate(unix, this.props.field)
     }
+    this.setState({
+      error
+    })
   }
 
   componentDidMount() {
