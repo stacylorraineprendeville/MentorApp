@@ -144,7 +144,7 @@ describe('DateInput Component', () => {
         'birthDate'
       )
     })
-    it('calls detectError with first argument false if date is invalid', () => {
+    it('calls detectError with first argument false if date is valid', () => {
       wrapper
         .instance()
         .validateDate({ year: '2018', day: '12', month: 'January' })

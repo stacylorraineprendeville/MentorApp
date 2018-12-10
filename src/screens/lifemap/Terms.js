@@ -26,13 +26,15 @@ export class Terms extends Component {
         style={globalStyles.background}
         contentContainerStyle={styles.contentContainer}
       >
-        <RoundImage source="check" />
-        <Text style={[globalStyles.h2Bold, styles.heading]}>
-          {t('views.readCarefully')}
-        </Text>
-        <Text id="content" style={[globalStyles.subline, styles.content]}>
-          {t(`views.${navigation.getParam('page')}`)}
-        </Text>
+        <View style={globalStyles.container}>
+          <RoundImage source="check" />
+          <Text style={[globalStyles.h2Bold, styles.heading]}>
+            {t('views.readCarefully')}
+          </Text>
+          <Text id="content" style={[globalStyles.subline, styles.content]}>
+            {t(`views.${navigation.getParam('page')}`)}
+          </Text>
+        </View>
         <View style={styles.buttonsBar}>
           <Button
             id="dissagree"
@@ -71,22 +73,19 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between',
-    paddingTop: 33
+    justifyContent: 'space-between'
   },
   heading: {
     color: colors.dark,
     textAlign: 'center'
   },
   content: {
-    marginTop: 25,
-    paddingHorizontal: 20
+    marginTop: 25
   },
   buttonsBar: {
     height: 50,
     marginTop: 50,
     marginBottom: -2,
-    flex: 1,
     flexDirection: 'row'
   }
 })

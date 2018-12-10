@@ -82,8 +82,8 @@ export class FamilyMembersGender extends Component {
               <Select
                 field={i.toString()}
                 onChange={text => this.addFamilyMemberGender(text, i + 1)}
-                label={t('general.gender')}
-                placeholder={t('general.selectGender')}
+                label={t('views.family.gender')}
+                placeholder={t('views.family.selectGender')}
                 value={
                   (this.getFieldValue(draft, 'familyMembersList')[i + 1] || {})
                     .gender || ''

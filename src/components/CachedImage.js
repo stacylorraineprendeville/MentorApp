@@ -16,6 +16,7 @@ export class CachedImage extends Component {
     return (
       <Image
         style={style}
+        resizeMode="cover"
         source={{
           uri: this.getProperSourceForOS(
             `${dirs.DocumentDir}/${source.replace(/https?:\/\//, '')}`

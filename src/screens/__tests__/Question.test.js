@@ -93,5 +93,7 @@ describe('Question View', () => {
 const survey = {
   id: 1,
   title: 'Test survey 1',
-  surveyStoplightQuestions: [{ stoplightColors: [], required: false }]
+  surveyStoplightQuestions: [
+    { stoplightColors: [{ codeName: 'phoneNumber' }], required: false }
+  ]
 }

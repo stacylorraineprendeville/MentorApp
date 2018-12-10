@@ -134,6 +134,7 @@ class TextInput extends Component {
             </Text>
           )}
           <FormInput
+            keyboardType={this.props.keyboardType}
             autoCapitalize="none"
             onFocus={() => this.onFocus()}
             onBlur={() => this.onBlur(text)}
@@ -152,11 +153,12 @@ class TextInput extends Component {
             <Text style={{ fontSize: 14, margin: 10 }}>{text}</Text>
           </FormInput>
         </View>
-        {status === 'error' && errorMsg && (
-          <FormValidationMessage style={{ color: colors.red }}>
-            {errorMsg}
-          </FormValidationMessage>
-        )}
+        {status === 'error' &&
+          errorMsg && (
+            <FormValidationMessage style={{ color: colors.red }}>
+              {errorMsg}
+            </FormValidationMessage>
+          )}
       </View>
     )
   }
@@ -217,6 +219,7 @@ TextInput.propTypes = {
   readonly: PropTypes.bool,
   onChangeText: PropTypes.func.isRequired,
   multiline: PropTypes.bool,
+  keyboardType: PropTypes.string,
   validation: PropTypes.oneOf([
     'email',
     'string',

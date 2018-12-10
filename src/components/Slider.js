@@ -5,7 +5,8 @@ import {
   ScrollView,
   Text,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  Dimensions
 } from 'react-native'
 import Image from './CachedImage'
 import colors from '../theme.json'
@@ -18,18 +19,53 @@ const slideColors = {
   3: 'green'
 }
 
+const isPortrait = () => {
+  const dim = Dimensions.get('screen')
+  return dim.height >= dim.width
+}
+
+const isTablet = () => {
+  const msp = (dim, limit) => {
+    return dim.scale * dim.width >= limit || dim.scale * dim.height >= limit
+  }
+  const dim = Dimensions.get('screen')
+  return (dim.scale < 2 && msp(dim, 1000)) || (dim.scale >= 2 && msp(dim, 1900))
+}
+
 class Slider extends Component {
   state = {
-    selectedColor: colors.green
+    selectedColor: colors.green,
+    isPortrait: true,
+    isTablet: false
+  }
+
+  componentDidMount() {
+    this.setState({
+      isPortrait: isPortrait(),
+      isTablet: isTablet()
+    })
+    Dimensions.addEventListener('change', this.dimensionChange)
+  }
+  componentWillUnmount() {
+    // Important to stop updating state after unmount
+    Dimensions.removeEventListener('change', this.dimensionChange)
+  }
+
+  dimensionChange = () => {
+    this.setState({
+      isPortrait: isPortrait()
+    })
   }
   render() {
+    const { isPortrait, isTablet } = this.state
+    const height = Dimensions.get('screen').height
     return (
       <View>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
-            width: 850,
+            width: isPortrait ? '200%' : '130%',
             flexGrow: 1,
             flexDirection: 'row',
             justifyContent: 'space-between'
@@ -52,7 +88,17 @@ class Slider extends Component {
                 backgroundColor: colors[slideColors[slide.value]]
               }}
             >
-              <Image source={slide.url} style={styles.image} />
+              <Image
+                source={slide.url}
+                style={{
+                  ...styles.image,
+                  height: isPortrait
+                    ? isPortrait && isTablet
+                      ? height / 3
+                      : height / 4
+                    : height / 2
+                }}
+              />
               <Text
                 style={{
                   ...globalStyles.p,
@@ -65,16 +111,22 @@ class Slider extends Component {
             </TouchableOpacity>
           ))}
         </ScrollView>
-        <View style={styles.nav}>
-          <View
-            style={{
-              ...styles.iconBig,
-              backgroundColor: this.state.selectedColor
-            }}
-          >
-            <Icon name="done" size={56} color={colors.white} />
+
+        {this.props.value ? (
+          <View style={styles.nav}>
+            <View
+              id="icon-view"
+              style={{
+                ...styles.iconBig,
+                backgroundColor: colors[slideColors[this.props.value]]
+              }}
+            >
+              <Icon name="done" size={56} color={colors.white} />
+            </View>
           </View>
-        </View>
+        ) : (
+          <View />
+        )}
       </View>
     )
   }
@@ -82,12 +134,13 @@ class Slider extends Component {
 
 Slider.propTypes = {
   slides: PropTypes.array.isRequired,
+  value: PropTypes.number,
   selectAnswer: PropTypes.func.isRequired
 }
 
 const styles = StyleSheet.create({
   slide: {
-    width: 270
+    width: '32%'
   },
   text: {
     color: colors.white,
@@ -96,12 +149,10 @@ const styles = StyleSheet.create({
     paddingBottom: 25
   },
   image: {
-    width: 270,
-    height: 180,
+    width: '100%',
     marginTop: 15
   },
   iconBig: {
-    backgroundColor: colors.green,
     borderRadius: 40,
     width: 80,
     height: 80,
