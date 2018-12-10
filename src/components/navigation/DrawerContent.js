@@ -87,7 +87,10 @@ export class DrawerContent extends Component {
         <TouchableOpacity
           id="logout"
           style={styles.logout}
-          onPress={() => navigation.setParams({ logoutModalOpen: true })}
+          onPress={() => {
+            this.props.navigation.toggleDrawer()
+            navigation.setParams({ logoutModalOpen: true })
+          }}
         >
           <CommunityIcon
             name="login-variant"

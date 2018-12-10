@@ -12,16 +12,11 @@ import SkippedView from '../../screens/lifemap/Skipped'
 import OverviewView from '../../screens/lifemap/Overview'
 import AddPriorityView from '../../screens/lifemap/AddPriority'
 import AddAchievementView from '../../screens/lifemap/AddAchievement'
-import DashboardView from '../../screens/Dashboard'
 import i18n from '../../i18n'
 import { generateNavOptions } from './helpers'
 
 // Reusable object for all screens related to a draft
 export default {
-  Dashboard: {
-    screen: DashboardView,
-    navigationOptions: ({ navigation }) => generateNavOptions({ navigation })
-  },
   Terms: {
     screen: TermsView,
     navigationOptions: ({ navigation }) => ({
