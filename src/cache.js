@@ -1,19 +1,19 @@
-import store from './redux/store'
 import RNFetchBlob from 'rn-fetch-blob'
 import { NetInfo } from 'react-native'
+import store from './redux/store'
+import { setSyncedItemTotal, setSyncedItemAmount } from './redux/actions'
 let dirs = RNFetchBlob.fs.dirs
 
 export const getSurveys = () => store.getState().surveys
-export let isInProgress = false
 let isOnline = true
+let connection
 
-NetInfo.addEventListener('connectionChange', () => {
-  NetInfo.isConnected.fetch().then(connection => {
-    isOnline = connection
-    if (connection) {
-      initImageCaching()
-    }
-  })
+// resume caching on connection change
+NetInfo.addEventListener('connectionChange', e => {
+  if (connection === 'none') {
+    initImageCaching()
+  }
+  connection = e.type
 })
 
 export const filterURLsFromSurveys = surveys => {
@@ -23,6 +23,8 @@ export const filterURLsFromSurveys = surveys => {
       question.stoplightColors.forEach(color => imageURLs.push(color.url))
     )
   )
+  // set total amount of images to be cached
+  store.dispatch(setSyncedItemTotal('images', imageURLs.length))
   return imageURLs
 }
 
@@ -49,23 +51,28 @@ export const cacheImages = async imageURLs => {
           })
             .fetch('GET', source)
             .then(() => {
-              // image is cached
+              store.dispatch(
+                setSyncedItemAmount(
+                  'images',
+                  store.getState().sync.images.synced + 1
+                )
+              )
             })
             .catch(() => {})
+        } else if (exist) {
+          store.dispatch(
+            setSyncedItemAmount(
+              'images',
+              store.getState().sync.images.synced + 1
+            )
+          )
         }
       })
   })
-  isInProgress = false
 }
 
-export const initImageCaching = () => {
-  isInProgress = true
-  // check if online before caching
-  NetInfo.isConnected.fetch().then(async online => {
-    if (online) {
-      const surveys = await getSurveys()
-      const imageURLs = await filterURLsFromSurveys(surveys)
-      cacheImages(imageURLs)
-    }
-  })
+export const initImageCaching = async () => {
+  const surveys = await getSurveys()
+  const imageURLs = await filterURLsFromSurveys(surveys)
+  cacheImages(imageURLs)
 }
