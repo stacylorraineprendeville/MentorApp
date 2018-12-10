@@ -71,13 +71,8 @@ export const cacheImages = async imageURLs => {
   })
 }
 
-export const initImageCaching = () => {
-  // check if online before caching
-  NetInfo.isConnected.fetch().then(async online => {
-    if (online) {
-      const surveys = await getSurveys()
-      const imageURLs = await filterURLsFromSurveys(surveys)
-      cacheImages(imageURLs)
-    }
-  })
+export const initImageCaching = async () => {
+  const surveys = await getSurveys()
+  const imageURLs = await filterURLsFromSurveys(surveys)
+  cacheImages(imageURLs)
 }
