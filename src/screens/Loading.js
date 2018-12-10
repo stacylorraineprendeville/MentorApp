@@ -88,7 +88,7 @@ export class Loading extends Component {
     const { sync, surveys } = this.props
 
     return (
-      <View style={styles.view}>
+      <View style={[globalStyles.container, styles.view]}>
         <View style={styles.loadingContainer}>
           <Text style={globalStyles.h3}>We are preparing the app …</Text>
           <ActivityIndicator

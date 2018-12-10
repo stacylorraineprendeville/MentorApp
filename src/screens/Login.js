@@ -65,7 +65,9 @@ export class Login extends Component {
     this.props
       .login(this.state.username, this.state.password, url[this.props.env])
       .then(() => {
-        if (this.props.user.status === 401) {
+        if (this.props.user.status === 200) {
+          this.props.setSyncedState('no')
+        } else if (this.props.user.status === 401) {
           this.setState({
             loading: false
           })
