@@ -6,9 +6,9 @@ import {
   Text,
   Platform
 } from 'react-native'
-import { NavigationActions } from 'react-navigation'
+import { deleteDraft } from '../../redux/actions'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-
+import store from '../../redux/store'
 import colors from '../../theme.json'
 import Popup from '../Popup'
 import Button from '../Button'
@@ -39,18 +39,7 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
     <View>
       <TouchableOpacity
         style={styles.touchable}
-        onPress={() => {
-          navigation.setParams({ modalOpen: true })
-
-          // delete draft if first time visiting FamilyParticipant for
-          // this life map
-          if (
-            navigation.state.routeName === 'FamilyParticipant' &&
-            !navigation.getParam('draft')
-          ) {
-            navigation.setParams({ deleteDraft: true })
-          }
-        }}
+        onPress={() => navigation.setParams({ modalOpen: true })}
       >
         <Icon name="close" size={25} color={colors.lightdark} />
       </TouchableOpacity>
@@ -93,12 +82,11 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
                 navigation.state.routeName === 'FamilyParticipant' &&
                 !navigation.getParam('draft')
               ) {
-                navigation.setParams({ deleteDraft: true })
-              } else {
-                navigation.reset([
-                  NavigationActions.navigate({ routeName: 'Dashboard' })
-                ])
+                store.dispatch(deleteDraft(navigation.getParam('draftId')))
               }
+
+              navigation.popToTop()
+              navigation.navigate('Dashboard')
             }}
           />
           <Button
@@ -121,12 +109,54 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
       <Icon name="menu" size={30} color={colors.lightdark} />
     </TouchableOpacity>
   ) : (
-    <TouchableOpacity
-      style={styles.touchable}
-      onPress={() => navigation.goBack()}
-    >
-      <Icon name="arrow-back" size={25} color={colors.lightdark} />
-    </TouchableOpacity>
+    <View>
+      <TouchableOpacity
+        style={styles.touchable}
+        onPress={() => {
+          if (
+            navigation.state.routeName === 'FamilyParticipant' &&
+            !navigation.getParam('draft')
+          ) {
+            navigation.setParams({ backModalOpen: true })
+          } else {
+            navigation.setParams({ backModalOpen: false })
+            navigation.goBack()
+          }
+        }}
+      >
+        <Icon name="arrow-back" size={25} color={colors.lightdark} />
+      </TouchableOpacity>
+      <Popup
+        isOpen={navigation.getParam('backModalOpen')}
+        onClose={() => navigation.setParams({ backModalOpen: false })}
+      >
+        <Text style={[globalStyles.centerText, globalStyles.h3]}>
+          {navigation.state.routeName === 'FamilyParticipant'
+            ? i18n.t('views.modals.lifeMapWillNotBeSaved')
+            : i18n.t('views.modals.weCannotContinueToCreateTheLifeMap')}
+        </Text>
+        <Text style={[globalStyles.centerText, styles.subline]}>
+          Are you sure you want to go back?
+        </Text>
+        <View style={styles.buttonBar}>
+          <Button
+            outlined
+            text={i18n.t('general.yes')}
+            style={{ width: 107 }}
+            handleClick={() => {
+              store.dispatch(deleteDraft(navigation.getParam('draftId')))
+              navigation.goBack()
+            }}
+          />
+          <Button
+            outlined
+            text={i18n.t('general.no')}
+            style={{ width: 107 }}
+            handleClick={() => navigation.setParams({ backModalOpen: false })}
+          />
+        </View>
+      </Popup>
+    </View>
   )
 })
 

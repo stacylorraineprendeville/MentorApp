@@ -53,11 +53,10 @@ export class Final extends Component {
           <Button
             colored
             text={t('general.close')}
-            handleClick={() =>
-              this.props.navigation.reset([
-                NavigationActions.navigate({ routeName: 'Dashboard' })
-              ])
-            }
+            handleClick={() => {
+              this.props.navigation.popToTop()
+              this.props.navigation.navigate('Dashboard')
+            }}
           />
         </View>
       </ScrollView>
@@ -65,7 +64,6 @@ export class Final extends Component {
   }
 }
 const styles = StyleSheet.create({
-  image: { alignSelf: 'center', marginVertical: 50 },
   contentContainer: {
     flexGrow: 1,
     flexDirection: 'column',

@@ -2,13 +2,9 @@ import React, { Component } from 'react'
 import { StyleSheet, ScrollView, View } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { NavigationActions } from 'react-navigation'
+
 import uuid from 'uuid/v1'
-import {
-  createDraft,
-  deleteDraft,
-  addSurveyFamilyMemberData
-} from '../../redux/actions'
+import { createDraft, addSurveyFamilyMemberData } from '../../redux/actions'
 import { withNamespaces } from 'react-i18next'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
@@ -72,6 +68,7 @@ export class FamilyParticipant extends Component {
   }
 
   componentDidMount() {
+    this.props.navigation.setParams({ draftId: this.draftId })
     this.getDraftFromRedux()
   }
 
@@ -97,17 +94,6 @@ export class FamilyParticipant extends Component {
         [field]: text
       }
     })
-  }
-
-  componentDidUpdate(nextProps) {
-    const { navigation } = nextProps
-
-    // delete the draft if participant details not saved the first time
-    if (navigation.getParam('deleteDraft')) {
-      this.props.deleteDraft(this.draftId)
-      navigation.setParams({ deleteDraft: false })
-      navigation.reset([NavigationActions.navigate({ routeName: 'Dashboard' })])
-    }
   }
 
   gender = this.survey.surveyConfig.gender
@@ -244,13 +230,11 @@ FamilyParticipant.propTypes = {
   drafts: PropTypes.array.isRequired,
   navigation: PropTypes.object.isRequired,
   createDraft: PropTypes.func.isRequired,
-  deleteDraft: PropTypes.func.isRequired,
   addSurveyFamilyMemberData: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = {
   createDraft,
-  deleteDraft,
   addSurveyFamilyMemberData
 }
 

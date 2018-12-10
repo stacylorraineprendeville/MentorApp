@@ -61,7 +61,9 @@ describe('Final Lifemap View when no questions are skipped', () => {
         .find(Button)
         .props()
         .handleClick()
-      expect(wrapper.instance().props.navigation.reset).toHaveBeenCalledTimes(1)
+      expect(
+        wrapper.instance().props.navigation.popToTop
+      ).toHaveBeenCalledTimes(1)
     })
   })
 })
