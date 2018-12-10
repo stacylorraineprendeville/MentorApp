@@ -95,7 +95,9 @@ export class DrawerContent extends Component {
             size={20}
             color={colors.palegreen}
           />
-          <Text style={styles.logoutLabel}>Logout</Text>
+          <Text style={styles.logoutLabel}>
+            {i18n.t('views.logout.logout')}
+          </Text>
         </TouchableOpacity>
 
         {/* Logout popup */}
@@ -114,30 +116,34 @@ export class DrawerContent extends Component {
                 color={colors.lightdark}
                 size={44}
               />
-              <Text style={styles.title}>Logout</Text>
+              <Text style={styles.title}>{i18n.t('views.logout.logout')}</Text>
             </View>
             {this.props.drafts.length ? (
               <View style={{ alignItems: 'center' }}>
-                <Text style={globalStyles.h3}>You have unsynched data</Text>
+                <Text style={globalStyles.h3}>
+                  {i18n.t('views.logout.youHaveUnsynchedData')}
+                </Text>
                 <Text style={[globalStyles.h3, { color: colors.palered }]}>
-                  This data will be lost.
+                  {i18n.t('views.logout.thisDataWillBeLost')}
                 </Text>
               </View>
             ) : (
               <View style={{ alignItems: 'center' }}>
-                <Text style={globalStyles.h3}>We will miss you.</Text>
+                <Text style={globalStyles.h3}>
+                  {i18n.t('views.logout.weWillMissYou')}
+                </Text>
                 <Text style={[globalStyles.h3, { color: colors.palegreen }]}>
-                  Come back soon!
+                  {i18n.t('views.logout.comeBackSoon')}
                 </Text>
               </View>
             )}
             <Text style={[styles.confirm, globalStyles.h3]}>
-              Are you sure you want to log out?
+              {i18n.t('views.logout.areYouSureYouWantToLogOut')}
             </Text>
             <View style={styles.buttonBar}>
               <Button
                 outlined
-                text="Yes"
+                text={i18n.t('general.yes')}
                 borderColor={
                   this.props.drafts.length ? colors.palered : colors.palegreen
                 }
@@ -147,7 +153,7 @@ export class DrawerContent extends Component {
               <Button
                 outlined
                 borderColor={colors.grey}
-                text="No"
+                text={i18n.t('general.no')}
                 style={{ width: 107, alignSelf: 'flex-end' }}
                 handleClick={() =>
                   navigation.setParams({ logoutModalOpen: false })

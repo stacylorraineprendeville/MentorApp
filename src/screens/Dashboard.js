@@ -1,22 +1,12 @@
 import React, { Component } from 'react'
-import {
-  ScrollView,
-  Text,
-  View,
-  StyleSheet,
-  FlatList,
-  AsyncStorage
-} from 'react-native'
+import { ScrollView, Text, View, StyleSheet, FlatList } from 'react-native'
 import { withNamespaces } from 'react-i18next'
 import PropTypes from 'prop-types'
 import Button from '../components/Button'
 import RoundImage from '../components/RoundImage'
 import DraftListItem from '../components/DraftListItem'
-import Loading from '../components/Loading'
 import globalStyles from '../globalStyles'
 import { connect } from 'react-redux'
-import { loadFamilies, loadSnapshots, loadSurveys } from '../redux/actions'
-import { url } from '../config'
 import colors from '../theme.json'
 
 export class Dashboard extends Component {
@@ -25,10 +15,6 @@ export class Dashboard extends Component {
       title: navigation.getParam('title', 'Dashboard'),
       drawerLabel: navigation.getParam('title', 'Dashboard')
     }
-  }
-
-  state = {
-    loadingTime: 'ok'
   }
   slowLoadingTimer
   clearTimers = () => {
@@ -39,13 +25,6 @@ export class Dashboard extends Component {
       title: this.props.t('views.dashboard')
     })
   componentDidMount() {
-    AsyncStorage.getItem('userVisitedDashboard').then(value => {
-      if (!value || value === 'false') {
-        this.loadData()
-      }
-    })
-
-    this.detectSlowLoading()
     this.updateTitle()
   }
 
@@ -59,28 +38,12 @@ export class Dashboard extends Component {
     this.clearTimers()
   }
 
-  loadData = () => {
-    this.props.loadSnapshots(url[this.props.env], this.props.user.token)
-    this.props.loadSurveys(url[this.props.env], this.props.user.token)
-    this.props.loadFamilies(url[this.props.env], this.props.user.token)
-    AsyncStorage.setItem('userVisitedDashboard', 'true')
-  }
-
-  detectSlowLoading = () => {
-    this.slowLoadingTimer = setTimeout(
-      () => this.setState({ loadingTime: 'slow' }),
-      15000
-    )
-  }
-
   render() {
     const { t, navigation, drafts } = this.props
     return (
       <ScrollView style={globalStyles.background}>
         {this.props.offline.outbox.length &&
-        navigation.getParam('firstTimeVisitor') ? (
-          <Loading time={this.state.loadingTime} />
-        ) : (
+        navigation.getParam('firstTimeVisitor') ? null : (
           <View>
             <View style={globalStyles.container}>
               <View>
@@ -96,14 +59,14 @@ export class Dashboard extends Component {
               </View>
               <RoundImage source="family" />
               <Button
-                text="Create a lifemap"
+                text={t('views.createLifemap')}
                 colored
                 handleClick={() => this.props.navigation.navigate('Surveys')}
               />
             </View>
             <View style={styles.borderBottom}>
               <Text style={{ ...globalStyles.subline, ...styles.listTitle }}>
-                Latest snapshots
+                {t('views.latestDrafts')}
               </Text>
             </View>
             <FlatList
@@ -130,7 +93,7 @@ export class Dashboard extends Component {
                   marginTop: 10
                 }}
               >
-                No drafts to display
+                {t('views.noDrafts')}
               </Text>
             )}
           </View>
@@ -156,10 +119,7 @@ const styles = StyleSheet.create({
 
 Dashboard.propTypes = {
   navigation: PropTypes.object.isRequired,
-  loadFamilies: PropTypes.func.isRequired,
-  loadSurveys: PropTypes.func.isRequired,
   t: PropTypes.func.isRequired,
-  loadSnapshots: PropTypes.func.isRequired,
   drafts: PropTypes.array.isRequired,
   env: PropTypes.oneOf(['production', 'demo', 'testing', 'development']),
   user: PropTypes.object.isRequired,
@@ -175,11 +135,7 @@ const mapStateToProps = ({ env, user, drafts, offline, string }) => ({
   string
 })
 
-const mapDispatchToProps = {
-  loadFamilies,
-  loadSnapshots,
-  loadSurveys
-}
+const mapDispatchToProps = {}
 
 export default withNamespaces()(
   connect(

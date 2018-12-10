@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { ScrollView, View, Text, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import { withNamespaces } from 'react-i18next'
+
 import globalStyles from '../../globalStyles'
 import colors from '../../theme.json'
 import RoundImage from '../../components/RoundImage'
@@ -28,7 +29,7 @@ export class Terms extends Component {
         <View style={globalStyles.container}>
           <RoundImage source="check" />
           <Text style={[globalStyles.h2Bold, styles.heading]}>
-            Please read carefully before creating the Life Map
+            {t('views.readCarefully')}
           </Text>
           <Text id="content" style={[globalStyles.subline, styles.content]}>
             {t(`views.${navigation.getParam('page')}`)}
@@ -37,14 +38,14 @@ export class Terms extends Component {
         <View style={styles.buttonsBar}>
           <Button
             id="dissagree"
-            text="Disagree"
+            text={t('general.disagree')}
             underlined
             handleClick={() => navigation.setParams({ modalOpen: true })}
           />
           <Button
             id="agree"
             colored
-            text="Agree"
+            text={t('general.agree')}
             handleClick={() =>
               navigation.navigate(
                 navigationRules[navigation.getParam('page')].nextPage,

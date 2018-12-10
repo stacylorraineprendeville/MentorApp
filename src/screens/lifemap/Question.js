@@ -10,6 +10,8 @@ import {
 
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { withNamespaces } from 'react-i18next'
+
 import { addSurveyData } from '../../redux/actions'
 import globalStyles from '../../globalStyles'
 import colors from '../../theme.json'
@@ -77,6 +79,7 @@ export class Question extends Component {
     const draft = this.props.drafts.filter(
       item => item.draftId === this.draftId
     )[0]
+    const { t } = this.props
     return (
       <ScrollView style={globalStyles.background}>
         <View style={{ ...globalStyles.container, paddingTop: 20 }}>
@@ -100,10 +103,12 @@ export class Question extends Component {
         />
         <View style={styles.skip}>
           {this.indicator.required ? (
-            <Text> *Response required </Text>
+            <Text>{t('views.lifemap.responseRequired')}</Text>
           ) : (
             <TouchableOpacity onPress={() => this.selectAnswer(0)}>
-              <Text style={styles.link}> Skip this question </Text>
+              <Text style={styles.link}>
+                {t('views.lifemap.skipThisQuestion')}
+              </Text>
             </TouchableOpacity>
           )}
         </View>
@@ -125,6 +130,7 @@ const styles = StyleSheet.create({
 })
 
 Question.propTypes = {
+  t: PropTypes.func.isRequired,
   addSurveyData: PropTypes.func.isRequired,
   navigation: PropTypes.object.isRequired,
   drafts: PropTypes.array.isRequired
@@ -138,7 +144,9 @@ const mapDispatchToProps = {
   addSurveyData
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Question)
+export default withNamespaces()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Question)
+)

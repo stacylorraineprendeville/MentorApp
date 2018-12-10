@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { withNamespaces } from 'react-i18next'
 
 import {
   addSurveyData,
@@ -95,6 +96,7 @@ export class FamilyMembersNames extends Component {
   }
 
   render() {
+    const { t } = this.props
     const draft = this.getDraft()
 
     const familyMembersCount = draft.familyData.countFamilyMembers
@@ -113,8 +115,8 @@ export class FamilyMembersNames extends Component {
             id="familyMembersCount"
             required
             onChange={this.addFamilyCount}
-            label="Number of people living in this household"
-            placeholder="Number of people living in this household"
+            label={t('views.family.peopleLivingInThisHousehold')}
+            placeholder={t('views.family.peopleLivingInThisHousehold')}
             field="countFamilyMembers"
             value={this.getFieldValue('countFamilyMembers') || ''}
             detectError={this.detectError}
@@ -129,7 +131,7 @@ export class FamilyMembersNames extends Component {
             validation="string"
             field=""
             onChangeText={() => {}}
-            placeholder="First participant"
+            placeholder={t('views.family.primaryParticipant')}
             value={draft.familyData.familyMembersList[0].firstName}
             required
             readonly
@@ -141,7 +143,7 @@ export class FamilyMembersNames extends Component {
               validation="string"
               field={i.toString()}
               onChangeText={text => this.addFamilyMemberName(text, i + 1)}
-              placeholder="Name"
+              placeholder={t('views.family.name')}
               value={
                 (this.getFieldValue('familyMembersList')[i + 1] || {})
                   .firstName || ''
@@ -155,7 +157,7 @@ export class FamilyMembersNames extends Component {
         <View style={{ height: 50, marginTop: 30 }}>
           <Button
             colored
-            text="Continue"
+            text={t('general.continue')}
             disabled={!!this.errorsDetected.length}
             handleClick={() => this.handleClick(draft)}
           />
@@ -174,6 +176,7 @@ const styles = StyleSheet.create({
 
 FamilyMembersNames.propTypes = {
   drafts: PropTypes.array,
+  t: PropTypes.func.isRequired,
   navigation: PropTypes.object.isRequired,
   addSurveyData: PropTypes.func.isRequired,
   addSurveyFamilyMemberData: PropTypes.func.isRequired,
@@ -190,7 +193,9 @@ const mapStateToProps = ({ drafts }) => ({
   drafts
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FamilyMembersNames)
+export default withNamespaces()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(FamilyMembersNames)
+)

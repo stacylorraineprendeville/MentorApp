@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { ScrollView, View, StyleSheet, Text } from 'react-native'
 import { connect } from 'react-redux'
+import { withNamespaces } from 'react-i18next'
+
 import TextInput from '../../components/TextInput'
 import Select from '../../components/Select'
 import Button from '../../components/Button'
@@ -116,6 +118,7 @@ export class SocioEconomicQuestion extends Component {
   }
 
   render() {
+    const { t } = this.props
     const draft = this.props.drafts.filter(
       draft => draft.draftId === this.props.navigation.getParam('draftId')
     )[0]
@@ -221,7 +224,7 @@ export class SocioEconomicQuestion extends Component {
             id="continue"
             disabled={!!this.errorsDetected.length}
             colored
-            text="Continue"
+            text={t('general.continue')}
             handleClick={() =>
               socioEconomics.currentScreen === socioEconomics.totalScreens
                 ? this.props.navigation.navigate('BeginLifemap', {
@@ -246,6 +249,7 @@ export class SocioEconomicQuestion extends Component {
 }
 
 SocioEconomicQuestion.propTypes = {
+  t: PropTypes.func.isRequired,
   navigation: PropTypes.object.isRequired,
   drafts: PropTypes.array.isRequired,
   addSurveyData: PropTypes.func.isRequired,
@@ -275,7 +279,9 @@ const mapStateToProps = ({ drafts, surveys }) => ({
   surveys
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SocioEconomicQuestion)
+export default withNamespaces()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(SocioEconomicQuestion)
+)

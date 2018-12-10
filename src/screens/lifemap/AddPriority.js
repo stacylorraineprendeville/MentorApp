@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Divider } from 'react-native-elements'
+import { withNamespaces } from 'react-i18next'
 import { addSurveyPriorityAcheivementData } from '../../redux/actions'
 
 import globalStyles from '../../globalStyles'
@@ -58,6 +59,7 @@ export class AddPriority extends Component {
   }
 
   render() {
+    const { t } = this.props
     const draft = this.getDraft()
     const priority = this.getPriorityValue(draft)
 
@@ -85,20 +87,24 @@ export class AddPriority extends Component {
                 size={17}
                 style={{ marginRight: 10, marginLeft: -10 }}
               />
-              <Text style={globalStyles.h3}>Priority</Text>
+              <Text style={globalStyles.h3}>{t('views.lifemap.priority')}</Text>
             </View>
           </View>
           <TextInput
             onChangeText={text => this.setState({ reason: text })}
-            placeholder={this.state.reason ? '' : 'Write your answer here...'}
-            label="Why don't you have it?"
+            placeholder={
+              this.state.reason ? '' : t('views.lifemap.writeYourAnswerHere')
+            }
+            label={t('views.lifemap.whyDontYouHaveIt')}
             value={priority ? priority.reason : ''}
             multiline
           />
           <TextInput
-            label="What will you do to get it?"
+            label={t('views.lifemap.whatWillYouDoToGetIt')}
             onChangeText={text => this.setState({ action: text })}
-            placeholder={this.state.action ? '' : 'Write your answer here...'}
+            placeholder={
+              this.state.action ? '' : t('views.lifemap.writeYourAnswerHere')
+            }
             value={priority ? priority.action : ''}
             multiline
           />
@@ -106,12 +112,16 @@ export class AddPriority extends Component {
             <Counter
               editCounter={this.editCounter}
               count={this.state.estimatedDate}
-              text={'How many months will it take?'}
+              text={t('views.lifemap.howManyMonthsWillItTake')}
             />
           </View>
         </View>
         <View style={{ height: 50 }}>
-          <Button colored text="Save" handleClick={() => this.addPriority()} />
+          <Button
+            colored
+            text={t('general.save')}
+            handleClick={() => this.addPriority()}
+          />
         </View>
       </ScrollView>
     )
@@ -126,6 +136,7 @@ const styles = StyleSheet.create({
 })
 
 AddPriority.propTypes = {
+  t: PropTypes.func.isRequired,
   navigation: PropTypes.object.isRequired,
   drafts: PropTypes.array.isRequired,
   addSurveyPriorityAcheivementData: PropTypes.func.isRequired
@@ -139,7 +150,9 @@ const mapStateToProps = ({ drafts }) => ({
   drafts
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AddPriority)
+export default withNamespaces()(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(AddPriority)
+)

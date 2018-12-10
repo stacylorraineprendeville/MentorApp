@@ -15,7 +15,10 @@ import {
   SUBMIT_DRAFT,
   SUBMIT_DRAFT_COMMIT,
   SUBMIT_DRAFT_ROLLBACK,
-  SWITCH_LANGUAGE
+  SWITCH_LANGUAGE,
+  SET_SYNCED_ITEM_TOTAL,
+  SET_SYNCED_ITEM_AMOUNT,
+  SET_SYNCED_STATE
 } from './actions'
 
 //Login
@@ -307,50 +310,46 @@ export const drafts = (state = [], action) => {
       })
 
     case REMOVE_FAMILY_MEMBERS:
-      return state.map(
-        draft =>
-          draft.draftId === action.id
-            ? {
-                ...draft,
-                familyData: {
-                  ...draft.familyData,
-                  familyMembersList: draft.familyData.familyMembersList.filter(
-                    (item, index) => index < action.afterIndex
-                  )
-                }
+      return state.map(draft =>
+        draft.draftId === action.id
+          ? {
+              ...draft,
+              familyData: {
+                ...draft.familyData,
+                familyMembersList: draft.familyData.familyMembersList.filter(
+                  (item, index) => index < action.afterIndex
+                )
               }
-            : draft
+            }
+          : draft
       )
 
     case SUBMIT_DRAFT:
-      return state.map(
-        draft =>
-          draft.draftId === action.id
-            ? {
-                ...draft,
-                status: 'Pending sync'
-              }
-            : draft
+      return state.map(draft =>
+        draft.draftId === action.id
+          ? {
+              ...draft,
+              status: 'Pending sync'
+            }
+          : draft
       )
     case SUBMIT_DRAFT_COMMIT:
-      return state.map(
-        draft =>
-          draft.draftId === action.meta.id
-            ? {
-                ...draft,
-                status: 'Synced'
-              }
-            : draft
+      return state.map(draft =>
+        draft.draftId === action.meta.id
+          ? {
+              ...draft,
+              status: 'Synced'
+            }
+          : draft
       )
     case SUBMIT_DRAFT_ROLLBACK:
-      return state.map(
-        draft =>
-          draft.draftId === action.meta.id
-            ? {
-                ...draft,
-                status: 'Sync error'
-              }
-            : draft
+      return state.map(draft =>
+        draft.draftId === action.meta.id
+          ? {
+              ...draft,
+              status: 'Sync error'
+            }
+          : draft
       )
     case DELETE_DRAFT:
       return state.filter(draft => draft.draftId !== action.id)
@@ -380,6 +379,44 @@ export const language = (state = false, action) => {
   }
 }
 
+// Sync
+export const sync = (
+  state = {
+    synced: 'no',
+    images: {
+      total: 0,
+      synced: 0
+    }
+  },
+  action
+) => {
+  switch (action.type) {
+    case SET_SYNCED_STATE:
+      return {
+        ...state,
+        synced: action.value
+      }
+    case SET_SYNCED_ITEM_TOTAL:
+      return {
+        ...state,
+        [action.item]: {
+          total: action.amount,
+          synced: state[action.item].synced
+        }
+      }
+    case SET_SYNCED_ITEM_AMOUNT:
+      return {
+        ...state,
+        [action.item]: {
+          synced: action.amount,
+          total: state[action.item].total
+        }
+      }
+    default:
+      return state
+  }
+}
+
 const appReducer = combineReducers({
   env,
   user,
@@ -387,7 +424,8 @@ const appReducer = combineReducers({
   families,
   drafts,
   snapshots,
-  language
+  language,
+  sync
 })
 
 export const rootReducer = (state, action) => {
