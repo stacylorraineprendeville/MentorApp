@@ -24,32 +24,48 @@ const isPortrait = () => {
   return dim.height >= dim.width
 }
 
+const isTablet = () => {
+  const msp = (dim, limit) => {
+    return dim.scale * dim.width >= limit || dim.scale * dim.height >= limit
+  }
+  const dim = Dimensions.get('screen')
+  return (dim.scale < 2 && msp(dim, 1000)) || (dim.scale >= 2 && msp(dim, 1900))
+}
+
 class Slider extends Component {
   state = {
     selectedColor: colors.green,
-    isPortrait: true
+    isPortrait: true,
+    isTablet: false
   }
 
   componentDidMount() {
     this.setState({
-      isPortrait: isPortrait()
+      isPortrait: isPortrait(),
+      isTablet: isTablet()
     })
-    Dimensions.addEventListener('change', () => {
-      this.setState({
-        isPortrait: isPortrait()
-      })
-    })
+    Dimensions.addEventListener('change', this.dimensionChange)
+  }
+  componentWillUnmount() {
+    // Important to stop updating state after unmount
+    Dimensions.removeEventListener('change', this.dimensionChange)
   }
 
+  dimensionChange = () => {
+    this.setState({
+      isPortrait: isPortrait()
+    })
+  }
   render() {
-    console.log(this.state)
+    const { isPortrait, isTablet } = this.state
+    const height = Dimensions.get('screen').height
     return (
       <View>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
-            width: this.state.isPortrait ? '200%' : '100%',
+            width: isPortrait ? '200%' : '130%',
             flexGrow: 1,
             flexDirection: 'row',
             justifyContent: 'space-between'
@@ -76,9 +92,11 @@ class Slider extends Component {
                 source={slide.url}
                 style={{
                   ...styles.image,
-                  height: this.state.isPortrait
-                    ? Dimensions.get('screen').height / 3
-                    : Dimensions.get('screen').height / 2
+                  height: isPortrait
+                    ? isPortrait && isTablet
+                      ? height / 3
+                      : height / 4
+                    : height / 2
                 }}
               />
               <Text

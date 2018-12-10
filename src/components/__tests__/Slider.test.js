@@ -63,7 +63,8 @@ describe('Slider Component', () => {
     it('has correct initial state', () => {
       expect(wrapper.instance().state).toEqual({
         selectedColor: colors.green,
-        isPortrait: true
+        isPortrait: true,
+        isTablet: false
       })
     })
     it('does not change state when user clicks on green slide', () => {
