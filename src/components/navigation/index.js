@@ -1,10 +1,12 @@
 import { createStackNavigator } from 'react-navigation'
 import DrawerNavigator from './DrawerNavigator'
 import LoginView from '../../screens/Login'
+import LoadingView from '../../screens/Loading'
 
 export const LoginStack = createStackNavigator(
   {
-    Login: { screen: LoginView }
+    Login: { screen: LoginView },
+    Loading: { screen: LoadingView }
   },
   {
     initialRouteName: 'Login',
@@ -23,6 +25,16 @@ export const AppStack = createStackNavigator(
   },
   {
     initialRouteName: 'Drawer',
+    headerMode: 'none'
+  }
+)
+
+export const LoadingStack = createStackNavigator(
+  {
+    Loading: { screen: LoadingView }
+  },
+  {
+    initialRouteName: 'Loading',
     headerMode: 'none'
   }
 )
