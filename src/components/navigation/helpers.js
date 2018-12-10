@@ -6,9 +6,10 @@ import {
   Text,
   Platform
 } from 'react-native'
+import { deleteDraft } from '../../redux/actions'
 import { NavigationActions } from 'react-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-
+import store from '../../redux/store'
 import colors from '../../theme.json'
 import Popup from '../Popup'
 import Button from '../Button'
@@ -39,18 +40,7 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
     <View>
       <TouchableOpacity
         style={styles.touchable}
-        onPress={() => {
-          navigation.setParams({ modalOpen: true })
-
-          // delete draft if first time visiting FamilyParticipant for
-          // this life map
-          if (
-            navigation.state.routeName === 'FamilyParticipant' &&
-            !navigation.getParam('draft')
-          ) {
-            navigation.setParams({ deleteDraft: true })
-          }
-        }}
+        onPress={() => navigation.setParams({ modalOpen: true })}
       >
         <Icon name="close" size={25} color={colors.lightdark} />
       </TouchableOpacity>
@@ -59,29 +49,29 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
         onClose={() => navigation.setParams({ modalOpen: false })}
       >
         {navigation.state.routeName === 'Terms' ||
-        navigation.state.routeName === 'Privacy' ||
-        (navigation.state.routeName === 'FamilyParticipant' &&
-          !navigation.getParam('draft')) ? (
-          <View>
-            <Text style={[globalStyles.centerText, globalStyles.h3]}>
-              {navigation.state.routeName === 'FamilyParticipant'
-                ? i18n.t('views.modals.lifeMapWillNotBeSaved')
-                : i18n.t('views.modals.weCannotContinueToCreateTheLifeMap')}
-            </Text>
-            <Text style={[globalStyles.centerText, styles.subline]}>
-              {i18n.t('views.modals.areYouSureYouWantToExit')}
-            </Text>
-          </View>
-        ) : (
-          <View>
-            <Text style={[globalStyles.centerText, globalStyles.h3]}>
-              {i18n.t('views.modals.yourLifemapIsNotComplete')}
-            </Text>
-            <Text style={[globalStyles.centerText, styles.subline]}>
-              {i18n.t('views.modals.thisWillBeSavedAsADraft')}
-            </Text>
-          </View>
-        )}
+          navigation.state.routeName === 'Privacy' ||
+          (navigation.state.routeName === 'FamilyParticipant' &&
+            !navigation.getParam('draft')) ? (
+              <View>
+                <Text style={[globalStyles.centerText, globalStyles.h3]}>
+                  {navigation.state.routeName === 'FamilyParticipant'
+                    ? i18n.t('views.modals.lifeMapWillNotBeSaved')
+                    : i18n.t('views.modals.weCannotContinueToCreateTheLifeMap')}
+                </Text>
+                <Text style={[globalStyles.centerText, styles.subline]}>
+                  {i18n.t('views.modals.areYouSureYouWantToExit')}
+                </Text>
+              </View>
+            ) : (
+              <View>
+                <Text style={[globalStyles.centerText, globalStyles.h3]}>
+                  {i18n.t('views.modals.yourLifemapIsNotComplete')}
+                </Text>
+                <Text style={[globalStyles.centerText, styles.subline]}>
+                  {i18n.t('views.modals.thisWillBeSavedAsADraft')}
+                </Text>
+              </View>
+            )}
 
         <View style={styles.buttonBar}>
           <Button
@@ -93,12 +83,12 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
                 navigation.state.routeName === 'FamilyParticipant' &&
                 !navigation.getParam('draft')
               ) {
-                navigation.setParams({ deleteDraft: true })
-              } else {
-                navigation.reset([
-                  NavigationActions.navigate({ routeName: 'Dashboard' })
-                ])
+                store.dispatch(deleteDraft(navigation.getParam('draftId')))
               }
+
+              navigation.reset([
+                NavigationActions.navigate({ routeName: 'Dashboard' })
+              ])
             }}
           />
           <Button

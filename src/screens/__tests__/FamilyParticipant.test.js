@@ -3,7 +3,7 @@ import { shallow } from 'enzyme'
 import { ScrollView } from 'react-native'
 import { FamilyParticipant } from '../lifemap/FamilyParticipant'
 import Select from '../../components/Select'
-import DateInput from '../../components/DateInput'
+import DateInputComponent from '../../components/DateInput'
 import Button from '../../components/Button'
 import TextInput from '../../components/TextInput'
 import draft from '../__mocks__/draftMock.json'
@@ -135,7 +135,7 @@ describe('Family Participant View', () => {
       expect(wrapper.find(Select)).toHaveLength(3)
     })
     it('renders DateInput', () => {
-      expect(wrapper.find(DateInput)).toHaveLength(1)
+      expect(wrapper.find(DateInputComponent)).toHaveLength(1)
     })
     it('renders continue draft button', () => {
       expect(wrapper.find(Button)).toHaveLength(1)
@@ -188,7 +188,7 @@ describe('Family Participant View', () => {
 
     it('calls addSurveyFamilyMemberData on valid date input', () => {
       wrapper
-        .find(DateInput)
+        .find(DateInputComponent)
         .props()
         .onValidDate('January 21 1999')
       expect(
@@ -215,45 +215,6 @@ describe('Family Participant View', () => {
       wrapper.setState({ errorsDetected: ['phoneNumber'] })
       wrapper.instance().detectError(false, 'phoneNumber')
       expect(wrapper.instance().errorsDetected).toEqual([])
-    })
-    it('deletes draft if first time in participant screen', () => {
-      const props = createTestProps({
-        navigation: {
-          navigate: jest.fn(),
-          getParam: param => (param === 'deleteDraft' ? true : 4),
-          setParams: jest.fn(),
-          reset: jest.fn(),
-          state: {
-            params: {
-              deleteDraft: true
-            }
-          }
-        },
-        ...props
-      })
-      wrapper.instance().componentDidUpdate(props)
-
-      expect(wrapper.instance().props.deleteDraft).toHaveBeenCalledTimes(1)
-    })
-
-    it('doesn\'t delete draft if visiting from Dashboard', () => {
-      const props = createTestProps({
-        navigation: {
-          navigate: jest.fn(),
-          getParam: param => (param === 'deleteDraft' ? false : 4),
-          setParams: jest.fn(),
-          reset: jest.fn(),
-          state: {
-            params: {
-              deleteDraft: false
-            }
-          }
-        },
-        ...props
-      })
-      wrapper.instance().componentDidUpdate(props)
-
-      expect(wrapper.instance().props.deleteDraft).toHaveBeenCalledTimes(0)
     })
   })
 })
