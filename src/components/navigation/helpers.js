@@ -8,10 +8,12 @@ import {
 } from 'react-native'
 import { NavigationActions } from 'react-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+
 import colors from '../../theme.json'
 import Popup from '../Popup'
 import Button from '../Button'
 import globalStyles from '../../globalStyles'
+import i18n from '../../i18n'
 
 // Each of the major views has a stack that needs the same nav options.
 // These options handle the header styles and menu icon.
@@ -63,20 +65,20 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
           <View>
             <Text style={[globalStyles.centerText, globalStyles.h3]}>
               {navigation.state.routeName === 'FamilyParticipant'
-                ? 'If you do not enter all details on this page the life map will not be saved!'
-                : 'If you do not agree we cannot continue to create the Life Map!'}
+                ? i18n.t('views.modals.lifeMapWillNotBeSaved')
+                : i18n.t('views.modals.weCannotContinueToCreateTheLifeMap')}
             </Text>
             <Text style={[globalStyles.centerText, styles.subline]}>
-              Are you sure you want to exit?
+              {i18n.t('views.modals.areYouSureYouWantToExit')}
             </Text>
           </View>
         ) : (
           <View>
             <Text style={[globalStyles.centerText, globalStyles.h3]}>
-              Your lifemap is not complete. Are you sure you want to exit?
+              {i18n.t('views.modals.yourLifemapIsNotComplete')}
             </Text>
             <Text style={[globalStyles.centerText, styles.subline]}>
-              This will be saved as a draft.
+              {i18n.t('views.modals.thisWillBeSavedAsADraft')}
             </Text>
           </View>
         )}
@@ -84,7 +86,7 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
         <View style={styles.buttonBar}>
           <Button
             outlined
-            text="Yes"
+            text={i18n.t('general.yes')}
             style={{ width: 107 }}
             handleClick={() => {
               if (
@@ -101,7 +103,7 @@ export const generateNavOptions = ({ navigation, burgerMenu = true }) => ({
           />
           <Button
             outlined
-            text="No"
+            text={i18n.t('general.no')}
             style={{ width: 107 }}
             handleClick={() => navigation.setParams({ modalOpen: false })}
           />

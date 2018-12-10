@@ -6,6 +6,7 @@ import Button from '../../components/Button'
 import RoundImage from '../../components/RoundImage'
 
 const createTestProps = props => ({
+  t: value => value,
   navigation: {
     navigate: arg => arg,
     setParams: jest.fn()
@@ -16,7 +17,6 @@ const createTestProps = props => ({
   loadSnapshots: jest.fn(),
   loadFamilies: jest.fn(),
   offline: { outbox: [] },
-  t: jest.fn(),
   drafts: [
     {
       draftId: 1

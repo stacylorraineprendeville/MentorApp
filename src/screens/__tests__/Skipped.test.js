@@ -6,6 +6,7 @@ import Button from '../../components/Button'
 import Tip from '../../components/Tip'
 
 const createTestProps = props => ({
+  t: value => value,
   navigation: {
     navigate: jest.fn(),
     getParam: jest.fn(param => {
