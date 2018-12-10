@@ -143,7 +143,7 @@ describe('DateInput Component', () => {
         'birthDate'
       )
     })
-    it('calls detectError with first argument false if date is invalid', () => {
+    it('calls detectError with first argument false if date is valid', () => {
       wrapper
         .instance()
         .validateDate({ year: '2018', day: '12', month: 'January' })
@@ -160,10 +160,6 @@ describe('DateInput Component', () => {
         .validateDate({ year: '2018', day: '12', month: 'January' })
 
       expect(wrapper.instance().props.onValidDate).toHaveBeenCalledTimes(1)
-      expect(wrapper.instance().props.onValidDate).toHaveBeenCalledWith(
-        1515708000,
-        'birthDate'
-      )
     })
   })
 

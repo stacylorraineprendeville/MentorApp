@@ -63,8 +63,11 @@ class DateInput extends React.Component {
     const validDate =
       moment.unix(this.props.value).format('YYYY MMMM D') !== 'Invalid date'
 
+    // When the year is set to empty string by the user rather than being undefined, this should be considered as user input and therefore yearValue should be true
+
+    const yearValue = year || year === '' ? year : false
     const yearInput =
-      year ||
+      yearValue ||
       this.state.year ||
       (validDate ? moment.unix(this.props.value).format('YYYY') : '')
 
@@ -73,8 +76,11 @@ class DateInput extends React.Component {
       this.state.month ||
       (validDate ? moment.unix(this.props.value).format('MMMM') : '')
 
+    // When the day is set to empty string by the user rather than being undefined, this should be considered as user input and therefore dayValue should be true
+
+    const dayValue = day || day === '' ? day : false
     const dayInput =
-      day ||
+      dayValue ||
       this.state.day ||
       (validDate ? moment.unix(this.props.value).format('D') : '')
 
@@ -84,7 +90,9 @@ class DateInput extends React.Component {
       true
     ).isValid(dayInput)
 
-    if (yearInput && monthInput && dayInput) {
+    if (!!this.props.value || (!!yearInput && !!monthInput && !!dayInput)) {
+      console.log(year)
+      console.log(error)
       this.setState({
         error
       })
