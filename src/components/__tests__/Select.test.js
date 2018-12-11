@@ -23,7 +23,7 @@ describe('Select dropdown', () => {
     props = createTestProps()
     wrapper = shallow(<Select {...props} />)
   })
-  it('renders placeholder', () => {
-    expect(wrapper.find(Text)).toHaveLength(1)
+  it('renders all necessary text fields', () => {
+    expect(wrapper.find(Text)).toHaveLength(3)
   })
 })

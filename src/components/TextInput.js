@@ -119,7 +119,7 @@ class TextInput extends Component {
     let showPlaceholder = status === 'blur' && !text
 
     return (
-      <View>
+      <View style={{ marginBottom: 15 }}>
         {label && <Text style={styles.label}>{label}</Text>}
         <View style={[styles.container, styles[status]]}>
           {!showPlaceholder && (
@@ -169,8 +169,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginHorizontal: 15,
     justifyContent: 'center',
-    minHeight: 60,
-    marginBottom: 15
+    minHeight: 60
   },
   label: {
     paddingHorizontal: 15,
@@ -182,7 +181,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto',
     marginVertical: 0,
     marginLeft: -4,
-    width: '100%',
     fontSize: 14
   },
   activeInput: {
