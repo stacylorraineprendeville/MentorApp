@@ -120,7 +120,7 @@ class TextInput extends Component {
 
     return (
       <View>
-        <Text style={styles.label}>{label}</Text>
+        {label && <Text style={styles.label}>{label}</Text>}
         <View style={[styles.container, styles[status]]}>
           {!showPlaceholder && (
             <Text
@@ -138,9 +138,6 @@ class TextInput extends Component {
             autoCapitalize="none"
             onFocus={() => this.onFocus()}
             onBlur={() => this.onBlur(text)}
-            placeholder={
-              showPlaceholder ? `${placeholder} ${required ? '*' : ''}` : ''
-            }
             onChangeText={text => this.onChangeText(text)}
             onEndEditing={this.onEndEditing}
             inputStyle={[
@@ -150,15 +147,16 @@ class TextInput extends Component {
             editable={!readonly}
             multiline={multiline}
           >
-            <Text style={{ fontSize: 14, margin: 10 }}>{text}</Text>
+            <Text style={{ fontSize: 14, margin: 10 }}>
+              {showPlaceholder ? `${placeholder} ${required ? '*' : ''}` : text}
+            </Text>
           </FormInput>
         </View>
-        {status === 'error' &&
-          errorMsg && (
-            <FormValidationMessage style={{ color: colors.red }}>
-              {errorMsg}
-            </FormValidationMessage>
-          )}
+        {status === 'error' && errorMsg && (
+          <FormValidationMessage style={{ color: colors.red }}>
+            {errorMsg}
+          </FormValidationMessage>
+        )}
       </View>
     )
   }
@@ -171,15 +169,17 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     marginHorizontal: 15,
     justifyContent: 'center',
-    minHeight: 60
+    minHeight: 60,
+    marginBottom: 15
   },
   label: {
     paddingHorizontal: 15,
     paddingVertical: 10,
-
     ...globalStyles.subline
   },
   inputStyle: {
+    ...globalStyles.subline,
+    fontFamily: 'Roboto',
     marginVertical: 0,
     marginLeft: -4,
     width: '100%',

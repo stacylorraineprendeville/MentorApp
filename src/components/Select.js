@@ -45,55 +45,12 @@ class Select extends Component {
 
   render() {
     const { errorMsg } = this.state
+    const { value, placeholder, required } = this.props
     return (
-      <View>
-        <Text
-          numberOfLines={2}
-          style={this.props.value ? styles.label : styles.labelNoValue}
-        >
-          {`${this.props.label} ${this.props.required ? '*' : ''}`}
+      <View style={[styles.container, !value && styles.withValue]}>
+        <Text style={styles.placeholder}>
+          {value || `${placeholder} ${required ? '*' : ''}`}
         </Text>
-        <View
-          style={[
-            styles.container,
-            errorMsg ? styles.error : '',
-            this.props.value ? styles.active : ''
-          ]}
-        >
-          <Picker
-            prompt={this.props.placeholder}
-            style={styles.dropdown}
-            onValueChange={value => this.validateInput(value)}
-            selectedValue={this.props.value}
-          >
-            <Picker.Item style={styles.item} label={''} value={''} />
-
-            {this.props.countrySelect
-              ? countryList
-                  .array()
-                  .map(country => (
-                    <Picker.Item
-                      key={country.code}
-                      label={country.label}
-                      value={country.code}
-                      color={colors.grey}
-                    />
-                  ))
-              : this.props.data.map(item => (
-                  <Picker.Item
-                    key={item}
-                    label={item.text}
-                    value={item.value}
-                    color={colors.grey}
-                  />
-                ))}
-          </Picker>
-        </View>
-        {!!errorMsg && (
-          <FormValidationMessage style={{ color: colors.red }}>
-            {errorMsg}
-          </FormValidationMessage>
-        )}
       </View>
     )
   }
@@ -101,8 +58,7 @@ class Select extends Component {
 
 Select.propTypes = {
   onChange: PropTypes.func.isRequired,
-  data: PropTypes.array,
-  label: PropTypes.string,
+  options: PropTypes.array,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   placeholder: PropTypes.string.isRequired,
   field: PropTypes.string,
@@ -115,41 +71,18 @@ export default Select
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 15,
     borderBottomWidth: 1,
-    borderBottomColor: colors.grey,
-    backgroundColor: colors.beige
+    marginHorizontal: 15,
+    marginBottom: 15,
+    justifyContent: 'center',
+    minHeight: 60
   },
-  active: {
-    backgroundColor: colors.palebeige,
+  placeholder: {
+    paddingHorizontal: 15,
+    ...globalStyles.subline
+  },
+  withValue: {
+    backgroundColor: colors.beige,
     borderBottomColor: colors.grey
-  },
-  dropdown: {
-    height: 60,
-    paddingTop: 10
-  },
-  label: {
-    ...globalStyles.subline,
-    paddingHorizontal: 30,
-    marginTop: 25,
-    marginBottom: -25,
-    color: colors.palegrey,
-    zIndex: 100
-  },
-  labelNoValue: {
-    ...globalStyles.subline,
-    zIndex: 100,
-    paddingHorizontal: 30,
-    fontSize: 14,
-    marginTop: 40,
-    marginBottom: -40,
-    color: colors.grey
-  },
-  item: {
-    backgroundColor: colors.red
-  },
-  error: {
-    backgroundColor: colors.white,
-    borderBottomColor: colors.red
   }
 })

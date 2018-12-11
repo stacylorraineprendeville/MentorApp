@@ -89,7 +89,7 @@ export class FamilyMembersGender extends Component {
                     .gender || ''
                 }
                 detectError={this.detectError}
-                data={this.gender}
+                options={this.gender}
               />
             </View>
           ))}

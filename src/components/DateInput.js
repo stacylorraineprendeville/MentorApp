@@ -139,7 +139,7 @@ export class DateInput extends React.Component {
               placeholder={t('views.family.selectMonth')}
               field=""
               value={month}
-              data={months}
+              options={months}
             />
           </View>
           <View style={styles.day}>
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
   year: { width: '36%', marginLeft: '-3%' },
   month: { width: '45%' },
-  text: { paddingLeft: 25, marginTop: 20 }
+  text: { paddingLeft: 25, marginBottom: 15 }
 })
 
 DateInput.propTypes = {
