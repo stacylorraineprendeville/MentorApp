@@ -65,68 +65,64 @@ class Slider extends Component {
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
-            width: isPortrait ? '200%' : '130%',
+            width: isPortrait ? '300%' : '100%',
             flexGrow: 1,
             flexDirection: 'row',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            padding: '0.66%'
           }}
           ref={comp => {
             this._scrollView = comp
           }}
         >
           {this.props.slides.map((slide, i) => (
-            <TouchableOpacity
-              onPress={() => {
-                this.props.selectAnswer(slide.value)
-                this.setState({
-                  selectedColor: colors[slideColors[slide.value]]
-                })
-              }}
-              key={i}
-              style={{
-                ...styles.slide,
-                backgroundColor: colors[slideColors[slide.value]]
-              }}
-            >
-              <Image
-                source={slide.url}
+            <View key={i} style={{ width: '33%' }}>
+              <TouchableOpacity
                 style={{
-                  ...styles.image,
-                  height: isPortrait
-                    ? isPortrait && isTablet
-                      ? height / 3
-                      : height / 4
-                    : height / 2
+                  ...styles.slide,
+                  backgroundColor: colors[slideColors[slide.value]],
+                  height: isPortrait ? height / 1.8 : height / 1.5
                 }}
-              />
-              <Text
-                style={{
-                  ...globalStyles.p,
-                  ...styles.text,
-                  color: slide.value === 'YELLOW' ? '#000' : colors.white
+                onPress={() => {
+                  this.props.selectAnswer(slide.value)
+                  this.setState({
+                    selectedColor: colors[slideColors[slide.value]]
+                  })
                 }}
               >
-                {slide.description}
-              </Text>
-            </TouchableOpacity>
+                <Image
+                  source={slide.url}
+                  style={{
+                    ...styles.image,
+                    height: isPortrait ? height / 3 : height / 4
+                  }}
+                />
+                <Text
+                  style={{
+                    ...globalStyles.p,
+                    ...styles.text,
+                    color: slide.value === 'YELLOW' ? '#000' : colors.white
+                  }}
+                >
+                  {slide.description}
+                </Text>
+              </TouchableOpacity>
+              {this.props.value === slide.value ? (
+                <View
+                  id="icon-view"
+                  style={{
+                    ...styles.iconBig,
+                    backgroundColor: colors[slideColors[this.props.value]]
+                  }}
+                >
+                  <Icon name="done" size={56} color={colors.white} />
+                </View>
+              ) : (
+                <View />
+              )}
+            </View>
           ))}
         </ScrollView>
-
-        {this.props.value ? (
-          <View style={styles.nav}>
-            <View
-              id="icon-view"
-              style={{
-                ...styles.iconBig,
-                backgroundColor: colors[slideColors[this.props.value]]
-              }}
-            >
-              <Icon name="done" size={56} color={colors.white} />
-            </View>
-          </View>
-        ) : (
-          <View />
-        )}
       </View>
     )
   }
@@ -140,7 +136,8 @@ Slider.propTypes = {
 
 const styles = StyleSheet.create({
   slide: {
-    width: '32%'
+    width: '100%',
+    marginBottom: -40
   },
   text: {
     color: colors.white,
@@ -158,16 +155,9 @@ const styles = StyleSheet.create({
     height: 80,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 32,
-    marginRight: 32,
+    alignSelf: 'center',
     borderColor: colors.white,
     borderWidth: 3
-  },
-  nav: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: -18
   }
 })
 
